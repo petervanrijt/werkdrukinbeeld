@@ -2220,6 +2220,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v226</span> Dossier: codes van A tot Z <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In <b>Dossier</b> staan de codes in de keuzelijst nu alfabetisch van A tot Z (teken voor teken: eerst codes die met een cijfer beginnen, dan letters), en niet meer eerst die uit werkdruk.md. Open je Dossier, dan staat de bovenste code gekozen. Open je Dossier vanuit een notitie of het Totaaloverzicht, dan blijft die code gekozen.</li></ul></div>
     <div class="release"><h2><span class="versie">v225</span> Notities: licenties niet dubbel <span class="datum">8 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In het notitievenster staan de licenties alleen nog in het grijze kader <b>Geldigheid licenties</b> bovenaan. De kop <i>Geldigheid licenties</i> en de lijst met licenties in de tekst eronder zie je niet meer, ook niet in de opmaak naast het tekstvak. In het notitiebestand blijven ze gewoon staan, en ze gaan mee met opslaan, versies, Licenties en Dossier. Een oude versie bekijk je nog volledig. Staat er onder de kop ook andere tekst dan licenties, dan blijft het hele blok zichtbaar, zodat die tekst niet onder een verkeerde kop lijkt te staan.</li></ul></div>
     <div class="release"><h2><span class="versie">v224</span> Beginscherm: vier gelijke knoppen <span class="datum">8 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Op het beginscherm heet de vierde knop nu kort <b>Voorbeeld downloaden</b> (eerst: Voorbeeld downloaden als werkdruk.md) en ziet hij eruit als <b>Los bestand kiezen</b> en <b>Voorbeeld bekijken</b>: met een rand, even hoog en even breed opgevuld. Het bestand dat je krijgt heet nog steeds werkdruk.md; dat staat in de uitleg als je de muis op de knop houdt.</li></ul></div>
     <div class="release"><h2><span class="versie">v223</span> Voorbeeld: CRM systeem in plaats van zaaksysteem <span class="datum">8 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In <b>Voorbeeld bekijken</b> heet het project 482828 nu <i>Implementatie nieuw CRM systeem</i>, met de taak <i>Offerte CRM systeem nalezen</i> en in de notities de licentie <i>CRM systeem (gebruikerslicenties)</i>. Ook de voorbeelden in de hulp en in een leeg Dossier noemen nu een CRM systeem. Je eigen bestanden veranderen niet.</li></ul></div>
@@ -3876,7 +3877,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   </section>
   <section id="h-dossier">
     <h3>Dossier: alles over één code</h3>
-    <p>Het tabblad <b>Dossier</b> (in de zijbalk onder Projecten) zet alles over één project, TPO of andere code bij elkaar. Kies bovenaan de code: eerst staan de codes uit werkdruk.md, daarna de codes die alleen notities hebben.</p>
+    <p>Het tabblad <b>Dossier</b> (in de zijbalk onder Projecten) zet alles over één project, TPO of andere code bij elkaar. Kies bovenaan de code: alle codes uit werkdruk.md en uit de notities staan alfabetisch van A tot Z, teken voor teken (codes met cijfers eerst, dus <code>123456</code> vóór <code>2026-117</code> vóór <code>ONB-001</code>). Open je het tabblad, dan staat de bovenste code gekozen; kom je er via de knop <i>Dossier</i> in een notitie of het Totaaloverzicht, dan die code.</p>
     <ul>
       <li><b>De kopregel</b>: de code, de titel (uit de eerste kop van de notities, anders uit werkdruk.md), het aantal open taken (in de notities en in werkdruk.md samen) en de knop <i>Notities openen</i>.</li>
       <li><b>In werkdruk.md</b>: elke taak of kop die met de code begint, met het regelnummer, de kop erboven, de frequentie, de uren per keer, de uren in het bekeken jaar en de eerstvolgende dag waarop hij gepland staat. Klik op het regelnummer om naar die regel in Document te gaan.</li>
@@ -15088,10 +15089,12 @@ WIB.kern.notities = (function () {
   /* ---------- Dossier (v218): alles over één code op één scherm ---------- */
   let dossierCode = '', dossierBeurt = 0;
   // de codes om uit te kiezen: eerst die in werkdruk.md (in volgorde), dan die alleen notities hebben (op naam)
+  // v226: alfabetisch van A tot Z, teken voor teken (cijfers vóór letters), zonder onderscheid tussen hoofd- en kleine letters
+  function codeVolgorde(a, b) { return a.localeCompare(b, 'nl', { sensitivity: 'base' }); }
   function dossierCodes() {
     const re = WIB.codes.start(), uit = re ? codesIn(WIB.document.tekst(), re, sleutel) : [];
-    Object.keys(gevuld).filter(function (k) { return gevuld[k]; }).concat(Object.keys(geheugen)).sort().forEach(function (k) { if (uit.indexOf(k) < 0) uit.push(k); });
-    return uit;
+    Object.keys(gevuld).filter(function (k) { return gevuld[k]; }).concat(Object.keys(geheugen)).forEach(function (k) { if (uit.indexOf(k) < 0) uit.push(k); });
+    return uit.sort(codeVolgorde);
   }
   const urenFmt = new Intl.NumberFormat('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   function urenTekst(v) { return urenFmt.format(v) + ' u'; }
@@ -15146,7 +15149,7 @@ WIB.kern.notities = (function () {
     if (!el) return Promise.resolve();
     if (code) dossierCode = sleutel(code);
     const codes = dossierCodes();
-    if (dossierCode && codes.indexOf(dossierCode) < 0) { if (code) codes.unshift(dossierCode); else dossierCode = ''; }
+    if (dossierCode && codes.indexOf(dossierCode) < 0) { if (code) { codes.push(dossierCode); codes.sort(codeVolgorde); } else dossierCode = ''; }
     if (!dossierCode) dossierCode = codes[0] || '';
     const c = dossierCode, beurt = ++dossierBeurt;
     const kop = '<h1 class="tabkop" style="margin:0 0 6px">Dossier</h1>';
