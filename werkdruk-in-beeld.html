@@ -631,6 +631,7 @@ tr.jump:hover td { background: var(--accent-soft); }
     line-height: 1.6;
   }
   .uitleg p { margin: 0 0 10px; }
+  .uitleg a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
   .fout {
     margin: 16px 0 0; padding: 12px 16px; border-radius: 8px;
     background: var(--fout-bg); color: var(--fout-tekst); font-size: var(--fs-l);
@@ -1264,9 +1265,6 @@ body {
 .neerzetvlak h1 { font-size: clamp(28px, 4vw, 38px); line-height: 1.15; letter-spacing: -0.015em; margin: 0 0 12px; font-family: var(--font-display); font-weight: 700; }
 .neerzet-knoppen .btn { font-size: var(--fs-l); padding: 9px 18px; }
 .neerzet-knoppen .filebtn input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-.leeg .bestanden { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px 18px; margin: 18px 0 6px; padding: 0; list-style: none; }
-.leeg .bestanden li { font-size: var(--fs-l); color: var(--muted); }
-.leeg .bestanden code { color: var(--ink); font-family: var(--font-mono); font-size: var(--fs-s); }
 
 /* ---------- koppelingen tussen document en werkdruk ---------- */
 .wd-badge {
@@ -2109,17 +2107,8 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <div class="fout" id="fout" role="alert"></div>
     </div>
     <div class="uitleg">
-      <p>In de map die je kiest, gebruikt de pagina deze bestanden. Ontbreken ze, dan maakt ze ze aan.</p>
-      <ul class="bestanden">
-        <li><code>werkdruk.md</code>: je takenlijst en werkoverzicht</li>
-        <li><code>instellingen.md</code>: al je instellingen en je verlofplanning</li>
-        <li><code>werkdruk_historie.md</code>: wat er in werkdruk.md veranderde</li>
-        <li><code>instellingen_historie.md</code>: wat er in instellingen.md veranderde</li>
-        <li><code>daginvoer.md</code>: je vrije tekst per dag</li>
-        <li><code>notities/</code> en <code>notities_historie.md</code>: notities per project- of TPO-code, met versies (pas bij je eerste notitie)</li>
-      </ul>
-      <p>De pagina werkt volledig op je eigen computer, ook zonder internet. Ze bevat geen externe bibliotheken, en een ingebouwde beveiligingsregel verbiedt de browser om vanuit de pagina iets op te halen of te versturen. Ze bewaart niets in de browser: geen cookies, geen browseropslag. Sluit je het tabblad, dan vervalt de toegang tot de map; wat nog niet was opgeslagen, ben je kwijt.</p>
-      <p>In Edge en Chrome leest en schrijft de pagina rechtstreeks in de map, en zie je een wijziging van buitenaf meteen of binnen enkele seconden. In Firefox en Safari kan de pagina de map alleen lezen en bewaar je wijzigingen met Downloaden.</p>
+      <p>De pagina werkt volledig lokaal op je computer, ook zonder internet. Je gegevens worden opgeslagen in tekstbestanden in <a href="https://markdownformatting.com/cheat-sheet" target="_blank" rel="noopener noreferrer nofollow">Markdown</a> formaat. De pagina gebruikt geen externe bibliotheken. Een ingebouwde beveiligingsregel blokkeert elke poging van de pagina om gegevens op te halen of te versturen. De pagina slaat niets op in de browser: geen cookies en geen browseropslag. Na het sluiten van het tabblad vervalt de toegang tot de map; niet opgeslagen wijzigingen gaan verloren.</p>
+      <p>In Edge of Chrome leest en schrijft de pagina rechtstreeks in de map. Wijzigingen van buitenaf verschijnen direct of binnen enkele seconden. In Firefox en Safari heeft de pagina alleen leesrechten op de map; sla wijzigingen op via Downloaden.</p>
       <p>Druk op <kbd>?</kbd> voor sneltoetsen, opmaakcodes en uitleg van alle onderdelen.</p>
     </div>
   </section>
@@ -2220,6 +2209,9 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v229</span> Beginscherm: tekst herschreven <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>De uitleg op het beginscherm is herschreven in kortere zinnen: de pagina werkt volledig lokaal, je gegevens staan in tekstbestanden in Markdown formaat, er zijn geen externe bibliotheken, een beveiligingsregel blokkeert elke poging van de pagina om gegevens op te halen of te versturen, en er wordt niets in de browser bewaard. Ook wat Edge, Chrome, Firefox en Safari met de map kunnen, staat er korter.</li></ul></div>
+    <div class="release"><h2><span class="versie">v228</span> Beginscherm zonder bestandenlijst <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Het beginscherm toont niet meer welke bestanden de pagina in je map gebruikt (werkdruk.md, instellingen.md, de historie, daginvoer.md en notities/). Dat staat in de hulp onder het ?-icoon, bij <i>Snel beginnen</i>, <i>Historie</i> en <i>Privacy</i>.</li></ul></div>
+    <div class="release"><h2><span class="versie">v227</span> Beginscherm: opslag in Markdown <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Op het beginscherm staat nu ook dat je gegevens lokaal worden opgeslagen in tekstbestanden in Markdown-formaat. Het woord <i>Markdown</i> is een link naar het overzicht van de opmaak op markdownformatting.com; die opent in een nieuw venster (alleen als je internet hebt).</li></ul></div>
     <div class="release"><h2><span class="versie">v226</span> Dossier: codes van A tot Z <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In <b>Dossier</b> staan de codes in de keuzelijst nu alfabetisch van A tot Z (teken voor teken: eerst codes die met een cijfer beginnen, dan letters), en niet meer eerst die uit werkdruk.md. Open je Dossier, dan staat de bovenste code gekozen. Open je Dossier vanuit een notitie of het Totaaloverzicht, dan blijft die code gekozen.</li></ul></div>
     <div class="release"><h2><span class="versie">v225</span> Notities: licenties niet dubbel <span class="datum">8 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In het notitievenster staan de licenties alleen nog in het grijze kader <b>Geldigheid licenties</b> bovenaan. De kop <i>Geldigheid licenties</i> en de lijst met licenties in de tekst eronder zie je niet meer, ook niet in de opmaak naast het tekstvak. In het notitiebestand blijven ze gewoon staan, en ze gaan mee met opslaan, versies, Licenties en Dossier. Een oude versie bekijk je nog volledig. Staat er onder de kop ook andere tekst dan licenties, dan blijft het hele blok zichtbaar, zodat die tekst niet onder een verkeerde kop lijkt te staan.</li></ul></div>
     <div class="release"><h2><span class="versie">v224</span> Beginscherm: vier gelijke knoppen <span class="datum">8 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Op het beginscherm heet de vierde knop nu kort <b>Voorbeeld downloaden</b> (eerst: Voorbeeld downloaden als werkdruk.md) en ziet hij eruit als <b>Los bestand kiezen</b> en <b>Voorbeeld bekijken</b>: met een rand, even hoog en even breed opgevuld. Het bestand dat je krijgt heet nog steeds werkdruk.md; dat staat in de uitleg als je de muis op de knop houdt.</li></ul></div>
