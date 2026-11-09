@@ -1789,8 +1789,8 @@ body {
 /* helemaal rechts: Stijl, ◐, ? en Instellingen */
 .balk .balk-tools { order: 3; display: flex; align-items: center; gap: 4px; margin-left: auto; }
 .balk-tools .ikoon-knop { padding: 6px 8px; font-size: 15px; }
-.balk-tools .instellingen-knop, .balk-tools #zoekallesknop { display: inline-flex; align-items: center; justify-content: center; }
-.balk-tools .instellingen-knop svg, .balk-tools #zoekallesknop svg { width: 16px; height: 16px; display: block; }
+.balk-tools .instellingen-knop, .balk-tools #zoekallesknop, .balk-tools #uitlogknop { display: inline-flex; align-items: center; justify-content: center; }
+.balk-tools .instellingen-knop svg, .balk-tools #zoekallesknop svg, .balk-tools #uitlogknop svg { width: 16px; height: 16px; display: block; }
 .balk-menuknop { display: none; }
 :root[data-stijl="compact"] .balk { padding-top: 6px; padding-bottom: 6px; }
 
@@ -2061,6 +2061,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <button type="button" class="ikoon-knop instellingen-knop" data-act="open-settings" aria-label="Instellingen" title="Instellingen">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>
     </button>
+    <button type="button" class="ikoon-knop" id="uitlogknop" title="Uitloggen: de pagina opnieuw laden en opnieuw beginnen" aria-label="Uitloggen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></button>
   </span>
 </header>
   <nav class="zijbalk" id="tabs" role="tablist" aria-label="Weergave" aria-orientation="vertical">
@@ -2224,6 +2225,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v232</span> Uitloggen <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Rechtsboven, naast Instellingen, staat een knop <b>Uitloggen</b>. Die laadt de pagina opnieuw: je begint weer op het beginscherm en kunt een andere map of een ander bestand kiezen. Heb je nog wijzigingen die niet zijn opgeslagen, dan vraagt de browser eerst of je de pagina wilt verlaten.</li></ul></div>
     <div class="release"><h2><span class="versie">v231</span> Eerst vragen voordat er bestanden komen <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Kies je met <b>Map kiezen</b> (of door slepen) een map waarin werkdruk.md of instellingen.md ontbreekt, dan vraagt de pagina eerst of ze die mag aanmaken: <i>Ja, aanmaken</i>, <i>Nee, andere map kiezen</i> of <i>Annuleren</i>. Pas na Ja komen er bestanden in de map; Nee opent de mapkiezer opnieuw, en Annuleren of Esc doet niets. Zo maak je niet meer per ongeluk bestanden aan in een verkeerde map. De knop Annuleren staat al klaar, zodat Enter niets aanmaakt.</li></ul></div>
     <div class="release"><h2><span class="versie">v230</span> Zoeken in alles <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Met <b>Ctrl+K</b> (op de Mac ⌘K) of het nieuwe vergrootglas rechtsboven zoek je in één keer in werkdruk.md, de notities van alle codes, daginvoer en historie. Alle woorden moeten in een regel staan; hoofdletters en accenten maken niet uit. De treffers staan per bron; kies met de pijltjes en open met Enter. Een taak opent Document bij die regel, een notitie het notitievenster op die regel, en daginvoer of historie het tabblad op die dag. Zonder zoekterm spring je snel naar een tabblad of een actie, zoals Nieuwe taak, Dossier of Notities van een code.</li></ul></div>
     <div class="release"><h2><span class="versie">v229</span> Beginscherm: tekst herschreven <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>De uitleg op het beginscherm is herschreven in kortere zinnen: de pagina werkt volledig lokaal, je gegevens staan in tekstbestanden in Markdown formaat, er zijn geen externe bibliotheken, een beveiligingsregel blokkeert elke poging van de pagina om gegevens op te halen of te versturen, en er wordt niets in de browser bewaard. Ook wat Edge, Chrome, Firefox en Safari met de map kunnen, staat er korter.</li></ul></div>
@@ -3599,6 +3601,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li><b>Instellingen</b> (het pictogram met schuifjes, rechtsboven direct na <b>?</b>): uren, parttimedag, verlof, feestdagen, geboorteverlof, weergave, historie en codes voor notities. Terwijl je typt, rekent de pagina pas na een korte pauze opnieuw; kies je een waarde of sluit je het venster, dan meteen. Het venster heeft twee delen: <i>Algemeen</i> geldt voor elk jaar; <i>Alleen voor 2026</i> (met pijltjes voor een ander jaar) bevat geboorteverlof en eigen feestdagen van dat jaar. Elke wijziging gaat direct naar instellingen.md; <i>Klaar</i> sluit het venster. Onderaan staat <i>Instellingen en verlof wissen</i>: dat zet alle instellingen terug naar de standaard en wist je verlofplanning, eigen feestdagen en geboorteverlof. werkdruk.md, je notities en de historie blijven staan. Je klikt twee keer om te bevestigen.</li>
       <li><b>Niet opgeslagen</b> (oranje): er zijn wijzigingen in werkdruk.md die nog niet in het bestand staan; klik erop om op te slaan. Na een opslagactie staat er kort <i>Opgeslagen</i> met de tijd.</li>
       <li><b>Vergrootglas</b> (<kbd>Ctrl</kbd>+<kbd>K</kbd>): zoeken in alles, zie <i>Zoeken in alles</i>.</li>
+      <li><b>Uitloggen</b> (het pictogram met de pijl naar buiten, helemaal rechts, na Instellingen): laadt de pagina opnieuw, zodat je opnieuw begint en een andere map of een ander bestand kunt kiezen. De toegang tot de huidige map vervalt dan. Heb je nog wijzigingen die niet zijn opgeslagen, dan vraagt de browser eerst of je de pagina wilt verlaten; kies dan <i>Annuleren</i> en sla eerst op.</li>
       <li><b>Stijl</b>, <b>◐</b> en <b>?</b>: de stijl van de pagina, licht of donker, en deze hulp.</li>
       <li>De balk heeft een vaste indeling: bovenaan één regel met links de titel (die altijd volledig in beeld staat; is het venster te smal, dan gaan de knoppen rechts naar een volgende regel), en rechts het zoekveld (in de tabbladen waar je kunt zoeken), Bron ▾, Alleen urgent, Stijl, ◐, ? en Instellingen. De tabbladen staan in de zijbalk links (zie hieronder). De labels <i>Niet opgeslagen</i>, <i>Opgeslagen</i> en <i>n secties gewijzigd</i> verschijnen links van het zoekveld en de knoppen, op een vaste plek. Bron ▾ en Alleen urgent staan er ook al voordat je iets hebt geladen, zodat niets verschuift. Is het venster te smal voor alles op één regel, dan gaan de knoppen naar een volgende regel. De knoppen blijven op hun plek als je een map of het voorbeeld laadt; past de informatie over de bron niet, dan wordt die afgekort met ….</li>
       <li>Op een smal scherm (telefoon) staan de knoppen achter <b>☰</b>, staat de titel op een eigen regel en is de zijbalk altijd een smalle strook met icoontjes.</li>
@@ -7298,6 +7301,9 @@ WIB.kern.document = (function () {
     bwStatus.classList.toggle('vuil', vlag);
     if (vlag) bwStatus.textContent = kanSchrijven() ? 'Niet opgeslagen' : isIngebouwd() ? 'Niet opgeslagen: de ingebouwde tekst kan niet worden opgeslagen; download de tekst en plak die in het HTML-blok' : 'Niet opgeslagen (geen schrijftoegang: Ctrl+S of het label in de balk downloadt het bestand)';
   }
+  // v232: Uitloggen = de pagina opnieuw laden. Zijn er niet-opgeslagen wijzigingen, dan vraagt de browser eerst of je de
+  // pagina wilt verlaten (de beforeunload-controles hieronder, in Instellingen en in het notitievenster).
+  document.getElementById('uitlogknop').addEventListener('click', function () { window.location.reload(); });
   window.addEventListener('beforeunload', function (e) {
     docEd.flush();
     // ook waarschuwen als iets alleen in je downloads staat en nog niet in de map (v141)
