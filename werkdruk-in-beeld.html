@@ -1489,7 +1489,21 @@ body {
 .nr-label.gevuld { background: var(--accent); color: var(--accent-ink); border-style: solid; border-color: var(--accent); }
 .nr-label.gevuld:hover { filter: brightness(1.12); }
 .nr-label:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.hulp.nt-overlay { z-index: 40; }   /* zwaarder dan .hulp, die (sinds v134 samengevoegd) later staat */
+.hulp.nt-overlay { z-index: 40; }
+/* Zoeken in alles (v230) */
+.za-vlak { max-width: 680px; padding: 14px 14px 10px; margin-top: 6vh; }
+.za-zoek { width: 100%; box-sizing: border-box; font: inherit; font-size: var(--fs-body); padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); color: var(--ink); }
+.za-status { font-size: var(--fs-s); color: var(--muted); margin: 6px 2px 0; }
+.za-lijst { list-style: none; margin: 8px 0 0; padding: 0; max-height: 60vh; overflow-y: auto; }
+.za-groep { font-size: var(--fs-xs); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 10px 8px 4px; }
+.za-item { display: flex; flex-direction: column; gap: 2px; padding: 6px 8px; border-radius: 6px; cursor: pointer; min-width: 0; }
+.za-item.actief { background: var(--accent-soft); }
+.za-titel { font-size: var(--fs-l); overflow-wrap: anywhere; }
+.za-sub { font-size: var(--fs-s); color: var(--muted); overflow-wrap: anywhere; }
+.za-item mark { background: var(--markering); color: inherit; border-radius: 2px; padding: 0 1px; }
+.za-meer, .za-fout { padding: 4px 8px; font-size: var(--fs-s); }
+.za-fout { color: var(--urg); }
+.za-tip { font-size: var(--fs-xs); color: var(--muted); margin: 8px 2px 0; }   /* zwaarder dan .hulp, die (sinds v134 samengevoegd) later staat */
 #notitievenster .hulp-vlak { max-width: 1280px; width: 96vw; height: 90vh; max-height: 90vh; display: flex; flex-direction: column; padding: 0; overflow: hidden; }
 .nt-kop { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--line); }
 .nt-kop h2 { margin: 0; font-size: var(--fs-kop-2); font-family: var(--font-display); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -1775,8 +1789,8 @@ body {
 /* helemaal rechts: Stijl, ◐, ? en Instellingen */
 .balk .balk-tools { order: 3; display: flex; align-items: center; gap: 4px; margin-left: auto; }
 .balk-tools .ikoon-knop { padding: 6px 8px; font-size: 15px; }
-.balk-tools .instellingen-knop { display: inline-flex; align-items: center; justify-content: center; }
-.balk-tools .instellingen-knop svg { width: 16px; height: 16px; display: block; }
+.balk-tools .instellingen-knop, .balk-tools #zoekallesknop { display: inline-flex; align-items: center; justify-content: center; }
+.balk-tools .instellingen-knop svg, .balk-tools #zoekallesknop svg { width: 16px; height: 16px; display: block; }
 .balk-menuknop { display: none; }
 :root[data-stijl="compact"] .balk { padding-top: 6px; padding-bottom: 6px; }
 
@@ -2041,6 +2055,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
         <option value="zacht">Zacht</option>
       </select>
     </label>
+    <button type="button" class="ikoon-knop" id="zoekallesknop" title="Zoeken in alles (Ctrl+K of ⌘K)" aria-label="Zoeken in alles" aria-keyshortcuts="Control+K Meta+K"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
     <button type="button" class="ikoon-knop" id="themaknop" title="Licht / donker (d)" aria-label="Wissel tussen licht en donker">◐</button>
     <button type="button" class="ikoon-knop" id="hulpknop" title="Help (?)" aria-label="Help">?</button>
     <button type="button" class="ikoon-knop instellingen-knop" data-act="open-settings" aria-label="Instellingen" title="Instellingen">
@@ -2209,6 +2224,8 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v231</span> Eerst vragen voordat er bestanden komen <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Kies je met <b>Map kiezen</b> (of door slepen) een map waarin werkdruk.md of instellingen.md ontbreekt, dan vraagt de pagina eerst of ze die mag aanmaken: <i>Ja, aanmaken</i>, <i>Nee, andere map kiezen</i> of <i>Annuleren</i>. Pas na Ja komen er bestanden in de map; Nee opent de mapkiezer opnieuw, en Annuleren of Esc doet niets. Zo maak je niet meer per ongeluk bestanden aan in een verkeerde map. De knop Annuleren staat al klaar, zodat Enter niets aanmaakt.</li></ul></div>
+    <div class="release"><h2><span class="versie">v230</span> Zoeken in alles <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Met <b>Ctrl+K</b> (op de Mac ⌘K) of het nieuwe vergrootglas rechtsboven zoek je in één keer in werkdruk.md, de notities van alle codes, daginvoer en historie. Alle woorden moeten in een regel staan; hoofdletters en accenten maken niet uit. De treffers staan per bron; kies met de pijltjes en open met Enter. Een taak opent Document bij die regel, een notitie het notitievenster op die regel, en daginvoer of historie het tabblad op die dag. Zonder zoekterm spring je snel naar een tabblad of een actie, zoals Nieuwe taak, Dossier of Notities van een code.</li></ul></div>
     <div class="release"><h2><span class="versie">v229</span> Beginscherm: tekst herschreven <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>De uitleg op het beginscherm is herschreven in kortere zinnen: de pagina werkt volledig lokaal, je gegevens staan in tekstbestanden in Markdown formaat, er zijn geen externe bibliotheken, een beveiligingsregel blokkeert elke poging van de pagina om gegevens op te halen of te versturen, en er wordt niets in de browser bewaard. Ook wat Edge, Chrome, Firefox en Safari met de map kunnen, staat er korter.</li></ul></div>
     <div class="release"><h2><span class="versie">v228</span> Beginscherm zonder bestandenlijst <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Het beginscherm toont niet meer welke bestanden de pagina in je map gebruikt (werkdruk.md, instellingen.md, de historie, daginvoer.md en notities/). Dat staat in de hulp onder het ?-icoon, bij <i>Snel beginnen</i>, <i>Historie</i> en <i>Privacy</i>.</li></ul></div>
     <div class="release"><h2><span class="versie">v227</span> Beginscherm: opslag in Markdown <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Op het beginscherm staat nu ook dat je gegevens lokaal worden opgeslagen in tekstbestanden in Markdown-formaat. Het woord <i>Markdown</i> is een link naar het overzicht van de opmaak op markdownformatting.com; die opent in een nieuw venster (alleen als je internet hebt).</li></ul></div>
@@ -3454,6 +3471,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <p id="vraag-tekst"></p>
     <div class="conflict-knoppen">
       <button type="button" class="knop" id="vraag-ja">Doorgaan</button>
+      <button type="button" class="knop" id="vraag-anders" hidden></button>
       <button type="button" class="knop" id="vraag-nee">Annuleren</button>
     </div>
   </div>
@@ -3462,6 +3480,15 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
 <div id="toast" role="status" aria-live="polite"></div>
 <div id="modalRoot"></div>
 <div id="popRoot"></div>
+<div class="hulp za-overlay" id="zoekalles" hidden role="dialog" aria-modal="true" aria-labelledby="za-titel">
+  <div class="hulp-vlak za-vlak">
+    <h2 id="za-titel" class="sr-only">Zoeken in alles</h2>
+    <input type="search" id="za-zoek" class="za-zoek" placeholder="Zoek in taken, notities, daginvoer, historie en tabbladen…" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="za-lijst" aria-autocomplete="list" aria-label="Zoeken in alles">
+    <div id="za-status" class="za-status" aria-live="polite"></div>
+    <ul id="za-lijst" class="za-lijst" role="listbox" aria-label="Resultaten"></ul>
+    <p class="za-tip"><kbd>↑</kbd> <kbd>↓</kbd> kiezen · <kbd>Enter</kbd> openen · <kbd>Esc</kbd> sluiten</p>
+  </div>
+</div>
 <div class="hulp nt-overlay" id="notitievenster" hidden role="dialog" aria-modal="true" aria-labelledby="nt-titel">
   <div class="hulp-vlak nt-vlakken">
     <div class="nt-kop">
@@ -3537,6 +3564,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <button type="button" data-jump="h-dag">Daginvoer</button>
     <button type="button" data-jump="h-hist">Historie</button>
     <button type="button" data-jump="h-stijl">Stijl en thema</button>
+    <button type="button" data-jump="h-zoekalles">Zoeken in alles</button>
     <button type="button" data-jump="h-toetsen">Sneltoetsen</button>
     <button type="button" data-jump="h-privacy">Je gegevens</button>
   </div>
@@ -3544,7 +3572,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   <section id="h-start">
     <h3>Snel beginnen</h3>
     <ol>
-      <li>Klik op <b>Map kiezen</b> en kies de map waarin je werkdrukbestanden staan, of maak in het venster een nieuwe, lege map aan. De pagina gebruikt daarin deze bestanden en maakt ze aan als ze ontbreken:
+      <li>Klik op <b>Map kiezen</b> en kies de map waarin je werkdrukbestanden staan, of maak in het venster een nieuwe, lege map aan. De pagina gebruikt daarin deze bestanden. Ontbreken <code>werkdruk.md</code> of <code>instellingen.md</code>, dan vraagt ze eerst of ze die mag aanmaken: <i>Ja, aanmaken</i>, <i>Nee, andere map kiezen</i> (als je per ongeluk de verkeerde map koos) of <i>Annuleren</i>. Zo komen er nooit ongemerkt bestanden in een verkeerde map. De andere bestanden maakt ze aan zodra ze nodig zijn:
         <ul>
           <li><code>werkdruk.md</code>: je takenlijst en werkoverzicht. Dit is ook het document dat je in de tabbladen Document, Mindmap en Bewerken ziet;</li>
           <li><code>instellingen.md</code>: al je instellingen, geboorteverlof, eigen feestdagen, verlofplanning, thema, stijl, en de codes voor notities;</li>
@@ -3570,6 +3598,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li><b>n secties gewijzigd</b>: verschijnt als een ander programma werkdruk.md heeft gewijzigd; een klik springt naar de volgende gewijzigde sectie.</li>
       <li><b>Instellingen</b> (het pictogram met schuifjes, rechtsboven direct na <b>?</b>): uren, parttimedag, verlof, feestdagen, geboorteverlof, weergave, historie en codes voor notities. Terwijl je typt, rekent de pagina pas na een korte pauze opnieuw; kies je een waarde of sluit je het venster, dan meteen. Het venster heeft twee delen: <i>Algemeen</i> geldt voor elk jaar; <i>Alleen voor 2026</i> (met pijltjes voor een ander jaar) bevat geboorteverlof en eigen feestdagen van dat jaar. Elke wijziging gaat direct naar instellingen.md; <i>Klaar</i> sluit het venster. Onderaan staat <i>Instellingen en verlof wissen</i>: dat zet alle instellingen terug naar de standaard en wist je verlofplanning, eigen feestdagen en geboorteverlof. werkdruk.md, je notities en de historie blijven staan. Je klikt twee keer om te bevestigen.</li>
       <li><b>Niet opgeslagen</b> (oranje): er zijn wijzigingen in werkdruk.md die nog niet in het bestand staan; klik erop om op te slaan. Na een opslagactie staat er kort <i>Opgeslagen</i> met de tijd.</li>
+      <li><b>Vergrootglas</b> (<kbd>Ctrl</kbd>+<kbd>K</kbd>): zoeken in alles, zie <i>Zoeken in alles</i>.</li>
       <li><b>Stijl</b>, <b>◐</b> en <b>?</b>: de stijl van de pagina, licht of donker, en deze hulp.</li>
       <li>De balk heeft een vaste indeling: bovenaan één regel met links de titel (die altijd volledig in beeld staat; is het venster te smal, dan gaan de knoppen rechts naar een volgende regel), en rechts het zoekveld (in de tabbladen waar je kunt zoeken), Bron ▾, Alleen urgent, Stijl, ◐, ? en Instellingen. De tabbladen staan in de zijbalk links (zie hieronder). De labels <i>Niet opgeslagen</i>, <i>Opgeslagen</i> en <i>n secties gewijzigd</i> verschijnen links van het zoekveld en de knoppen, op een vaste plek. Bron ▾ en Alleen urgent staan er ook al voordat je iets hebt geladen, zodat niets verschuift. Is het venster te smal voor alles op één regel, dan gaan de knoppen naar een volgende regel. De knoppen blijven op hun plek als je een map of het voorbeeld laadt; past de informatie over de bron niet, dan wordt die afgekort met ….</li>
       <li>Op een smal scherm (telefoon) staan de knoppen achter <b>☰</b>, staat de titel op een eigen regel en is de zijbalk altijd een smalle strook met icoontjes.</li>
@@ -3926,6 +3955,16 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <p>De kleuren van de drukte (groen tot rood), verlof, geboorteverlof en feestdagen blijven in elke stijl hetzelfde, zodat ze altijd hetzelfde betekenen. Stijl en thema worden bewaard in <code>instellingen.md</code>.</p>
   </section>
 
+  <section id="h-zoekalles">
+    <h3>Zoeken in alles</h3>
+    <p>Met <kbd>Ctrl</kbd>+<kbd>K</kbd> (op de Mac <kbd>⌘</kbd>+<kbd>K</kbd>) of het vergrootglas rechtsboven in de balk zoek je in één keer door alles: de taken en koppen in werkdruk.md, de notities van alle codes, daginvoer en historie. Ook de tabbladen, een paar acties (zoals <i>Nieuwe taak</i>, <i>Nieuwe daginvoer</i>, <i>Instellingen</i>) en per code <i>Dossier</i> en <i>Notities</i> staan erin. Zonder zoekterm zie je de tabbladen en acties; zo spring je ook snel naar een tabblad.</p>
+    <ul>
+      <li>Typ een of meer woorden. Een regel komt in de lijst als alle woorden erin staan, in willekeurige volgorde; hoofdletters en accenten maken niet uit (<i>cafe</i> vindt ook <i>café</i>). In je tekst zoekt de pagina vanaf twee tekens.</li>
+      <li>De treffers staan per bron, met eronder waar ze staan: het regelnummer en de kop in werkdruk.md, de code en de kop in de notities, de dag van de daginvoer, of het bestand en het moment in de historie. Per bron zie je er hoogstens 50; staan er meer, maak de zoekopdracht dan preciezer.</li>
+      <li>Kies met <kbd>↑</kbd> en <kbd>↓</kbd> en open met <kbd>Enter</kbd>, of klik. Een taak opent Document bij die regel; een notitie opent het notitievenster met de cursor op die regel; een daginvoer of historievermelding opent dat tabblad, gefilterd op die dag. <kbd>Esc</kbd> sluit het venster.</li>
+      <li>De notities worden gelezen als je het venster opent; notities die nog niet zijn opgeslagen, doen gewoon mee. Kan een notitiebestand niet worden gelezen, dan staat dat onderaan de lijst. Een verborgen tabblad doet niet mee.</li>
+    </ul>
+  </section>
   <section id="h-toetsen">
     <h3>Sneltoetsen</h3>
     <p>Sneltoetsen werken niet terwijl je in een invoerveld of in Document typt (druk dan eerst <kbd>Esc</kbd>).</p>
@@ -3934,6 +3973,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <tbody>
         <tr><td><kbd>1</kbd> … <kbd>9</kbd>, <kbd>0</kbd></td><td>Tabbladen in de volgorde van de zijbalk: Document, Mindmap, Bewerken, Jaar, Maand, Week, Dag, Taken, Daginvoer, Historie (een verborgen tabblad doet niets)</td></tr>
         <tr><td><kbd>R</kbd></td><td>Release notes (nogmaals: terug naar het vorige tabblad)</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>K</kbd> of <kbd>⌘</kbd>+<kbd>K</kbd></td><td>Zoeken in alles: werkdruk.md, alle notities, daginvoer, historie, tabbladen en acties (werkt ook terwijl je typt)</td></tr>
         <tr><td><kbd>/</kbd> of <kbd>Ctrl</kbd>+<kbd>F</kbd></td><td>Zoeken in het tabblad dat je ziet; de zoekterm blijft per tabblad bewaard</td></tr>
         <tr><td><kbd>Enter</kbd> / <kbd>Shift</kbd>+<kbd>Enter</kbd>, <kbd>n</kbd> / <kbd>N</kbd></td><td>Volgende / vorige treffer</td></tr>
         <tr><td><kbd>←</kbd> / <kbd>→</kbd></td><td>Vorige / volgende maand, week of dag</td></tr>
@@ -4147,19 +4187,23 @@ WIB.vraag = (function () {
   let rij = Promise.resolve();
   function stel(opties) {
     opties = typeof opties === 'string' ? { tekst: opties } : (opties || {});
-    const el = document.getElementById('vraag'), ja = document.getElementById('vraag-ja'), nee = document.getElementById('vraag-nee');
+    // v231: opties.anders = het opschrift van een derde knop (tussen ja en nee); die geeft 'anders'. opties.veilig: de focus
+    // begint op nee, zonder dat ja rood wordt.
+    const el = document.getElementById('vraag'), ja = document.getElementById('vraag-ja'), nee = document.getElementById('vraag-nee'), anders = document.getElementById('vraag-anders');
     document.getElementById('vraag-titel').textContent = opties.titel || (opties.alleenOk ? 'Let op' : 'Weet je het zeker?');
     document.getElementById('vraag-tekst').textContent = opties.tekst || '';
     ja.textContent = opties.alleenOk ? (opties.ja || 'OK') : (opties.ja || 'Doorgaan');
     nee.textContent = opties.nee || 'Annuleren';
     nee.hidden = !!opties.alleenOk;
+    anders.hidden = !opties.anders || !!opties.alleenOk; anders.textContent = opties.anders || '';
     ja.classList.toggle('gevaarlijk', !!opties.gevaarlijk);
     return new Promise(function (klaar) {
       el.hidden = false;
-      function sluit(antwoord) { el.hidden = true; WIB.venster.sluit(el); ja.onclick = null; nee.onclick = null; klaar(antwoord); }
+      function sluit(antwoord) { el.hidden = true; WIB.venster.sluit(el); ja.onclick = null; nee.onclick = null; anders.onclick = null; klaar(antwoord); }
       ja.onclick = function () { sluit(true); };
       nee.onclick = function () { sluit(false); };
-      WIB.venster.open(el, { sluit: function () { sluit(!!opties.alleenOk); }, focus: opties.gevaarlijk ? '#vraag-nee' : '#vraag-ja' });
+      anders.onclick = function () { sluit('anders'); };
+      WIB.venster.open(el, { sluit: function () { sluit(!!opties.alleenOk); }, focus: opties.gevaarlijk || opties.veilig ? '#vraag-nee' : '#vraag-ja' });
     });
   }
   return function (opties) { const deze = rij.then(function () { return stel(opties); }); rij = deze.catch(function () { /* de volgende vraag gaat gewoon door */ }); return deze; };
@@ -7901,14 +7945,23 @@ WIB.kern.document = (function () {
   }
   function kiesMap() {
     if (!kanMap) { if (window.WIB.werkdruk) WIB.werkdruk.kiesMapAlleenLezen(); return; }
-    bevestigVervangen().then(function (ok) {
-      if (!ok) return;
-      window.showDirectoryPicker({ id: 'werkdruk', mode: 'readwrite' }).then(openMap).catch(function (e) {
-        if (e && e.name === 'AbortError') return;
-        if (e && (e.name === 'SecurityError' || e.name === 'NotAllowedError' || e.name === 'TypeError')) { kanMap = false; if (window.WIB.werkdruk) WIB.werkdruk.kiesMapAlleenLezen(); return; }
-        fout.textContent = 'De map kon niet worden geopend' + (e && e.message ? ': ' + e.message : '') + '.';
-      });
+    bevestigVervangen().then(function (ok) { if (ok) mapKiezer(); });
+  }
+  function mapKiezer() {
+    return window.showDirectoryPicker({ id: 'werkdruk', mode: 'readwrite' }).then(openMap).catch(function (e) {
+      if (e && e.name === 'AbortError') return;
+      if (e && (e.name === 'SecurityError' || e.name === 'NotAllowedError' || e.name === 'TypeError')) { kanMap = false; if (window.WIB.werkdruk) WIB.werkdruk.kiesMapAlleenLezen(); return; }
+      fout.textContent = 'De map kon niet worden geopend' + (e && e.message ? ': ' + e.message : '') + '.';
     });
+  }
+  // v231: ontbreken werkdruk.md of instellingen.md, dan eerst vragen of de pagina ze mag aanmaken: zo maak je niet per ongeluk
+  // bestanden in een verkeerde map. Ja = aanmaken; Nee = een andere map kiezen; Annuleren (of Esc) = niets doen.
+  function vraagAanmaken(dir, ontbreekt) {
+    if (!ontbreekt.length) return Promise.resolve(true);
+    const tekst = ontbreekt.length === 2
+      ? 'In de map «' + dir.name + '» staan nog geen werkdrukbestanden: werkdruk.md en instellingen.md ontbreken. Wil je ze hier aanmaken? Kies Nee als je per ongeluk de verkeerde map hebt gekozen.'
+      : 'In de map «' + dir.name + '» ontbreekt ' + ontbreekt[0] + '. Wil je het hier aanmaken?';
+    return WIB.vraag({ titel: 'Bestanden aanmaken?', tekst: tekst, ja: 'Ja, aanmaken', anders: 'Nee, andere map kiezen', nee: 'Annuleren', veilig: true });
   }
   function openMap(dir) {
     const aangemaakt = [];
@@ -7918,6 +7971,13 @@ WIB.kern.document = (function () {
       .then(function (s) {
         if (s !== 'granted') throw new Error('zonder toestemming kan de pagina de map niet gebruiken');
         return Promise.all(['werkdruk_historie.md', 'instellingen_historie.md', 'daginvoer.md', 'instellingen.md', 'werkdruk.md', 'notities_historie.md'].map(function (n) { return leesTekst(dir, n); }));
+      })
+      .then(function (r) {
+        const ontbreekt = [r[4] === null ? 'werkdruk.md' : '', r[3] === null ? 'instellingen.md' : ''].filter(Boolean);
+        return vraagAanmaken(dir, ontbreekt).then(function (antwoord) {
+          if (antwoord === true) return r;
+          const stop = new Error('niets aangemaakt'); stop.niets = antwoord; throw stop;
+        });
       })
       .then(function (r) {
         let stap = Promise.resolve();
@@ -7950,7 +8010,14 @@ WIB.kern.document = (function () {
           meld(aangemaakt.length ? 'Map «' + dir.name + '» gekozen. Aangemaakt: ' + aangemaakt.join(' en ') + '.' : 'Map «' + dir.name + '» ingeladen.', true);
         });
       })
-      .catch(function (e) { fout.textContent = 'De map kon niet worden geopend: ' + (e && e.message ? e.message : e) + '.'; meld(fout.textContent); });
+      .catch(function (e) {
+        if (e && e.niets !== undefined) {   // v231: niet aanmaken; bij Nee meteen een andere map kiezen
+          meld('Map «' + dir.name + '» niet geopend; er is niets aangemaakt.', true);
+          if (e.niets === 'anders') return mapKiezer();
+          return;
+        }
+        fout.textContent = 'De map kon niet worden geopend: ' + (e && e.message ? e.message : e) + '.'; meld(fout.textContent);
+      });
   }
   // Firefox en Safari: de map alleen lezen (opslaan gaat via downloaden)
   function openMapAlleenLezen(files) {
@@ -10085,6 +10152,8 @@ WIB.kern.document = (function () {
   }
   window.WIB.document = {
     toonTab: toonTab,
+    // v230: de zoekterm van een tabblad zetten (Zoeken in alles); staat dat tabblad open, dan meteen zoeken
+    zetZoekterm: function (tab, q) { zoektermen[tab] = q; if (tabActief === tab) zoekveldVoorTab(tab); },
     tab: function () { return tabActief; },
     isWerkdrukTab: isWdTab,
     markdownNaarHtml: markdownNaarHtml,
@@ -14222,7 +14291,53 @@ WIB.kern.notities = (function () {
     return { daginvoer: dag, historie: hist };
   }
 
-  return { versiesNaarTekst, versiesUitTekst, tokenRe, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud };
+  /* ---------- Zoeken in alles (v230) ---------- */
+  // Eén zoekopdracht over werkdruk.md, de notities, daginvoer, historie en de acties. Een regel past als alle woorden van de
+  // zoekopdracht erin staan, in willekeurige volgorde, zonder onderscheid tussen hoofdletters en accenten.
+  function zoekNorm(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+  function zoekWoorden(q) { return zoekNorm(q).split(/\s+/).filter(Boolean); }
+  function zoekPast(woorden, tekst) { const t = zoekNorm(tekst); return woorden.length > 0 && woorden.every(function (w) { return t.indexOf(w) >= 0; }); }
+  // de regels (0-based) van een markdowntekst waarin alle woorden staan, met de kop erboven; codeblokken tellen gewoon mee
+  function zoekRegels(tekst, woorden) {
+    const uit = [];
+    let kop = '';
+    String(tekst || '').replace(/\r\n?/g, '\n').split('\n').forEach(function (l, i) {
+      const k = /^#{1,6}\s+(.*)$/.exec(l);
+      if (l.trim() && zoekPast(woorden, l)) uit.push({ regel: i, tekst: platteTekst(l.replace(/^\s*(?:#{1,6}\s+|[-*+]\s+(?:\[[ xX]\]\s+)?|\d+[.)]\s+|>\s*)/, '')) || l.trim(), kop: k ? '' : kop });
+      if (k) kop = platteTekst(k[1]);
+    });
+    return uit;
+  }
+  // bronnen: { acties: [{ naam, ... }], werkdruk: tekst, notities: [{ code, tekst } of { code, fout }],
+  //            daginvoer: [{ datum, tijd, body }], historie: [{ datum, tijd, bestand, hunks: [{ regels: [{ s, t }] }] }] }
+  // Geeft per groep de treffers (hoogstens max; het totaal staat in aantal) en de notities die niet te lezen waren.
+  function zoekAlles(bronnen, q, max) {
+    max = max || 50;
+    const w = zoekWoorden(q), b = bronnen || {};
+    const groep = function (lijst) { return { items: lijst.slice(0, max), aantal: lijst.length }; };
+    const acties = (b.acties || []).filter(function (a) { return !w.length || zoekPast(w, a.naam + ' ' + (a.trefwoorden || '')); });
+    if (zoekNorm(q).trim().length < 2) return { woorden: w, acties: groep(acties), werkdruk: groep([]), notities: groep([]), daginvoer: groep([]), historie: groep([]), fouten: [] };
+    const werkdruk = zoekRegels(b.werkdruk, w);
+    const notities = [], fouten = [];
+    (b.notities || []).forEach(function (n) {
+      if (n.fout) { fouten.push(n); return; }
+      const titel = (/^#\s+(.*)$/m.exec(n.tekst || '') || [])[1] || '';
+      zoekRegels(n.tekst, w).forEach(function (r) { notities.push(Object.assign({ code: n.code, titel: platteTekst(titel) }, r)); });
+    });
+    const daginvoer = [];
+    (b.daginvoer || []).slice().sort(function (x, y) { return (y.datum + y.tijd).localeCompare(x.datum + x.tijd); }).forEach(function (v) {
+      const r = zoekRegels(v.body, w);
+      if (r.length) daginvoer.push({ datum: v.datum, tijd: v.tijd, tekst: r[0].tekst, meer: r.length - 1 });
+    });
+    const historie = [];
+    (b.historie || []).slice().sort(function (x, y) { return (y.datum + y.tijd).localeCompare(x.datum + x.tijd); }).forEach(function (v) {
+      let eerste = null, n = 0;
+      (v.hunks || []).forEach(function (h) { h.regels.forEach(function (r) { if (zoekPast(w, r.t)) { n++; if (!eerste) eerste = r; } }); });
+      if (eerste) historie.push({ datum: v.datum, tijd: v.tijd, bestand: v.bestand, teken: eerste.s, tekst: platteTekst(eerste.t) || eerste.t.trim(), meer: n - 1 });
+    });
+    return { woorden: w, acties: groep(acties), werkdruk: groep(werkdruk), notities: groep(notities), daginvoer: groep(daginvoer), historie: groep(historie), fouten: fouten };
+  }
+  return { zoekAlles, versiesNaarTekst, versiesUitTekst, tokenRe, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud };
 })();
 </script>
 <script data-deel="notities">
@@ -14239,7 +14354,7 @@ WIB.kern.notities = (function () {
 (function () {
   'use strict';
   // de DOM-vrije logica (versies, vermeldingen, licenties) staat sinds v108 in WIB.kern.notities
-  const { versiesNaarTekst, versiesUitTekst, tokenRe, telIn, analyseer, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, codesIn, dossierVan, dossierLogboek } = WIB.kern.notities;
+  const { versiesNaarTekst, versiesUitTekst, tokenRe, telIn, analyseer, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, codesIn, dossierVan, dossierLogboek, zoekAlles } = WIB.kern.notities;
   const vlak = document.getElementById('notitievenster');
   const titelEl = document.getElementById('nt-titel');
   const statusEl = document.getElementById('nt-status');
@@ -15298,7 +15413,149 @@ WIB.kern.notities = (function () {
   WIB.bewaking.voegToe(controleer);
 
   /* ---------- koppeling met de rest van de pagina ---------- */
+  /* ---------- Zoeken in alles (v230): Ctrl+K of ⌘K, of het vergrootglas in de balk ---------- */
+  const zaVlak = document.getElementById('zoekalles'), zaZoek = document.getElementById('za-zoek'), zaLijst = document.getElementById('za-lijst'), zaStatus = document.getElementById('za-status');
+  let zaKeuzes = [], zaActief = -1, zaNotities = null, zaTimer = null, zaBeurt = 0;
+  function zaOpen() { return !zaVlak.hidden; }
+  // de notities van alle codes, één keer per keer dat het venster opengaat. Met een map: elk notitiebestand in de map, ook een
+  // dat niet te lezen is (een leesfout is geen lege notitie en wordt gemeld); zonder map: de notities in het geheugen.
+  function zaLeesNotities() {
+    const eigen = function (c) { if (huidig && huidig.nr === c && isOpen()) { editorBij(); return ta.value; } return null; };   // wat in het venster staat, ook niet-opgeslagen
+    if (!map) return Promise.resolve(Object.keys(geheugen).sort().map(function (c) { const t = eigen(c); return { code: c, tekst: t !== null ? t : geheugen[c].tekst || '' }; }));
+    const uit = [];
+    return notitieMap(false).then(function (dir) {
+      return doorloopNotities(dir, function (naam, h, o) {
+        if (o.versies) return;
+        const t = eigen(o.code);
+        if (t !== null) { uit.push({ code: o.code, tekst: t }); return; }
+        return leesHandle(h).then(function (x) { uit.push({ code: o.code, tekst: x }); }, function (e) { uit.push({ code: o.code, fout: e }); });
+      });
+    }).then(function () { return uit.sort(function (x, y) { return x.code.localeCompare(y.code); }); },
+      function (e) { return uit.concat([{ code: '(map notities)', fout: e }]); });
+  }
+  function zaTabZichtbaar(t) { const b = document.getElementById('tab-' + t); return !!b && !b.hidden && !b.disabled; }
+  function zaActies() {
+    const uit = [];
+    document.querySelectorAll('[role="tab"][id^="tab-"]').forEach(function (b) {
+      if (b.hidden || b.disabled) return;
+      const naam = b.textContent.replace(/\s+/g, ' ').trim();
+      uit.push({ naam: naam, sub: 'Tabblad', trefwoorden: 'tabblad naar', doe: function () { b.click(); } });
+    });
+    const bron = window.WIB.document && WIB.document.heeftBron();
+    if (bron && window.WIB.werkdruk && zaTabZichtbaar('taken')) uit.push({ naam: 'Nieuwe taak', sub: 'Actie', trefwoorden: 'toevoegen werkdruk', doe: function () { WIB.werkdruk.nieuweTaakMet(''); } });
+    if (bron && zaTabZichtbaar('daginvoer')) uit.push({ naam: 'Nieuwe daginvoer', sub: 'Actie', trefwoorden: 'dag invoer toevoegen', doe: function () { WIB.document.openDagDialoog(WIB.hulp.isoDatum(new Date())); } });
+    uit.push({ naam: 'Instellingen', sub: 'Actie', trefwoorden: 'instellingen', doe: function () { const k = document.querySelector('[data-act="open-settings"]'); if (k) k.click(); } });
+    uit.push({ naam: 'Hulp', sub: 'Actie', trefwoorden: 'help uitleg', doe: function () { document.getElementById('hulpknop').click(); } });
+    uit.push({ naam: 'Licht of donker', sub: 'Actie', trefwoorden: 'thema wisselen', doe: function () { document.getElementById('themaknop').click(); } });
+    if (bron) dossierCodes().forEach(function (c) {
+      if (zaTabZichtbaar('dossier')) uit.push({ naam: 'Dossier ' + c, sub: 'Code', trefwoorden: '', doe: function () { document.getElementById('tab-dossier').click(); toonDossier(c); } });
+      uit.push({ naam: 'Notities ' + c, sub: 'Code', trefwoorden: 'openen', doe: function () { open(c, ''); } });
+    });
+    return uit;
+  }
+  // een tekst met de gezochte woorden gemarkeerd (veilig: eerst escapen)
+  function zaMarkeer(tekst, woorden) {
+    let h = esc(tekst);
+    woorden.filter(function (w) { return w.length > 1; }).forEach(function (w) {
+      h = h.replace(new RegExp('(' + escRe(esc(w)) + ')(?![^<]*>)', 'gi'), '<mark>$1</mark>');
+    });
+    return h;
+  }
+  function zaToon() {
+    const q = zaZoek.value, beurt = ++zaBeurt;
+    const kd = WIB.kern.document, historie = [];
+    ['werkdruk', 'instellingen', 'notities'].forEach(function (k) { kd.parseHistorie(WIB.document.historieTekst(k) || '').forEach(function (v) { historie.push(v); }); });
+    const bronnen = {
+      acties: zaActies(),
+      werkdruk: WIB.document.heeftBron() ? WIB.document.tekst() : '',
+      notities: zaNotities || [],
+      daginvoer: zaTabZichtbaar('daginvoer') ? kd.parseDaginvoer(WIB.document.daginvoerTekst() || '') : [],
+      historie: zaTabZichtbaar('historie') ? historie : []
+    };
+    const r = zoekAlles(bronnen, q);
+    if (beurt !== zaBeurt) return;
+    zaKeuzes = []; let h = '';
+    const kop = function (titel, g) { return '<li class="za-groep" role="presentation">' + esc(titel) + ' <span class="muted">' + g.aantal + '</span></li>'; };
+    const item = function (titel, sub, doe) {
+      const i = zaKeuzes.length; zaKeuzes.push(doe);
+      return '<li class="za-item" role="option" id="za-o-' + i + '" data-za="' + i + '" aria-selected="false"><span class="za-titel">' + titel + '</span><span class="za-sub">' + sub + '</span></li>';
+    };
+    const meer = function (g) { return g.aantal > g.items.length ? '<li class="za-meer muted" role="presentation">en nog ' + (g.aantal - g.items.length) + '; maak de zoekopdracht preciezer</li>' : ''; };
+    if (r.acties.aantal) h += kop(q.trim() ? 'Tabbladen en acties' : 'Ga naar', r.acties) + r.acties.items.map(function (a) { return item(zaMarkeer(a.naam, r.woorden), esc(a.sub), a.doe); }).join('') + meer(r.acties);
+    if (r.werkdruk.aantal) h += kop('werkdruk.md', r.werkdruk) + r.werkdruk.items.map(function (x) {
+      return item(zaMarkeer(x.tekst, r.woorden), 'regel ' + (x.regel + 1) + (x.kop ? ' · ' + esc(x.kop) : ''), function () { if (r.woorden.length === 1) WIB.document.zetZoekterm('document', q.trim()); WIB.document.springNaarRegel(x.regel); });
+    }).join('') + meer(r.werkdruk);
+    if (r.notities.aantal) h += kop('Notities', r.notities) + r.notities.items.map(function (x) {
+      return item(zaMarkeer(x.tekst, r.woorden), esc(x.code) + (x.titel && x.titel !== x.code ? ' · ' + esc(x.titel.replace(new RegExp('^' + escRe(x.code) + '\\s*·?\\s*'), '')) : '') + (x.kop ? ' · ' + esc(x.kop) : ''),
+        function () { const o = open(x.code, ''); if (o) o.then(function () { if (isOpen() && huidig && huidig.nr === x.code) naarNotitieRegel(x.regel); }); });
+    }).join('') + meer(r.notities);
+    if (r.daginvoer.aantal) h += kop('Daginvoer', r.daginvoer) + r.daginvoer.items.map(function (x) {
+      return item(zaMarkeer(x.tekst, r.woorden), esc(datumLang(x.datum)) + ' ' + esc(x.tijd.slice(0, 5)) + (x.meer ? ' · nog ' + x.meer + ' in deze invoer' : ''),
+        function () { WIB.document.zetZoekterm('daginvoer', nlTekst(new Date(x.datum + 'T00:00:00'))); WIB.document.toonTab('daginvoer'); });
+    }).join('') + meer(r.daginvoer);
+    if (r.historie.aantal) h += kop('Historie', r.historie) + r.historie.items.map(function (x) {
+      return item((x.teken === '-' ? '− ' : '+ ') + zaMarkeer(x.tekst, r.woorden), esc(x.bestand) + ' · ' + esc(datumLang(x.datum)) + ' ' + esc(x.tijd.slice(0, 5)),
+        function () { WIB.document.zetZoekterm('historie', nlTekst(new Date(x.datum + 'T00:00:00'))); WIB.document.toonTab('historie'); });
+    }).join('') + meer(r.historie);
+    r.fouten.forEach(function (f) { h += '<li class="za-fout" role="presentation">' + esc('notities/' + f.code + '.md kon niet worden gelezen (' + (f.fout && f.fout.message ? f.fout.message : f.fout) + '); daarin is niet gezocht.') + '</li>'; });
+    zaLijst.innerHTML = h;
+    const totaal = r.werkdruk.aantal + r.notities.aantal + r.daginvoer.aantal + r.historie.aantal;
+    zaStatus.textContent = zaNotities === null ? 'De notities worden gelezen…' : q.trim().length < 2 ? 'Typ minstens twee tekens om in je tekst te zoeken.' :
+      totaal ? totaal + (totaal === 1 ? ' treffer' : ' treffers') + ' in je tekst' : 'Niets gevonden in je tekst.';
+    zaKies(zaKeuzes.length ? 0 : -1);
+  }
+  function zaKies(i) {
+    zaActief = i;
+    zaLijst.querySelectorAll('.za-item').forEach(function (el) { const ja = +el.getAttribute('data-za') === i; el.setAttribute('aria-selected', ja ? 'true' : 'false'); el.classList.toggle('actief', ja); if (ja) el.scrollIntoView({ block: 'nearest' }); });
+    if (i >= 0) zaZoek.setAttribute('aria-activedescendant', 'za-o-' + i); else zaZoek.removeAttribute('aria-activedescendant');
+  }
+  function zaSluit() { if (!zaOpen()) return; zaVlak.hidden = true; WIB.venster.sluit(zaVlak); }
+  function zaDoe(i) {
+    const doe = zaKeuzes[i];
+    if (!doe) return;
+    zaSluit();
+    doe();
+  }
+  function zoekInAlles() {
+    if (zaOpen()) { zaZoek.focus(); zaZoek.select(); return; }
+    zaVlak.hidden = false;
+    WIB.venster.open(zaVlak, { sluit: zaSluit, achtergrond: true, focus: zaZoek, toetsen: function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); if (zaKeuzes.length) zaKies((zaActief + (e.key === 'ArrowDown' ? 1 : -1) + zaKeuzes.length) % zaKeuzes.length); return true; }
+      if (e.key === 'Enter' && document.activeElement === zaZoek) { e.preventDefault(); clearTimeout(zaTimer); if (zaTimer) { zaTimer = null; zaToon(); } zaDoe(zaActief); return true; }
+      return false;
+    } });
+    zaZoek.select();
+    zaNotities = null;
+    zaToon();
+    zaLeesNotities().then(function (n) { zaNotities = n; if (zaOpen()) zaToon(); });
+  }
+  zaZoek.addEventListener('input', function () { clearTimeout(zaTimer); zaTimer = setTimeout(function () { zaTimer = null; zaToon(); }, 120); });
+  zaLijst.addEventListener('mousemove', function (e) { const el = e.target.closest('.za-item'); if (el && +el.getAttribute('data-za') !== zaActief) zaKies(+el.getAttribute('data-za')); });
+  zaLijst.addEventListener('click', function (e) { const el = e.target.closest('.za-item'); if (el) zaDoe(+el.getAttribute('data-za')); });
+  document.getElementById('zoekallesknop').addEventListener('click', zoekInAlles);
+  document.addEventListener('keydown', function (e) {
+    if (!(e.ctrlKey || e.metaKey) || e.altKey || e.shiftKey || (e.key !== 'k' && e.key !== 'K')) return;
+    if (WIB.venster.isOpen() && !zaOpen()) return;   // niet over een ander venster heen
+    e.preventDefault(); e.stopPropagation();
+    zoekInAlles();
+  }, true);
+  // de cursor op een regel van de notities (0-based), en die regel in beeld
+  function naarNotitieRegel(regel) {
+    if (wysiwyg()) {
+      const lic = licVerborgen(ta.value);   // een licentieregel staat verborgen (v225): dan de eerste regel eronder
+      if (lic && regel >= lic.van && regel <= lic.tot) regel = Math.min(lic.tot + 1, ta.value.split('\n').length - 1);
+      editor.teken(ta.value, regel);
+      const sel = window.getSelection(), n = sel && sel.rangeCount ? sel.getRangeAt(0).startContainer : null, el = n && (n.nodeType === 1 ? n : n.parentNode);
+      if (el && el.scrollIntoView) el.scrollIntoView({ block: 'center' });
+      return;
+    }
+    const regels = ta.value.split('\n'), pos = regels.slice(0, regel).join('\n').length + (regel ? 1 : 0), eind = pos + (regels[regel] || '').length;
+    ta.focus(); ta.setSelectionRange(pos, eind);
+    ta.scrollTop = Math.max(0, regel * (parseFloat(getComputedStyle(ta).lineHeight) || 20) - ta.clientHeight / 3);
+  }
+
   window.WIB.notities = {
+    zoekInAlles: zoekInAlles,
     open: open,
     // de tekst van de notities bij een code: { tekst, lm }; met een map van schijf, anders uit het geheugen (v161)
     lees: function (nr) { return lees(sleutel(nr)); },
