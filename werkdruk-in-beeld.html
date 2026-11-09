@@ -1083,6 +1083,7 @@ tr.jump:hover td { background: var(--accent-soft); }
   .mm-wortel text { fill: #fff; font-size: var(--fs-body); font-weight: 600; }
   .mm-wortel text.taken, .mm-wortel text.taken.klaar { fill: rgba(255, 255, 255, .85); }
   .mm-lijn { fill: none; stroke-width: 2; opacity: .85; }
+  .mm-lijn.mm-geen-uren { opacity: .4; }   /* v235: Dikte naar uren aan, en onder deze tak staan geen uren */
   .mm-urgent rect { fill: var(--urgent-vlak) !important; stroke: var(--urgent-vlak) !important; stroke-dasharray: none; }
   .mm-urgent text, .mm-urgent text.taken, .mm-urgent text.taken.klaar { fill: #fff; }
   .mm-urgent:hover rect, .mm-urgent:focus rect { stroke: var(--inkt) !important; }
@@ -1504,7 +1505,9 @@ body {
 .za-meer, .za-fout { padding: 4px 8px; font-size: var(--fs-s); }
 .za-fout { color: var(--urg); }
 .za-tip { font-size: var(--fs-xs); color: var(--muted); margin: 8px 2px 0; }   /* zwaarder dan .hulp, die (sinds v134 samengevoegd) later staat */
-#notitievenster .hulp-vlak { max-width: 1280px; width: 96vw; height: 90vh; max-height: 90vh; display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+#notitievenster .hulp-vlak { max-width: 1280px; width: 96vw; height: 90vh; max-height: 90vh; display: flex; flex-direction: column; padding: 0; overflow: hidden; position: relative; }
+/* v236: je sleept een bestand boven het notitievenster; de tekst staat in data-sleep */
+#notitievenster .hulp-vlak[data-sleep]::after { content: attr(data-sleep); position: absolute; inset: 8px; z-index: 3; display: flex; align-items: center; justify-content: center; padding: 16px; text-align: center; border: 2px dashed var(--accent); border-radius: var(--radius-l, 16px); background: var(--accent-soft); color: var(--ink); font-size: var(--fs-kop-3); font-weight: 600; pointer-events: none; }
 .nt-kop { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--line); }
 .nt-kop h2 { margin: 0; font-size: var(--fs-kop-2); font-family: var(--font-display); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nt-status { font-size: var(--fs-m); color: var(--muted); white-space: nowrap; }
@@ -1603,6 +1606,7 @@ body {
 .dossier-lijst { list-style: none; margin: 0; padding: 0; font-size: var(--fs-l); }
 .dossier-lijst > li { padding: 5px 0; border-bottom: 1px solid var(--line); }
 .dossier-lijst time { font-weight: 700; margin-right: 6px; }
+.dossier-lijst a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 .dossier-dag .document { margin: 2px 0 0; padding: 0; font-size: var(--fs-body); line-height: 1.55; }
 .dossier-dag .document > * { margin-top: 0; margin-bottom: 4px; }
 .dossier-tijdlijn .document { margin: 4px 0 0; padding: 0; font-size: var(--fs-body); line-height: 1.55; }
@@ -2234,6 +2238,12 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   <section class="releasenotes" id="releasenotes" role="tabpanel" aria-labelledby="tab-releasenotes" hidden>
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
+
+    <div class="release"><h2><span class="versie">v237</span> Mindmap: Dikte naar uren staat standaard aan <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>De knop <i>Dikte naar uren</i> in de mindmap staat voortaan aan als je de pagina opent: de lijn naar een tak is meteen dikker naarmate er meer uren per jaar aan werkdruktaken onder staan. Met de knop zet je het uit; dan zijn alle takken weer even dik. Die keuze geldt tot je de pagina herlaadt. Staan er nergens taken met uren, dan blijven alle takken even dik, zoals voorheen; de melding daarover krijg je alleen als je de knop zelf aanzet, niet bij het openen.</li><li><span class="soort nieuw">nieuw</span>Test: in een echte browser volgt de dikte de uren zonder dat je iets aanklikt, staat de knop op aan, en komt er bij het openen geen melding als er nergens uren staan. De test faalt op v236. Hulp bijgewerkt (Document en Mindmap). Geen handmatige actie nodig.</li></ul></div>
+
+    <div class="release"><h2><span class="versie">v236</span> Bijlagen per project <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Bij de notities van een code kun je bestanden bewaren. Sleep een of meer bestanden naar het notitievenster, of kies ze met de nieuwe knop <i>Bijlage…</i>. De pagina zet een kopie in <code>notities/&lt;code&gt;/</code> (een map met de code als naam, naast het notitiebestand) en zet in je notities een opsommingspunt met een link naar het bestand, onder de regel van de cursor; daarna sla je de notities op. Tijdens het slepen staat in het venster wat er gaat gebeuren. Een bestand dat je naar het notitievenster sleept, wordt niet meer als document geopend.</li><li><span class="soort nieuw">nieuw</span>Er wordt nooit een bijlage overschreven. Staat er al een bestand met dezelfde naam en dezelfde inhoud, dan komt er alleen een link bij; is de inhoud anders, dan krijgt het nieuwe bestand een volgnummer (<code>offerte (2).pdf</code>). Lukt het kopiëren niet, dan blijft er geen half bestand en geen link achter en lees je per bestand waarom. Een map kan geen bijlage zijn.</li><li><span class="soort nieuw">nieuw</span>Een bijlage open je met Ctrl+klik (Mac: Cmd+klik) op de link in je notities, of met een klik in het tabblad <b>Dossier</b>, dat een nieuw onderdeel <i>Bijlagen</i> heeft met alle bestanden in de map van de code en hun grootte. De link is een pad vanaf het HTML-bestand: hij werkt als <code>werkdruk-in-beeld.html</code> in je gegevensmap staat.</li><li><span class="soort nieuw">nieuw</span><b>Code omzetten</b> neemt de bijlagen mee: de controle noemt ze, bij Omzetten worden ze naar de map van de nieuwe code gekopieerd en met het origineel vergeleken, de links in je notities en in de meegaande notities van andere projecten wijzen daarna naar de nieuwe map, en pas na het opslaan van werkdruk.md gaat de oude map weg. Mislukt een stap, dan is alles terug zoals het was. Omzetten kan niet als in de nieuwe map al een bestand met dezelfde naam staat of als in de oude map een submap staat. Een link naar een bijlage in werkdruk.md of de daginvoer staat bij de vermeldingen "in een link of pad" standaard uit; de controle wijst je daarop.</li><li><span class="soort nieuw">nieuw</span>Beperkingen: bijlagen bewaren kan alleen met een map waarin de pagina kan schrijven (Chrome of Edge; niet in Firefox en Safari, en niet in het voorbeeld). Zonder zo'n map past Code omzetten wel de links aan, maar hernoem je de map met bijlagen zelf. Een bijlage wordt voor het vergelijken in het geheugen gelezen; voor heel grote bestanden (honderden MB) is dit niet bedoeld.</li><li><span class="soort nieuw">nieuw</span>Tests: de link, de vrije naam, het vervangen van de code in een link en de plek in het tekstvak (kern); in een echte browser met een nagebootste map het slepen en de knop, dezelfde naam, een schrijffout, zonder map, Ctrl+klik, Dossier, en Code omzetten met bijlagen (verplaatsen, terugdraaien, botsende naam, submap). Alle nieuwe tests falen op v235. De golden masters zijn ongewijzigd. Hulp bijgewerkt (Notities per code, Dossier). Geen handmatige actie nodig.</li></ul></div>
+
+    <div class="release"><h2><span class="versie">v235</span> Mindmap: dikte van een tak naar de uren <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In de werkbalk van de mindmap staat de knop <i>Dikte naar uren: aan/uit</i>. Staat hij aan, dan wordt de lijn naar een tak dikker naarmate er meer uren per jaar aan werkdruktaken onder staan: de zwaarste tak is 16 px, de andere zijn naar verhouding dunner (vanaf 2 px), en een tak zonder uren is dun en vaag. Een kop telt alle taken eronder mee, ook onder subkoppen en in ingeklapte takken. Het zijn dezelfde uren als in de labels in Document, voor het jaar dat je bij de werkdruk bekijkt; de tooltip van een tak noemt het aantal. Wijzigen de taken of het jaar, dan volgt de mindmap. Staan er nergens taken met uren, dan blijven alle takken even dik en verschijnt een melding. Standaard staat de knop uit en is de mindmap zoals voorheen.</li><li><span class="soort nieuw">nieuw</span>Tests: de berekening van de dikte (kern), en in een echte browser de dikte per tak, de tooltip, het volgen van een wijziging van buitenaf en de melding zonder uren (falen op v234). Hulp bijgewerkt (Document en mindmap). Geen handmatige actie nodig.</li></ul></div>
 
     <div class="release"><h2><span class="versie">v234</span> Licenties op een telefoon <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Op een smal scherm (zoals een telefoon) liepen in het tabblad Licenties de status, de datum, de licentie en de kop <i>Geldig tot en met</i> over de kolom ernaast heen, zodat teksten door elkaar stonden. Nu staat op een scherm tot 600 px breed elke licentie als blokje onder elkaar: de status en de datum naast elkaar, daaronder de licentie en het project. Lange woorden breken af. Tik op een blokje om de notities te openen, zoals voorheen. Op een breder scherm verandert niets.</li><li><span class="soort nieuw">nieuw</span>De test die deze fout vastlegde (F-lic1) is geen todo meer; een nieuwe test controleert de blokjes op 400 px en de ongewijzigde tabel op 1400 px (faalt op v233). Hulp niet geraakt. Geen handmatige actie nodig.</li></ul></div>
     <div class="release"><h2><span class="versie">v233</span> Mindmap: projectnummers aan of uit <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In de werkbalk van de mindmap staat de knop <i>Projectnummers: aan/uit</i>. Daarmee zet je de code vooraan een kop of punt (projectnummers, TPO-nummers en de andere codes uit Instellingen → Codes voor notities) aan of uit. Standaard staat het uit, zodat de mindmap rustiger is: van <i>482828 CRM invoeren</i> zie je dan <i>CRM invoeren</i>. Bestaat een knoop alleen uit een code, dan blijft die staan. Zoeken op een nummer en de tooltip van een knoop werken met het volledige nummer.</li><li><span class="soort nieuw">nieuw</span>Test in een echte browser: standaard geen nummers, met de knop wel en weer niet, zoeken op een nummer vindt de knoop (faalt op v232). Hulp bijgewerkt (Document en mindmap). Geen handmatige actie nodig.</li></ul></div>
@@ -3452,6 +3462,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <button type="button" class="knop" id="mm-lijsten" aria-pressed="true" title="Opsommingen onder de koppen wel of niet tonen">Opsommingen: aan</button>
       <button type="button" class="knop" id="mm-taken" aria-pressed="false" title="Bij elke kop het aantal afgevinkte en alle taken eronder (bijvoorbeeld 1/2) wel of niet tonen">Taken: uit</button>
       <button type="button" class="knop" id="mm-nummers" aria-pressed="false" title="De codes vooraan een kop of punt (projectnummers, TPO-nummers en andere codes uit Instellingen) wel of niet tonen">Projectnummers: uit</button>
+      <button type="button" class="knop" id="mm-uren" aria-pressed="true" title="De dikte van een tak laten meegroeien met de uren per jaar van de werkdruktaken eronder">Dikte naar uren: aan</button>
     </div>
     <div class="mm-hint">Klik op een tak om in of uit te klappen · dubbelklik opent de kop in het document · slepen verplaatst · scrollen zoomt</div>
   </section>
@@ -3514,6 +3525,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <div class="nt-werkbalk">
       <button type="button" class="knop" id="nt-opslaan" title="Opslaan (Ctrl+S); elke opslag bewaart ook een volledige versie">Opslaan</button>
       <button type="button" class="knop" id="nt-datum" title="Een kop met de datum van vandaag invoegen op de plek van de cursor">Datum invoegen</button>
+      <button type="button" class="knop" id="nt-bijlage" hidden title="Een bestand als bijlage bij dit project bewaren (in de map notities/, onder de code) en de link in je notities zetten; een bestand naar dit venster slepen kan ook">Bijlage…</button>
       <button type="button" class="knop" id="nt-omzetten" title="Deze code overal omzetten naar een andere code, en het notitiebestand hernoemen">Code omzetten…</button>
       <button type="button" class="knop" id="nt-download" hidden title="Deze notities in je downloadmap zetten">Downloaden</button>
       <button type="button" class="knop" id="nt-dossier" title="Alles over deze code op één scherm (tabblad Dossier)">Dossier</button>
@@ -3823,7 +3835,8 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <p>Het tabblad <b>Document</b> toont <code>werkdruk.md</code> als opgemaakte tekst. Elke kop vormt met de inhoud eronder een sectie die je met een klik op het pijltje vóór de kop in- en uitklapt. Standaard staan <code>##</code>- en <code>###</code>-koppen ingeklapt; klap je een <code>###</code> open, dan klapt alles eronder volledig uit. Bovenaan staat een inklapbare index met alle koppen, met de knoppen <i>Alles inklappen</i> en <i>Alles uitklappen</i>; elke kop heeft een link <i>naar index</i>. In de index staat bij koppen met afvinkbare taken de voortgang, bijvoorbeeld 3/5. Die telt ook mee terwijl je typt of afvinkt in tekst die nog niet is opgeslagen. Achter een werkdruktaak staat een label met de frequentie, de uren per keer en de uren per jaar, bijvoorbeeld <i>wekelijks · 2,00 u · 104,00 u per jaar</i>; klik erop om de taak in de takenlijst te openen.</p>
     <p>Je kunt direct in <b>Document</b> bewerken: klik in de tekst en typ. <kbd>Enter</kbd> in een opsommingspunt geeft een nieuw punt (in een taak een nieuwe taak; een nieuw punt wordt niet vanzelf urgent), <kbd>Enter</kbd> in een leeg punt springt een niveau terug of maakt er een alinea onder de lijst van, <kbd>Enter</kbd> aan het eind van een kop geeft een gewone alinea, <kbd>Backspace</kbd> vooraan een taak haalt het vinkje weg, <kbd>Tab</kbd> en <kbd>Shift</kbd>+<kbd>Tab</kbd> laten een punt in- en uitspringen, en <kbd>Ctrl</kbd>+<kbd>B</kbd> en <kbd>Ctrl</kbd>+<kbd>I</kbd> maken tekst vet of schuin. Plakken gaat als platte tekst. Kopieer of knip je meer dan één regel uit Document (punten, taken, alinea's), dan gaan ze als geheel mee: met hun vinkje, urgent en subpunten, maar zonder werkdruklabels of "naar index". Plak je ze in Document, dan komen ze onder het punt of de alinea waar de cursor staat. Zo verplaats je taken met <kbd>Ctrl</kbd>+<kbd>X</kbd> en <kbd>Ctrl</kbd>+<kbd>V</kbd>. <kbd>Enter</kbd> in een codeblok geeft een nieuwe regel in de code; in een tabelcel kan dat niet, want een tabel in markdown heeft één regel per rij. Links, codelabels en werkdruklabels kun je niet doortypen, wel aanklikken. De werkbalk bovenaan blijft onder de balk staan als je scrolt. Hij heeft dezelfde knoppen als Bewerken, die werken op de plek van de cursor: <i>+ Nieuwe taak</i> (de taak komt standaard bij de cursor, onder het punt, de kop of de alinea; in het invulvenster kun je bij <i>Onder kop</i> ook een andere plek kiezen), <i>+ Volgnummer</i> (het nummer komt vooraan het punt, de kop of de alinea, ook in een citaat), <i>✎ Taak bewerken</i> (<kbd>F2</kbd>), <i>Urgent</i> (het punt, de alinea of de kop), <i>Taak</i> (een nieuwe taak onder het punt, met de cursor erin; in een genummerde lijst met het volgende nummer, in een citaat binnen het citaat), <i>Taak ⇄ punt</i> (van het punt bij de cursor een taak met vinkje maken, of van een taak weer een gewoon punt; een alinea wordt een taak; met een selectie wissel je alle punten erin tegelijk; urgent, subpunten en de rest van de regel blijven) en <i>In/uitgeklapt</i>: daarmee bepaal je hoe de kop bij de cursor opent als de pagina wordt geladen, met elke klik de volgende stand: <i>gesloten</i>, <i>geopend</i> of <i>standaard</i> (<code>##</code>- en <code>###</code>-koppen dicht, andere open); de sectie volgt meteen en een melding noemt de stand. Met de keuzelijst <i>Alinea / Kop 1–6</i> zet je de regel bij de cursor om naar een alinea of een kop van niveau 1 tot en met 6; de lijst laat zien wat er nu staat. Een opsommingspunt zonder subpunten kan ook een kop worden. Verder <b>B</b> en <i>I</i> voor vet en schuin, de pijltjes <i>Ongedaan maken</i> en <i>Opnieuw</i> (<kbd>Ctrl</kbd>+<kbd>Z</kbd> en <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>), <i>Wijzigingen weggooien</i>, en de status: of er iets niet is opgeslagen. Opslaan gaat zoals in Bewerken, met <kbd>Ctrl</kbd>+<kbd>S</kbd> of het label <i>Niet opgeslagen</i>. Lukt opslaan niet (bijvoorbeeld zonder toestemming, of omdat een ander programma het bestand bezet houdt), dan zie je dat met de reden in de status en in een melding; je tekst blijft staan en <kbd>Ctrl</kbd>+<kbd>S</kbd> probeert het opnieuw. Alleen wat je wijzigt, verandert in <code>werkdruk.md</code>: de rest van het bestand blijft teken voor teken gelijk, ook de tekens van je opsommingen en de verborgen codes. Zijn er niet-opgeslagen wijzigingen, dan hoort een vinkje daarbij en wordt het pas met de rest opgeslagen. Met <kbd>Esc</kbd> stop je met typen, zodat de sneltoetsen weer werken. Typ of plak je een code, zoals <code>- </code> of <code># </code> vooraan een regel, <code>*nadruk*</code>, <code>!!urgent!!</code> of <code>&lt;!-- urgent --&gt;</code>, dan staat die eerst letterlijk op het scherm. Zodra je de regel verlaat (met de pijltjes of door ergens anders te klikken), bij opslaan en als je terugkomt in Document, toont Document de echte vorm: een punt, een kop, nadruk of urgent. Wat je dan ziet, is wat er in <code>werkdruk.md</code> komt. De index bovenaan volgt je koppen terwijl je typt. Onder de werkbalk staat, net als in Bewerken, de <i>opzet van een werkdruktaak</i>: staat de cursor in een taak, dan licht het deel op dat je bewerkt (taak, frequentie, uur per keer, wanneer, locatie of opmerkingen) en zijn ontbrekende delen gemarkeerd; met <i>Hoe schrijf ik een taak?</i> open je de uitleg.</p>
     <p>Wijzigt een ander programma (bijvoorbeeld Kladblok) het bestand, dan ververst de pagina: meteen als de browser wijzigingen zelf kan melden, anders binnen enkele seconden. Wijs het label <i>Ververst automatisch</i> in de balk aan om te zien welke van de twee. Gewijzigde secties lichten oranje op en krijgen een oranje stip; met de knop <i>n secties gewijzigd</i> of de toets <kbd>w</kbd> spring je erlangs.</p>
-    <p>Het tabblad <b>Mindmap</b> toont de koppen als een boom rond de <code>#</code>-kop. Klik op een tak om hem uit te klappen (zijn er onder de tak nog punten verborgen, dan worden die meteen getoond); klik nogmaals om hem in te klappen. Dubbelklik om naar die plek in het document te gaan, sleep om te verplaatsen en scroll om te zoomen. Standaard zie je koppen 1 tot en met 3; een gestippeld bolletje geeft het aantal verborgen opsommingspunten (klik erop of druk op <kbd>p</kbd>). Een kop met de naam "Verwerkt" of met <code>&lt;!-- ingeklapt --&gt;</code> start dicht. De knoppen boven de mindmap: <i>Passend</i> (alles in beeld), <i>+</i> en <i>−</i> (zoomen), <i>Alles uitklappen</i>, <i>Alles inklappen</i>, <i>Standaard</i> (terug naar koppen 1 tot en met 3, zonder opsommingen), <i>Opsommingen: aan/uit</i> (de punten onder de koppen wel of niet tonen), <i>Taken: aan/uit</i> (bij elke kop het aantal afgevinkte taken en alle taken eronder, zoals 1/2; standaard uit) en <i>Projectnummers: aan/uit</i> (de code vooraan een kop of punt, zoals 482828 of 2026-117, wel of niet tonen; welke codes dat zijn, stel je in bij Instellingen → Codes voor notities; standaard uit). Ook als de projectnummers uit staan, vind je een kop of punt met het zoekveld op zijn nummer, en zie je het volledige nummer als je de knoop aanwijst.</p>
+    <p>Het tabblad <b>Mindmap</b> toont de koppen als een boom rond de <code>#</code>-kop. Klik op een tak om hem uit te klappen (zijn er onder de tak nog punten verborgen, dan worden die meteen getoond); klik nogmaals om hem in te klappen. Dubbelklik om naar die plek in het document te gaan, sleep om te verplaatsen en scroll om te zoomen. Standaard zie je koppen 1 tot en met 3; een gestippeld bolletje geeft het aantal verborgen opsommingspunten (klik erop of druk op <kbd>p</kbd>). Een kop met de naam "Verwerkt" of met <code>&lt;!-- ingeklapt --&gt;</code> start dicht. De knoppen boven de mindmap: <i>Passend</i> (alles in beeld), <i>+</i> en <i>−</i> (zoomen), <i>Alles uitklappen</i>, <i>Alles inklappen</i>, <i>Standaard</i> (terug naar koppen 1 tot en met 3, zonder opsommingen), <i>Opsommingen: aan/uit</i> (de punten onder de koppen wel of niet tonen), <i>Taken: aan/uit</i> (bij elke kop het aantal afgevinkte taken en alle taken eronder, zoals 1/2; standaard uit), <i>Projectnummers: aan/uit</i> (de code vooraan een kop of punt, zoals 482828 of 2026-117, wel of niet tonen; welke codes dat zijn, stel je in bij Instellingen → Codes voor notities; standaard uit) en <i>Dikte naar uren: aan/uit</i> (de lijn naar een tak wordt dikker naarmate er meer uren per jaar aan werkdruktaken onder staan; standaard aan). Ook als de projectnummers uit staan, vind je een kop of punt met het zoekveld op zijn nummer, en zie je het volledige nummer als je de knoop aanwijst.</p>
+    <p>Met <i>Dikte naar uren</i> aan zie je waar je tijd zit; zo opent de mindmap. Zet je de knop uit, dan zijn alle takken even dik. Die keuze geldt tot je de pagina herlaadt. De zwaarste tak is het dikst, de andere takken zijn naar verhouding dunner, en een tak waar geen uren onder staan is dun en vaag. Een kop telt alle taken eronder mee, ook onder subkoppen en in ingeklapte takken. Het zijn dezelfde uren per jaar als in de labels in Document, voor het jaar dat je bij de werkdruk bekijkt. Wijs een tak aan om het aantal uren te zien. Staan er nergens taken met uren, dan blijven alle takken even dik; zet je de knop dan zelf aan, dan krijg je daar een melding van.</p>
   </section>
 
   <section id="h-bewerken">
@@ -3869,6 +3882,8 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <ul>
       <li>Klik op het label: je bewerkt de notities zoals in Document, in de opgemaakte tekst. <kbd>Enter</kbd>, <kbd>Backspace</kbd>, <kbd>Tab</kbd>, vet en schuin, plakken en verplaatsen werken zoals daar (zie <i>Document en mindmap</i>), en wat je niet aanraakt, blijft in het bestand teken voor teken gelijk. De balk boven de tekst heeft <i>Urgent</i>, <i>Taak</i>, <i>Taak ⇄ punt</i>, <i>Tekstsoort</i> (alinea of kop 1–6), <b>B</b>, <i>I</i> en ongedaan maken en opnieuw (<kbd>Ctrl</kbd>+<kbd>Z</kbd>, <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>). Een vinkje zet je met een klik. Wil je liever de markdown typen, met de opmaak ernaast, zet dan in Instellingen de schakelaar <i>Notities bewerken zoals in Document</i> uit. Een nieuwe notitie begint met een titel en een kop met de datum van vandaag.</li>
       <li><i>Datum invoegen</i> zet een kop met de datum van vandaag onder de regel bij de cursor (in een lijst onder de hele lijst); in de markdownweergave op de plek van de cursor.</li>
+      <li><i>Bijlage…</i> bewaart een bestand bij het project. Kies een of meer bestanden, of sleep ze vanuit de Verkenner of Finder naar het notitievenster. De pagina zet een kopie in <code>notities/123456/</code> (een map met de code als naam, naast je notitiebestand) en zet in je notities een opsommingspunt met een link naar het bestand, onder de regel van de cursor. Sla daarna je notities op om de link te bewaren. Er wordt nooit een bijlage overschreven: staat er al een bestand met die naam en dezelfde inhoud, dan komt er alleen een link bij; is de inhoud anders, dan krijgt het nieuwe bestand een volgnummer, zoals <code>offerte (2).pdf</code>. Een map kun je niet als bijlage bewaren. Een bestand dat je naar het notitievenster sleept, wordt niet als document geopend. Zonder map waarin de pagina kan schrijven (dus ook in Firefox en Safari) is de knop er niet.</li>
+      <li>Een bijlage open je met <kbd>Ctrl</kbd>+klik (op een Mac <kbd>Cmd</kbd>+klik) op de link in je notities, of met een gewone klik in het tabblad Dossier. Het bestand opent in een nieuw tabblad; wat de browser niet zelf kan tonen, biedt hij aan als download. De link is een pad vanaf de plek van het HTML-bestand. Hij werkt dus als <code>werkdruk-in-beeld.html</code> in je gegevensmap staat, naast werkdruk.md. Staat het HTML-bestand ergens anders, dan staat de bijlage wel in de map, maar opent de link niet.</li>
       <li><i>Dossier</i> sluit het venster en toont alles over deze code in het tabblad Dossier (heb je nog niet opgeslagen, dan vraagt de pagina eerst of je dat wilt weggooien).</li>
       <li>Opslaan met de knop, met <kbd>Ctrl</kbd>+<kbd>S</kbd> of met een klik op het oranje label <i>Niet opgeslagen · opslaan</i> bovenaan, dat net als in de balk verschijnt zodra je iets wijzigt; dat slaat alleen de notities op, niet werkdruk.md. <kbd>Esc</kbd> sluit; heb je nog niet opgeslagen, dan vraagt de pagina eerst of je dat wilt weggooien.</li>
       <li>Wijzigt een ander programma het notitiebestand, dan neemt het venster dat over zolang je zelf niets hebt gewijzigd. Heb je wel iets gewijzigd, dan vraagt het venster bij opslaan of je toch wilt opslaan; doe je dat, dan komt de andere versie eerst bij de versies, zodat je hem kunt bekijken en terugzetten. Kan een notitiebestand niet worden gelezen (bijvoorbeeld omdat de browser geen toestemming meer heeft voor de map), dan opent het venster niet en zie je een melding. Zo kan er nooit een leeg venster over je bestaande notities heen worden opgeslagen.</li>
@@ -3876,6 +3891,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h4>Bestanden en versies</h4>
     <ul>
       <li>De notities staan in <code>notities/123456.md</code> in je map. Komt dezelfde code op meer regels voor, dan delen ze één notitiebestand. De map <code>notities</code> wordt pas aangemaakt bij je eerste opslag.</li>
+      <li>Bijlagen staan in <code>notities/123456/</code>: een map met de code als naam, met daarin de bestanden zelf. Je mag er ook zelf bestanden in zetten; het tabblad Dossier toont alles wat er staat. Haal je een bestand weg, dan blijft de link in je notities staan tot je die zelf weghaalt. De pagina verwijdert geen bijlagen; alleen Code omzetten verplaatst ze naar de map van de nieuwe code.</li>
       <li>Elke opslag bewaart de volledige tekst in <code>notities/123456_versies.md</code>. Onder <i>Versies</i> zie je per versie wat er veranderde; met <i>Bekijken</i> lees je een oude versie zonder je tekst te wijzigen, met <i>Terugzetten</i> zet je hem in het tekstvak (daarna opslaan; dat wordt een nieuwe versie).</li>
       <li>Het verschil van elke opslag komt ook in <code>notities_historie.md</code>, te zien in het tabblad Historie met het filter <i>notities</i>.</li>
       <li>Zonder map, of in Firefox en Safari, blijven nieuwe notities in het geheugen van het tabblad; bewaar ze met <i>Downloaden</i> in het venster en zet ze zelf in de map <code>notities</code>.</li>
@@ -3891,12 +3907,13 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <ul>
       <li>elke vermelding in werkdruk.md, met regelnummer, context en een vinkje per vermelding. Alleen de code als los woord telt (<code>ONB-0021</code> niet). Vermeldingen in een codeblok, tussen backticks, in een link of pad of in een verborgen code staan standaard uit;</li>
       <li>welke notitie- en versiebestanden worden hernoemd;</li>
+      <li>welke bijlagen meegaan: de bestanden in de map van de oude code (<code>notities/ONB-002/</code>) gaan naar de map van de nieuwe code, en de links ernaar in je notities, en in de notities van andere projecten die meegaan, wijzen daarna naar de nieuwe map. Staat in de nieuwe map al een bestand met dezelfde naam, of staat er in de oude map een submap, dan kan omzetten niet en lees je wat je eerst zelf moet doen. Een link naar een bijlage in werkdruk.md of in de daginvoer staat bij de vermeldingen "in een link of pad" en staat standaard uit; vink die aan als de link mee moet;</li>
       <li>of de nieuwe code al notities heeft. Dan kies je zelf: niet omzetten (standaard) of samenvoegen. Bij samenvoegen blijft de bestaande tekst bovenaan staan (alleen de oude code wordt er vervangen) en komt de inhoud van de oude notities eronder, zonder hun titel, onder de kop "Overgenomen van …". Samenvoegen gebeurt nooit vanzelf;</li>
       <li>punten die je eerst moet bevestigen: een code die al voor een ander punt wordt gebruikt, of die bij geen patroon past;</li>
       <li>vermeldingen in daginvoer.md, met een vinkje per vermelding, en de notities van andere projecten waarin de code staat, met een vinkje per project. Standaard gaan ze allemaal mee. Wil je een daginvoer als tijdsbeeld laten staan, vink hem dan uit.</li>
     </ul>
     <p>Omzetten kan niet bij een lege code, spaties of tekens die niet in een bestandsnaam mogen (<code>/ \ : * ? " &lt; &gt; |</code>), bij dezelfde code, bij niet-opgeslagen wijzigingen, of als werkdruk.md of de notities op schijf zijn gewijzigd. Alleen hoofdletters wijzigen (<code>onb-002</code> naar <code>ONB-002</code>) kan wel: dan worden alleen de vermeldingen in werkdruk.md aangepast.</p>
-    <p>Bij <b>Omzetten</b> worden eerst de nieuwe notitiebestanden geschreven en teruggelezen, dan de notities van andere projecten en de daginvoer aangepast, dan werkdruk.md opgeslagen, en pas daarna de oude bestanden verwijderd. Mislukt een stap vóór het opslaan van werkdruk.md, of kies je bij een conflict voor Annuleren of de versie op schijf, dan wordt alles teruggezet en verandert er niets. Lukt het terugzetten van een bestand niet, dan zegt de pagina welk bestand je zelf moet controleren. Is werkdruk.md eenmaal opgeslagen, dan blijft de omzetting staan: kan een oud bestand daarna niet worden verwijderd, dan zijn je nieuwe notities toch compleet en meldt de pagina welk oud bestand je zelf kunt verwijderen. Het hernoemde notitiebestand krijgt onder de titel de regel <code>Voorheen: 123456 (omgezet op …)</code>. Elke aangepaste notitie van een ander project krijgt een nieuwe versie; de verschillen, ook dat van daginvoer.md, staan in notities_historie.md met de reden erbij. De historie- en versiebestanden zelf worden nooit herschreven: daarin blijft de oude code staan, zodat je altijd kunt terugzien dat 123456 is omgezet naar 654321.</p>
+    <p>Bij <b>Omzetten</b> worden eerst de nieuwe notitiebestanden geschreven en teruggelezen, dan de bijlagen naar de nieuwe map gekopieerd en met het origineel vergeleken, dan de notities van andere projecten en de daginvoer aangepast, dan werkdruk.md opgeslagen, en pas daarna de oude bestanden verwijderd. Mislukt een stap vóór het opslaan van werkdruk.md, of kies je bij een conflict voor Annuleren of de versie op schijf, dan wordt alles teruggezet en verandert er niets. Lukt het terugzetten van een bestand niet, dan zegt de pagina welk bestand je zelf moet controleren. Is werkdruk.md eenmaal opgeslagen, dan blijft de omzetting staan: kan een oud bestand daarna niet worden verwijderd, dan zijn je nieuwe notities toch compleet en meldt de pagina welk oud bestand je zelf kunt verwijderen. Het hernoemde notitiebestand krijgt onder de titel de regel <code>Voorheen: 123456 (omgezet op …)</code>. Elke aangepaste notitie van een ander project krijgt een nieuwe versie; de verschillen, ook dat van daginvoer.md, staan in notities_historie.md met de reden erbij. De historie- en versiebestanden zelf worden nooit herschreven: daarin blijft de oude code staan, zodat je altijd kunt terugzien dat 123456 is omgezet naar 654321.</p>
   </section>
 
   <section id="h-totaal">
@@ -3922,12 +3939,13 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     </ul>
     <p>Daaronder staan, als ze er zijn:</p>
     <ul>
+      <li><b>Bijlagen</b>: de bestanden in <code>notities/&lt;code&gt;/</code>, op naam, met hun grootte. Een klik opent het bestand in een nieuw tabblad. Ook bestanden die je zelf in die map hebt gezet, staan erbij;</li>
       <li><b>Licenties</b> van deze code, met hoe lang ze nog geldig zijn;</li>
       <li><b>Versies</b> van de notities, nieuwste bovenaan, met hoeveel regels erbij en eraf kwamen; <i>Versies bekijken</i> opent het notitievenster met de versies;</li>
       <li><b>Daginvoer</b> waarin de code staat, en de wijzigingen in de <b>Historie</b> over deze code (in de notities, of een gewijzigde regel met de code erin).</li>
     </ul>
     <p>Met de knoppen onder de kopregel open je de notities, zet je er meteen een kop met de datum van vandaag in (<i>Datum invoegen</i>), maak je een <i>Nieuwe taak</i> in werkdruk.md met de code al vooraan, of start je <i>Code omzetten</i>. Je komt ook in het dossier met de knop <b>Dossier</b> in het notitievenster en bij elk detailblok in het Totaaloverzicht.</p>
-    <p>Sla je notities op in het notitievenster, dan werkt het dossier meteen bij. Wil je Dossier niet in de zijbalk, zet het dan uit bij Instellingen → Menu.</p>
+    <p>Sla je notities op in het notitievenster of voeg je er een bijlage toe, dan werkt het dossier meteen bij. Wil je Dossier niet in de zijbalk, zet het dan uit bij Instellingen → Menu.</p>
   </section>
 
   <section id="h-dag">
@@ -4107,7 +4125,8 @@ WIB.hulp = {
     if (WIB.hulp._eens[sleutel]) return false;
     WIB.hulp._eens[sleutel] = true; return true;
   },
-  // Tekst in een bestand schrijven (File System Access API): één route voor alle delen (v130).
+  // Tekst in een bestand schrijven (File System Access API): één route voor alle delen (v130). Sinds v236 mag tekst ook
+  // een bestand of een reeks bytes zijn (een bijlage); achteraan toevoegen is er alleen voor tekst.
   // opties.achteraan: aan het eind toevoegen in plaats van vervangen; opties.voorvoegsel: komt ervoor als het bestand niet leeg is.
   // Geeft het bestand na het schrijven terug (met lastModified).
   schrijf: function (h, tekst, opties) {
@@ -6441,8 +6460,14 @@ WIB.kern.document = (function () {
   }
   // aantal afvinkbare taken in de laatst omgezette tekst (markdownNaarHtml)
   function laatsteTaakAantal() { return taakTeller; }
+  // v235: de dikte (in px) van een tak in de mindmap als "Dikte naar uren" aan staat: evenredig met de uren onder de tak
+  // ten opzichte van de zwaarste tak, van 2 tot 16 px. Een tak zonder uren is 1 px.
+  function takDikte(uren, grootste) {
+    if (!(uren > 0) || !(grootste > 0)) return 1;
+    return Math.round((2 + 14 * Math.min(1, uren / grootste)) * 10) / 10;
+  }
 
-  return { inline, reKenmerk, wisselUrgent, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, vormVan, wisselTaak, tekstsoortRegels };
+  return { inline, reKenmerk, wisselUrgent, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, vormVan, wisselTaak, tekstsoortRegels, takDikte };
 })();
 </script>
 <script data-deel="document">
@@ -6458,7 +6483,7 @@ WIB.kern.document = (function () {
 
   const escapeHtml = WIB.hulp.esc;
   // de DOM-vrije logica (markdown, regels, historie, daginvoer) staat sinds v108 in WIB.kern.document
-  const { reKenmerk, wisselUrgent, losMarkdown, regelsOnder, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen } = WIB.kern.document;
+  const { reKenmerk, wisselUrgent, losMarkdown, regelsOnder, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte } = WIB.kern.document;
 
   /* ---------- Interface ---------- */
 
@@ -8491,6 +8516,16 @@ WIB.kern.document = (function () {
   let mmToonLijsten = true; // opsommingen standaard aan; met de knop uit te zetten
   let mmToonTaken = false;  // het aantal taken (afgevinkt/totaal) bij een kop: standaard uit (v210)
   let mmToonNummers = false; // de code vooraan een kop of punt (projectnummer e.d.): standaard uit (v233)
+  let mmToonUren = true;     // de dikte van een tak naar de uren van de werkdruktaken eronder (v235): standaard aan (v237)
+  let mmUren = {}, mmUrenSleutel = '{}';   // uren per jaar per regel van Document (data-regel), van het werkdrukdeel
+  let mmGrootste = 0;        // de uren onder de zwaarste tak: de maat voor de dikste lijn (0 = nergens uren, of de knop staat uit)
+  // De uren per jaar van alle werkdruktaken in of onder een element; elke regel telt één keer.
+  function mmUrenOnder(el) {
+    const gezien = {}; let som = 0;
+    const tel = function (x) { const r = x.getAttribute('data-regel'); if (r !== null && !gezien[r]) { gezien[r] = true; som += mmUren[r] || 0; } };
+    tel(el); el.querySelectorAll('[data-regel]').forEach(tel);
+    return som;
+  }
   // De titel zoals hij in de knoop staat: zonder de code vooraan (en het scheidingsteken erna) als Projectnummers uit staat.
   // Bestaat de titel alleen uit de code, dan blijft hij staan. Zoeken en de tooltip gebruiken de volledige titel.
   function mmZichtbareTitel(titel) {
@@ -8529,7 +8564,8 @@ WIB.kern.document = (function () {
         taken: vakjes.length ? { klaar: klaar, totaal: vakjes.length } : null,
         urgent: !!sec.querySelector('.urgent:not(.afgerond)'),            // iets in deze sectie is urgent: stip
         zelfUrgent: !!kop.querySelector('.urgent'),                         // de koptekst zelf is urgent: rood vlak
-        ingeklapt: kop.getAttribute('data-inklap') === 'ingeklapt'
+        ingeklapt: kop.getAttribute('data-inklap') === 'ingeklapt',
+        uren: mmToonUren ? mmUrenOnder(sec) : 0
       };
       let lijstNr = 0;
       Array.prototype.forEach.call(sec.querySelector(':scope > .sectie-inhoud').children, function (kind) {
@@ -8559,7 +8595,8 @@ WIB.kern.document = (function () {
           zelfUrgent: puntZelfUrgent(li),
           urgent: puntBevatUrgent(li) && !puntZelfUrgent(li),
           item: true, nummer: geordend ? (start + i) : null,
-          vinkje: vakje ? (vakje.checked ? 'klaar' : 'open') : null
+          vinkje: vakje ? (vakje.checked ? 'klaar' : 'open') : null,
+          uren: mmToonUren ? mmUrenOnder(li) : 0
         };
         let subNr = 0;
         li.querySelectorAll(':scope > ul, :scope > ol').forEach(function (sub) {
@@ -8658,6 +8695,7 @@ WIB.kern.document = (function () {
   function tekenMindmap() {
     mindmapVuil = false;
     mmBoom = bouwBoom();
+    mmGrootste = mmToonUren ? mmBoom.kinderen.reduce(function (m, k) { return Math.max(m, k.uren || 0); }, 0) : 0;
     if (mmIngeklapt === null) mmStandaardInklappen();
     while (mmGroep.firstChild) mmGroep.removeChild(mmGroep.firstChild);
     mmKnopen = [];
@@ -8700,7 +8738,8 @@ WIB.kern.document = (function () {
         const px = n.richting > 0 ? ouder.x + ouder.w : ouder.x, py = ouder.cy;
         const cx = n.richting > 0 ? n.x : n.x + n.w, cyy = n.cy;
         const mx = (px + cx) / 2;
-        svgEl('path', { class: 'mm-lijn', d: 'M' + px + ',' + py + ' C' + mx + ',' + py + ' ' + mx + ',' + cyy + ' ' + cx + ',' + cyy, style: 'stroke:' + n.kleur }, lijnen);
+        const dik = mmGrootste > 0 ? takDikte(n.uren, mmGrootste) : 0;   // v235: 0 = de gewone dikte uit de opmaak
+        svgEl('path', { class: 'mm-lijn' + (dik && !(n.uren > 0) ? ' mm-geen-uren' : ''), d: 'M' + px + ',' + py + ' C' + mx + ',' + py + ' ' + mx + ',' + cyy + ' ' + cx + ',' + cyy, style: 'stroke:' + n.kleur + (dik ? ';stroke-width:' + dik : '') }, lijnen);
       }
       const wortel = n === mmBoom;
       const treffer = mmZoekTerm && n !== mmBoom && n.titel.toLowerCase().indexOf(mmZoekTerm) >= 0;
@@ -8708,7 +8747,8 @@ WIB.kern.document = (function () {
       g.setAttribute('aria-expanded', n.kinderen.length ? (mmIngeklapt[n.id] || mmPuntenDicht[n.id] ? 'false' : 'true') : 'false');
       const verborgen = n.kinderen.length ? mmVerborgen(n) : 0;
       g.setAttribute('data-id', n.id);
-      svgEl('title', {}, g).textContent = n.titel + (n.kinderen.length ? ' (' + mmNakomelingen(n) + ' onderliggende items)' : '');
+      svgEl('title', {}, g).textContent = n.titel + (n.kinderen.length ? ' (' + mmNakomelingen(n) + ' onderliggende items)' : '') +
+        (mmGrootste > 0 && n.uren > 0 ? ' · ' + n.uren.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' u per jaar' : '');
       svgEl('rect', { width: n.w, height: NODE_H, rx: wortel ? 10 : 8, style: 'stroke:' + (n.kleur || 'var(--accent)') }, g);
       svgEl('text', { x: PAD + (wortel ? 4 : 0), y: NODE_H / 2, 'dominant-baseline': 'central' }, g).textContent = n.label;
       if (n.taken && mmToonTaken) {
@@ -8860,6 +8900,13 @@ WIB.kern.document = (function () {
     this.textContent = 'Projectnummers: ' + (mmToonNummers ? 'aan' : 'uit');
     this.setAttribute('aria-pressed', mmToonNummers ? 'true' : 'false');
     tekenMindmap();
+  });
+  document.getElementById('mm-uren').addEventListener('click', function () {
+    mmToonUren = !mmToonUren;
+    this.textContent = 'Dikte naar uren: ' + (mmToonUren ? 'aan' : 'uit');
+    this.setAttribute('aria-pressed', mmToonUren ? 'true' : 'false');
+    tekenMindmap();
+    if (mmToonUren && !mmGrootste) meld('Onder geen enkele tak staan werkdruktaken met uren in het gekozen jaar. Alle takken blijven even dik.');
   });
   window.addEventListener('resize', function () { if (tabActief === 'mindmap' && mmTransform) mmPassend(); bwAnkers = null; });
 
@@ -10191,6 +10238,14 @@ WIB.kern.document = (function () {
     // v230: de zoekterm van een tabblad zetten (Zoeken in alles); staat dat tabblad open, dan meteen zoeken
     zetZoekterm: function (tab, q) { zoektermen[tab] = q; if (tabActief === tab) zoekveldVoorTab(tab); },
     tab: function () { return tabActief; },
+    // v235: de uren per jaar per regel (data-regel) van de werkdruktaken in Document; voor "Dikte naar uren" in de mindmap.
+    // Alleen bij een andere uitkomst wordt de mindmap opnieuw getekend.
+    werkdrukUren: function (uren) {
+      const s = JSON.stringify(uren || {});
+      if (s === mmUrenSleutel) return;
+      mmUren = uren || {}; mmUrenSleutel = s;
+      if (mmToonUren) { mindmapVuil = true; if (tabActief === 'mindmap') tekenMindmap(); }
+    },
     isWerkdrukTab: isWdTab,
     markdownNaarHtml: markdownNaarHtml,
     doc: function () { return doc; },
@@ -13826,7 +13881,8 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
     const doc = window.WIB.document && WIB.document.doc();
     if (!doc) return;
     doc.querySelectorAll('.wd-badge').forEach(b => b.remove());
-    if (!S.md || !MODEL) return;
+    const uren = {};   // v235: uren per jaar per regel van Document (data-regel), voor "Dikte naar uren" in de mindmap
+    if (!S.md || !MODEL) { WIB.document.werkdrukUren(uren); return; }
     // Toont Document niet-opgeslagen tekst (v174), dan horen de regelnummers in Document bij die tekst. Elke taak in die
     // tekst krijgt zijn label op de juiste regel: een taak die (op een opmerking als <!-- urgent --> na) ook in het bestand
     // staat, krijgt het label van die taak; een nieuwe of gewijzigde taak wordt apart doorgerekend (v179).
@@ -13866,7 +13922,7 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
       if (!el) continue;
       let txt, cls = 'wd-badge';
       if (t.status === 'onvolledig') { cls += ' onvolledig'; txt = onvolledig(t); }
-      else { const s = st[t.id]; txt = tekst(t, s ? s.hours : 0); if (t.status === 'uit') cls += ' uit'; }
+      else { const s = st[t.id]; txt = tekst(t, s ? s.hours : 0); uren[regel - 1] = s ? s.hours : 0; if (t.status === 'uit') cls += ' uit'; }
       const b = document.createElement('span');
       b.className = cls; b.setAttribute('data-act', 'wd-taak'); b.setAttribute('data-line', t.line);
       b.title = 'Werkdruktaak: klik om hem in de takenlijst te openen';
@@ -13880,7 +13936,9 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
       b.className = 'wd-badge' + (ok ? '' : ' onvolledig');
       b.title = 'Werkdruktaak (nog niet opgeslagen)';
       plaatsBadge(el, b, ok ? tekst(ct, ct.jaarUren) : onvolledig(ct));
+      if (ok) uren[ct.line - 1] = ct.jaarUren || 0;
     });
+    WIB.document.werkdrukUren(uren);
   }
   function plaatsBadge(el, b, html) {
     b.setAttribute('contenteditable', 'false');
@@ -14103,9 +14161,9 @@ WIB.kern.notities = (function () {
   // hun eigen titel onder de kop "Overgenomen van …". Anders: hernoemen, met de regel "Voorheen: …" onder de titel.
   function omzetInhoud(plan, nu) {
     const oud = plan.oud, datum = WIB.hulp.nlDatum(nu);
-    const omgezet = plan.oudNotes !== null ? plan.oudNotes.replace(tokenRe(oud), plan.code) : '';
+    const omgezet = plan.oudNotes !== null ? vervangCode(plan.oudNotes, oud, plan.code, plan.nieuw) : '';
     const samen = plan.samenvoegen
-      ? (plan.doelNotes || '').replace(tokenRe(oud), plan.code).replace(/\s*$/, '\n\n') + '## Overgenomen van ' + oud + ' (' + datum + ')\n\n' + zonderTitel(omgezet)
+      ? vervangCode(plan.doelNotes || '', oud, plan.code, plan.nieuw).replace(/\s*$/, '\n\n') + '## Overgenomen van ' + oud + ' (' + datum + ')\n\n' + zonderTitel(omgezet)
       : voorheenRegel(omgezet, oud, datum);
     const snapshot = versiesNaarTekst([{ stempel: WIB.hulp.stempel(nu), tekst: samen }]);
     const versiesNieuw = [plan.samenvoegen ? plan.doelVersies : null, plan.oudVersies, snapshot].filter(function (x) { return x && x.trim(); }).map(function (x) { return x.replace(/\s*$/, '\n'); }).join('\n');
@@ -14113,6 +14171,66 @@ WIB.kern.notities = (function () {
     const dagNieuw = plan.dagTreffers && plan.dagTreffers.some(function (t) { return t.kies; }) ? vervangGekozen(plan.dagTekst, plan.dagTreffers, plan.code) : null;
     return { samen: samen, snapshot: snapshot, versiesNieuw: versiesNieuw, nieuwMd: nieuwMd, mdWijzigt: nieuwMd !== plan.md, dagNieuw: dagNieuw };
   }
+  // De code in de tekst van notities vervangen (Code omzetten). In een link naar een bijlage (v236) verandert alleen de map:
+  // [naam](notities/OUD/naam) wordt [naam](notities/NIEUW/naam). De linktekst en de naam van het bestand blijven staan, ook
+  // als de code erin voorkomt: het bestand zelf wordt verplaatst, niet hernoemd.
+  function vervangCode(tekst, oud, code, nieuw) {
+    const re = new RegExp('(\\[[^\\]\\n]*\\]\\(notities/)' + escRe(padDeel(oud)) + '(/(?:[^()\\s]|\\([^()\\s]*\\))+\\))|' + tokenRe(oud).source, 'giu');
+    return String(tekst).replace(re, function (m, voor, na) { return voor ? voor + padDeel(nieuw === undefined ? code : nieuw) + na : code; });
+  }
+
+  /* ---------- Bijlagen per project (v236): bestanden in notities/<code>/, met een link in de notities ---------- */
+  // Een pad in een markdown-link mag geen spatie of haakje hebben: elk deel wordt gecodeerd zoals in een webadres.
+  function padDeel(s) { return encodeURIComponent(String(s)).replace(/[!'()*]/g, function (c) { return '%' + c.charCodeAt(0).toString(16).toUpperCase(); }); }
+  function bijlagePad(code, naam) { return 'notities/' + padDeel(code) + '/' + padDeel(naam); }
+  // De regel voor in de notities: een opsommingspunt met een link. In de linktekst worden [ en ] haakjes en verdwijnen
+  // de tekens die opmaak zouden geven (*, `, dubbele _ ~ ! en een _ vooraan een woord), zodat de naam leesbaar blijft;
+  // het pad blijft precies het bestand.
+  function bijlageRegel(code, naam) {
+    const label = String(naam).replace(/\[/g, '(').replace(/\]/g, ')').replace(/[*`]/g, '').replace(/([_~!])\1+/g, '$1').replace(/(^|[^_\w])_+/g, '$1').replace(/\s+/g, ' ').trim() || 'bijlage';
+    return '- [' + label + '](' + bijlagePad(code, naam) + ')';
+  }
+  // bestanden die het besturingssysteem zelf in een map zet; ze tellen niet als bijlage
+  function systeemBestand(naam) { return /^\./.test(naam) || /^(thumbs\.db|desktop\.ini)$/i.test(naam); }
+  // dezelfde bestandsnaam, ook als de hoofdletters of de schrijfwijze van een accent verschillen
+  function klein(s) { return String(s).normalize('NFC').toLowerCase(); }
+  function gelijkeNaam(a, b) { return klein(a) === klein(b); }
+  // Een naam die nog niet in de map staat (hoofdletters maken niet uit): offerte.pdf, offerte (2).pdf, offerte (3).pdf, …
+  function vrijeBijlageNaam(naam, bestaand) {
+    const bezet = {}; (bestaand || []).forEach(function (n) { bezet[klein(n)] = true; });
+    if (!bezet[klein(naam)]) return naam;
+    const punt = naam.lastIndexOf('.'), basis = punt > 0 ? naam.slice(0, punt) : naam, ext = punt > 0 ? naam.slice(punt) : '';
+    for (let i = 2; ; i++) { const n = basis + ' (' + i + ')' + ext; if (!bezet[klein(n)]) return n; }
+  }
+  // twee bestanden byte voor byte vergelijken (ArrayBuffer of getypte reeks)
+  function gelijkeBytes(a, b) {
+    const x = new Uint8Array(a), y = new Uint8Array(b);
+    if (x.length !== y.length) return false;
+    for (let i = 0; i < x.length; i++) if (x[i] !== y[i]) return false;
+    return true;
+  }
+  // 1536 -> '1,5 kB'
+  function grootteTekst(n) {
+    n = Number(n) || 0;
+    if (n < 1024) return n + (n === 1 ? ' byte' : ' bytes');
+    const eenheden = ['kB', 'MB', 'GB', 'TB']; let i = -1;
+    do { n /= 1024; i++; } while (n >= 1024 && i < eenheden.length - 1);
+    return (n < 10 ? (Math.round(n * 10) / 10).toString().replace('.', ',') : String(Math.round(n))) + ' ' + eenheden[i];
+  }
+  // Waar de regels in het tekstvak (markdown) komen: aan het eind van de regel bij de cursor, als eigen opsomming.
+  // Geeft { op, tekst }: de positie en de tekst die daar wordt ingevoegd (met de lege regels die nodig zijn).
+  function bijlageInvoeging(tekst, pos, regels) {
+    const punt = /^\s*(?:[-*+]|\d+[.)])\s/, t = String(tekst);
+    let eind = t.indexOf('\n', pos); if (eind < 0) eind = t.length;
+    const begin = t.lastIndexOf('\n', Math.max(0, Math.min(pos, eind) - 1)) + 1, regel = t.slice(begin, eind);
+    const vorige = begin > 0 ? t.slice(t.lastIndexOf('\n', begin - 2) + 1, begin - 1) : '';
+    let volgEind = t.indexOf('\n', eind + 1); if (volgEind < 0) volgEind = t.length;
+    const volgende = eind < t.length ? t.slice(eind + 1, volgEind) : '';
+    const voor = regel.trim() ? (punt.test(regel) ? '\n' : '\n\n') : (vorige.trim() && !punt.test(vorige) ? '\n' : '');
+    const na = eind >= t.length || (volgende.trim() && !punt.test(volgende)) ? '\n' : '';
+    return { op: eind, tekst: voor + regels.join('\n') + na };
+  }
+
   function vervangGekozen(md, treffers, code) {
     let uit = '', p = 0;
     treffers.filter(function (t) { return t.kies; }).forEach(function (t) { uit += md.slice(p, t.index) + code; p = t.index + t.lengte; });
@@ -14373,7 +14491,7 @@ WIB.kern.notities = (function () {
     });
     return { woorden: w, acties: groep(acties), werkdruk: groep(werkdruk), notities: groep(notities), daginvoer: groep(daginvoer), historie: groep(historie), fouten: fouten };
   }
-  return { zoekAlles, versiesNaarTekst, versiesUitTekst, tokenRe, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud };
+  return { zoekAlles, versiesNaarTekst, versiesUitTekst, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging };
 })();
 </script>
 <script data-deel="notities">
@@ -14390,8 +14508,9 @@ WIB.kern.notities = (function () {
 (function () {
   'use strict';
   // de DOM-vrije logica (versies, vermeldingen, licenties) staat sinds v108 in WIB.kern.notities
-  const { versiesNaarTekst, versiesUitTekst, tokenRe, telIn, analyseer, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, codesIn, dossierVan, dossierLogboek, zoekAlles } = WIB.kern.notities;
+  const { versiesNaarTekst, versiesUitTekst, telIn, analyseer, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, codesIn, dossierVan, dossierLogboek, zoekAlles, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging } = WIB.kern.notities;
   const vlak = document.getElementById('notitievenster');
+  const bijlageKnop = document.getElementById('nt-bijlage');
   const titelEl = document.getElementById('nt-titel');
   const statusEl = document.getElementById('nt-status');
   const bestandEl = document.getElementById('nt-bestand');
@@ -14607,6 +14726,7 @@ WIB.kern.notities = (function () {
         titelEl.textContent = 'Notities ' + nr + (titel ? ' · ' + titel : '');
         bestandEl.textContent = map ? 'notities/' + nr + '.md' : 'in het geheugen (geen map)';
         downloadKnop.hidden = !!map;
+        bijlageKnop.hidden = !map;   // v236: een bijlage heeft een map nodig waarin de pagina kan schrijven
         bekeken = null;
         if (editor) editor.nieuw(ta.value);   // ongedaan maken begint opnieuw bij andere notities
         zetWeergave('opmaak');
@@ -14697,6 +14817,146 @@ WIB.kern.notities = (function () {
     ta.setRangeText(ins, s, e, 'end');
     ta.dispatchEvent(new Event('input', { bubbles: true }));
   }
+
+  /* ---------- Bijlagen per project (v236) ----------
+     Een bestand dat je op het notitievenster sleept (of kiest met Bijlage…) wordt gekopieerd naar notities/<code>/ en krijgt
+     een link in je notities. Er wordt nooit iets overschreven: staat er al een bestand met die naam en een andere inhoud,
+     dan krijgt het nieuwe (2) achter zijn naam; is de inhoud gelijk, dan komt er alleen een link. De notities zelf worden
+     niet vanzelf opgeslagen. */
+  // de map notities/<code>/; null als hij er niet is (en maak niet aan staat)
+  function bijlageMap(code, maak) {
+    return notitieMap(maak).then(function (dir) {
+      return dir ? dir.getDirectoryHandle(code, { create: !!maak }).catch(function (e) { if (nietGevonden(e)) return null; throw e; }) : null;
+    });
+  }
+  // wat er in notities/<code>/ staat: { dir, bestanden: [{ naam, grootte, handle }], mappen: [naam] }, op naam;
+  // bestanden van het besturingssysteem (.DS_Store, Thumbs.db) tellen niet mee. Een leesfout gaat door (geen lege lijst).
+  function leesBijlagen(code) {
+    return bijlageMap(code, false).then(function (dir) {
+      const uit = { dir: dir, bestanden: [], mappen: [] };
+      if (!dir) return uit;
+      const it = dir.entries();
+      function volgende() {
+        return it.next().then(function (s) {
+          if (s.done) return uit;
+          const naam = s.value[0], h = s.value[1];
+          if (h.kind !== 'file') { uit.mappen.push(naam); return volgende(); }
+          if (systeemBestand(naam)) return volgende();
+          return h.getFile().then(function (f) { uit.bestanden.push({ naam: naam, grootte: f.size, handle: h }); return volgende(); });
+        });
+      }
+      return volgende().then(function () {
+        uit.bestanden.sort(function (a, b) { return a.naam.localeCompare(b.naam, 'nl', { numeric: true }); });
+        uit.mappen.sort();
+        return uit;
+      });
+    });
+  }
+  // één bestand in de map zetten; geeft { naam, anders, bestond } (anders: de naam was bezet door een ander bestand)
+  function plaatsBijlage(dir, nu, f) {
+    const zelfde = nu.bestanden.filter(function (x) { return gelijkeNaam(x.naam, f.name); })[0];
+    function nieuw() {
+      const naam = vrijeBijlageNaam(f.name, nu.bestanden.map(function (x) { return x.naam; }).concat(nu.mappen));
+      return dir.getFileHandle(naam, { create: true }).then(function (h) {
+        return WIB.hulp.schrijf(h, f).then(function (g) {
+          if (g.size !== f.size) throw new Error('de kopie is niet even groot als het origineel');
+          nu.bestanden.push({ naam: naam, grootte: g.size, handle: h });
+          return { naam: naam, anders: naam !== f.name, bestond: false };
+        }).catch(function (e) {
+          // een half geschreven kopie weghalen; de naam was vrij, dus er gaat niets van jou verloren
+          return dir.removeEntry(naam).catch(function () { /* opruimen na een mislukte kopie; de eerste fout is de melding */ }).then(function () { throw e; });
+        });
+      });
+    }
+    if (!zelfde) return nieuw();
+    if (zelfde.grootte !== f.size) return nieuw();
+    return Promise.all([zelfde.handle.getFile().then(function (g) { return g.arrayBuffer(); }), f.arrayBuffer()]).then(function (b) {
+      return gelijkeBytes(b[0], b[1]) ? { naam: zelfde.naam, anders: false, bestond: true } : nieuw();
+    });
+  }
+  // de links in de notities zetten: in de editor onder het blok bij de cursor, in het tekstvak onder de regel bij de cursor
+  function voegRegelsIn(regels) {
+    if (wysiwyg()) {
+      if (editorEl.hidden) { bekeken = null; zetWeergave('opmaak'); }   // je keek naar Versies of een oude versie
+      editor.voegToe(regels);
+      return;
+    }
+    const inv = bijlageInvoeging(ta.value, ta.selectionEnd, regels);
+    ta.focus();
+    ta.setRangeText(inv.tekst, inv.op, inv.op, 'end');
+    ta.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  let bijlageBezig = false;
+  function voegBijlagenToe(bestanden, mappen) {
+    bestanden = [].slice.call(bestanden || []);
+    if (!huidig || bijlageBezig) return Promise.resolve();
+    if (!map) { meld('Een bijlage bewaren kan alleen als je een map hebt gekozen waarin de pagina kan schrijven (Chrome of Edge). Er is niets toegevoegd.'); return Promise.resolve(); }
+    if (!bestanden.length) { if (mappen) meld('Een map kan geen bijlage zijn; sleep de bestanden zelf. Er is niets toegevoegd.'); return Promise.resolve(); }
+    const code = huidig.nr, klaar = [], fouten = [], waar = 'notities/' + code + '/';
+    let leeg = false;   // de map was leeg (of is net aangemaakt): lukt er niets, dan gaat hij weer weg
+    bijlageBezig = true; bijlageKnop.disabled = true;
+    zetStatus(bestanden.length === 1 ? 'Bijlage kopiëren…' : bestanden.length + ' bijlagen kopiëren…');
+    return bijlageMap(code, true).then(function (dir) {
+      return leesBijlagen(code).then(function (nu) {
+        leeg = !nu.bestanden.length && !nu.mappen.length;
+        return bestanden.reduce(function (p, f) {
+          return p.then(function () { return plaatsBijlage(dir, nu, f); })
+            .then(function (r) { klaar.push(r); }, function (e) { fouten.push(f.name + ' (' + WIB.hulp.reden(e) + ')'); });
+        }, Promise.resolve());
+      });
+    }).catch(function (e) { fouten.push('de map ' + waar + ' (' + WIB.hulp.reden(e) + ')'); }).then(function () {
+      if (klaar.length || !leeg) return;
+      return notitieMap(false).then(function (d) { return d && d.removeEntry(code); }).catch(function () { /* de lege map blijft dan staan; dat hindert niet */ });
+    }).then(function () {
+      bijlageBezig = false; bijlageKnop.disabled = false;
+      const hier = !!huidig && huidig.nr === code && isOpen();
+      if (hier && klaar.length) voegRegelsIn(klaar.map(function (r) { return bijlageRegel(code, r.naam); }));
+      statusBijwerken();
+      if (WIB.document.tab() === 'dossier') toonDossier();
+      const anders = klaar.filter(function (r) { return r.anders; }), bestond = klaar.filter(function (r) { return r.bestond; });
+      let t = '';
+      if (klaar.length === 1) t = klaar[0].naam + (klaar[0].bestond ? ' stond al in ' + waar : ' staat in ' + waar) + (hier ? '; de link staat in je notities.' : '.');
+      else if (klaar.length) t = klaar.length + ' bijlagen staan in ' + waar + (hier ? '; de links staan in je notities.' : '.');
+      if (anders.length) t += ' Omdat er al een ander bestand met die naam stond, heet ' + (anders.length === 1 ? 'het nieuwe bestand ' + anders[0].naam : 'een aantal anders: ' + anders.map(function (r) { return r.naam; }).join(', ')) + '.';
+      if (klaar.length > 1 && bestond.length) t += ' ' + bestond.length + (bestond.length === 1 ? ' bestand stond er al met dezelfde inhoud en is' : ' bestanden stonden er al met dezelfde inhoud en zijn') + ' niet opnieuw gekopieerd.';
+      if (klaar.length && hier) t += ' Sla je notities op om ' + (klaar.length === 1 ? 'de link' : 'de links') + ' te bewaren.';
+      if (klaar.length && !hier) t += ' Het notitievenster van ' + code + ' is intussen gesloten; er is geen link gezet.';
+      if (fouten.length) t += (t ? ' ' : '') + 'Niet gelukt: ' + fouten.join('; ') + '.' + (klaar.length ? '' : ' Er is niets toegevoegd.');
+      if (mappen) t += ' Een map kan geen bijlage zijn; die is overgeslagen.';
+      meld(t);
+    });
+  }
+  // Slepen naar het notitievenster: het bestand wordt een bijlage. De gebeurtenissen gaan niet door naar de pagina,
+  // want daar zou een neergezet bestand als werkdruk.md worden geopend.
+  (function () {
+    const kader = vlak.querySelector('.hulp-vlak');
+    let teller = 0;
+    function metBestanden(e) { return !!e.dataTransfer && [].indexOf.call(e.dataTransfer.types || [], 'Files') >= 0; }
+    function uit() { teller = 0; kader.removeAttribute('data-sleep'); }
+    vlak.addEventListener('dragenter', function (e) {
+      if (!metBestanden(e)) return;
+      e.preventDefault(); e.stopPropagation(); teller++;
+      kader.setAttribute('data-sleep', map && huidig ? 'Laat los om het bestand als bijlage bij ' + huidig.nr + ' te bewaren' : 'Een bijlage bewaren kan alleen met een map waarin de pagina kan schrijven');
+    });
+    vlak.addEventListener('dragover', function (e) { if (!metBestanden(e)) return; e.preventDefault(); e.stopPropagation(); e.dataTransfer.dropEffect = map ? 'copy' : 'none'; });
+    vlak.addEventListener('dragleave', function (e) { if (!metBestanden(e)) return; e.stopPropagation(); if (--teller <= 0) uit(); });
+    vlak.addEventListener('drop', function (e) {
+      if (!metBestanden(e)) return;
+      e.preventDefault(); e.stopPropagation(); uit();
+      // bestanden en mappen moeten nu worden opgehaald; na deze gebeurtenis is dataTransfer leeg
+      const bestanden = []; let mappen = 0;
+      const items = e.dataTransfer.items;
+      if (items && items.length) {
+        [].forEach.call(items, function (it) {
+          if (it.kind !== 'file') return;
+          const ingang = it.webkitGetAsEntry ? it.webkitGetAsEntry() : null;
+          if (ingang && ingang.isDirectory) { mappen++; return; }
+          const f = it.getAsFile(); if (f) bestanden.push(f);
+        });
+      } else [].forEach.call(e.dataTransfer.files || [], function (f) { bestanden.push(f); });
+      voegBijlagenToe(bestanden, mappen);
+    });
+  })();
 
   /* ---------- versies ---------- */
   function telVerschil(oud, nieuw) {
@@ -14826,8 +15086,16 @@ WIB.kern.notities = (function () {
     }) : Promise.resolve([
       geheugen[oud] ? geheugen[oud].tekst : null, geheugen[oud] && geheugen[oud].versies.length ? versiesNaarTekst(geheugen[oud].versies) : null,
       geheugen[nieuw] ? geheugen[nieuw].tekst : null, geheugen[nieuw] && geheugen[nieuw].versies.length ? versiesNaarTekst(geheugen[nieuw].versies) : null]);
-    return Promise.all([lezen, WIB.document.schijfGewijzigd(), andereNotities(oud, nieuw)]).then(function (r) {
-      const f = r[0];
+    // v236: de bijlagen in notities/<oud>/ verhuizen mee (alleen met een map, en niet als alleen de hoofdletters wijzigen)
+    const bijlagen = map && !plan.alleenHoofdletters ? Promise.all([leesBijlagen(oud), leesBijlagen(nieuw)]) : Promise.resolve(null);
+    return Promise.all([lezen, WIB.document.schijfGewijzigd(), andereNotities(oud, nieuw), bijlagen]).then(function (r) {
+      const f = r[0], b = r[3];
+      plan.bijlagen = b ? b[0].bestanden.map(function (x) { return { naam: x.naam, grootte: x.grootte }; }) : [];
+      plan.doelBijlagen = b ? b[1].bestanden.map(function (x) { return x.naam; }).concat(b[1].mappen) : [];
+      plan.bijlagenMee = plan.bijlagen.length > 0;
+      if (b && b[0].mappen.length) plan.fouten.push('In notities/' + oud + '/ staat een map (' + b[0].mappen.join(', ') + '). De pagina verplaatst alleen losse bestanden; verplaats of verwijder die map eerst zelf.');
+      const botsing = plan.bijlagen.filter(function (x) { return plan.doelBijlagen.some(function (n) { return gelijkeNaam(n, x.naam); }); });
+      if (botsing.length) plan.fouten.push('In notities/' + nieuw + '/ staat al ' + (botsing.length === 1 ? 'een bestand met de naam ' : 'bestanden met de namen ') + botsing.map(function (x) { return x.naam; }).join(', ') + '. Er wordt niets overschreven: hernoem een van de twee en controleer opnieuw.');
       plan.oudNotes = f[0]; plan.oudVersies = f[1]; plan.doelNotes = f[2]; plan.doelVersies = f[3];
       if (plan.alleenHoofdletters) { plan.oudNotes = plan.oudVersies = plan.doelNotes = plan.doelVersies = null; }
       plan.notesMee = plan.oudNotes !== null || plan.oudVersies !== null;
@@ -14839,7 +15107,8 @@ WIB.kern.notities = (function () {
       plan.dagTekst = WIB.document.daginvoerTekst();
       plan.dagTreffers = plan.alleenHoofdletters ? [] : analyseer(plan.dagTekst, oud);
       // pas nu: anderen en dagTreffers zijn hierboven gevuld (v127; daarvoor gaf dit een fout als de code nergens voorkwam)
-      if (!plan.treffers.length && !plan.notesMee && !plan.anderen.length && !plan.dagTreffers.length) plan.fouten.push(oud + ' komt niet voor in werkdruk.md, de daginvoer of notities; er is niets om om te zetten.');
+      if (plan.bijlagenMee && new RegExp('notities/' + escRe(encodeURIComponent(oud)) + '/', 'i').test(plan.md + '\n' + plan.dagTekst)) plan.info.push('In werkdruk.md of de daginvoer staat een link naar een bijlage van ' + oud + '. Die vermelding staat hierboven met de opmerking "in een link of pad" en staat standaard uit; vink haar aan, anders wijst de link straks naar een map die niet meer bestaat.');
+      if (!plan.treffers.length && !plan.notesMee && !plan.bijlagenMee && !plan.anderen.length && !plan.dagTreffers.length) plan.fouten.push(oud + ' komt niet voor in werkdruk.md, de daginvoer of notities; er is niets om om te zetten.');
       if (!map) plan.info.push('Er is geen map waarin de pagina kan schrijven: alles gebeurt in het geheugen. Bewaar daarna met Downloaden (werkdruk.md via het label Niet opgeslagen, de notities in het notitievenster).');
       return plan;
     });
@@ -14893,6 +15162,11 @@ WIB.kern.notities = (function () {
         h += '<div class="om-blok"><h3>Notities</h3><p>' + (plan.doelBestaat ? 'De notities van ' + esc(plan.oud) + ' gaan naar notities/' + esc(plan.nieuw) + '.md (alleen als je hieronder voor samenvoegen kiest)' : 'notities/' + esc(plan.oud) + '.md wordt notities/' + esc(plan.nieuw) + '.md') +
           (plan.oudVersies !== null ? ', en de ' + versiesUitTekst(plan.oudVersies).length + ' opgeslagen versies gaan mee' : '') + '. De code in de tekst van de notities wordt ook vervangen; dat wordt een nieuwe versie.</p></div>';
       }
+      if (plan.bijlagenMee) {
+        const n = plan.bijlagen.length;
+        h += '<div class="om-blok"><h3>Bijlagen</h3><p>' + (n === 1 ? 'De bijlage ' + esc(plan.bijlagen[0].naam) + ' in notities/' + esc(plan.oud) + '/ gaat' : 'De ' + n + ' bijlagen in notities/' + esc(plan.oud) + '/ gaan') +
+          ' naar notities/' + esc(plan.nieuw) + '/' + (plan.doelBijlagen.length ? ', bij de bestanden die daar al staan' : '') + '. De links in de notities wijzen daarna naar de nieuwe map.</p></div>';
+      }
       if (plan.dagTreffers && plan.dagTreffers.length) {
         h += '<div class="om-blok"><h3>daginvoer.md: ' + plan.dagTreffers.length + (plan.dagTreffers.length === 1 ? ' vermelding' : ' vermeldingen') + '</h3>' +
           '<p>Ook in de daginvoer wordt de code vervangen. Het verschil komt in notities_historie.md. Wil je een vermelding als tijdsbeeld laten staan, vink hem dan uit.</p><ul class="om-lijst">' +
@@ -14936,6 +15210,7 @@ WIB.kern.notities = (function () {
     const wat = [];
     if (gekozen) wat.push(gekozen + (gekozen === 1 ? ' vermelding' : ' vermeldingen') + ' in werkdruk.md');
     if (plan.notesMee && plan.samenvoegen !== false) wat.push(plan.samenvoegen ? 'de notities samenvoegen met ' + plan.nieuw : 'het notitiebestand hernoemen');
+    if (plan.bijlagenMee && plan.samenvoegen !== false) wat.push(plan.bijlagen.length === 1 ? '1 bijlage verplaatsen' : plan.bijlagen.length + ' bijlagen verplaatsen');
     const dagN = (plan.dagTreffers || []).filter(function (t) { return t.kies; }).length, andN = (plan.anderen || []).filter(function (a) { return a.kies; }).length;
     if (dagN) wat.push(dagN + (dagN === 1 ? ' vermelding' : ' vermeldingen') + ' in daginvoer.md');
     if (andN) wat.push('de notities van ' + andN + (andN === 1 ? ' ander project' : ' andere projecten'));
@@ -14986,10 +15261,67 @@ WIB.kern.notities = (function () {
       }
     }];
   }
+  // v236: de bijlagen. Eerst kopiëren naar notities/<nieuw>/ en byte voor byte teruglezen; de originelen gaan pas weg
+  // bij het opruimen, na het opslaan van werkdruk.md. Terugdraaien haalt alleen de kopieën weg.
+  function bijlagenStap(plan, m) {
+    const oud = plan.oud, nieuw = plan.nieuw, gekopieerd = [];
+    let doel = null, gemaakt = false;
+    return {
+      naam: 'de bijlagen naar notities/' + nieuw + '/ kopiëren',
+      doe: function () {
+        return m.haal().then(function () { return Promise.all([leesBijlagen(oud), leesBijlagen(nieuw)]); }).then(function (b) {
+          const nu = b[0], daar = b[1];
+          if (nu.mappen.length || nu.bestanden.length !== plan.bijlagen.length ||
+            nu.bestanden.some(function (x, i) { return x.naam !== plan.bijlagen[i].naam || x.grootte !== plan.bijlagen[i].grootte; }) ||
+            daar.bestanden.map(function (x) { return x.naam; }).concat(daar.mappen).join('\n') !== plan.doelBijlagen.join('\n')) throw new Error('de bijlagen zijn sinds de controle gewijzigd');
+          gemaakt = !daar.dir;
+          return m.dir.getDirectoryHandle(nieuw, { create: true }).then(function (d) {
+            doel = d;
+            return nu.bestanden.reduce(function (p, x) {
+              return p.then(function () {
+                let bytes;
+                return x.handle.getFile().then(function (f) { return f.arrayBuffer(); })
+                  .then(function (b) { bytes = b; return d.getFileHandle(x.naam, { create: true }); })
+                  .then(function (h) { gekopieerd.push(x.naam); return WIB.hulp.schrijf(h, bytes); })
+                  .then(function (g) { return g.arrayBuffer(); })
+                  .catch(function (e) { throw new Error('de bijlage ' + x.naam + ' kon niet naar notities/' + nieuw + '/ worden gekopieerd (' + WIB.hulp.reden(e) + ')'); })
+                  .then(function (terug) { if (!gelijkeBytes(bytes, terug)) throw new Error('de kopie van ' + x.naam + ' is niet gelijk aan het origineel'); });
+              });
+            }, Promise.resolve());
+          });
+        });
+      },
+      herstel: function () {
+        if (!doel) return;
+        const alsHetBestaat = function (e) { if (!nietGevonden(e)) throw e; };
+        return gekopieerd.reduce(function (p, n) { return p.then(function () { return doel.removeEntry(n).catch(alsHetBestaat); }); }, Promise.resolve())
+          .then(function () { if (gemaakt) return m.dir.removeEntry(nieuw).catch(alsHetBestaat); });
+      }
+    };
+  }
+  // v236: na het opslaan van werkdruk.md de verhuisde bijlagen uit de oude map halen, en de map zelf als hij leeg is
+  // (op bestanden van het besturingssysteem na). Staat er intussen iets anders in, dan blijft de map staan en wordt dat gemeld.
+  function bijlagenOpruimStap(plan, m) {
+    const oud = plan.oud;
+    return {
+      naam: 'notities/' + oud + '/',
+      doe: function () {
+        return bijlageMap(oud, false).then(function (dir) {
+          if (!dir) return;
+          return plan.bijlagen.reduce(function (p, x) {
+            return p.then(function () { return dir.removeEntry(x.naam).catch(function (e) { if (!nietGevonden(e)) throw e; }); });
+          }, Promise.resolve()).then(function () { return leesBijlagen(oud); }).then(function (rest) {
+            if (rest.bestanden.length || rest.mappen.length) throw new Error('er staan nog andere bestanden in notities/' + oud + '/');
+            return m.dir.removeEntry(oud, { recursive: true });
+          });
+        });
+      }
+    };
+  }
   // De notities van een ander project waarin de oude code voorkomt: tekst vervangen, nieuwe versie, historie
   function anderProjectStap(plan, a, m, gedaan) {
     const oud = plan.oud;
-    const nieuwTekst = a.tekst.replace(tokenRe(oud), plan.code);
+    const nieuwTekst = vervangCode(a.tekst, oud, plan.code, plan.nieuw);   // v236: een link naar een bijlage wijst naar de nieuwe map
     const reden = 'notities/' + a.code + '.md (code omzetten ' + oud + ' → ' + plan.code + ')';
     let vorige = null; // { oudTekst, oudVersies } zodra er iets is geschreven
     return {
@@ -15076,8 +15408,8 @@ WIB.kern.notities = (function () {
     if (omzet) { omzet.bezig = false; sluitOmzet(); }
     huidig = null;
     open(plan.notesMee || plan.alleenHoofdletters ? nieuw : oud, titel);
-    meld(oud + ' is omgezet naar ' + plan.code + (gekozen ? ' (' + gekozen + '× in werkdruk.md)' : '') + (plan.notesMee ? (plan.samenvoegen ? '; notities samengevoegd' : '; notities hernoemd') : '') + (gedaan.dag ? '; daginvoer aangepast' : '') + (gedaan.anderen.length ? '; ' + gedaan.anderen.length + (gedaan.anderen.length === 1 ? ' ander project aangepast' : ' andere projecten aangepast') : '') + '.' +
-      (r.opruimFouten.length ? ' Let op: ' + r.opruimFouten.map(function (o) { return o.naam; }).join(' en ') + ' kon niet worden verwijderd; je nieuwe notities zijn compleet, verwijder het oude bestand zelf.' : ''));
+    meld(oud + ' is omgezet naar ' + plan.code + (gekozen ? ' (' + gekozen + '× in werkdruk.md)' : '') + (plan.notesMee ? (plan.samenvoegen ? '; notities samengevoegd' : '; notities hernoemd') : '') + (plan.bijlagenMee ? '; ' + (plan.bijlagen.length === 1 ? '1 bijlage verplaatst' : plan.bijlagen.length + ' bijlagen verplaatst') : '') + (gedaan.dag ? '; daginvoer aangepast' : '') + (gedaan.anderen.length ? '; ' + gedaan.anderen.length + (gedaan.anderen.length === 1 ? ' ander project aangepast' : ' andere projecten aangepast') : '') + '.' +
+      (r.opruimFouten.length ? ' Let op: ' + r.opruimFouten.map(function (o) { return o.naam; }).join(' en ') + ' kon niet worden verwijderd; je nieuwe notities' + (plan.bijlagenMee ? ' en bijlagen' : '') + ' zijn compleet, verwijder het oude bestand zelf.' : ''));
   }
   function voerUit(plan) {
     const el = omzet.el, rapport = el.querySelector('#om-rapport');
@@ -15090,10 +15422,12 @@ WIB.kern.notities = (function () {
     el.querySelectorAll('button, input').forEach(function (b) { b.disabled = true; });
     const inhoud = omzetInhoud(plan, new Date()), m = notitieMapToegang(), gedaan = { anderen: [], dag: false };
     const stappen = plan.notesMee && map ? eigenNotitieStappen(plan, inhoud, m) : [];
+    if (plan.bijlagenMee) stappen.push(bijlagenStap(plan, m));
     (plan.anderen || []).filter(function (a) { return a.kies; }).forEach(function (a) { stappen.push(anderProjectStap(plan, a, m, gedaan)); });
     if (inhoud.dagNieuw !== null) stappen.push(daginvoerStap(plan, inhoud.dagNieuw, gedaan));
     const vastleggen = { naam: 'werkdruk.md opslaan', doe: function () { return inhoud.mdWijzigt ? WIB.document.vervangTekst(inhoud.nieuwMd) : true; } };
     const opruimen = plan.notesMee && map ? opruimStappen(plan, m) : [];
+    if (plan.bijlagenMee) opruimen.push(bijlagenOpruimStap(plan, m));
     transactie(stappen, vastleggen, opruimen).then(function (r) {
       if (!r.ok) toonOmzetMislukt(r, el, rapport);
       else rondOmzetAf(plan, inhoud, r, gedaan);
@@ -15246,6 +15580,14 @@ WIB.kern.notities = (function () {
     return new Date(p[0], p[1] - 1, p[2]).toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   }
   // v219: licenties, versies, daginvoer en historie bij een code
+  // v236: de bestanden in notities/<code>/, ook als er in de notities geen link naar staat
+  function dossierBestanden(c, b) {
+    if (b.fout) return '<h3 class="dossier-sectie">Bijlagen</h3><p class="hist-leeg">' + esc('De map notities/' + c + '/ kon niet worden gelezen (' + WIB.hulp.reden(b.fout) + ').') + '</p>';
+    if (!b.bestanden.length) return '';
+    return '<h3 class="dossier-sectie">Bijlagen</h3><ul class="dossier-lijst">' + b.bestanden.map(function (x) {
+      return '<li><a href="' + esc(bijlagePad(c, x.naam)) + '" target="_blank" rel="noopener noreferrer nofollow">' + esc(x.naam) + '</a> <span class="muted">' + esc(grootteTekst(x.grootte)) + '</span></li>';
+    }).join('') + '</ul><p class="muted">De bestanden in notities/' + esc(c) + '/. Een klik opent het bestand in een nieuw tabblad.</p>';
+  }
   function dossierBijlagen(c, tekst, versies) {
     let h = '';
     const lic = licUitTekst(tekst);
@@ -15300,7 +15642,8 @@ WIB.kern.notities = (function () {
     let leesFout = null;
     return Promise.all([
       lees(c).then(function (r) { return r.tekst; }, function (e) { leesFout = e; return ''; }),
-      leesVersies(c).then(function (v) { return { lijst: v }; }, function (e) { return { fout: e }; })   // een leesfout is geen lege lijst
+      leesVersies(c).then(function (v) { return { lijst: v }; }, function (e) { return { fout: e }; }),   // een leesfout is geen lege lijst
+      leesBijlagen(c).catch(function (e) { return { fout: e }; })
     ]).then(function (gelezen) {
       const tekst = gelezen[0], versies = gelezen[1];
       if (beurt !== dossierBeurt) return;
@@ -15336,7 +15679,7 @@ WIB.kern.notities = (function () {
         return '<li><details' + (i < 3 ? ' open' : '') + '><summary><time datetime="' + x.iso + '">' + esc(datumLang(x.iso)) + '</time>' + (x.kop ? ' · ' + esc(x.kop) : '') + '</summary>' +
           '<div class="document">' + (x.tekst ? WIB.document.markdownNaarHtml(x.tekst) : '<p class="muted">Geen tekst.</p>') + '</div></details></li>';
       }).join('') + '</ol>';
-      h += dossierBijlagen(c, tekst, versies);
+      h += dossierBestanden(c, gelezen[2]) + dossierBijlagen(c, tekst, versies);
       el.innerHTML = h;
       el.querySelector('#dossier-code').addEventListener('change', function (e) { toonDossier(e.target.value); });
       el.querySelector('#dossier-notities').addEventListener('click', function () { open(c, d.titel); });
@@ -15439,6 +15782,21 @@ WIB.kern.notities = (function () {
     if (statusEl.classList.contains('opslag-label') && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); opslaan(); }
   });
   document.getElementById('nt-datum').addEventListener('click', datumInvoegen);
+  // v236: Bijlage… opent het kiesvenster van de browser; je kunt meer bestanden tegelijk kiezen
+  bijlageKnop.addEventListener('click', function () {
+    const kies = document.createElement('input');
+    kies.type = 'file'; kies.multiple = true;
+    kies.addEventListener('change', function () { voegBijlagenToe(kies.files); });
+    kies.click();
+  });
+  // v236: in de editor volgt een klik een link niet (je zet er de cursor mee); met Ctrl of Cmd erbij opent de link in een nieuw tabblad
+  editorEl.addEventListener('click', function (e) {
+    if (!(e.ctrlKey || e.metaKey)) return;
+    const a = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || a.getAttribute('href').charAt(0) === '#') return;
+    e.preventDefault();
+    window.open(a.href, '_blank', 'noopener,noreferrer');
+  });
   document.getElementById('nt-omzetten').addEventListener('click', codeOmzetten);
   document.getElementById('nt-sluit').addEventListener('click', sluit);
   document.querySelectorAll('[data-ntweergave]').forEach(function (b) {
