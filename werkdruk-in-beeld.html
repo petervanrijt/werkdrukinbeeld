@@ -90,7 +90,8 @@ p { margin: 0; }
 .muted { color: var(--muted); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-.wrap { max-width: 1240px; margin: 0 auto; padding: 20px 20px 64px; }
+/* de werkdruktabbladen (Jaar t/m Taken) staan links met dezelfde marge als de andere tabbladen (v238) */
+.wrap { padding: 20px 48px 64px; }
 
 /* ---------- kop ---------- */
 .top { display: flex; align-items: center; gap: 12px 20px; flex-wrap: wrap; margin-bottom: 22px; }
@@ -98,7 +99,7 @@ p { margin: 0; }
 .yearnav { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-pill); padding: 2px; }
 .yearnav button { border: 0; background: transparent; width: 34px; height: 34px; border-radius: var(--radius-pill); font-size: var(--fs-kop-3); line-height: 1; }
 .yearnav button:hover { background: var(--surface-2); }
-.yearnav span { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-kop-3); min-width: 3.2em; text-align: center; }
+.yearnav span { font-weight: 700; font-size: var(--fs-body); min-width: 3.2em; text-align: center; }
 
 .btn {
   display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line-strong); background: var(--surface);
@@ -117,16 +118,17 @@ p { margin: 0; }
 .btn:disabled { opacity: .45; cursor: default; }
 
 /* ---------- samenvatting ---------- */
-.summary { margin-bottom: 22px; }
-.statement { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.35rem, 1.05rem + 1.3vw, 2.05rem); line-height: 1.22; max-width: none; letter-spacing: -0.015em; }
+/* de zin en de feiten in de letter van de pagina, in de maten van de schaal (v238); de schreefletter is voor koppen */
+.summary { margin-bottom: 16px; }
+.statement { font-size: var(--fs-kop-3); line-height: 1.5; max-width: none; }
 .statement b { font-weight: 700; }
 .pct { display: inline-block; padding: 0 .3em; border-radius: .25em; font-weight: 700; }
-.facts { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 12px; color: var(--muted); font-size: var(--fs-body); }
+.facts { margin-top: 4px; color: var(--muted); font-size: var(--fs-l); }
 .facts strong { color: var(--ink); }
 .facts .warnfact { color: var(--warn); }
 .linkish { border: 0; background: none; padding: 0; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; font-weight: 700; }
 .empty-hero { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-l); padding: 28px; box-shadow: var(--shadow); }
-.empty-hero .statement { margin-bottom: 10px; }
+.empty-hero .statement { margin-bottom: 10px; font-family: var(--font-display); font-weight: 700; line-height: 1.15; }
 .empty-hero p.lead { color: var(--muted); max-width: 62ch; margin-bottom: 18px; }
 .empty-hero .row { display: flex; gap: 10px; flex-wrap: wrap; }
 
@@ -149,7 +151,8 @@ p { margin: 0; }
 .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 
 @media (max-width: 1020px) { .grid3 { grid-template-columns: 1fr 1fr; } .grid3 > :last-child { grid-column: 1 / -1; } }
-@media (max-width: 720px) { .grid3 { grid-template-columns: 1fr; } .wrap { padding: 14px 12px 56px; } .panel { padding: 14px; } }
+@media (max-width: 720px) { .grid3 { grid-template-columns: 1fr; } .panel { padding: 14px; } }
+@media (max-width: 640px) { .wrap { padding: 16px 20px 56px; } }
 
 .seg { display: inline-flex; border: 1px solid var(--line); border-radius: var(--radius-pill); padding: 2px; background: var(--surface-2); }
 .seg button { border: 0; background: transparent; padding: 4px 12px; border-radius: var(--radius-pill); font-size: var(--fs-m); font-weight: 700; color: var(--muted); }
@@ -225,7 +228,7 @@ button.dc:hover { outline: 2px solid var(--ink); outline-offset: 0; z-index: 1; 
 /* ---------- navigatie in maand/week/dag ---------- */
 .viewhead { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; margin-bottom: 16px; }
 .viewhead h2 { font-size: var(--fs-kop-2); margin-right: auto; }
-.viewhead h2 small { display: block; font-family: var(--font-body); font-weight: 400; font-size: var(--fs-body); color: var(--muted); letter-spacing: 0; margin-top: 4px; }
+.viewhead h2 small { display: block; font-family: var(--font-body); font-weight: 400; font-size: var(--fs-l); color: var(--muted); letter-spacing: 0; margin-top: 4px; }
 .pager { display: inline-flex; gap: 6px; }
 .meterline { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
 .meter { flex: 1 1 260px; height: 12px; background: var(--surface-2); border-radius: 99px; overflow: hidden; position: relative; border: 1px solid var(--line); }
@@ -251,7 +254,7 @@ button.dc:hover { outline: 2px solid var(--ink); outline-offset: 0; z-index: 1; 
 button.mday:hover { border-color: var(--ink); }
 .mday.blank { border: 0; background: transparent; }
 .mday.off { background: transparent; border-style: dashed; color: var(--muted); }
-.mday .num { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-body); line-height: 1; }
+.mday .num { font-weight: 700; font-size: var(--fs-body); line-height: 1; }
 .mday .tag { font-size: var(--fs-s); font-weight: 700; border-radius: 4px; padding: 1px 5px; align-self: flex-start; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .mday .tag.vrl { background: var(--verlof); color: var(--verlof-ink); }
 .mday .tag.hol { background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
@@ -313,7 +316,7 @@ th button.sort:hover { color: var(--ink); }
 .daylist li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; }
 .daylist .dname { font-weight: 700; }
 .daylist .dsub { grid-column: 2; font-size: var(--fs-m); color: var(--muted); }
-.daylist .dh { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-kop-3); white-space: nowrap; }
+.daylist .dh { font-weight: 700; white-space: nowrap; }
 .statusbox { padding: 16px; border-radius: 10px; background: var(--surface-2); color: var(--muted); }
 
 /* ---------- modals ---------- */
@@ -521,7 +524,7 @@ tr.jump:hover td { background: var(--accent-soft); }
 .gbuform .inline { gap: 8px; flex-wrap: nowrap; }
 
 /* klikbaar getal bovenaan en het venster met de opbouw */
-.capbtn { font: inherit; font-weight: 700; color: inherit; background: none; border: 0; padding: 0; text-decoration: underline; text-decoration-style: dotted; text-decoration-thickness: 2px; text-underline-offset: 5px; cursor: pointer; }
+.capbtn { font: inherit; font-weight: 700; color: inherit; background: none; border: 0; padding: 0; text-decoration: underline; text-decoration-style: dotted; text-decoration-thickness: 1px; text-underline-offset: 3px; cursor: pointer; }
 .capbtn:hover { color: var(--accent); }
 .capintro { margin-bottom: 12px; }
 .captable td { vertical-align: top; }
@@ -540,7 +543,7 @@ tr.jump:hover td { background: var(--accent-soft); }
 .setyearintro { margin: -4px 0 12px; font-size: var(--fs-l); color: var(--muted); }
 .yearnav.small { padding: 1px; }
 .yearnav.small button { width: 28px; height: 28px; font-size: var(--fs-body); }
-.yearnav.small span { font-size: var(--fs-body); min-width: 2.8em; }
+.yearnav.small span { min-width: 2.8em; }
 .otheryears { font-size: var(--fs-l); background: var(--warn-soft); color: var(--ink); border-radius: 8px; padding: 8px 10px; margin: 0 0 14px; }
 
 .tasktable input.jr { width: 4.8em; }
@@ -1225,6 +1228,9 @@ body {
 
 
 .wd-kop { display: flex; justify-content: flex-end; align-items: center; gap: 8px; flex-wrap: wrap; margin: -6px 0 10px; }
+/* op een breed scherm staan het jaar en Verlof plannen rechts naast de zin, niet op een eigen regel erboven (v238) */
+@media (min-width: 1100px) { .wd-kop { float: right; margin: -4px 0 6px 20px; } }
+#banner, #view, .empty-hero { clear: both; }
 
 
 
@@ -1242,7 +1248,7 @@ body {
 /* inhoud gecentreerd, Bewerken en Mindmap over de volle breedte */
 #hoofd > .document, #hoofd > .inhoud, #hoofd > .colofon, #hoofd > .filter-melding, #hoofd > .historie, #hoofd > .releasenotes { max-width: none; }
 
-/* beginscherm en werkdruktabbladen (Jaar t/m Taken): begrensde breedte, gecentreerd */
+/* beginscherm: begrensde breedte, gecentreerd */
 #hoofd > .leeg { max-width: 1240px; margin-left: auto; margin-right: auto; }
 #hoofd > .document { padding-top: 28px; }
 .document h1, .document h2, .document h3, .document h4 { font-family: inherit; }
@@ -1396,13 +1402,13 @@ body {
   --shadow: 0 1px 1px rgba(0, 0, 0, .3);
 }
 :root[data-stijl="compact"] body { font-size: 14px; line-height: 1.4; }
-:root[data-stijl="compact"] .wrap { padding: 12px 14px 40px; }
+:root[data-stijl="compact"] .wrap { padding-bottom: 40px; }
 :root[data-stijl="compact"] #wd-vlak.wrap { padding-top: 14px; }
 :root[data-stijl="compact"] .panel { padding: 12px 14px; }
 :root[data-stijl="compact"] .panel + .panel, :root[data-stijl="compact"] .panel + .grid3, :root[data-stijl="compact"] .grid3 + .panel { margin-top: 10px; }
 :root[data-stijl="compact"] .grid3 { gap: 10px; }
 :root[data-stijl="compact"] .btn, :root[data-stijl="compact"] .knop { padding: 4px 10px; font-size: var(--fs-m); }
-:root[data-stijl="compact"] .statement { font-size: clamp(1.1rem, .95rem + .8vw, 1.5rem); }
+:root[data-stijl="compact"] .statement { font-size: var(--fs-body); }
 
 
 
@@ -2239,6 +2245,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v238</span> Werkdrukpagina's in de letters en marges van de andere tabbladen <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>De zin bovenaan Jaar, Maand, Week, Dag en Taken ("Je taken vragen … uur van de … uur") stond in de letter voor koppen (in de stijl Papier een schreefletter) en groeide mee met de breedte van het scherm, tot 33 px. Hij staat nu in de letter van de pagina, 18 px (in Compact 16 px), met de getallen vet. Ook het jaar in de jaarkiezer (ook die in Instellingen), de dagnummers in Maand en de uren per taak in Dag staan in de letter van de pagina, en de regel onder de kop van Maand, Week en Dag is 14 px. De letter voor koppen is er alleen nog voor koppen, zoals op de andere tabbladen; de maandnamen in Jaar en de jaren in het Meerjarenbeeld zijn koppen en blijven zo.</li><li><span class="soort herstel">herstel</span>De feiten onder die zin ("5 weken overvol, 5 krap", "0 van 25 verlofdagen ingepland …") stonden als losse blokjes met een brede ruimte ertussen. Het zijn nu gewone zinnen achter elkaar, elk met een punt, in 14 px: dezelfde vorm als de uitleg op de andere tabbladen. De ruimte tussen de zin, de feiten en het vlak eronder is kleiner.</li><li><span class="soort herstel">herstel</span>De werkdrukpagina's stonden in het midden, hoogstens 1240 px breed, waardoor er op een breed scherm een lege strook naast de zijbalk zat en de inhoud op een andere plek begon dan op de andere tabbladen. Ze beginnen nu links op dezelfde plek als Licenties, Historie en de rest, met dezelfde marges (48 px, op een telefoon 20 px), en gebruiken de hele breedte. Op een scherm vanaf 1100 px staan het jaar en <i>Verlof plannen</i> rechts naast de zin in plaats van op een eigen regel erboven; op een smaller scherm blijven ze erboven staan.</li><li><span class="soort nieuw">nieuw</span>Tests: in een echte browser staat op de werkdrukpagina's alleen een kop in de letter voor koppen, hebben de zin, de feiten, het jaar, de dagnummers en de uren de maten van de schaal, staan de feiten als zinnen met één spatie ertussen, en beginnen en eindigen de werkdrukpagina's op dezelfde plek als Licenties en Historie (1900, 1400 en 420 px breed; Papier en Compact). Ze falen op v237. Hulp bijgewerkt (Verlof, geboorteverlof en feestdagen plannen). Bekende fout, vastgelegd als test (todo, F-smal1): op een scherm smaller dan ongeveer 410 px schuift Taken opzij, omdat de rij <i>Alle / Meegeteld / Onvolledig / Uitgezet</i> niet afbreekt; dat was al zo. Geen handmatige actie nodig.</li></ul></div>
     <div class="release"><h2><span class="versie">v237</span> Mindmap: Dikte naar uren staat standaard aan <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>De knop <i>Dikte naar uren</i> in de mindmap staat voortaan aan als je de pagina opent: de lijn naar een tak is meteen dikker naarmate er meer uren per jaar aan werkdruktaken onder staan. Met de knop zet je het uit; dan zijn alle takken weer even dik. Die keuze geldt tot je de pagina herlaadt. Staan er nergens taken met uren, dan blijven alle takken even dik, zoals voorheen; de melding daarover krijg je alleen als je de knop zelf aanzet, niet bij het openen.</li><li><span class="soort nieuw">nieuw</span>Test: in een echte browser volgt de dikte de uren zonder dat je iets aanklikt, staat de knop op aan, en komt er bij het openen geen melding als er nergens uren staan. De test faalt op v236. Hulp bijgewerkt (Document en Mindmap). Geen handmatige actie nodig.</li></ul></div>
 
     <div class="release"><h2><span class="versie">v236</span> Bijlagen per project <span class="datum">9 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Bij de notities van een code kun je bestanden bewaren. Sleep een of meer bestanden naar het notitievenster, of kies ze met de nieuwe knop <i>Bijlage…</i>. De pagina zet een kopie in <code>notities/&lt;code&gt;/</code> (een map met de code als naam, naast het notitiebestand) en zet in je notities een opsommingspunt met een link naar het bestand, onder de regel van de cursor; daarna sla je de notities op. Tijdens het slepen staat in het venster wat er gaat gebeuren. Een bestand dat je naar het notitievenster sleept, wordt niet meer als document geopend.</li><li><span class="soort nieuw">nieuw</span>Er wordt nooit een bijlage overschreven. Staat er al een bestand met dezelfde naam en dezelfde inhoud, dan komt er alleen een link bij; is de inhoud anders, dan krijgt het nieuwe bestand een volgnummer (<code>offerte (2).pdf</code>). Lukt het kopiëren niet, dan blijft er geen half bestand en geen link achter en lees je per bestand waarom. Een map kan geen bijlage zijn.</li><li><span class="soort nieuw">nieuw</span>Een bijlage open je met Ctrl+klik (Mac: Cmd+klik) op de link in je notities, of met een klik in het tabblad <b>Dossier</b>, dat een nieuw onderdeel <i>Bijlagen</i> heeft met alle bestanden in de map van de code en hun grootte. De link is een pad vanaf het HTML-bestand: hij werkt als <code>werkdruk-in-beeld.html</code> in je gegevensmap staat.</li><li><span class="soort nieuw">nieuw</span><b>Code omzetten</b> neemt de bijlagen mee: de controle noemt ze, bij Omzetten worden ze naar de map van de nieuwe code gekopieerd en met het origineel vergeleken, de links in je notities en in de meegaande notities van andere projecten wijzen daarna naar de nieuwe map, en pas na het opslaan van werkdruk.md gaat de oude map weg. Mislukt een stap, dan is alles terug zoals het was. Omzetten kan niet als in de nieuwe map al een bestand met dezelfde naam staat of als in de oude map een submap staat. Een link naar een bijlage in werkdruk.md of de daginvoer staat bij de vermeldingen "in een link of pad" standaard uit; de controle wijst je daarop.</li><li><span class="soort nieuw">nieuw</span>Beperkingen: bijlagen bewaren kan alleen met een map waarin de pagina kan schrijven (Chrome of Edge; niet in Firefox en Safari, en niet in het voorbeeld). Zonder zo'n map past Code omzetten wel de links aan, maar hernoem je de map met bijlagen zelf. Een bijlage wordt voor het vergelijken in het geheugen gelezen; voor heel grote bestanden (honderden MB) is dit niet bedoeld.</li><li><span class="soort nieuw">nieuw</span>Tests: de link, de vrije naam, het vervangen van de code in een link en de plek in het tekstvak (kern); in een echte browser met een nagebootste map het slepen en de knop, dezelfde naam, een schrijffout, zonder map, Ctrl+klik, Dossier, en Code omzetten met bijlagen (verplaatsen, terugdraaien, botsende naam, submap). Alle nieuwe tests falen op v235. De golden masters zijn ongewijzigd. Hulp bijgewerkt (Notities per code, Dossier). Geen handmatige actie nodig.</li></ul></div>
@@ -3806,7 +3813,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
 
   <section id="h-verlof">
     <h3>Verlof, geboorteverlof en feestdagen plannen</h3>
-    <p>Zet <b>Verlof plannen</b> aan (knop rechts boven de samenvatting in de tabbladen Jaar tot en met Taken) en kies in de balk wat je wilt inplannen:</p>
+    <p>Zet <b>Verlof plannen</b> aan (knop rechts naast de samenvatting in de tabbladen Jaar tot en met Taken; op een smal scherm erboven) en kies in de balk wat je wilt inplannen:</p>
     <ul>
       <li><b>Verlof</b>: klik in het jaar- of maandoverzicht op een werkdag. De eerste klik maakt er een hele verlofdag van, de tweede een halve dag, de derde haalt het verlof weer weg. Klik in het jaaroverzicht op een weeknummer om een hele week in of uit te plannen.</li>
       <li><b>Geboorteverlof</b>: klik op een dag of weeknummer; die hele week wordt geboorteverlof. Nog een keer klikken haalt het weg. Je kunt weken ook als weeknummers opgeven in Instellingen, bijvoorbeeld <code>12-16</code>.</li>
@@ -11468,26 +11475,27 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
           'Je komt <span class="nobr"><b>' + fh(-restR) + '&nbsp;uur</b> (<b>' + (pLoad - 100) + '%</b>)</span> tekort.</p>';
       }
     }
+    // de feiten zijn gewone zinnen achter elkaar, zoals de uitleg op de andere tabbladen (v238)
     const facts = [];
     const fullWeeks = M.weeks.filter(w => w.cap > 1e-6);
     const over = fullWeeks.filter(w => w.load / w.cap >= 1).length;
     const tight = fullWeeks.filter(w => { const r = w.load / w.cap; return r >= krap() && r < 1; }).length;
-    facts.push('<span><strong>' + over + '</strong> van de ' + M.weeks.length + ' weken boven de 100%' + (tight ? ', <strong>' + tight + '</strong> krap' : '') + '</span>');
+    facts.push('<span><strong>' + over + '</strong> van de ' + M.weeks.length + ' weken boven de 100%' + (tight ? ', <strong>' + tight + '</strong> krap' : '') + '.</span>');
     const vt = M.verlofTotalDays, vp = M.plannedVerlofDays;
     facts.push('<span' + (M.overPlanned ? ' class="warnfact"' : '') + '><strong>' + nf1.format(vp) + '</strong> van ' + nf1.format(vt) + ' verlofdagen ingepland' +
-      (M.overPlanned ? ' (meer dan je hebt)' : (vt - vp > 0.01 ? '; de overige ' + nf1.format(vt - vp) + ' dagen (' + fh(M.reserveH) + ' uur) zijn al van je jaartotaal afgetrokken' : '')) + '</span>');
-    if (M.geboorteDays) { const gw = gbvWeeksThisYear().length; facts.push('<span><strong>' + gw + '</strong> ' + (gw === 1 ? 'week' : 'weken') + ' geboorteverlof</span>'); }
-    if (M.gbvUrenTotal > 0.05) facts.push('<span><strong>' + fh(M.gbvUrenTotal) + '</strong> uur geboorteverlof in uren per week</span>');
+      (M.overPlanned ? ' (meer dan je hebt)' : (vt - vp > 0.01 ? '; de overige ' + nf1.format(vt - vp) + ' dagen (' + fh(M.reserveH) + ' uur) zijn al van je jaartotaal afgetrokken' : '')) + '.</span>');
+    if (M.geboorteDays) { const gw = gbvWeeksThisYear().length; facts.push('<span><strong>' + gw + '</strong> ' + (gw === 1 ? 'week' : 'weken') + ' geboorteverlof.</span>'); }
+    if (M.gbvUrenTotal > 0.05) facts.push('<span><strong>' + fh(M.gbvUrenTotal) + '</strong> uur geboorteverlof in uren per week.</span>');
     const inc = TASKS.filter(t => t.status === 'onvolledig').length;
-    if (inc) facts.push('<span class="warnfact"><button type="button" class="linkish" data-act="show-incomplete">' + inc + (inc === 1 ? ' taak telt' : ' taken tellen') + ' nog niet mee</button> (frequentie of uren ontbreekt)</span>');
+    if (inc) facts.push('<span class="warnfact"><button type="button" class="linkish" data-act="show-incomplete">' + inc + (inc === 1 ? ' taak telt' : ' taken tellen') + ' nog niet mee</button> (frequentie of uren ontbreekt).</span>');
     const nh = TASKS.filter(t => t.status !== 'uit' && wanneerNietHerkend(t)).length;   // v142
-    if (nh) facts.push('<span class="warnfact"><button type="button" class="linkish" data-act="show-wanneer">' + nh + (nh === 1 ? ' taak heeft' : ' taken hebben') + ' een wanneer dat niet is herkend</button> (telt als gelijkmatig verdeeld)</span>');
-    if (M.overflowTotal > 0.05) facts.push('<span class="warnfact">' + fh(M.overflowTotal) + ' uur kon na verlof niet meer in ' + S.year + ' worden ingehaald</span>');
-    if (M.droppedTotal > 0.05) facts.push('<span>' + fh(M.droppedTotal) + ' uur aan taken vervalt door verlof</span>');
-    facts.push('<span class="warnfact" id="draftFact"' + (DRAFT === null ? ' hidden' : '') + '>Je hebt <button type="button" class="linkish" data-act="open-data">niet-opgeslagen wijzigingen</button> in de takenlijst</span>');
+    if (nh) facts.push('<span class="warnfact"><button type="button" class="linkish" data-act="show-wanneer">' + nh + (nh === 1 ? ' taak heeft' : ' taken hebben') + ' een wanneer dat niet is herkend</button> (telt als gelijkmatig verdeeld).</span>');
+    if (M.overflowTotal > 0.05) facts.push('<span class="warnfact">' + fh(M.overflowTotal) + ' uur kon na verlof niet meer in ' + S.year + ' worden ingehaald.</span>');
+    if (M.droppedTotal > 0.05) facts.push('<span>' + fh(M.droppedTotal) + ' uur aan taken vervalt door verlof.</span>');
+    facts.push('<span class="warnfact" id="draftFact"' + (DRAFT === null ? ' hidden' : '') + '>Je hebt <button type="button" class="linkish" data-act="open-data">niet-opgeslagen wijzigingen</button> in de takenlijst.</span>');
     // de bron staat sinds v163 niet meer in de samenvatting: die staat onderaan de zijbalk (v153), en kiezen of opnieuw
     // inladen gaat via Bron ▾ in de balk
-    el.innerHTML = s + '<div class="facts">' + facts.join('') + '</div>';
+    el.innerHTML = s + '<div class="facts">' + facts.join(' ') + '</div>';
   }
 
   // Alleen zichtbaar als er een bron is geladen (anders toont het documentdeel het beginscherm)
