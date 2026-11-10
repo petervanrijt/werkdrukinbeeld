@@ -2245,6 +2245,8 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v239</span> Typen onder een kop zonder inhoud <span class="datum">10 nov 2026</span></h2>
+      <ul><li><span class="soort herstel">herstel</span>Onder een kop waar nog niets onder stond (alleen "naar index" erachter) was het lastig om een taak of opsomming te maken. Vier fouten in Document zijn hersteld. De cursor kon achter "naar index" terechtkomen (pijl rechts, <kbd>End</kbd>, een klik rechts van of onder de kop); wat je daar typte, kwam achter de link in de kop. De cursor blijft nu vóór "naar index", aan het eind van de koptekst. Bij een lege kop met een andere kop eronder sprong de cursor met <kbd>End</kbd> of een klik onder de kop naar die volgende kop, zodat je tekst daar een kop werd of eraan vastplakte; de cursor blijft nu in de kop waar je was. <kbd>Enter</kbd> aan het eind van een kop zet de nieuwe regel nu in de sectie van die kop en klapt die open; "naar index" blijft in de kop. Daardoor blijft wat je onder een ingeklapte kop typt zichtbaar als je ergens anders klikt (het stond wel in het bestand, maar verdween uit beeld). <i>Taak ⇄ punt</i> en <i>Taak</i> op een lege regel maken daar nu een taak; <i>Taak ⇄ punt</i> gaf de melding "Zet eerst de cursor in een punt of alinea." Pijl rechts aan het eind van een koptekst gaat naar het volgende zichtbare blok. Geen handmatige actie nodig.</li></ul></div>
     <div class="release"><h2><span class="versie">v238</span> Werkdrukpagina's in de letters en marges van de andere tabbladen <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>De zin bovenaan Jaar, Maand, Week, Dag en Taken ("Je taken vragen … uur van de … uur") stond in de letter voor koppen (in de stijl Papier een schreefletter) en groeide mee met de breedte van het scherm, tot 33 px. Hij staat nu in de letter van de pagina, 18 px (in Compact 16 px), met de getallen vet. Ook het jaar in de jaarkiezer (ook die in Instellingen), de dagnummers in Maand en de uren per taak in Dag staan in de letter van de pagina, en de regel onder de kop van Maand, Week en Dag is 14 px. De letter voor koppen is er alleen nog voor koppen, zoals op de andere tabbladen; de maandnamen in Jaar en de jaren in het Meerjarenbeeld zijn koppen en blijven zo.</li><li><span class="soort herstel">herstel</span>De feiten onder die zin ("5 weken overvol, 5 krap", "0 van 25 verlofdagen ingepland …") stonden als losse blokjes met een brede ruimte ertussen. Het zijn nu gewone zinnen achter elkaar, elk met een punt, in 14 px: dezelfde vorm als de uitleg op de andere tabbladen. De ruimte tussen de zin, de feiten en het vlak eronder is kleiner.</li><li><span class="soort herstel">herstel</span>De werkdrukpagina's stonden in het midden, hoogstens 1240 px breed, waardoor er op een breed scherm een lege strook naast de zijbalk zat en de inhoud op een andere plek begon dan op de andere tabbladen. Ze beginnen nu links op dezelfde plek als Licenties, Historie en de rest, met dezelfde marges (48 px, op een telefoon 20 px), en gebruiken de hele breedte. Op een scherm vanaf 1100 px staan het jaar en <i>Verlof plannen</i> rechts naast de zin in plaats van op een eigen regel erboven; op een smaller scherm blijven ze erboven staan.</li><li><span class="soort nieuw">nieuw</span>Tests: in een echte browser staat op de werkdrukpagina's alleen een kop in de letter voor koppen, hebben de zin, de feiten, het jaar, de dagnummers en de uren de maten van de schaal, staan de feiten als zinnen met één spatie ertussen, en beginnen en eindigen de werkdrukpagina's op dezelfde plek als Licenties en Historie (1900, 1400 en 420 px breed; Papier en Compact). Ze falen op v237. Hulp bijgewerkt (Verlof, geboorteverlof en feestdagen plannen). Bekende fout, vastgelegd als test (todo, F-smal1): op een scherm smaller dan ongeveer 410 px schuift Taken opzij, omdat de rij <i>Alle / Meegeteld / Onvolledig / Uitgezet</i> niet afbreekt; dat was al zo. Geen handmatige actie nodig.</li></ul></div>
     <div class="release"><h2><span class="versie">v237</span> Mindmap: Dikte naar uren staat standaard aan <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>De knop <i>Dikte naar uren</i> in de mindmap staat voortaan aan als je de pagina opent: de lijn naar een tak is meteen dikker naarmate er meer uren per jaar aan werkdruktaken onder staan. Met de knop zet je het uit; dan zijn alle takken weer even dik. Die keuze geldt tot je de pagina herlaadt. Staan er nergens taken met uren, dan blijven alle takken even dik, zoals voorheen; de melding daarover krijg je alleen als je de knop zelf aanzet, niet bij het openen.</li><li><span class="soort nieuw">nieuw</span>Test: in een echte browser volgt de dikte de uren zonder dat je iets aanklikt, staat de knop op aan, en komt er bij het openen geen melding als er nergens uren staan. De test faalt op v236. Hulp bijgewerkt (Document en Mindmap). Geen handmatige actie nodig.</li></ul></div>
 
@@ -3840,7 +3842,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   <section id="h-doc">
     <h3>Document en mindmap</h3>
     <p>Het tabblad <b>Document</b> toont <code>werkdruk.md</code> als opgemaakte tekst. Elke kop vormt met de inhoud eronder een sectie die je met een klik op het pijltje vóór de kop in- en uitklapt. Standaard staan <code>##</code>- en <code>###</code>-koppen ingeklapt; klap je een <code>###</code> open, dan klapt alles eronder volledig uit. Bovenaan staat een inklapbare index met alle koppen, met de knoppen <i>Alles inklappen</i> en <i>Alles uitklappen</i>; elke kop heeft een link <i>naar index</i>. In de index staat bij koppen met afvinkbare taken de voortgang, bijvoorbeeld 3/5. Die telt ook mee terwijl je typt of afvinkt in tekst die nog niet is opgeslagen. Achter een werkdruktaak staat een label met de frequentie, de uren per keer en de uren per jaar, bijvoorbeeld <i>wekelijks · 2,00 u · 104,00 u per jaar</i>; klik erop om de taak in de takenlijst te openen.</p>
-    <p>Je kunt direct in <b>Document</b> bewerken: klik in de tekst en typ. <kbd>Enter</kbd> in een opsommingspunt geeft een nieuw punt (in een taak een nieuwe taak; een nieuw punt wordt niet vanzelf urgent), <kbd>Enter</kbd> in een leeg punt springt een niveau terug of maakt er een alinea onder de lijst van, <kbd>Enter</kbd> aan het eind van een kop geeft een gewone alinea, <kbd>Backspace</kbd> vooraan een taak haalt het vinkje weg, <kbd>Tab</kbd> en <kbd>Shift</kbd>+<kbd>Tab</kbd> laten een punt in- en uitspringen, en <kbd>Ctrl</kbd>+<kbd>B</kbd> en <kbd>Ctrl</kbd>+<kbd>I</kbd> maken tekst vet of schuin. Plakken gaat als platte tekst. Kopieer of knip je meer dan één regel uit Document (punten, taken, alinea's), dan gaan ze als geheel mee: met hun vinkje, urgent en subpunten, maar zonder werkdruklabels of "naar index". Plak je ze in Document, dan komen ze onder het punt of de alinea waar de cursor staat. Zo verplaats je taken met <kbd>Ctrl</kbd>+<kbd>X</kbd> en <kbd>Ctrl</kbd>+<kbd>V</kbd>. <kbd>Enter</kbd> in een codeblok geeft een nieuwe regel in de code; in een tabelcel kan dat niet, want een tabel in markdown heeft één regel per rij. Links, codelabels en werkdruklabels kun je niet doortypen, wel aanklikken. De werkbalk bovenaan blijft onder de balk staan als je scrolt. Hij heeft dezelfde knoppen als Bewerken, die werken op de plek van de cursor: <i>+ Nieuwe taak</i> (de taak komt standaard bij de cursor, onder het punt, de kop of de alinea; in het invulvenster kun je bij <i>Onder kop</i> ook een andere plek kiezen), <i>+ Volgnummer</i> (het nummer komt vooraan het punt, de kop of de alinea, ook in een citaat), <i>✎ Taak bewerken</i> (<kbd>F2</kbd>), <i>Urgent</i> (het punt, de alinea of de kop), <i>Taak</i> (een nieuwe taak onder het punt, met de cursor erin; in een genummerde lijst met het volgende nummer, in een citaat binnen het citaat), <i>Taak ⇄ punt</i> (van het punt bij de cursor een taak met vinkje maken, of van een taak weer een gewoon punt; een alinea wordt een taak; met een selectie wissel je alle punten erin tegelijk; urgent, subpunten en de rest van de regel blijven) en <i>In/uitgeklapt</i>: daarmee bepaal je hoe de kop bij de cursor opent als de pagina wordt geladen, met elke klik de volgende stand: <i>gesloten</i>, <i>geopend</i> of <i>standaard</i> (<code>##</code>- en <code>###</code>-koppen dicht, andere open); de sectie volgt meteen en een melding noemt de stand. Met de keuzelijst <i>Alinea / Kop 1–6</i> zet je de regel bij de cursor om naar een alinea of een kop van niveau 1 tot en met 6; de lijst laat zien wat er nu staat. Een opsommingspunt zonder subpunten kan ook een kop worden. Verder <b>B</b> en <i>I</i> voor vet en schuin, de pijltjes <i>Ongedaan maken</i> en <i>Opnieuw</i> (<kbd>Ctrl</kbd>+<kbd>Z</kbd> en <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>), <i>Wijzigingen weggooien</i>, en de status: of er iets niet is opgeslagen. Opslaan gaat zoals in Bewerken, met <kbd>Ctrl</kbd>+<kbd>S</kbd> of het label <i>Niet opgeslagen</i>. Lukt opslaan niet (bijvoorbeeld zonder toestemming, of omdat een ander programma het bestand bezet houdt), dan zie je dat met de reden in de status en in een melding; je tekst blijft staan en <kbd>Ctrl</kbd>+<kbd>S</kbd> probeert het opnieuw. Alleen wat je wijzigt, verandert in <code>werkdruk.md</code>: de rest van het bestand blijft teken voor teken gelijk, ook de tekens van je opsommingen en de verborgen codes. Zijn er niet-opgeslagen wijzigingen, dan hoort een vinkje daarbij en wordt het pas met de rest opgeslagen. Met <kbd>Esc</kbd> stop je met typen, zodat de sneltoetsen weer werken. Typ of plak je een code, zoals <code>- </code> of <code># </code> vooraan een regel, <code>*nadruk*</code>, <code>!!urgent!!</code> of <code>&lt;!-- urgent --&gt;</code>, dan staat die eerst letterlijk op het scherm. Zodra je de regel verlaat (met de pijltjes of door ergens anders te klikken), bij opslaan en als je terugkomt in Document, toont Document de echte vorm: een punt, een kop, nadruk of urgent. Wat je dan ziet, is wat er in <code>werkdruk.md</code> komt. De index bovenaan volgt je koppen terwijl je typt. Onder de werkbalk staat, net als in Bewerken, de <i>opzet van een werkdruktaak</i>: staat de cursor in een taak, dan licht het deel op dat je bewerkt (taak, frequentie, uur per keer, wanneer, locatie of opmerkingen) en zijn ontbrekende delen gemarkeerd; met <i>Hoe schrijf ik een taak?</i> open je de uitleg.</p>
+    <p>Je kunt direct in <b>Document</b> bewerken: klik in de tekst en typ. <kbd>Enter</kbd> in een opsommingspunt geeft een nieuw punt (in een taak een nieuwe taak; een nieuw punt wordt niet vanzelf urgent), <kbd>Enter</kbd> in een leeg punt springt een niveau terug of maakt er een alinea onder de lijst van, <kbd>Enter</kbd> aan het eind van een kop geeft een gewone alinea onder die kop (staat de kop ingeklapt, dan klapt hij open), <kbd>Backspace</kbd> vooraan een taak haalt het vinkje weg, <kbd>Tab</kbd> en <kbd>Shift</kbd>+<kbd>Tab</kbd> laten een punt in- en uitspringen, en <kbd>Ctrl</kbd>+<kbd>B</kbd> en <kbd>Ctrl</kbd>+<kbd>I</kbd> maken tekst vet of schuin. Plakken gaat als platte tekst. Kopieer of knip je meer dan één regel uit Document (punten, taken, alinea's), dan gaan ze als geheel mee: met hun vinkje, urgent en subpunten, maar zonder werkdruklabels of "naar index". Plak je ze in Document, dan komen ze onder het punt of de alinea waar de cursor staat. Zo verplaats je taken met <kbd>Ctrl</kbd>+<kbd>X</kbd> en <kbd>Ctrl</kbd>+<kbd>V</kbd>. <kbd>Enter</kbd> in een codeblok geeft een nieuwe regel in de code; in een tabelcel kan dat niet, want een tabel in markdown heeft één regel per rij. Links, codelabels en werkdruklabels kun je niet doortypen, wel aanklikken; achter "naar index" bij een kop kun je de cursor niet zetten, hij blijft aan het eind van de koptekst. De werkbalk bovenaan blijft onder de balk staan als je scrolt. Hij heeft dezelfde knoppen als Bewerken, die werken op de plek van de cursor: <i>+ Nieuwe taak</i> (de taak komt standaard bij de cursor, onder het punt, de kop of de alinea; in het invulvenster kun je bij <i>Onder kop</i> ook een andere plek kiezen), <i>+ Volgnummer</i> (het nummer komt vooraan het punt, de kop of de alinea, ook in een citaat), <i>✎ Taak bewerken</i> (<kbd>F2</kbd>), <i>Urgent</i> (het punt, de alinea of de kop), <i>Taak</i> (een nieuwe taak onder het punt, met de cursor erin; in een genummerde lijst met het volgende nummer, in een citaat binnen het citaat), <i>Taak ⇄ punt</i> (van het punt bij de cursor een taak met vinkje maken, of van een taak weer een gewoon punt; een alinea wordt een taak; met een selectie wissel je alle punten erin tegelijk; urgent, subpunten en de rest van de regel blijven; op een lege regel, zoals net na <kbd>Enter</kbd> achter een kop, maken <i>Taak</i> en <i>Taak ⇄ punt</i> van die regel een taak) en <i>In/uitgeklapt</i>: daarmee bepaal je hoe de kop bij de cursor opent als de pagina wordt geladen, met elke klik de volgende stand: <i>gesloten</i>, <i>geopend</i> of <i>standaard</i> (<code>##</code>- en <code>###</code>-koppen dicht, andere open); de sectie volgt meteen en een melding noemt de stand. Met de keuzelijst <i>Alinea / Kop 1–6</i> zet je de regel bij de cursor om naar een alinea of een kop van niveau 1 tot en met 6; de lijst laat zien wat er nu staat. Een opsommingspunt zonder subpunten kan ook een kop worden. Verder <b>B</b> en <i>I</i> voor vet en schuin, de pijltjes <i>Ongedaan maken</i> en <i>Opnieuw</i> (<kbd>Ctrl</kbd>+<kbd>Z</kbd> en <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>), <i>Wijzigingen weggooien</i>, en de status: of er iets niet is opgeslagen. Opslaan gaat zoals in Bewerken, met <kbd>Ctrl</kbd>+<kbd>S</kbd> of het label <i>Niet opgeslagen</i>. Lukt opslaan niet (bijvoorbeeld zonder toestemming, of omdat een ander programma het bestand bezet houdt), dan zie je dat met de reden in de status en in een melding; je tekst blijft staan en <kbd>Ctrl</kbd>+<kbd>S</kbd> probeert het opnieuw. Alleen wat je wijzigt, verandert in <code>werkdruk.md</code>: de rest van het bestand blijft teken voor teken gelijk, ook de tekens van je opsommingen en de verborgen codes. Zijn er niet-opgeslagen wijzigingen, dan hoort een vinkje daarbij en wordt het pas met de rest opgeslagen. Met <kbd>Esc</kbd> stop je met typen, zodat de sneltoetsen weer werken. Typ of plak je een code, zoals <code>- </code> of <code># </code> vooraan een regel, <code>*nadruk*</code>, <code>!!urgent!!</code> of <code>&lt;!-- urgent --&gt;</code>, dan staat die eerst letterlijk op het scherm. Zodra je de regel verlaat (met de pijltjes of door ergens anders te klikken), bij opslaan en als je terugkomt in Document, toont Document de echte vorm: een punt, een kop, nadruk of urgent. Wat je dan ziet, is wat er in <code>werkdruk.md</code> komt. De index bovenaan volgt je koppen terwijl je typt. Onder de werkbalk staat, net als in Bewerken, de <i>opzet van een werkdruktaak</i>: staat de cursor in een taak, dan licht het deel op dat je bewerkt (taak, frequentie, uur per keer, wanneer, locatie of opmerkingen) en zijn ontbrekende delen gemarkeerd; met <i>Hoe schrijf ik een taak?</i> open je de uitleg.</p>
     <p>Wijzigt een ander programma (bijvoorbeeld Kladblok) het bestand, dan ververst de pagina: meteen als de browser wijzigingen zelf kan melden, anders binnen enkele seconden. Wijs het label <i>Ververst automatisch</i> in de balk aan om te zien welke van de twee. Gewijzigde secties lichten oranje op en krijgen een oranje stip; met de knop <i>n secties gewijzigd</i> of de toets <kbd>w</kbd> spring je erlangs.</p>
     <p>Het tabblad <b>Mindmap</b> toont de koppen als een boom rond de <code>#</code>-kop. Klik op een tak om hem uit te klappen (zijn er onder de tak nog punten verborgen, dan worden die meteen getoond); klik nogmaals om hem in te klappen. Dubbelklik om naar die plek in het document te gaan, sleep om te verplaatsen en scroll om te zoomen. Standaard zie je koppen 1 tot en met 3; een gestippeld bolletje geeft het aantal verborgen opsommingspunten (klik erop of druk op <kbd>p</kbd>). Een kop met de naam "Verwerkt" of met <code>&lt;!-- ingeklapt --&gt;</code> start dicht. De knoppen boven de mindmap: <i>Passend</i> (alles in beeld), <i>+</i> en <i>−</i> (zoomen), <i>Alles uitklappen</i>, <i>Alles inklappen</i>, <i>Standaard</i> (terug naar koppen 1 tot en met 3, zonder opsommingen), <i>Opsommingen: aan/uit</i> (de punten onder de koppen wel of niet tonen), <i>Taken: aan/uit</i> (bij elke kop het aantal afgevinkte taken en alle taken eronder, zoals 1/2; standaard uit), <i>Projectnummers: aan/uit</i> (de code vooraan een kop of punt, zoals 482828 of 2026-117, wel of niet tonen; welke codes dat zijn, stel je in bij Instellingen → Codes voor notities; standaard uit) en <i>Dikte naar uren: aan/uit</i> (de lijn naar een tak wordt dikker naarmate er meer uren per jaar aan werkdruktaken onder staan; standaard aan). Ook als de projectnummers uit staan, vind je een kop of punt met het zoekveld op zijn nummer, en zie je het volledige nummer als je de knoop aanwijst.</p>
     <p>Met <i>Dikte naar uren</i> aan zie je waar je tijd zit; zo opent de mindmap. Zet je de knop uit, dan zijn alle takken even dik. Die keuze geldt tot je de pagina herlaadt. De zwaarste tak is het dikst, de andere takken zijn naar verhouding dunner, en een tak waar geen uren onder staan is dun en vaag. Een kop telt alle taken eronder mee, ook onder subkoppen en in ingeklapte takken. Het zijn dezelfde uren per jaar als in de labels in Document, voor het jaar dat je bij de werkdruk bekijkt. Wijs een tak aan om het aantal uren te zien. Staan er nergens taken met uren, dan blijven alle takken even dik; zet je de knop dan zelf aan, dan krijg je daar een melding van.</p>
@@ -9035,7 +9037,7 @@ WIB.kern.document = (function () {
   window.WIB.editor = { maak: function (o) {
     const el = o.el;
     let basis = '', vuil = new WeakSet(), gewijzigd = false, timer = null, terugS = [], vooruitS = [];
-    let onzeker = false, bewerkt = null, vormT = null, muis = false, comp = false, taakEnter = null, aan = false;
+    let onzeker = false, bewerkt = null, vormT = null, muis = false, muisDoel = null, muisY = 0, comp = false, taakEnter = null, aan = false;
     const melding = function (t) { if (o.melding) o.melding(t); };
     const status = function () { if (o.status) o.status(); };
     const geenCursor = function () { return 'Zet eerst de cursor in de tekst' + (o.inHet ? ' van ' + o.inHet : '') + '.'; };
@@ -9207,6 +9209,8 @@ WIB.kern.document = (function () {
     function extern(t, naarRegel) { onthoud(lf(o.lees())); teken(t, naarRegel); status(); }
     function urgent() { regelActie(function (regels, nr) { regels[nr] = wisselUrgent(regels[nr]); return { regels: regels }; }); }
     function taak() {
+      const leeg = leegBlokBijCursor();
+      if (leeg) { taakVanLeegBlok(leeg); return; }
       regelActie(function (regels, nr, blok) {
         if (!regels[nr].trim()) { regels[nr] = '- [ ] '; return { regels: regels, naar: nr }; }
         // onder het hele punt (met wat erin staat) of de hele alinea; in een genummerde lijst met het volgende nummer en
@@ -9226,6 +9230,8 @@ WIB.kern.document = (function () {
     // Taak ⇄ punt (v188): de punten (en alinea's) bij de cursor of in de selectie. Is het eerste een taak, dan worden ze
     // allemaal een gewoon punt; anders krijgen ze allemaal een vinkje. Geeft { aantal, taak } terug (of niets).
     function wisselTaakKnop() {
+      const leeg = leegBlokBijCursor();
+      if (leeg) { taakVanLeegBlok(leeg); return { aantal: 1, taak: true }; }
       klaar();
       const sel = window.getSelection();
       if (!sel || !sel.rangeCount || !el.contains(sel.anchorNode)) { melding('Zet eerst de cursor in een punt of alinea.'); return null; }
@@ -9292,6 +9298,7 @@ WIB.kern.document = (function () {
       const mod = (e.ctrlKey || e.metaKey) && !e.altKey;
       if (mod && (e.key === 'z' || e.key === 'Z') && !e.shiftKey) { e.preventDefault(); terug(); return; }
       if (mod && (((e.key === 'z' || e.key === 'Z') && e.shiftKey) || e.key === 'y' || e.key === 'Y')) { e.preventDefault(); vooruit(); return; }
+      if (!e.ctrlKey && !e.metaKey && !e.altKey && (e.key === 'End' || (e.key === 'ArrowRight' && !e.shiftKey))) kopToets(e);
       if (e.key === 'Tab' && !mod) {
         const li = liBij();
         if (!li) return;   // buiten een lijst: Tab gaat gewoon naar het volgende veld
@@ -9407,11 +9414,127 @@ WIB.kern.document = (function () {
       r.collapse(true); sel.removeAllRanges(); sel.addRange(r);
       return true;
     }
+    /* ---------- Een kop met "naar index" erachter (v239) ----------
+       "naar index" is niet te bewerken en staat aan het eind van de kop. De browser kan de cursor erachter zetten (pijl
+       rechts, End, een klik rechts van of onder de kop); wat je daar typt, kwam in de kop terecht, en bij een kop zonder
+       tekst eronder sprong de cursor naar de volgende kop. Daarom blijft de cursor vóór "naar index", en maakt Enter aan
+       het eind van de kop zelf een regel in de sectie van die kop (die dan openklapt). */
+    function terugVan(blok) { return blok ? blok.querySelector(':scope > .terug') : null; }
+    // staat dit punt in of achter "naar index" van dit blok?
+    function achterTerug(blok, n, offset) {
+      const staart = terugVan(blok);
+      if (!staart) return false;
+      const r = document.createRange(); r.setStart(n, offset); r.collapse(true);
+      return r.comparePoint(staart, 0) < 0;
+    }
+    function eindVanTekst(blok) {
+      const r = document.createRange(), tekst = tekstIn(blok), t = tekst[tekst.length - 1], staart = terugVan(blok);
+      if (t) r.setStart(t, t.nodeValue.length); else if (staart) r.setStartBefore(staart); else { r.selectNodeContents(blok); r.collapse(false); }
+      r.collapse(true);
+      return r;
+    }
+    function zetCursor(r) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+    function cursorVoorTerug() {
+      const sel = window.getSelection();
+      if (!aan || !sel || !sel.rangeCount || !sel.isCollapsed || !el.contains(sel.anchorNode)) return;
+      const blok = blokBij(sel.anchorNode);
+      if (blok && achterTerug(blok, sel.anchorNode, sel.anchorOffset)) zetCursor(eindVanTekst(blok));
+    }
+    // staat er in dit blok nog tekst achter de cursor?
+    function tekstNaCursor(blok) {
+      const r = window.getSelection().getRangeAt(0);
+      return tekstIn(blok).some(function (t) {
+        if (t === r.startContainer) return !!t.nodeValue.slice(r.startOffset).replace(/\u200b/g, '').trim();
+        return r.comparePoint(t, 0) > 0 && !!t.nodeValue.trim();
+      });
+    }
+    function zichtbaarBlok(vanaf, stap) {
+      const alle = Array.prototype.slice.call(el.querySelectorAll(CURSORBLOK));
+      let i = alle.indexOf(vanaf) + stap;
+      while (i >= 0 && i < alle.length && !alle[i].getClientRects().length) i += stap;
+      return alle[i] || null;
+    }
+    // End blijft in de kop; pijl rechts aan het eind van de koptekst gaat naar het volgende zichtbare blok
+    function kopToets(e) {
+      const sel = window.getSelection(), kop = sel && sel.rangeCount ? blokBij(sel.focusNode) : null;
+      if (!kop || !el.contains(kop) || !terugVan(kop)) return;
+      if (e.key === 'End') {
+        // de browser eerst laten bewegen (een kop van meer regels), daarna terug als de cursor de kop uit is
+        setTimeout(function () {
+          const s = window.getSelection();
+          if (!aan || !s.rangeCount || !el.contains(s.focusNode) || !el.contains(kop)) return;
+          if (blokBij(s.focusNode) === kop && !achterTerug(kop, s.focusNode, s.focusOffset)) return;
+          const r = eindVanTekst(kop);
+          if (e.shiftKey) s.extend(r.startContainer, r.startOffset); else zetCursor(r);
+        }, 0);
+        return;
+      }
+      if (!sel.isCollapsed || tekstNaCursor(kop)) return;
+      e.preventDefault();
+      const volgend = zichtbaarBlok(kop, 1);
+      if (!volgend) return;
+      const r = document.createRange(), t = tekstIn(volgend)[0];
+      if (t) r.setStart(t, 0); else r.setStart(volgend, 0);
+      r.collapse(true); zetCursor(r);
+    }
+    // een klik in de ruimte onder een kop, dichter bij die kop dan bij het blok eronder: de cursor komt in die kop
+    function naMuis() {
+      if (!aan) return;
+      cursorVoorTerug();
+      const sel = window.getSelection(), doel = muisDoel;
+      if (!sel || !sel.rangeCount || !sel.isCollapsed || !doel || !el.contains(doel) || doel.closest(CURSORBLOK)) return;
+      const hier = blokBij(sel.anchorNode);
+      if (!hier || !el.contains(hier)) return;
+      const boven = hier.getBoundingClientRect().top;
+      if (boven <= muisY) return;
+      const vorige = zichtbaarBlok(hier, -1);
+      if (!vorige || !terugVan(vorige)) return;
+      const onder = vorige.getBoundingClientRect().bottom;
+      if (onder > muisY || muisY - onder > boven - muisY) return;
+      zetCursor(eindVanTekst(vorige));
+    }
+    // Enter aan het eind van een kop: een lege regel in de sectie van die kop; "naar index" blijft in de kop
+    function enterNaKop(e) {
+      const sel = window.getSelection();
+      if (!sel || !sel.rangeCount || !sel.isCollapsed) return false;
+      const kop = blokBij(sel.anchorNode);
+      if (!kop || !el.contains(kop) || !/^H[1-6]$/.test(kop.tagName) || !terugVan(kop) || !heeftTekst(kop) || tekstNaCursor(kop)) return false;
+      e.preventDefault();
+      const p = document.createElement('p'); p.appendChild(document.createElement('br'));
+      const vlak = kop.nextElementSibling && kop.nextElementSibling.classList.contains('sectie-inhoud') ? kop.nextElementSibling : null;
+      if (vlak) vlak.insertBefore(p, vlak.firstChild); else kop.parentNode.insertBefore(p, kop.nextSibling);
+      if (o.toonBlok) o.toonBlok(p);
+      const r = document.createRange(); r.setStart(p, 0); r.collapse(true); zetCursor(r);
+      bewerkt = p; taakEnter = null;
+      return true;
+    }
+    // Taak en Taak ⇄ punt op een lege regel (net na Enter): die regel bestaat nog niet in de markdown, dus wordt hij hier
+    // zelf een taak (v239). Staat er een lijst direct boven, dan komt de taak daar onderaan bij.
+    function leegBlokBijCursor() {
+      const sel = window.getSelection();
+      if (!aan || !sel || !sel.rangeCount || !sel.isCollapsed || !el.contains(sel.anchorNode)) return null;
+      const b = blokBij(sel.anchorNode);
+      return b && b.tagName === 'P' && !heeftTekst(b) && !b.closest('li, td, th, blockquote') ? b : null;
+    }
+    function taakVanLeegBlok(p) {
+      const li = document.createElement('li'), vak = document.createElement('input'), spatie = document.createTextNode(' ');
+      vak.type = 'checkbox'; vak.setAttribute('data-taak', '-1'); vak.setAttribute('contenteditable', 'false');
+      li.className = 'taak'; li.appendChild(vak); li.appendChild(spatie);
+      li.appendChild(document.createElement('br'));   // geeft de cursor een plek op de lege regel (valt weg bij terugzetten)
+      const voor = p.previousElementSibling;
+      if (voor && voor.tagName === 'UL') { voor.appendChild(li); p.remove(); }
+      else { const ul = document.createElement('ul'); ul.appendChild(li); p.parentNode.replaceChild(ul, p); }
+      const r = document.createRange(); r.setStart(spatie, 1); r.collapse(true); zetCursor(r);
+      el.focus({ preventScroll: true });
+      bewerkt = li;
+    }
     el.addEventListener('beforeinput', function (e) {
       if (!aan) return;
       if (e.inputType === 'historyUndo') { e.preventDefault(); terug(); return; }
       if (e.inputType === 'historyRedo') { e.preventDefault(); vooruit(); return; }
       if (o.voorInvoer) o.voorInvoer();
+      cursorVoorTerug();   // nooit typen achter "naar index" (v239)
+      if (e.inputType === 'insertParagraph' && enterNaKop(e)) return;
       if ((e.inputType === 'insertParagraph' || e.inputType === 'insertLineBreak') && enterInCodeOfTabel(e)) return;
       if (e.inputType === 'insertParagraph' && enterInLeegPunt(e)) return;
       if (e.inputType === 'deleteContentBackward' && backspaceVoorTaak(e)) return;
@@ -9566,8 +9689,8 @@ WIB.kern.document = (function () {
         if (c) { if (erboven) c.index = Math.max(0, el.querySelectorAll(CURSORBLOK).length - 1 - vanEind); herstel(c); }
       } catch (e) { console.warn('Vorm controleren mislukt', e); }
     }
-    el.addEventListener('mousedown', function () { muis = true; });
-    document.addEventListener('mouseup', function () { if (muis) { muis = false; naSelectie(); } });
+    el.addEventListener('mousedown', function (e) { muis = true; muisDoel = e.target; muisY = e.clientY; });
+    document.addEventListener('mouseup', function () { if (muis) { muis = false; naMuis(); muisDoel = null; naSelectie(); } });
     el.addEventListener('compositionstart', function () { comp = true; });
     el.addEventListener('compositionend', function () { comp = false; });
     // de controle pas als de cursor even stilstaat in een ander blok dan het bewerkte
@@ -9589,6 +9712,7 @@ WIB.kern.document = (function () {
       const sel = window.getSelection();
       if (!aan || !sel || !sel.rangeCount || !el.contains(sel.anchorNode)) return;
       if (o.bijCursor) { const b = cursorBlok(); o.bijCursor(!b ? '' : /^H[1-6]$/.test(b.tagName) ? b.tagName.charAt(1) : b.tagName === 'P' ? 'p' : ''); }
+      if (!muis) cursorVoorTerug();
       if (!muis && (!o.actief || o.actief())) naSelectie();
     });
     return {
