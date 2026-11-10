@@ -1316,7 +1316,7 @@ body {
 }
 
 /* ======================================================================
-   Vijf stijlen. "Papier" is de standaard (instellingen.md); "Helder" zijn de tokens hierboven.
+   Zes stijlen. "Papier" is de standaard (instellingen.md); "Helder" zijn de tokens hierboven.
    Elke stijl heeft een lichte en een donkere variant.
    ====================================================================== */
 
@@ -1436,6 +1436,134 @@ body {
 :root[data-stijl="zacht"] .dc { border-radius: 8px; }
 :root[data-stijl="zacht"] .mday { border-radius: 16px; }
 :root[data-stijl="zacht"] .hist-dag, :root[data-stijl="zacht"] .hist-item, :root[data-stijl="zacht"] .dag-item { border-radius: 16px; }
+
+/* --- Crazy: kermis bij licht, neon-arcade bij donker. Alles blijft op zijn plek en leesbaar; de bediening beweegt mee --- */
+:root[data-stijl="crazy"] {
+  --bg: #FFF6E0; --surface: #FFFFFF; --surface-2: #F4EDFF; --ink: #1B1035; --muted: #5E5180;
+  --line: #D8CBF2; --line-strong: #1B1035; --accent: #6D28D9; --accent-soft: #EDE4FF; --accent-ink: #FFFFFF;
+  --ver: #C2185B; --ver-ink: #FFFFFF; --hl: #FFE566; --hl-strong: #FF9F1C;
+  --pop-1: #FF4D8D; --pop-2: #FFC400; --pop-3: #00C2A8; --pop-4: #8B5CF6; --pop-5: #FF7A1A; --pop-ink: #1B1035;
+  --rand: #1B1035; --slag-s: 3px 3px 0 0; --slag-l: 6px 6px 0 0; --slag-xl: 9px 9px 0 0; --slag-kleur: #1B1035;
+  --kop-schaduw: 2px 2px 0 #FFC400;
+  --patroon: radial-gradient(circle at 2px 2px, rgba(27, 16, 53, .13) 1.3px, transparent 1.6px); --patroon-maat: 22px 22px;
+  --shadow: 6px 6px 0 0 #FF4D8D;
+  --radius-l: 20px; --radius-s: 10px; --radius-pill: 999px;
+  --font-body: ui-rounded, "SF Pro Rounded", "Nunito", "Varela Round", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Arial Rounded MT Bold", ui-rounded, "SF Pro Rounded", "Nunito", "Trebuchet MS", system-ui, -apple-system, "Segoe UI", sans-serif;
+  scrollbar-color: var(--pop-1) transparent;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-stijl="crazy"]:not([data-theme="light"]) {
+    --bg: #0B0420; --surface: #150A33; --surface-2: #1E1145; --ink: #F4EEFF; --muted: #B6A8DC;
+    --line: #3A2670; --line-strong: #8F6BFF; --accent: #2DE2E6; --accent-soft: #0F3346; --accent-ink: #0B0420;
+    --ver: #FF4FA3; --ver-ink: #0B0420; --hl: #5A2C82; --hl-strong: #FF4FA3;
+    --pop-1: #FF4FA3; --pop-2: #FFD23F; --pop-3: #2DE2E6; --pop-4: #A78BFA; --pop-5: #FF8A3D;
+    --rand: #8F6BFF; --slag-s: 0 0 12px -2px; --slag-l: 0 0 26px -6px; --slag-xl: 0 0 34px -4px; --slag-kleur: #FF4FA3;
+    --kop-schaduw: 0 0 14px #FF4FA3;
+    --patroon: linear-gradient(rgba(143, 107, 255, .11) 1px, transparent 1px), linear-gradient(90deg, rgba(143, 107, 255, .11) 1px, transparent 1px); --patroon-maat: 44px 44px;
+    --shadow: 0 0 26px -6px #FF4FA3;
+  }
+}
+:root[data-stijl="crazy"][data-theme="dark"] {
+  --bg: #0B0420; --surface: #150A33; --surface-2: #1E1145; --ink: #F4EEFF; --muted: #B6A8DC;
+  --line: #3A2670; --line-strong: #8F6BFF; --accent: #2DE2E6; --accent-soft: #0F3346; --accent-ink: #0B0420;
+  --ver: #FF4FA3; --ver-ink: #0B0420; --hl: #5A2C82; --hl-strong: #FF4FA3;
+  --pop-1: #FF4FA3; --pop-2: #FFD23F; --pop-3: #2DE2E6; --pop-4: #A78BFA; --pop-5: #FF8A3D;
+  --rand: #8F6BFF; --slag-s: 0 0 12px -2px; --slag-l: 0 0 26px -6px; --slag-xl: 0 0 34px -4px; --slag-kleur: #FF4FA3;
+  --kop-schaduw: 0 0 14px #FF4FA3;
+  --patroon: linear-gradient(rgba(143, 107, 255, .11) 1px, transparent 1px), linear-gradient(90deg, rgba(143, 107, 255, .11) 1px, transparent 1px); --patroon-maat: 44px 44px;
+  --shadow: 0 0 26px -6px #FF4FA3;
+}
+/* de achtergrond: stippen (donker: een raster) met daarachter drie kleurvlekken die langzaam zweven */
+:root[data-stijl="crazy"] body { background-image: var(--patroon); background-size: var(--patroon-maat); }
+:root[data-stijl="crazy"] body::before {
+  content: ""; position: fixed; inset: -25vmax; z-index: -1; pointer-events: none; opacity: .5;
+  background:
+    radial-gradient(closest-side at 22% 30%, color-mix(in srgb, var(--pop-1) 42%, transparent), transparent),
+    radial-gradient(closest-side at 78% 24%, color-mix(in srgb, var(--pop-3) 38%, transparent), transparent),
+    radial-gradient(closest-side at 60% 78%, color-mix(in srgb, var(--pop-2) 40%, transparent), transparent);
+}
+:root[data-stijl="crazy"] ::selection { background: var(--pop-2); color: var(--pop-ink); }
+:root[data-stijl="crazy"] :focus-visible { outline: 3px solid var(--pop-1); outline-offset: 2px; }
+/* panelen: dikke rand en een schaduw in een eigen kleur, die groeit als je erboven hangt (zonder te verschuiven) */
+:root[data-stijl="crazy"] .panel, :root[data-stijl="crazy"] .empty-hero { border: 2px solid var(--rand); box-shadow: var(--slag-l) var(--pop-a, var(--pop-1)); transition: box-shadow .22s cubic-bezier(.34, 1.56, .64, 1); }
+:root[data-stijl="crazy"] .panel:hover, :root[data-stijl="crazy"] .empty-hero:hover { box-shadow: var(--slag-xl) var(--pop-a, var(--pop-1)); }
+:root[data-stijl="crazy"] .panel:nth-of-type(4n+2) { --pop-a: var(--pop-3); }
+:root[data-stijl="crazy"] .panel:nth-of-type(4n+3) { --pop-a: var(--pop-2); }
+:root[data-stijl="crazy"] .panel:nth-of-type(4n) { --pop-a: var(--pop-4); }
+/* koppen: een stripschaduw (donker: neon) */
+:root[data-stijl="crazy"] .tabkop, :root[data-stijl="crazy"] .modal-head h2, :root[data-stijl="crazy"] .document h1 { text-shadow: var(--kop-schaduw); letter-spacing: 0; }
+:root[data-stijl="crazy"] .document h1 > * { text-shadow: none; }
+:root[data-stijl="crazy"] .document h2 { border-bottom: 4px solid var(--pop-1); border-image: linear-gradient(90deg, var(--pop-1), var(--pop-2), var(--pop-3), var(--pop-4)) 1; }
+/* knoppen: je drukt ze echt in */
+:root[data-stijl="crazy"] .knop, :root[data-stijl="crazy"] .btn, :root[data-stijl="crazy"] .yearnav { border: 2px solid var(--rand); box-shadow: var(--slag-s) var(--slag-kleur); transition: transform .12s cubic-bezier(.34, 1.56, .64, 1), box-shadow .12s, background-color .12s; }
+:root[data-stijl="crazy"] .knop:hover:not(:disabled), :root[data-stijl="crazy"] .btn:hover:not(:disabled) { transform: translate(-1px, -1px); border-color: var(--rand); box-shadow: var(--slag-s) var(--pop-1), var(--slag-s) var(--pop-1); }
+:root[data-stijl="crazy"] .knop:active:not(:disabled), :root[data-stijl="crazy"] .btn:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: 0 0 0 0 var(--slag-kleur); }
+:root[data-stijl="crazy"] .knop:disabled, :root[data-stijl="crazy"] .btn:disabled { box-shadow: none; }
+:root[data-stijl="crazy"] .btn.primary { background: linear-gradient(120deg, #C2185B, #6D28D9); color: #FFFFFF; border-color: var(--rand); }
+:root[data-stijl="crazy"] .btn.quiet { border-color: transparent; box-shadow: none; }
+:root[data-stijl="crazy"] .knop[aria-pressed="true"], :root[data-stijl="crazy"] .seg button[aria-pressed="true"] { background: var(--pop-2); border-color: var(--rand); color: var(--pop-ink); }
+:root[data-stijl="crazy"] .ikoon-knop { transition: transform .18s cubic-bezier(.34, 1.56, .64, 1); }
+:root[data-stijl="crazy"] .ikoon-knop:hover:not(:disabled) { transform: scale(1.2) rotate(-10deg); }
+:root[data-stijl="crazy"] .linkish:hover { text-decoration-style: wavy; }
+:root[data-stijl="crazy"] input[type="checkbox"] { accent-color: var(--pop-1); transition: transform .15s cubic-bezier(.34, 1.56, .64, 1); }
+:root[data-stijl="crazy"] input[type="checkbox"]:hover { transform: scale(1.25) rotate(-8deg); }
+/* percentages als stickers; de balk van de maand als zuurstok */
+:root[data-stijl="crazy"] .pct { transform: rotate(-2deg); box-shadow: 2px 2px 0 var(--rand); }
+:root[data-stijl="crazy"] .mm-title .mm-pct { box-shadow: 2px 2px 0 var(--rand); transition: transform .2s cubic-bezier(.34, 1.56, .64, 1); }
+:root[data-stijl="crazy"] .mm-title:hover .mm-pct { transform: rotate(8deg) scale(1.15); }
+:root[data-stijl="crazy"] .meter { height: 16px; border: 2px solid var(--rand); }
+:root[data-stijl="crazy"] .meter i { position: relative; overflow: hidden; }
+:root[data-stijl="crazy"] .meter i::after { content: ""; position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, .4) 0 8px, transparent 8px 16px); background-size: 22.63px 100%; }
+/* dagen in de kalenders springen naar voren */
+:root[data-stijl="crazy"] .dc { border-radius: 8px; transition: transform .16s cubic-bezier(.34, 1.56, .64, 1), box-shadow .16s; }
+:root[data-stijl="crazy"] button.dc:hover { transform: scale(1.4) rotate(-6deg); outline: 2px solid var(--rand); box-shadow: 2px 2px 0 var(--rand); z-index: 2; }
+:root[data-stijl="crazy"] .dc.today::after { border-color: var(--pop-1); border-width: 3px; border-radius: 10px; }
+:root[data-stijl="crazy"] .mday { transition: transform .18s cubic-bezier(.34, 1.56, .64, 1), box-shadow .18s; }
+:root[data-stijl="crazy"] button.mday:hover { transform: translate(-2px, -3px) rotate(-1deg); border-color: var(--rand); box-shadow: 4px 5px 0 var(--pop-3); z-index: 1; }
+/* tabellen */
+:root[data-stijl="crazy"] th { background: color-mix(in srgb, var(--pop-2) 22%, var(--surface)); color: var(--ink); }
+:root[data-stijl="crazy"] tbody tr:hover > td { background: color-mix(in srgb, var(--pop-3) 10%, transparent); }
+/* vensters en meldingen */
+:root[data-stijl="crazy"] .overlay { background: color-mix(in srgb, var(--accent) 30%, rgba(8, 4, 24, .6)); backdrop-filter: blur(3px); }
+:root[data-stijl="crazy"] .modal { border: 2px solid var(--rand); box-shadow: 8px 8px 0 var(--pop-1), 16px 16px 0 var(--pop-2); }
+:root[data-stijl="crazy"] #toast { background: var(--pop-2); color: var(--pop-ink); border: 2px solid var(--pop-ink); box-shadow: 4px 4px 0 var(--pop-1); }
+:root[data-stijl="crazy"] #lic-melding { border: 2px solid var(--rand); box-shadow: var(--slag-l) var(--pop-5); }
+:root[data-stijl="crazy"] .wd-badge { border-radius: var(--radius-pill); }
+:root[data-stijl="crazy"] .nr-label { transition: transform .16s cubic-bezier(.34, 1.56, .64, 1); }
+:root[data-stijl="crazy"] .nr-label:hover { transform: rotate(-3deg) scale(1.08); }
+/* beweging alleen als het systeem dat toestaat: zwevende vlekken, confetti bij het kiezen van de stijl, en wat stuiters */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-stijl="crazy"] body::before { animation: crazy-zweef 36s ease-in-out infinite alternate; }
+  :root[data-stijl="crazy"] body::after {
+    content: ""; position: fixed; inset: 0; z-index: 400; pointer-events: none; opacity: 0;
+    background-image:
+      radial-gradient(circle, var(--pop-1) 0 5px, transparent 5.5px), radial-gradient(circle, var(--pop-2) 0 6px, transparent 6.5px),
+      radial-gradient(circle, var(--pop-3) 0 4px, transparent 4.5px), radial-gradient(circle, var(--pop-4) 0 5px, transparent 5.5px),
+      radial-gradient(ellipse 3.5px 8px, var(--pop-5) 0 99%, transparent), radial-gradient(ellipse 8px 3.5px, var(--pop-1) 0 99%, transparent),
+      radial-gradient(ellipse 3px 7px, var(--pop-3) 0 99%, transparent), radial-gradient(ellipse 7px 3px, var(--pop-2) 0 99%, transparent);
+    background-size: 190px 270px, 250px 330px, 150px 210px, 310px 390px, 170px 230px, 290px 350px, 210px 310px, 130px 190px;
+    animation: crazy-confetti 2.8s cubic-bezier(.3, .1, .7, 1) 1 both;
+  }
+  :root[data-stijl="crazy"] .meter i::after { animation: crazy-streep 1.1s linear infinite; }
+  :root[data-stijl="crazy"] .dc.today::after { animation: crazy-hartslag 1.6s ease-in-out infinite; }
+  :root[data-stijl="crazy"] .modal { animation: crazy-plop .38s cubic-bezier(.34, 1.56, .64, 1) backwards; }
+  :root[data-stijl="crazy"] #toast.show { animation: crazy-toast .5s cubic-bezier(.34, 1.56, .64, 1) backwards; }
+}
+@media print { :root[data-stijl="crazy"] body::before, :root[data-stijl="crazy"] body::after { display: none; } }
+@keyframes crazy-zweef { from { transform: translate(-4%, -3%) rotate(0deg) scale(1); } to { transform: translate(5%, 4%) rotate(24deg) scale(1.15); } }
+@keyframes crazy-confetti {
+  0% { opacity: 1; background-position: 0 -280px, 60px -520px, 110px -340px, 30px -700px, 90px -420px, 200px -610px, 140px -480px, 20px -360px; }
+  80% { opacity: 1; }
+  100% { opacity: 0; background-position: 40px 760px, 20px 620px, 150px 940px, 90px 540px, 40px 860px, 260px 580px, 100px 700px, 70px 1040px; }
+}
+@keyframes crazy-streep { to { background-position: 22.63px 0; } }
+@keyframes crazy-hartslag { 50% { transform: scale(1.18); } }
+@keyframes crazy-plop { from { transform: scale(.86) rotate(-2deg); opacity: 0; } }
+@keyframes crazy-toast { from { transform: translateX(-50%) translateY(40px) scale(.7) rotate(-6deg); opacity: 0; } }
+@keyframes crazy-loop { to { background-position: 200% 0; } }
+@keyframes crazy-draai { from { transform: rotate(-360deg) scale(.4); } }
+@keyframes crazy-wiebel { 25% { transform: rotate(-14deg) scale(1.15); } 75% { transform: rotate(12deg) scale(1.15); } }
 
 @media print {
   .balk, .wd-kop, .wd-badge, .naardoc { display: none !important; }
@@ -2016,6 +2144,24 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
 #vraag .hulp-vlak { max-width: 520px; }
 #vraag #vraag-tekst { white-space: pre-line; }
 #vraag #vraag-ja.gevaarlijk { background: var(--urg); border-color: var(--urg); color: #fff; }
+/* --- stijl Crazy: de balk en de zijbalk --- */
+:root[data-stijl="crazy"] .balk::after { content: ""; position: absolute; left: 0; right: 0; bottom: -5px; height: 4px; background: linear-gradient(90deg, var(--pop-1), var(--pop-5), var(--pop-2), var(--pop-3), var(--pop-4), var(--pop-1)); background-size: 200% 100%; }
+:root[data-stijl="crazy"] .merk .balk-titel { background: linear-gradient(90deg, var(--accent), var(--pop-1), var(--pop-5), var(--pop-1), var(--accent)); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+:root[data-stijl="crazy"] .merk svg { transition: transform .7s cubic-bezier(.34, 1.56, .64, 1); }
+:root[data-stijl="crazy"] .merk:hover svg { transform: rotate(360deg) scale(1.25); }
+:root[data-stijl="crazy"] .balk .zoek { border-width: 2px; border-color: var(--rand); }
+:root[data-stijl="crazy"] .zijbalk { border-right: 2px solid var(--rand); background-image: linear-gradient(180deg, color-mix(in srgb, var(--pop-2) 20%, var(--bg)), var(--bg) 45%, color-mix(in srgb, var(--pop-3) 14%, var(--bg))); }
+:root[data-stijl="crazy"] .zijbalk .tabgroep:nth-of-type(4n+1) .gebiedsnaam { color: var(--ver); }
+:root[data-stijl="crazy"] .zijbalk .tabgroep:nth-of-type(4n+2) .gebiedsnaam { color: var(--accent); }
+:root[data-stijl="crazy"] .zijbalk button[role="tab"], :root[data-stijl="crazy"] .zijbalk .zijbalk-wissel { border: 2px solid transparent; transition: transform .18s cubic-bezier(.34, 1.56, .64, 1), background-color .18s, color .18s, box-shadow .18s; }
+:root[data-stijl="crazy"] .zijbalk button[role="tab"]:hover:not([aria-selected="true"]):not(:disabled) { transform: translateX(3px) rotate(-1.5deg); background: var(--surface); border-color: var(--rand); }
+:root[data-stijl="crazy"] .zijbalk button[role="tab"][aria-selected="true"] { background: var(--pop-2); color: var(--pop-ink); border-color: var(--rand); box-shadow: var(--slag-s) var(--slag-kleur); transform: rotate(-1deg); }
+:root[data-stijl="crazy"] .zijbalk .zijbalk-wissel { border-color: var(--rand); }
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-stijl="crazy"] .balk::after, :root[data-stijl="crazy"] .merk .balk-titel { animation: crazy-loop 9s linear infinite; }
+  :root[data-stijl="crazy"] .merk svg { animation: crazy-draai .9s cubic-bezier(.34, 1.56, .64, 1) backwards; }
+  :root[data-stijl="crazy"] .zijbalk button[role="tab"]:hover:not(:disabled) .tab-ikoon { animation: crazy-wiebel .5s ease-in-out; }
+}
 </style>
 </head>
 <body>
@@ -2063,6 +2209,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
         <option value="contrast">Contrast</option>
         <option value="compact">Compact</option>
         <option value="zacht">Zacht</option>
+        <option value="crazy">Crazy</option>
       </select>
     </label>
     <button type="button" class="ikoon-knop" id="zoekallesknop" title="Zoeken in alles (Ctrl+K of ⌘K)" aria-label="Zoeken in alles" aria-keyshortcuts="Control+K Meta+K"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
@@ -2235,6 +2382,8 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v244</span> Je weergave wordt bewaard in instellingen.md <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>De pagina opent voortaan zoals je haar achterliet. Naast de stijl en licht of donker (die stonden al in <code>instellingen.md</code>) wordt nu ook bewaard of <b>Alleen urgent</b> aan of uit staat, onder Weergave.</li><li><span class="soort nieuw">nieuw</span>In <code>instellingen.md</code> staat een nieuwe sectie <b>Mindmap</b> met de vier knoppen (Opsommingen, Taken, Projectnummers en Dikte naar uren, elk aan of uit) en de takken die je anders hebt gezet dan de standaardweergave: uitgeklapt, ingeklapt, of zonder hun opsommingen. Kies je een map met <code>instellingen.md</code>, dan staan de knoppen en de takken weer zoals bij het afsluiten. De knop Standaard zet de takken terug en maakt die lijsten leeg. Een reeks klikken op takken wordt als één wijziging bewaard.</li><li><span class="soort herstel">herstel</span>Een tak die pas later in de mindmap verscheen (omdat je Alleen urgent uitzette of Opsommingen aanzette) stond altijd helemaal open, ook onder een kop van niveau 3. Zo'n tak krijgt nu zijn bewaarde stand of de standaard.</li><li>Zonder map (het voorbeeld) gelden de keuzes alleen tot je de pagina sluit. Handmatige actie: geen; een bestaand <code>instellingen.md</code> krijgt de nieuwe regels vanzelf bij de eerste wijziging.</li></ul></div>
+    <div class="release"><h2><span class="versie">v243</span> Stijl Crazy <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In de keuzelijst Stijl rechtsboven (en in Instellingen) staat een zesde stijl: <b>Crazy</b>. Licht is het een kermis: een vanillegele achtergrond met stippen en langzaam zwevende kleurvlekken, panelen en knoppen met een dikke rand en een harde gekleurde schaduw, het gekozen tabblad als gele sticker, een lopende regenboog onder de balk en regenbooglijnen onder de koppen in Document. Donker is het een neon-arcade: diep paars met een raster en gloeiende randen. Bij het kiezen van de stijl valt er even confetti. Knoppen druk je echt in, dagen in de kalenders springen naar voren als je ze aanwijst, het logo draait een rondje en de balk van de maand is een zuurstok. Alles staat op dezelfde plek en werkt hetzelfde als in de andere stijlen, ook op de telefoon; de kleuren van de drukte, verlof en feestdagen zijn ongewijzigd. Vraagt je systeem om minder beweging, dan staat alles stil en blijft de confetti weg. De andere vijf stijlen zijn niet veranderd.</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v242</span> Typen aan het eind van een taak met een werkdruklabel <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Drukte je in Document op <kbd>End</kbd> (of Cmd+pijl rechts) op een taak met een werkdruklabel, dan kwam de cursor ín het label te staan. Wat je daarna typte, en ook Enter, Backspace en Delete, deed niets, zonder melding. De cursor komt nu aan het eind van de tekst van de taak; achter het label kun je hem niet meer zetten, en pijl rechts aan het eind van de tekst gaat naar de volgende regel. Dit speelde sinds v240 ook bij een taak die je net had getypt, zodra die zijn label had.</li><li><span class="soort herstel">herstel</span>Enter aan het eind van een taak nam het werkdruklabel mee naar het nieuwe punt. Maakte je dat punt met Backspace leeg en typte je snel door, dan kwam er een regelafbreking in het bestand (een regel met alleen <code>- \</code> en je tekst op de regel eronder). Het label blijft nu bij de taak waar het bij hoort.</li><li><span class="soort herstel">herstel</span>Voegde je twee regels samen met Backspace en splitste je ze weer met Enter, dan klopten de regelnummers op het scherm niet meer: de tweede taak raakte later zijn label kwijt, en een knop als Urgent werkte op de regel erboven in plaats van op de regel met de cursor. Beide zijn hersteld.</li><li><span class="soort herstel">herstel</span>Een leeg opsommingspunt krijgt nu ook tijdens het typen het label "werkdruk: frequentie ontbreekt", net als na opnieuw tekenen.</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v241</span> Meerjarenbeeld weggehaald <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Het <b>Meerjarenbeeld</b> onder het jaaroverzicht in Jaar (v222) is weggehaald, met alles wat erbij hoorde: de zes jaartegels, het doorrekenen van andere jaren en het lezen van de kopieën <code>werkdruk-&lt;jaar&gt;.md</code> uit je map. De pagina leest die kopieën nu nergens meer. <i>Naar 2027…</i> in Jaar blijft werken zoals het was en bewaart nog steeds een kopie van je oude lijst; een ander jaar bekijk je met de pijltjes naast het jaar. Geen handmatige actie nodig; de kopieën in je map mag je laten staan.</li></ul></div>
     <div class="release"><h2><span class="versie">v240</span> Werkdruklabels volgen wat je typt <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>In Document klopten de werkdruklabels niet meer nadat je een taak of opsommingspunt had bewerkt. Wiste je de tekst van een taak, dan bleef het label naast het lege punt staan; haalde je dat lege punt daarna weg met Backspace, dan verdween het label van de taak erboven en kwam het niet terug. Ook bleef het oude getal staan als je de uren of de frequentie wijzigde. De tekst zelf was steeds goed: er ging niets verloren. De labels worden nu kort nadat je stopt met typen opnieuw geplaatst bij de tekst zoals die er op dat moment staat: een gewiste taak verliest zijn label, een samengevoegd punt houdt het, een gewijzigde taak toont het nieuwe getal en een nieuwe taak krijgt een label zodra frequentie en uren er staan. Geen handmatige actie nodig.</li></ul></div>
@@ -3623,7 +3772,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <ul>
       <li><b>Bron ▾</b>: <i>Map kiezen…</i> (een andere map), <i>Los bestand kiezen…</i> (alleen één werkdruk.md, zonder de andere bestanden uit de map; instellingen, historie en notities blijven dan in het geheugen), <i>Opnieuw inladen</i> (werkdruk.md en instellingen.md opnieuw van schijf lezen; uitgeschakeld zolang er nog niets of alleen het voorbeeld is ingeladen) en <i>Voorbeeld bekijken</i>.</li>
       <li><b>Zoekveld</b>: zoekt in het tabblad dat je ziet (Document, Mindmap, Bewerken, Totaaloverzicht, Daginvoer, Historie, Taken, Release notes). In Jaar, Maand, Week, Dag, Dossier en Licenties is er geen zoekveld. Het zoekveld is overal even breed; in Document en Bewerken staan er de pijltjes ↑ en ↓ in om naar de vorige of volgende treffer te gaan. Op een telefoon staat het zoekveld achter <b>☰</b>, op een eigen regel over de volle breedte.</li>
-      <li><b>Alleen urgent</b>: alleen de urgente items tonen, in Document, Mindmap, Bewerken (in de opgemaakte weergave rechts; de tekst links blijft volledig), Totaaloverzicht, Maand, Week en Dag (in de lijsten met taken; de kalender, de uren en de kleuren blijven gelden voor al je taken) en Taken. Een afgevinkte taak telt niet als urgent. In Jaar, Dossier, Licenties, Daginvoer, Historie en Release notes zijn geen urgente items: daar is de knop grijs, maar je ziet wel of het filter aan staat. Beschikbaar zodra er een bestand, map of het voorbeeld is geladen.</li>
+      <li><b>Alleen urgent</b>: alleen de urgente items tonen, in Document, Mindmap, Bewerken (in de opgemaakte weergave rechts; de tekst links blijft volledig), Totaaloverzicht, Maand, Week en Dag (in de lijsten met taken; de kalender, de uren en de kleuren blijven gelden voor al je taken) en Taken. Een afgevinkte taak telt niet als urgent. In Jaar, Dossier, Licenties, Daginvoer, Historie en Release notes zijn geen urgente items: daar is de knop grijs, maar je ziet wel of het filter aan staat. De stand wordt bewaard in <code>instellingen.md</code>: open je de map opnieuw, dan staat de knop zoals je hem achterliet. Beschikbaar zodra er een bestand, map of het voorbeeld is geladen.</li>
       <li><b>n secties gewijzigd</b>: verschijnt als een ander programma werkdruk.md heeft gewijzigd; een klik springt naar de volgende gewijzigde sectie.</li>
       <li><b>Instellingen</b> (het pictogram met schuifjes, rechtsboven direct na <b>?</b>): uren, parttimedag, verlof, feestdagen, geboorteverlof, weergave, historie en codes voor notities. Terwijl je typt, rekent de pagina pas na een korte pauze opnieuw; kies je een waarde of sluit je het venster, dan meteen. Het venster heeft twee delen: <i>Algemeen</i> geldt voor elk jaar; <i>Alleen voor 2026</i> (met pijltjes voor een ander jaar) bevat geboorteverlof en eigen feestdagen van dat jaar. Elke wijziging gaat direct naar instellingen.md; <i>Klaar</i> sluit het venster. Onderaan staat <i>Instellingen en verlof wissen</i>: dat zet alle instellingen terug naar de standaard en wist je verlofplanning, eigen feestdagen en geboorteverlof. werkdruk.md, je notities en de historie blijven staan. Je klikt twee keer om te bevestigen.</li>
       <li><b>Niet opgeslagen</b> (oranje): er zijn wijzigingen in werkdruk.md die nog niet in het bestand staan; klik erop om op te slaan. Na een opslagactie staat er kort <i>Opgeslagen</i> met de tijd.</li>
@@ -3837,6 +3986,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <p>Wijzigt een ander programma (bijvoorbeeld Kladblok) het bestand, dan ververst de pagina: meteen als de browser wijzigingen zelf kan melden, anders binnen enkele seconden. Wijs het label <i>Ververst automatisch</i> in de balk aan om te zien welke van de twee. Gewijzigde secties lichten oranje op en krijgen een oranje stip; met de knop <i>n secties gewijzigd</i> of de toets <kbd>w</kbd> spring je erlangs.</p>
     <p>Het tabblad <b>Mindmap</b> toont de koppen als een boom rond de <code>#</code>-kop. Klik op een tak om hem uit te klappen (zijn er onder de tak nog punten verborgen, dan worden die meteen getoond); klik nogmaals om hem in te klappen. Dubbelklik om naar die plek in het document te gaan, sleep om te verplaatsen en scroll om te zoomen. Standaard zie je koppen 1 tot en met 3; een gestippeld bolletje geeft het aantal verborgen opsommingspunten (klik erop of druk op <kbd>p</kbd>). Een kop met de naam "Verwerkt" of met <code>&lt;!-- ingeklapt --&gt;</code> start dicht. De knoppen boven de mindmap: <i>Passend</i> (alles in beeld), <i>+</i> en <i>−</i> (zoomen), <i>Alles uitklappen</i>, <i>Alles inklappen</i>, <i>Standaard</i> (terug naar koppen 1 tot en met 3, zonder opsommingen), <i>Opsommingen: aan/uit</i> (de punten onder de koppen wel of niet tonen), <i>Taken: aan/uit</i> (bij elke kop het aantal afgevinkte taken en alle taken eronder, zoals 1/2; standaard uit), <i>Projectnummers: aan/uit</i> (de code vooraan een kop of punt, zoals 482828 of 2026-117, wel of niet tonen; welke codes dat zijn, stel je in bij Instellingen → Codes voor notities; standaard uit) en <i>Dikte naar uren: aan/uit</i> (de lijn naar een tak wordt dikker naarmate er meer uren per jaar aan werkdruktaken onder staan; standaard aan). Ook als de projectnummers uit staan, vind je een kop of punt met het zoekveld op zijn nummer, en zie je het volledige nummer als je de knoop aanwijst.</p>
     <p>Met <i>Dikte naar uren</i> aan zie je waar je tijd zit; zo opent de mindmap. Zet je de knop uit, dan zijn alle takken even dik. Die keuze geldt tot je de pagina herlaadt. De zwaarste tak is het dikst, de andere takken zijn naar verhouding dunner, en een tak waar geen uren onder staan is dun en vaag. Een kop telt alle taken eronder mee, ook onder subkoppen en in ingeklapte takken. Het zijn dezelfde uren per jaar als in de labels in Document, voor het jaar dat je bij de werkdruk bekijkt. Wijs een tak aan om het aantal uren te zien. Staan er nergens taken met uren, dan blijven alle takken even dik; zet je de knop dan zelf aan, dan krijg je daar een melding van.</p>
+    <p>De mindmap opent zoals je hem achterliet: de knoppen Opsommingen, Taken, Projectnummers en Dikte naar uren, en de takken die je hebt in- of uitgeklapt, staan in <code>instellingen.md</code> onder <i>Mindmap</i>. Daar staan alleen de takken die anders staan dan de standaardweergave; met de knop <b>Standaard</b> zet je alles terug. Hernoem je een kop, dan krijgt die tak weer de standaard.</p>
   </section>
 
   <section id="h-bewerken">
@@ -3985,8 +4135,9 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li><b>Contrast</b>: zwart op wit (of wit op zwart), dikkere randen en een grotere letter.</li>
       <li><b>Compact</b>: kleinere letter en minder ruimte, zodat er meer op één scherm past.</li>
       <li><b>Zacht</b>: ronde vormen en rustige pruimkleuren.</li>
+      <li><b>Crazy</b>: voor als het wat vrolijker mag. Licht een kermis met stickers, harde gekleurde schaduwen en confetti bij het kiezen; donker een neon-arcade. Knoppen druk je in, dagen springen naar voren als je ze aanwijst. Alles staat op dezelfde plek en werkt hetzelfde; heb je op je computer ingesteld dat je minder beweging wilt, dan staat alles stil.</li>
     </ul>
-    <p>De kleuren van de drukte (groen tot rood), verlof, geboorteverlof en feestdagen blijven in elke stijl hetzelfde, zodat ze altijd hetzelfde betekenen. Stijl en thema worden bewaard in <code>instellingen.md</code>.</p>
+    <p>De kleuren van de drukte (groen tot rood), verlof, geboorteverlof en feestdagen blijven in elke stijl hetzelfde, zodat ze altijd hetzelfde betekenen. Stijl en thema worden bewaard in <code>instellingen.md</code> en gelden weer zodra je de map opent.</p>
   </section>
 
   <section id="h-zoekalles">
@@ -6467,7 +6618,42 @@ WIB.kern.document = (function () {
     return Math.round((2 + 14 * Math.min(1, uren / grootste)) * 10) / 10;
   }
 
-  return { inline, reKenmerk, wisselUrgent, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, vormVan, wisselTaak, tekstsoortRegels, takDikte };
+  // v244: de stand van een tak in de mindmap: 'open', 'punten' (subkoppen wel, opsommingspunten niet) of 'dicht'.
+  // Standaard: alleen de koppen #, ## en ###; "Verwerkt" en koppen met <!-- ingeklapt --> starten dicht.
+  function mmStandaardStand(n, wortel) {
+    if (!n.kinderen.length) return 'open';
+    if (!wortel && (n.niveau >= 3 || n.ingeklapt || /^verwerkt$/i.test(String(n.titel).trim()))) return 'dicht';
+    return n.kinderen.some(function (k) { return k.item; }) ? 'punten' : 'open';
+  }
+  function mmElke(n, f, wortel) { f(n, wortel !== false); n.kinderen.forEach(function (k) { mmElke(k, f, false); }); }
+  // De stand van alle takken: de standaard, met daaroverheen wat bewaard is ({ open, dicht, punten }: lijsten met id's).
+  function mmStanden(boom, bewaard) {
+    const uit = { ingeklapt: {}, punten: {} }, b = bewaard || {};
+    const in_ = function (naam, id) { return !!id && Array.isArray(b[naam]) && b[naam].indexOf(id) >= 0; };
+    mmElke(boom, function (n, wortel) {
+      if (!n.kinderen.length) return;
+      const stand = in_('open', n.id) ? 'open' : in_('dicht', n.id) ? 'dicht' : in_('punten', n.id) ? 'punten' : mmStandaardStand(n, wortel);
+      if (stand === 'dicht') uit.ingeklapt[n.id] = true; else if (stand === 'punten') uit.punten[n.id] = true;
+    });
+    return uit;
+  }
+  // Wat anders staat dan de standaard, om te bewaren. houdOnbekend: takken die nu niet in de boom zitten (Alleen urgent
+  // aan, opsommingen uit) houden wat er voor hen bewaard was; anders vervallen ze (de kop bestaat niet meer).
+  function mmAfwijkingen(boom, ingeklapt, punten, bewaard, houdOnbekend) {
+    const uit = { open: [], dicht: [], punten: [] }, gezien = {};
+    mmElke(boom, function (n, wortel) {
+      if (n.id) gezien[n.id] = true;
+      if (!n.id || !n.kinderen.length) return;
+      const stand = ingeklapt[n.id] ? 'dicht' : punten[n.id] ? 'punten' : 'open';
+      if (stand !== mmStandaardStand(n, wortel)) uit[stand].push(n.id);
+    });
+    if (houdOnbekend && bewaard) ['open', 'dicht', 'punten'].forEach(function (k) {
+      (bewaard[k] || []).forEach(function (id) { if (!gezien[id] && uit[k].indexOf(id) < 0) uit[k].push(id); });
+    });
+    return uit;
+  }
+
+  return { mmStanden, mmAfwijkingen, inline, reKenmerk, wisselUrgent, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, vormVan, wisselTaak, tekstsoortRegels, takDikte };
 })();
 </script>
 <script data-deel="document">
@@ -6483,7 +6669,7 @@ WIB.kern.document = (function () {
 
   const escapeHtml = WIB.hulp.esc;
   // de DOM-vrije logica (markdown, regels, historie, daginvoer) staat sinds v108 in WIB.kern.document
-  const { reKenmerk, wisselUrgent, losMarkdown, regelsOnder, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte } = WIB.kern.document;
+  const { reKenmerk, wisselUrgent, losMarkdown, regelsOnder, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte, mmStanden, mmAfwijkingen } = WIB.kern.document;
 
   /* ---------- Interface ---------- */
 
@@ -6753,7 +6939,11 @@ WIB.kern.document = (function () {
   function filterTotaal() { filterPlat(totaalDoc, 'Er zijn geen urgente items in werkdruk.md of in de detailbestanden.'); }
 
   filterKnop.addEventListener('click', function () {
-    filterUrgent = !filterUrgent;
+    zetFilter(!filterUrgent);
+    if (window.WIB.werkdruk) WIB.werkdruk.bewaarWeergave('alleenUrgent', filterUrgent);   // v244: de stand staat in instellingen.md
+  });
+  function zetFilter(aan) {
+    filterUrgent = aan;
     filterKnop.textContent = 'Alleen urgent: ' + (filterUrgent ? 'aan' : 'uit');
     filterKnop.setAttribute('aria-pressed', filterUrgent ? 'true' : 'false');
     if (filterUrgent) {
@@ -6772,7 +6962,7 @@ WIB.kern.document = (function () {
     if (tabActief === 'mindmap') tekenMindmap();
     filterBewerken();
     filterTotaal();
-  });
+  }
 
   /* ---------- Urgent-kader onder de index ---------- */
   const urgentblok = document.getElementById('urgentblok');
@@ -8631,18 +8821,58 @@ WIB.kern.document = (function () {
     if (mmZoekTerm && n) mmPassend();
     return n;
   }
-  function mmStandaardInklappen() {
-    // Standaard: uitsluitend de koppen #, ## en ###. Alles daaronder (####, opsommingen, tekst) blijft
-    // verborgen tot de gebruiker het openklapt. 'Verwerkt' en koppen met <!-- ingeklapt --> starten dicht.
-    mmIngeklapt = {}; mmPuntenDicht = {};
-    mmLoop(mmBoom, function (n) {
-      if (!n.kinderen.length) return;
-      if (n !== mmBoom && (n.niveau >= 3 || n.ingeklapt || /^verwerkt$/i.test(n.titel.trim()))) { mmIngeklapt[n.id] = true; return; }
-      if (n.kinderen.some(function (k) { return k.item; })) mmPuntenDicht[n.id] = true;
+  // Standaard: uitsluitend de koppen #, ## en ###. Alles daaronder (####, opsommingen, tekst) blijft verborgen tot de
+  // gebruiker het openklapt (mmStanden in de kern). bewaard (v244): de takken die bij het afsluiten anders stonden.
+  function mmStandaardInklappen(bewaard) {
+    const s = mmStanden(mmBoom, bewaard || null);
+    mmIngeklapt = s.ingeklapt; mmPuntenDicht = s.punten;
+  }
+  /* De keuzes in de mindmap staan in instellingen.md (v244): de vier knoppen aan/uit en de takken die anders staan dan de
+     standaardweergave. Zo opent de mindmap de volgende keer zoals je hem achterliet. */
+  function mmKeuzes() { return window.WIB.werkdruk ? WIB.werkdruk.instelling('mindmap') : null; }
+  let mmBewaarKlok = null, mmToegepast = '', weergaveKlaar = false;   // weergaveKlaar: er is een document geladen
+  function mmBewaar() {
+    clearTimeout(mmBewaarKlok);
+    // even wachten: een reeks klikken op takken wordt één wijziging in instellingen.md
+    mmBewaarKlok = setTimeout(function () {
+      mmBewaarKlok = null;
+      if (!window.WIB.werkdruk || !mmBoom || mmIngeklapt === null) return;
+      const oud = mmKeuzes() || {};
+      // tijdens zoeken staan takken tijdelijk open: dan blijft de bewaarde stand van de takken zoals hij was
+      const takken = mmZoekTerm ? { open: oud.open || [], dicht: oud.dicht || [], punten: oud.punten || [] }
+        : mmAfwijkingen(mmBoom, mmIngeklapt, mmPuntenDicht, oud, filterUrgent || !mmToonLijsten);
+      const m = { lijsten: mmToonLijsten, taken: mmToonTaken, nummers: mmToonNummers, uren: mmToonUren, open: takken.open, dicht: takken.dicht, punten: takken.punten };
+      WIB.werkdruk.bewaarWeergave('mindmap', m);
+      mmToegepast = JSON.stringify(mmKeuzes());
+    }, 400);
+  }
+  function mmKnoppenBij() {
+    [['mm-lijsten', 'Opsommingen', mmToonLijsten], ['mm-taken', 'Taken', mmToonTaken], ['mm-nummers', 'Projectnummers', mmToonNummers], ['mm-uren', 'Dikte naar uren', mmToonUren]].forEach(function (k) {
+      const b = document.getElementById(k[0]);
+      b.textContent = k[1] + ': ' + (k[2] ? 'aan' : 'uit');
+      b.setAttribute('aria-pressed', k[2] ? 'true' : 'false');
     });
   }
+  // Zet Alleen urgent en de mindmap zoals ze in instellingen.md staan: na het laden van een document en als
+  // instellingen.md (opnieuw) is gelezen. Wat al zo staat, blijft staan.
+  function weergaveUitInstellingen() {
+    if (!window.WIB.werkdruk || !weergaveKlaar) return;
+    const m = mmKeuzes();
+    if (m && JSON.stringify(m) !== mmToegepast) {
+      mmToegepast = JSON.stringify(m);
+      clearTimeout(mmBewaarKlok); mmBewaarKlok = null;
+      mmToonLijsten = m.lijsten; mmToonTaken = m.taken; mmToonNummers = m.nummers; mmToonUren = m.uren;
+      mmKnoppenBij();
+      mmIngeklapt = null; mindmapVuil = true;
+      if (tabActief === 'mindmap') tekenMindmap();
+    }
+    if (!!WIB.werkdruk.instelling('alleenUrgent') !== filterUrgent) {
+      zetFilter(!filterUrgent);
+      if (['taken', 'maand', 'week', 'dag'].indexOf(tabActief) >= 0) WIB.werkdruk.tekenAlles();
+    }
+  }
   // mmPuntenDicht[id]: de tak toont wel zijn subkoppen, maar niet zijn opsommingspunten (tussenstand).
-  let mmPuntenDicht = {};
+  let mmPuntenDicht = {}, mmBekend = {};   // mmBekend: de takken die al eens in de boom zaten
   function mmZichtbareKinderen(n) {
     if (!n.kinderen.length || mmIngeklapt[n.id]) return [];
     return mmPuntenDicht[n.id] ? n.kinderen.filter(function (k) { return !k.item; }) : n.kinderen;
@@ -8696,7 +8926,15 @@ WIB.kern.document = (function () {
     mindmapVuil = false;
     mmBoom = bouwBoom();
     mmGrootste = mmToonUren ? mmBoom.kinderen.reduce(function (m, k) { return Math.max(m, k.uren || 0); }, 0) : 0;
-    if (mmIngeklapt === null) mmStandaardInklappen();
+    if (mmIngeklapt === null) { mmStandaardInklappen(mmKeuzes()); mmBekend = {}; }
+    // v244: een tak die nu voor het eerst in de boom zit (Alleen urgent ging uit, opsommingen gingen aan, een nieuwe kop)
+    // krijgt zijn bewaarde of standaardstand; voorheen stond zo'n tak altijd helemaal open
+    const nieuw = mmStanden(mmBoom, mmKeuzes());
+    mmLoop(mmBoom, function (n) {
+      if (mmBekend[n.id]) return;
+      mmBekend[n.id] = true;
+      if (nieuw.ingeklapt[n.id]) mmIngeklapt[n.id] = true; else if (nieuw.punten[n.id]) mmPuntenDicht[n.id] = true;
+    });
     while (mmGroep.firstChild) mmGroep.removeChild(mmGroep.firstChild);
     mmKnopen = [];
     if (mmLeeg) { mmLeeg.remove(); mmLeeg = null; }
@@ -8822,6 +9060,7 @@ WIB.kern.document = (function () {
     // Is er iets onder de tak verborgen (de tak is ingeklapt, of alleen de opsommingspunten zijn verborgen),
     // dan klapt een klik alles uit, ook de opsommingspunten. Pas als alles zichtbaar is, klapt een klik in.
     if (mmIngeklapt[n.id] || mmPuntenDicht[n.id]) { delete mmIngeklapt[n.id]; delete mmPuntenDicht[n.id]; } else mmIngeklapt[n.id] = true;
+    mmBewaar();
     tekenMindmap();
     if (mmBuitenBeeld()) mmPassend();
     const g = mmSvg.querySelector('.mm-knoop[data-id="' + CSS.escape(n.id) + '"]');
@@ -8830,6 +9069,7 @@ WIB.kern.document = (function () {
   function mmAlles(inklappen) {
     mmIngeklapt = {}; mmPuntenDicht = {};
     if (inklappen) mmLoop(mmBoom, function (n) { if (n !== mmBoom && n.kinderen.length) mmIngeklapt[n.id] = true; });
+    mmBewaar();
     tekenMindmap();
     mmPassend();
   }
@@ -8881,30 +9121,26 @@ WIB.kern.document = (function () {
   document.getElementById('mm-uit').addEventListener('click', function () { mmZoom(1 / 1.25); });
   document.getElementById('mm-alles-uit').addEventListener('click', function () { mmAlles(false); });
   document.getElementById('mm-alles-in').addEventListener('click', function () { mmAlles(true); });
-  document.getElementById('mm-standaard').addEventListener('click', function () { mmStandaardInklappen(); tekenMindmap(); mmPassend(); });
+  document.getElementById('mm-standaard').addEventListener('click', function () { mmStandaardInklappen(); mmBewaar(); tekenMindmap(); mmPassend(); });
   document.getElementById('mm-lijsten').addEventListener('click', function () {
     mmToonLijsten = !mmToonLijsten;
-    this.textContent = 'Opsommingen: ' + (mmToonLijsten ? 'aan' : 'uit');
-    this.setAttribute('aria-pressed', mmToonLijsten ? 'true' : 'false');
+    mmKnoppenBij(); mmBewaar();
     tekenMindmap();
     mmPassend();
   });
   document.getElementById('mm-taken').addEventListener('click', function () {
     mmToonTaken = !mmToonTaken;
-    this.textContent = 'Taken: ' + (mmToonTaken ? 'aan' : 'uit');
-    this.setAttribute('aria-pressed', mmToonTaken ? 'true' : 'false');
+    mmKnoppenBij(); mmBewaar();
     tekenMindmap();
   });
   document.getElementById('mm-nummers').addEventListener('click', function () {
     mmToonNummers = !mmToonNummers;
-    this.textContent = 'Projectnummers: ' + (mmToonNummers ? 'aan' : 'uit');
-    this.setAttribute('aria-pressed', mmToonNummers ? 'true' : 'false');
+    mmKnoppenBij(); mmBewaar();
     tekenMindmap();
   });
   document.getElementById('mm-uren').addEventListener('click', function () {
     mmToonUren = !mmToonUren;
-    this.textContent = 'Dikte naar uren: ' + (mmToonUren ? 'aan' : 'uit');
-    this.setAttribute('aria-pressed', mmToonUren ? 'true' : 'false');
+    mmKnoppenBij(); mmBewaar();
     tekenMindmap();
     if (mmToonUren && !mmGrootste) meld('Onder geen enkele tak staan werkdruktaken met uren in het gekozen jaar. Alle takken blijven even dik.');
   });
@@ -8962,7 +9198,9 @@ WIB.kern.document = (function () {
     filterKnop.hidden = false; filterKnop.disabled = false; werkFilterKnopBij();
     daginvoerBeschikbaar();
     mindmapVuil = true;
-    if (!behoud) { mmIngeklapt = null; mmTransform = null; mmZijden = null; }
+    if (!behoud) { mmIngeklapt = null; mmTransform = null; mmZijden = null; mmToegepast = ''; }
+    weergaveKlaar = true;
+    weergaveUitInstellingen();   // v244: Alleen urgent en de mindmap zoals ze in instellingen.md staan
     if (tabActief === 'mindmap') tekenMindmap();
     const woorden = (tekst.match(/\S+/g) || []).length;
     const minuten = Math.max(1, Math.round(woorden / 220));
@@ -10489,6 +10727,7 @@ WIB.kern.document = (function () {
     regelDiff: regelDiff,
     toonOpgeslagen: toonOpgeslagen,
     alleenUrgent: function () { return filterUrgent; },
+    weergaveUitInstellingen: weergaveUitInstellingen,
     openDagDialoog: openDagDialoog,
     daginvoerDagen: function () { const s = {}; dagInvoer.items.forEach(function (v) { s[v.datum] = (s[v.datum] || 0) + 1; }); return s; },
     daginvoerOp: function (iso) { return dagInvoer.items.filter(function (v) { return v.datum === iso; }).sort(function (a, b) { return a.tijd.localeCompare(b.tijd); }); },
@@ -10510,8 +10749,8 @@ WIB.kern.document = (function () {
 WIB.kern.werkdruk = (function () {
   'use strict';
 
-  const STIJLEN = ['helder', 'papier', 'contrast', 'compact', 'zacht'];
-  const STIJL_LABEL = { helder: 'Helder', papier: 'Papier', contrast: 'Contrast', compact: 'Compact', zacht: 'Zacht' };
+  const STIJLEN = ['helder', 'papier', 'contrast', 'compact', 'zacht', 'crazy'];
+  const STIJL_LABEL = { helder: 'Helder', papier: 'Papier', contrast: 'Contrast', compact: 'Compact', zacht: 'Zacht', crazy: 'Crazy' };
   const TAB_NAMEN = { document: 'Document', mindmap: 'Mindmap', bewerken: 'Bewerken', totaal: 'Totaaloverzicht', daginvoer: 'Daginvoer', historie: 'Historie', jaar: 'Jaar', maand: 'Maand', week: 'Week', dag: 'Dag', taken: 'Taken' };
 
   // v197: menuopties die je in Instellingen kunt verbergen (Werkdruk, Projecten, Logboek)
@@ -10523,6 +10762,7 @@ WIB.kern.werkdruk = (function () {
     holidays: {}, verlofGedrag: 'inhalen', krap: 90, theme: 'auto',
     stijl: 'papier', histExtern: false, starttab: 'jaar', zijbalk: 'uitgeklapt', bewerkenTab: false, notitiesWysiwyg: true, verborgen: [],
     codes: ['999999', '9999-999', 'ONB-999'], volgnummer: 'ONB-999', volgTeller: 0,
+    alleenUrgent: false, mindmap: null,   // v244: null = de standaardkeuzes (mindmapKeuzes)
     soortTonen: false, soorten: null,   // v216: null = de standaardsoorten (DEFAULT_SOORTEN)
     soortMax: { naam: 'overleg', pct: 60 }, soortMin: { naam: 'diep', uren: 4 }   // v217: waarschuwen; null = niet
   };
@@ -10611,6 +10851,8 @@ WIB.kern.werkdruk = (function () {
     if (!['auto', 'licht', 'donker'].includes(s.theme)) s.theme = 'auto';
     if (!STIJLEN.includes(s.stijl)) s.stijl = 'papier';
     s.histExtern = s.histExtern === true;
+    s.alleenUrgent = s.alleenUrgent === true;
+    s.mindmap = mindmapKeuzes(s.mindmap);
     s.bewerkenTab = s.bewerkenTab === true;   // v190: het tabblad Bewerken staat standaard uit
     s.notitiesWysiwyg = s.notitiesWysiwyg !== false;
     s.verborgen = (Array.isArray(s.verborgen) ? s.verborgen : []).filter(function (t, i, a) { return MENU_KEUZE.includes(t) && a.indexOf(t) === i; });   // v197   // v191: notities bewerk je standaard zoals in Document (WYSIWYG)
@@ -10629,6 +10871,13 @@ WIB.kern.werkdruk = (function () {
     return s;
   }
 
+  // v244: de keuzes in de mindmap. open, dicht en punten: de takken die anders staan dan de standaardweergave (id's)
+  function mindmapKeuzes(m) {
+    m = m && typeof m === 'object' ? m : {};
+    const ids = function (a) { return (Array.isArray(a) ? a : []).map(String).filter(function (x, i, r) { return /^[a-z0-9-]+$/.test(x) && r.indexOf(x) === i; }); };
+    return { lijsten: m.lijsten !== false, taken: m.taken === true, nummers: m.nummers === true, uren: m.uren !== false, open: ids(m.open), dicht: ids(m.dicht), punten: ids(m.punten) };
+  }
+
   function fmtNum(v, dec) { const f = Math.pow(10, dec || 2); return String(Math.round(v * f) / f).replace('.', ','); }
 
   // instellingen.md opbouwen uit de instellingen en de verlofplanning
@@ -10640,8 +10889,12 @@ WIB.kern.werkdruk = (function () {
     L.push('## Werkweek', '- Uren per werkdag: ' + fmtNum(s.urenPerDag, 3), '- Parttimedag: ' + (s.parttime > 0 ? DAGEN[s.parttime] : 'geen'), '');
     L.push('## Verlof', '- Verlof per jaar: ' + fmtNum(s.verlof) + ' ' + s.verlofUnit, '- Taken tijdens verlof: ' + s.verlofGedrag, '');
     L.push('## Weergave', '- Krap vanaf: ' + s.krap + '%', '- Thema: ' + ({ auto: 'automatisch', licht: 'licht', donker: 'donker' }[s.theme] || 'automatisch'),
-      '- Stijl: ' + STIJL_LABEL[s.stijl], '- Starttabblad: ' + TAB_NAMEN[s.starttab], '- Zijbalk: ' + s.zijbalk, '- Tabblad Bewerken: ' + (s.bewerkenTab ? 'aan' : 'uit'),
+      '- Stijl: ' + STIJL_LABEL[s.stijl], '- Starttabblad: ' + TAB_NAMEN[s.starttab], '- Zijbalk: ' + s.zijbalk, '- Tabblad Bewerken: ' + (s.bewerkenTab ? 'aan' : 'uit'), '- Alleen urgent: ' + (s.alleenUrgent ? 'aan' : 'uit'),
       '- Verborgen tabbladen: ' + (s.verborgen.length ? MENU_KEUZE.filter(t => s.verborgen.includes(t)).map(t => MENU_NAAM[t]).join(', ') : 'geen'), '');
+    const mm = s.mindmap || mindmapKeuzes(null), ids = function (a) { return a.length ? a.join(', ') : 'geen'; };
+    L.push('## Mindmap', 'De knoppen boven de mindmap, en de takken die anders staan dan de standaardweergave.', '',
+      '- Opsommingen: ' + (mm.lijsten ? 'aan' : 'uit'), '- Taken: ' + (mm.taken ? 'aan' : 'uit'), '- Projectnummers: ' + (mm.nummers ? 'aan' : 'uit'), '- Dikte naar uren: ' + (mm.uren ? 'aan' : 'uit'),
+      '- Uitgeklapt: ' + ids(mm.open), '- Ingeklapt: ' + ids(mm.dicht), '- Zonder opsommingen: ' + ids(mm.punten), '');
     L.push('## Historie', '- Externe wijzigingen vastleggen: ' + (s.histExtern ? 'ja' : 'nee'), '');
     L.push('## Notities', '- Codes: ' + s.codes.join(', '), '- Volgnummer: ' + (s.volgnummer || 'geen'), '- Laatste volgnummer: ' + (s.volgTeller || 0), '- Notities bewerken: ' + (s.notitiesWysiwyg ? 'WYSIWYG' : 'markdown'), '');
     L.push('## Soort werk', 'Per soort de woorden in de taaknaam die erbij horen. Een label #naam bij de taak of een kop met <!-- soort: naam --> gaat voor.', '',
@@ -10764,6 +11017,18 @@ WIB.kern.werkdruk = (function () {
         if (een.length) { gebruikt.add(nr); raw.soorten = (raw.soorten || []).filter(function (x) { return x.naam !== een[0].naam; }).concat(een); }
         continue;
       }
+      if (/^mindmap/.test(sec)) {   // v244
+        const mk = /^([^:]+):\s*(.*)$/.exec(body);
+        if (!mk) continue;
+        const mn = mk[1].trim().toLowerCase(), mv = mk[2].trim().toLowerCase(), aan = /^(ja|aan|yes|true)\b/.test(mv);
+        const lijst = function () { return /^(geen|-)?$/.test(mv) ? [] : mv.split(/[,;\s]+/).filter(Boolean); };
+        const m = raw.mindmap = raw.mindmap || {};
+        if (/^opsomming/.test(mn)) m.lijsten = aan; else if (/^taken/.test(mn)) m.taken = aan; else if (/^projectnummer/.test(mn)) m.nummers = aan; else if (/^dikte/.test(mn)) m.uren = aan;
+        else if (/^uitgeklapt/.test(mn)) m.open = lijst(); else if (/^ingeklapt/.test(mn)) m.dicht = lijst(); else if (/^zonder opsomming/.test(mn)) m.punten = lijst();
+        else continue;
+        gebruikt.add(nr);
+        continue;
+      }
       if (/verlofplanning|ingepland/.test(sec)) {
         if (dm) { gebruikt.add(nr); const v = /half|halve|0[.,]5/.test(dm[2]) ? 0.5 : 1; (verlof[dm[1].slice(0, 4)] = verlof[dm[1].slice(0, 4)] || {})[dm[1]] = v; }
         continue;
@@ -10778,7 +11043,7 @@ WIB.kern.werkdruk = (function () {
         continue;
       }
       const n = parseFloat(v.replace(',', '.'));
-      if (/uren per (werk)?dag|parttime|verlof per jaar|tijdens verlof|krap|thema|^stijl|starttab|zijbalk|^tabblad bewerken|^notities bewerken|^verborgen tabbladen|^codes?\b|notitiecode|volgnummer|extern/.test(k)) gebruikt.add(nr);
+      if (/uren per (werk)?dag|parttime|verlof per jaar|tijdens verlof|krap|thema|^stijl|starttab|zijbalk|^tabblad bewerken|^notities bewerken|^verborgen tabbladen|^codes?\b|notitiecode|volgnummer|extern|^alleen urgent/.test(k)) gebruikt.add(nr);
       if (/uren per (werk)?dag/.test(k)) { if (isFinite(n)) raw.urenPerDag = n; }
       else if (/parttime/.test(k)) { const i = DAGEN.findIndex(d => vl.startsWith(d) || vl === d.slice(0, 2)); raw.parttime = i >= 1 && i <= 5 ? i : -1; }
       else if (/verlof per jaar/.test(k)) { if (isFinite(n)) raw.verlof = n; raw.verlofUnit = /\b(uur|uren)\b/.test(vl) ? 'uren' : 'dagen'; }
@@ -10786,6 +11051,7 @@ WIB.kern.werkdruk = (function () {
       else if (/krap/.test(k)) { if (isFinite(n)) raw.krap = n; }
       else if (/thema/.test(k)) raw.theme = /donker|dark/.test(vl) ? 'donker' : /licht|light/.test(vl) ? 'licht' : 'auto';
       else if (/^stijl/.test(k)) { const st = STIJLEN.find(x => vl.startsWith(x)); if (st) raw.stijl = st; }
+      else if (/^alleen urgent/.test(k)) raw.alleenUrgent = /^(ja|aan|yes|true)\b/.test(vl);
       else if (/zijbalk/.test(k)) raw.zijbalk = /ingeklapt|smal|klein|icoon/.test(vl) ? 'ingeklapt' : 'uitgeklapt';
       else if (/^verborgen tabbladen/.test(k)) raw.verborgen = vl.split(/[,;]/).map(function (x) { x = x.trim(); return MENU_KEUZE.find(function (t) { return MENU_NAAM[t].toLowerCase() === x || t === x; }); }).filter(Boolean);
       else if (/^notities bewerken/.test(k)) raw.notitiesWysiwyg = !/markdown|platte|tekstvak/.test(vl);
@@ -11284,6 +11550,7 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
     S.settings = p.settings;
     S.verlof = p.verlof;
     applyTheme();
+    if (window.WIB.document && WIB.document.weergaveUitInstellingen) WIB.document.weergaveUitInstellingen();   // v244
   }
   // v198: instellingen.md is buiten de pagina gewijzigd terwijl je hier iets aanpaste. Wat je hier hebt veranderd (ten
   // opzichte van de laatst gelezen versie) gaat voor; al het andere, ook eigen aantekeningen, komt uit de nieuwe versie.
@@ -14167,6 +14434,8 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
     kiesMapAlleenLezen: () => dirInput().click(), voorbeeld: () => SAMPLE_MD,
     zoekTaken, daginvoerGewijzigd, dagInfo, gaNaarDag, wisselThema, zetInstelling, takenOpRegels, nieuweTaakMet,
     instelling: (k) => S.settings[k],
+    // v244: een weergavekeuze (Alleen urgent, de mindmap) bewaren zonder alles opnieuw te tekenen
+    bewaarWeergave: (k, v) => { S.settings[k] = v; S.settings = normalizeSettings(S.settings); save(); },
     tekenAlles: renderAll,
     badgesBij: () => zetBadges(),
     opzetBij,
