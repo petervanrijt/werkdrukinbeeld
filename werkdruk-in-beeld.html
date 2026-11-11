@@ -2101,6 +2101,9 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
 .zijbalk .zb-tekst .opgeslagen { font-size: var(--fs-s); overflow-wrap: anywhere; }
 .zijbalk .zb-tekst .live { font-size: var(--fs-s); gap: 6px; align-items: center; }
 .zijbalk .zb-tekst .live::before { flex: none; width: 6px; height: 6px; }
+/* dezelfde map staat ook in een ander tabblad open: een regel in het kaartje, en ingeklapt een stip in de waarschuwingskleur */
+.zijbalk .zb-tekst .zb-dubbel { font-size: var(--fs-s); font-weight: 700; color: var(--warn); }
+.zijbalk .zijbalk-bron.dubbel .zb-stip { background: var(--warn); }
 /* ingeklapt en op een telefoon: alleen het pictogram met de stip; de tekst staat in de tooltip (de telefoonregels staan onder "telefoon") */
 @media (min-width: 721px) {
   html[data-zijbalk="ingeklapt"] .zijbalk .zb-kaart { justify-content: center; padding: 8px 0; background: transparent; border-color: transparent; }
@@ -2261,6 +2264,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
           <span class="balk-bestand" id="bestandsnaam"></span>
           <span class="opgeslagen" id="opgeslagen" hidden></span>
           <span class="live" id="live" hidden></span>
+          <span class="zb-dubbel" id="dubbelopen" hidden>Ook open in een ander tabblad</span>
         </span>
       </div>
     </div>
@@ -2382,6 +2386,9 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v247</span> Labels bij codes in het notitievenster <span class="datum">11 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Een code vooraan een opsommingspunt of een kop is nu ook in het notitievenster een label, zoals in Document. Een klik op het label opent de notities bij die code; heb je nog niet opgeslagen, dan vraagt de pagina eerst of je dat wilt weggooien. Een code die je typt, wordt een label zodra je de regel verlaat. De code van de notities zelf (bijvoorbeeld in de titel bovenaan) wordt geen label, en een code midden in de tekst ook niet. In de markdownweergave staan de labels in de opmaak naast het tekstvak. Aan je bestanden verandert niets: het label is alleen weergave.</li><li>Handmatige actie: geen.</li></ul></div>
+    <div class="release"><h2><span class="versie">v246</span> Geknipte punten plakken in een notitie die net open is <span class="datum">11 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Knipte of kopieerde je in Document een opsomming van meerdere punten (met subpunten, links en vet) en plakte je die in het notitievenster, dan gebeurde er niets als de cursor daar nog niet in een regel stond. Je kreeg alleen de melding "Zet eerst de cursor in de tekst". Dat was altijd zo bij een notitie die je net had geopend, en ook na een klik in de lege ruimte onder de tekst. De punten komen nu onder de laatste regel vóór de cursor, met hun insprong, links en opmaak. Hetzelfde geldt in Document zelf. In een tabel of codeblok kun je nog steeds geen hele punten plakken.</li><li>Handmatige actie: geen.</li></ul></div>
+    <div class="release"><h2><span class="versie">v245</span> Waarschuwing als dezelfde map in twee tabbladen open staat <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Open je een map die al in een ander tabblad van dezelfde browser open staat, dan krijg je in beide tabbladen een melding, en staat onderaan de zijbalk bij Bron de regel <i>Ook open in een ander tabblad</i> (ingeklapt: een oranje stip op het pictogram). De regel verdwijnt zodra een van de twee tabbladen sluit of een andere map kiest. Je kunt gewoon doorwerken; de pagina blokkeert niets. Twee tabbladen met verschillende mappen geven geen waarschuwing.</li><li>De tabbladen wisselen alleen binnen de browser uit welke map ze open hebben; er gaat niets over het netwerk en er wordt niets in de browser bewaard. De pagina ziet het niet als de map open staat in een andere browser, in een privévenster of op een andere computer. Bij een los bestand of een map die alleen gelezen wordt, is er geen waarschuwing. Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v244</span> Je weergave wordt bewaard in instellingen.md <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>De pagina opent voortaan zoals je haar achterliet. Naast de stijl en licht of donker (die stonden al in <code>instellingen.md</code>) wordt nu ook bewaard of <b>Alleen urgent</b> aan of uit staat, onder Weergave.</li><li><span class="soort nieuw">nieuw</span>In <code>instellingen.md</code> staat een nieuwe sectie <b>Mindmap</b> met de vier knoppen (Opsommingen, Taken, Projectnummers en Dikte naar uren, elk aan of uit) en de takken die je anders hebt gezet dan de standaardweergave: uitgeklapt, ingeklapt, of zonder hun opsommingen. Kies je een map met <code>instellingen.md</code>, dan staan de knoppen en de takken weer zoals bij het afsluiten. De knop Standaard zet de takken terug en maakt die lijsten leeg. Een reeks klikken op takken wordt als één wijziging bewaard.</li><li><span class="soort herstel">herstel</span>Een tak die pas later in de mindmap verscheen (omdat je Alleen urgent uitzette of Opsommingen aanzette) stond altijd helemaal open, ook onder een kop van niveau 3. Zo'n tak krijgt nu zijn bewaarde stand of de standaard.</li><li>Zonder map (het voorbeeld) gelden de keuzes alleen tot je de pagina sluit. Handmatige actie: geen; een bestaand <code>instellingen.md</code> krijgt de nieuwe regels vanzelf bij de eerste wijziging.</li></ul></div>
     <div class="release"><h2><span class="versie">v243</span> Stijl Crazy <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In de keuzelijst Stijl rechtsboven (en in Instellingen) staat een zesde stijl: <b>Crazy</b>. Licht is het een kermis: een vanillegele achtergrond met stippen en langzaam zwevende kleurvlekken, panelen en knoppen met een dikke rand en een harde gekleurde schaduw, het gekozen tabblad als gele sticker, een lopende regenboog onder de balk en regenbooglijnen onder de koppen in Document. Donker is het een neon-arcade: diep paars met een raster en gloeiende randen. Bij het kiezen van de stijl valt er even confetti. Knoppen druk je echt in, dagen in de kalenders springen naar voren als je ze aanwijst, het logo draait een rondje en de balk van de maand is een zuurstok. Alles staat op dezelfde plek en werkt hetzelfde als in de andere stijlen, ook op de telefoon; de kleuren van de drukte, verlof en feestdagen zijn ongewijzigd. Vraagt je systeem om minder beweging, dan staat alles stil en blijft de confetti weg. De andere vijf stijlen zijn niet veranderd.</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v242</span> Typen aan het eind van een taak met een werkdruklabel <span class="datum">10 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Drukte je in Document op <kbd>End</kbd> (of Cmd+pijl rechts) op een taak met een werkdruklabel, dan kwam de cursor ín het label te staan. Wat je daarna typte, en ook Enter, Backspace en Delete, deed niets, zonder melding. De cursor komt nu aan het eind van de tekst van de taak; achter het label kun je hem niet meer zetten, en pijl rechts aan het eind van de tekst gaat naar de volgende regel. Dit speelde sinds v240 ook bij een taak die je net had getypt, zodra die zijn label had.</li><li><span class="soort herstel">herstel</span>Enter aan het eind van een taak nam het werkdruklabel mee naar het nieuwe punt. Maakte je dat punt met Backspace leeg en typte je snel door, dan kwam er een regelafbreking in het bestand (een regel met alleen <code>- \</code> en je tekst op de regel eronder). Het label blijft nu bij de taak waar het bij hoort.</li><li><span class="soort herstel">herstel</span>Voegde je twee regels samen met Backspace en splitste je ze weer met Enter, dan klopten de regelnummers op het scherm niet meer: de tweede taak raakte later zijn label kwijt, en een knop als Urgent werkte op de regel erboven in plaats van op de regel met de cursor. Beide zijn hersteld.</li><li><span class="soort herstel">herstel</span>Een leeg opsommingspunt krijgt nu ook tijdens het typen het label "werkdruk: frequentie ontbreekt", net als na opnieuw tekenen.</li><li>Handmatige actie: geen.</li></ul></div>
@@ -3784,7 +3791,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     </ul>
     <h4>De tabbladen</h4>
     <p>De tabbladen staan in de <b>zijbalk</b> links, gegroepeerd per werkgebied: <i>Overzicht</i> (Document, Mindmap, Totaaloverzicht, en Bewerken als je dat in Instellingen aanzet), <i>Werkdruk</i> (Jaar, Maand, Week, Dag, Taken), <i>Projecten</i> (Dossier, Licenties), <i>Logboek</i> (Daginvoer, Historie) en <i>Over</i> (Release notes, met de nieuwste versie erachter, zoals <i>Release notes v189</i>). Elk tabblad heeft een icoontje. Zolang er nog geen bestand, map of het voorbeeld is geladen, zijn alleen Document (met het beginscherm) en Release notes te kiezen; de andere tabbladen staan er wel, maar zijn grijs. Daarna opent de pagina je starttabblad (Instellingen → Starttabblad). Tabbladen die je niet gebruikt, verberg je in Instellingen onder <i>Menu</i>, met een schakelaar per tabblad van Werkdruk, Projecten en Logboek; een groep zonder tabbladen verdwijnt dan met zijn naam. Een verborgen tabblad opent niet met zijn sneltoets, en is het je starttabblad, dan opent Document. Met <b>Inklappen</b> bovenaan maak je de zijbalk smal: dan zie je alleen de icoontjes, en wijs je een icoontje aan voor de naam; met <b>»</b> klap je hem weer uit. Die keuze wordt bewaard in instellingen.md. In de zijbalk kies je met <kbd>↑</kbd> en <kbd>↓</kbd> (of <kbd>←</kbd> en <kbd>→</kbd>) het vorige of volgende tabblad. Bij Jaar tot en met Taken staan boven de samenvatting de jaarkeuze (‹ 2026 ›) en de knop <i>Verlof plannen</i>; de samenvatting zelf staat alleen bij die tabbladen.</p>
-    <p>Onderaan de zijbalk staat onder <b>Bron</b> waar je gegevens vandaan komen: de naam van het bestand (of <i>voorbeeld</i>), wanneer het voor het laatst is opgeslagen (of <i>Wordt niet opgeslagen</i>), en of wijzigingen van buitenaf vanzelf verschijnen (<i>Ververst automatisch</i>, met een gekleurde stip) of niet (<i>Niet automatisch ververst</i>, grijze stip). Het kaartje verschijnt zodra er iets is geladen. In de ingeklapte zijbalk en op een telefoon zie je alleen het pictogram met de stip; wijs het aan voor de volledige tekst.</p>
+    <p>Onderaan de zijbalk staat onder <b>Bron</b> waar je gegevens vandaan komen: de naam van het bestand (of <i>voorbeeld</i>), wanneer het voor het laatst is opgeslagen (of <i>Wordt niet opgeslagen</i>), en of wijzigingen van buitenaf vanzelf verschijnen (<i>Ververst automatisch</i>, met een gekleurde stip) of niet (<i>Niet automatisch ververst</i>, grijze stip). Het kaartje verschijnt zodra er iets is geladen. In de ingeklapte zijbalk en op een telefoon zie je alleen het pictogram met de stip; wijs het aan voor de volledige tekst. Heb je dezelfde map ook in een ander tabblad van dezelfde browser open, dan staat er <i>Ook open in een ander tabblad</i> en krijg je in beide tabbladen een melding. Werk dan bij voorkeur in één tabblad. De regel verdwijnt zodra je het andere tabblad sluit of daar een andere map kiest. De pagina ziet dit alleen binnen dezelfde browser: niet in een andere browser, een privévenster of op een andere computer. Twee mappen met dezelfde naam kan ze in een enkel geval voor dezelfde map aanzien.</p>
     <ul>
       <li><b>Jaar</b>: alle maanden als kalender, gekleurd naar drukte. Klik op een dag, een weeknummer of een maand voor details. Daaronder grafieken per maand en per week, <i>Ruimte en pieken</i> (de rustigste en drukste weken) en de tijd per categorie of per locatie.</li>
       <li><b>Maand</b>: de maand als kalender met per dag de geplande uren, en de taken van die maand. Met <i>‹ Vorige</i> en <i>Volgende ›</i>, of <kbd>←</kbd> en <kbd>→</kbd>, blader je; dat geldt ook voor Week en Dag.</li>
@@ -3982,7 +3989,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   <section id="h-doc">
     <h3>Document en mindmap</h3>
     <p>Het tabblad <b>Document</b> toont <code>werkdruk.md</code> als opgemaakte tekst. Elke kop vormt met de inhoud eronder een sectie die je met een klik op het pijltje vóór de kop in- en uitklapt. Standaard staan <code>##</code>- en <code>###</code>-koppen ingeklapt; klap je een <code>###</code> open, dan klapt alles eronder volledig uit. Bovenaan staat een inklapbare index met alle koppen, met de knoppen <i>Alles inklappen</i> en <i>Alles uitklappen</i>; elke kop heeft een link <i>naar index</i>. In de index staat bij koppen met afvinkbare taken de voortgang, bijvoorbeeld 3/5. Die telt ook mee terwijl je typt of afvinkt in tekst die nog niet is opgeslagen. Achter een werkdruktaak staat een label met de frequentie, de uren per keer en de uren per jaar, bijvoorbeeld <i>wekelijks · 2,00 u · 104,00 u per jaar</i>; klik erop om de taak in de takenlijst te openen.</p>
-    <p>Je kunt direct in <b>Document</b> bewerken: klik in de tekst en typ. <kbd>Enter</kbd> in een opsommingspunt geeft een nieuw punt (in een taak een nieuwe taak; een nieuw punt wordt niet vanzelf urgent), <kbd>Enter</kbd> in een leeg punt springt een niveau terug of maakt er een alinea onder de lijst van, <kbd>Enter</kbd> aan het eind van een kop geeft een gewone alinea onder die kop (staat de kop ingeklapt, dan klapt hij open), <kbd>Backspace</kbd> vooraan een taak haalt het vinkje weg, <kbd>Tab</kbd> en <kbd>Shift</kbd>+<kbd>Tab</kbd> laten een punt in- en uitspringen, en <kbd>Ctrl</kbd>+<kbd>B</kbd> en <kbd>Ctrl</kbd>+<kbd>I</kbd> maken tekst vet of schuin. Plakken gaat als platte tekst. Kopieer of knip je meer dan één regel uit Document (punten, taken, alinea's), dan gaan ze als geheel mee: met hun vinkje, urgent en subpunten, maar zonder werkdruklabels of "naar index". Plak je ze in Document, dan komen ze onder het punt of de alinea waar de cursor staat. Zo verplaats je taken met <kbd>Ctrl</kbd>+<kbd>X</kbd> en <kbd>Ctrl</kbd>+<kbd>V</kbd>. <kbd>Enter</kbd> in een codeblok geeft een nieuwe regel in de code; in een tabelcel kan dat niet, want een tabel in markdown heeft één regel per rij. Links, codelabels en werkdruklabels kun je niet doortypen, wel aanklikken; achter "naar index" bij een kop en achter het werkdruklabel van een taak kun je de cursor niet zetten, hij blijft aan het eind van de tekst (ook met <kbd>End</kbd>). De werkdruklabels rekenen mee terwijl je typt: wijzig je de uren of de frequentie van een taak, dan staat even later het nieuwe getal erachter, en een nieuwe taak krijgt een label zodra frequentie en uren er staan. De werkbalk bovenaan blijft onder de balk staan als je scrolt. Hij heeft dezelfde knoppen als Bewerken, die werken op de plek van de cursor: <i>+ Nieuwe taak</i> (de taak komt standaard bij de cursor, onder het punt, de kop of de alinea; in het invulvenster kun je bij <i>Onder kop</i> ook een andere plek kiezen), <i>+ Volgnummer</i> (het nummer komt vooraan het punt, de kop of de alinea, ook in een citaat), <i>✎ Taak bewerken</i> (<kbd>F2</kbd>), <i>Urgent</i> (het punt, de alinea of de kop), <i>Taak</i> (een nieuwe taak onder het punt, met de cursor erin; in een genummerde lijst met het volgende nummer, in een citaat binnen het citaat), <i>Taak ⇄ punt</i> (van het punt bij de cursor een taak met vinkje maken, of van een taak weer een gewoon punt; een alinea wordt een taak; met een selectie wissel je alle punten erin tegelijk; urgent, subpunten en de rest van de regel blijven; op een lege regel, zoals net na <kbd>Enter</kbd> achter een kop, maken <i>Taak</i> en <i>Taak ⇄ punt</i> van die regel een taak) en <i>In/uitgeklapt</i>: daarmee bepaal je hoe de kop bij de cursor opent als de pagina wordt geladen, met elke klik de volgende stand: <i>gesloten</i>, <i>geopend</i> of <i>standaard</i> (<code>##</code>- en <code>###</code>-koppen dicht, andere open); de sectie volgt meteen en een melding noemt de stand. Met de keuzelijst <i>Alinea / Kop 1–6</i> zet je de regel bij de cursor om naar een alinea of een kop van niveau 1 tot en met 6; de lijst laat zien wat er nu staat. Een opsommingspunt zonder subpunten kan ook een kop worden. Verder <b>B</b> en <i>I</i> voor vet en schuin, de pijltjes <i>Ongedaan maken</i> en <i>Opnieuw</i> (<kbd>Ctrl</kbd>+<kbd>Z</kbd> en <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>), <i>Wijzigingen weggooien</i>, en de status: of er iets niet is opgeslagen. Opslaan gaat zoals in Bewerken, met <kbd>Ctrl</kbd>+<kbd>S</kbd> of het label <i>Niet opgeslagen</i>. Lukt opslaan niet (bijvoorbeeld zonder toestemming, of omdat een ander programma het bestand bezet houdt), dan zie je dat met de reden in de status en in een melding; je tekst blijft staan en <kbd>Ctrl</kbd>+<kbd>S</kbd> probeert het opnieuw. Alleen wat je wijzigt, verandert in <code>werkdruk.md</code>: de rest van het bestand blijft teken voor teken gelijk, ook de tekens van je opsommingen en de verborgen codes. Zijn er niet-opgeslagen wijzigingen, dan hoort een vinkje daarbij en wordt het pas met de rest opgeslagen. Met <kbd>Esc</kbd> stop je met typen, zodat de sneltoetsen weer werken. Typ of plak je een code, zoals <code>- </code> of <code># </code> vooraan een regel, <code>*nadruk*</code>, <code>!!urgent!!</code> of <code>&lt;!-- urgent --&gt;</code>, dan staat die eerst letterlijk op het scherm. Zodra je de regel verlaat (met de pijltjes of door ergens anders te klikken), bij opslaan en als je terugkomt in Document, toont Document de echte vorm: een punt, een kop, nadruk of urgent. Wat je dan ziet, is wat er in <code>werkdruk.md</code> komt. De index bovenaan volgt je koppen terwijl je typt. Onder de werkbalk staat, net als in Bewerken, de <i>opzet van een werkdruktaak</i>: staat de cursor in een taak, dan licht het deel op dat je bewerkt (taak, frequentie, uur per keer, wanneer, locatie of opmerkingen) en zijn ontbrekende delen gemarkeerd; met <i>Hoe schrijf ik een taak?</i> open je de uitleg.</p>
+    <p>Je kunt direct in <b>Document</b> bewerken: klik in de tekst en typ. <kbd>Enter</kbd> in een opsommingspunt geeft een nieuw punt (in een taak een nieuwe taak; een nieuw punt wordt niet vanzelf urgent), <kbd>Enter</kbd> in een leeg punt springt een niveau terug of maakt er een alinea onder de lijst van, <kbd>Enter</kbd> aan het eind van een kop geeft een gewone alinea onder die kop (staat de kop ingeklapt, dan klapt hij open), <kbd>Backspace</kbd> vooraan een taak haalt het vinkje weg, <kbd>Tab</kbd> en <kbd>Shift</kbd>+<kbd>Tab</kbd> laten een punt in- en uitspringen, en <kbd>Ctrl</kbd>+<kbd>B</kbd> en <kbd>Ctrl</kbd>+<kbd>I</kbd> maken tekst vet of schuin. Plakken gaat als platte tekst. Kopieer of knip je meer dan één regel uit Document (punten, taken, alinea's), dan gaan ze als geheel mee: met hun vinkje, urgent en subpunten, maar zonder werkdruklabels of "naar index". Plak je ze in Document, dan komen ze onder het punt of de alinea waar de cursor staat. Staat de cursor nog niet in een regel (bijvoorbeeld in een notitie die je net hebt geopend), dan komen ze onder de laatste regel. Zo plak je punten uit Document ook in het notitievenster, met subpunten en links. Zo verplaats je taken met <kbd>Ctrl</kbd>+<kbd>X</kbd> en <kbd>Ctrl</kbd>+<kbd>V</kbd>. <kbd>Enter</kbd> in een codeblok geeft een nieuwe regel in de code; in een tabelcel kan dat niet, want een tabel in markdown heeft één regel per rij. Links, codelabels en werkdruklabels kun je niet doortypen, wel aanklikken; achter "naar index" bij een kop en achter het werkdruklabel van een taak kun je de cursor niet zetten, hij blijft aan het eind van de tekst (ook met <kbd>End</kbd>). De werkdruklabels rekenen mee terwijl je typt: wijzig je de uren of de frequentie van een taak, dan staat even later het nieuwe getal erachter, en een nieuwe taak krijgt een label zodra frequentie en uren er staan. De werkbalk bovenaan blijft onder de balk staan als je scrolt. Hij heeft dezelfde knoppen als Bewerken, die werken op de plek van de cursor: <i>+ Nieuwe taak</i> (de taak komt standaard bij de cursor, onder het punt, de kop of de alinea; in het invulvenster kun je bij <i>Onder kop</i> ook een andere plek kiezen), <i>+ Volgnummer</i> (het nummer komt vooraan het punt, de kop of de alinea, ook in een citaat), <i>✎ Taak bewerken</i> (<kbd>F2</kbd>), <i>Urgent</i> (het punt, de alinea of de kop), <i>Taak</i> (een nieuwe taak onder het punt, met de cursor erin; in een genummerde lijst met het volgende nummer, in een citaat binnen het citaat), <i>Taak ⇄ punt</i> (van het punt bij de cursor een taak met vinkje maken, of van een taak weer een gewoon punt; een alinea wordt een taak; met een selectie wissel je alle punten erin tegelijk; urgent, subpunten en de rest van de regel blijven; op een lege regel, zoals net na <kbd>Enter</kbd> achter een kop, maken <i>Taak</i> en <i>Taak ⇄ punt</i> van die regel een taak) en <i>In/uitgeklapt</i>: daarmee bepaal je hoe de kop bij de cursor opent als de pagina wordt geladen, met elke klik de volgende stand: <i>gesloten</i>, <i>geopend</i> of <i>standaard</i> (<code>##</code>- en <code>###</code>-koppen dicht, andere open); de sectie volgt meteen en een melding noemt de stand. Met de keuzelijst <i>Alinea / Kop 1–6</i> zet je de regel bij de cursor om naar een alinea of een kop van niveau 1 tot en met 6; de lijst laat zien wat er nu staat. Een opsommingspunt zonder subpunten kan ook een kop worden. Verder <b>B</b> en <i>I</i> voor vet en schuin, de pijltjes <i>Ongedaan maken</i> en <i>Opnieuw</i> (<kbd>Ctrl</kbd>+<kbd>Z</kbd> en <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>), <i>Wijzigingen weggooien</i>, en de status: of er iets niet is opgeslagen. Opslaan gaat zoals in Bewerken, met <kbd>Ctrl</kbd>+<kbd>S</kbd> of het label <i>Niet opgeslagen</i>. Lukt opslaan niet (bijvoorbeeld zonder toestemming, of omdat een ander programma het bestand bezet houdt), dan zie je dat met de reden in de status en in een melding; je tekst blijft staan en <kbd>Ctrl</kbd>+<kbd>S</kbd> probeert het opnieuw. Alleen wat je wijzigt, verandert in <code>werkdruk.md</code>: de rest van het bestand blijft teken voor teken gelijk, ook de tekens van je opsommingen en de verborgen codes. Zijn er niet-opgeslagen wijzigingen, dan hoort een vinkje daarbij en wordt het pas met de rest opgeslagen. Met <kbd>Esc</kbd> stop je met typen, zodat de sneltoetsen weer werken. Typ of plak je een code, zoals <code>- </code> of <code># </code> vooraan een regel, <code>*nadruk*</code>, <code>!!urgent!!</code> of <code>&lt;!-- urgent --&gt;</code>, dan staat die eerst letterlijk op het scherm. Zodra je de regel verlaat (met de pijltjes of door ergens anders te klikken), bij opslaan en als je terugkomt in Document, toont Document de echte vorm: een punt, een kop, nadruk of urgent. Wat je dan ziet, is wat er in <code>werkdruk.md</code> komt. De index bovenaan volgt je koppen terwijl je typt. Onder de werkbalk staat, net als in Bewerken, de <i>opzet van een werkdruktaak</i>: staat de cursor in een taak, dan licht het deel op dat je bewerkt (taak, frequentie, uur per keer, wanneer, locatie of opmerkingen) en zijn ontbrekende delen gemarkeerd; met <i>Hoe schrijf ik een taak?</i> open je de uitleg.</p>
     <p>Wijzigt een ander programma (bijvoorbeeld Kladblok) het bestand, dan ververst de pagina: meteen als de browser wijzigingen zelf kan melden, anders binnen enkele seconden. Wijs het label <i>Ververst automatisch</i> in de balk aan om te zien welke van de twee. Gewijzigde secties lichten oranje op en krijgen een oranje stip; met de knop <i>n secties gewijzigd</i> of de toets <kbd>w</kbd> spring je erlangs.</p>
     <p>Het tabblad <b>Mindmap</b> toont de koppen als een boom rond de <code>#</code>-kop. Klik op een tak om hem uit te klappen (zijn er onder de tak nog punten verborgen, dan worden die meteen getoond); klik nogmaals om hem in te klappen. Dubbelklik om naar die plek in het document te gaan, sleep om te verplaatsen en scroll om te zoomen. Standaard zie je koppen 1 tot en met 3; een gestippeld bolletje geeft het aantal verborgen opsommingspunten (klik erop of druk op <kbd>p</kbd>). Een kop met de naam "Verwerkt" of met <code>&lt;!-- ingeklapt --&gt;</code> start dicht. De knoppen boven de mindmap: <i>Passend</i> (alles in beeld), <i>+</i> en <i>−</i> (zoomen), <i>Alles uitklappen</i>, <i>Alles inklappen</i>, <i>Standaard</i> (terug naar koppen 1 tot en met 3, zonder opsommingen), <i>Opsommingen: aan/uit</i> (de punten onder de koppen wel of niet tonen), <i>Taken: aan/uit</i> (bij elke kop het aantal afgevinkte taken en alle taken eronder, zoals 1/2; standaard uit), <i>Projectnummers: aan/uit</i> (de code vooraan een kop of punt, zoals 482828 of 2026-117, wel of niet tonen; welke codes dat zijn, stel je in bij Instellingen → Codes voor notities; standaard uit) en <i>Dikte naar uren: aan/uit</i> (de lijn naar een tak wordt dikker naarmate er meer uren per jaar aan werkdruktaken onder staan; standaard aan). Ook als de projectnummers uit staan, vind je een kop of punt met het zoekveld op zijn nummer, en zie je het volledige nummer als je de knoop aanwijst.</p>
     <p>Met <i>Dikte naar uren</i> aan zie je waar je tijd zit; zo opent de mindmap. Zet je de knop uit, dan zijn alle takken even dik. Die keuze geldt tot je de pagina herlaadt. De zwaarste tak is het dikst, de andere takken zijn naar verhouding dunner, en een tak waar geen uren onder staan is dun en vaag. Een kop telt alle taken eronder mee, ook onder subkoppen en in ingeklapte takken. Het zijn dezelfde uren per jaar als in de labels in Document, voor het jaar dat je bij de werkdruk bekijkt. Wijs een tak aan om het aantal uren te zien. Staan er nergens taken met uren, dan blijven alle takken even dik; zet je de knop dan zelf aan, dan krijg je daar een melding van.</p>
@@ -4023,7 +4030,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <p>Bij een project, TPO of andere zaak kun je voortgangsnotities bijhouden, met een volledige versiegeschiedenis.</p>
     <p>Kies <i>Voorbeeld bekijken</i> om dit uit te proberen: daarin hebben 482828, 2026-117 en ONB-001 notities met versies en licenties, en hebben 513240 en 2026-131 nog geen notities.</p>
     <h4>Codes en labels</h4>
-    <p>Begint een opsommingspunt of een kop met een code die past bij een van je patronen, dan wordt die code in de tabbladen Document, Totaaloverzicht en Taken een klikbaar label. De code moet direct na het opsommingsteken (en een eventueel afvinkvakje) of na de # van de kop staan, gevolgd door een spatie, bijvoorbeeld <code>## 2026-123 Advies aan het bestuur</code>. Klik je op het label in een kop, dan openen de notities; de sectie klapt daarbij niet in of uit. Een code midden in de tekst telt niet mee.</p>
+    <p>Begint een opsommingspunt of een kop met een code die past bij een van je patronen, dan wordt die code in de tabbladen Document, Totaaloverzicht en Taken en in het notitievenster een klikbaar label. De code moet direct na het opsommingsteken (en een eventueel afvinkvakje) of na de # van de kop staan, gevolgd door een spatie, bijvoorbeeld <code>## 2026-123 Advies aan het bestuur</code>. Klik je op het label in een kop, dan openen de notities; de sectie klapt daarbij niet in of uit. Een code midden in de tekst telt niet mee.</p>
     <pre><code>- 123456 Herinrichting archief - maandelijks - 2 uur
 - [ ] 2026-123 Advies aan het bestuur afronden
 - ONB-004 Vraag van de wethouder uitzoeken</code></pre>
@@ -4031,6 +4038,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h4>Het notitievenster</h4>
     <ul>
       <li>Klik op het label: je bewerkt de notities zoals in Document, in de opgemaakte tekst. <kbd>Enter</kbd>, <kbd>Backspace</kbd>, <kbd>Tab</kbd>, vet en schuin, plakken en verplaatsen werken zoals daar (zie <i>Document en mindmap</i>), en wat je niet aanraakt, blijft in het bestand teken voor teken gelijk. De balk boven de tekst heeft <i>Urgent</i>, <i>Taak</i>, <i>Taak ⇄ punt</i>, <i>Tekstsoort</i> (alinea of kop 1–6), <b>B</b>, <i>I</i> en ongedaan maken en opnieuw (<kbd>Ctrl</kbd>+<kbd>Z</kbd>, <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>). Een vinkje zet je met een klik. Wil je liever de markdown typen, met de opmaak ernaast, zet dan in Instellingen de schakelaar <i>Notities bewerken zoals in Document</i> uit. Een nieuwe notitie begint met een titel en een kop met de datum van vandaag.</li>
+      <li>Noem je in je notities een ander project, zet de code dan vooraan een punt of kop: de code wordt een label, en een klik erop opent de notities bij die code. Een code die je typt, wordt een label zodra je de regel verlaat. Heb je nog niet opgeslagen, dan vraagt de pagina eerst of je dat wilt weggooien; sla dus eerst op met <kbd>Ctrl</kbd>+<kbd>S</kbd>. De code van de notities zelf, bijvoorbeeld in de titel bovenaan, wordt geen label. In de markdownweergave staan de labels in de opmaak naast het tekstvak.</li>
       <li><i>Datum invoegen</i> zet een kop met de datum van vandaag onder de regel bij de cursor (in een lijst onder de hele lijst); in de markdownweergave op de plek van de cursor.</li>
       <li><i>Bijlage…</i> bewaart een bestand bij het project. Kies een of meer bestanden, of sleep ze vanuit de Verkenner of Finder naar het notitievenster. De pagina zet een kopie in <code>notities/123456/</code> (een map met de code als naam, naast je notitiebestand) en zet in je notities een opsommingspunt met een link naar het bestand, onder de regel van de cursor. Sla daarna je notities op om de link te bewaren. Er wordt nooit een bijlage overschreven: staat er al een bestand met die naam en dezelfde inhoud, dan komt er alleen een link bij; is de inhoud anders, dan krijgt het nieuwe bestand een volgnummer, zoals <code>offerte (2).pdf</code>. Een map kun je niet als bijlage bewaren. Een bestand dat je naar het notitievenster sleept, wordt niet als document geopend. Zonder map waarin de pagina kan schrijven (dus ook in Firefox en Safari) is de knop er niet.</li>
       <li>Een bijlage open je met <kbd>Ctrl</kbd>+klik (op een Mac <kbd>Cmd</kbd>+klik) op de link in je notities, of met een gewone klik in het tabblad Dossier. Het bestand opent in een nieuw tabblad; wat de browser niet zelf kan tonen, biedt hij aan als download. De link is een pad vanaf de plek van het HTML-bestand. Hij werkt dus als <code>werkdruk-in-beeld.html</code> in je gegevensmap staat, naast werkdruk.md. Staat het HTML-bestand ergens anders, dan staat de bijlage wel in de map, maar opent de link niet.</li>
@@ -4180,7 +4188,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
 
   <section id="h-privacy">
     <h3>Je gegevens</h3>
-    <p>De pagina werkt volledig op je eigen computer: ze maakt geen enkele netwerkverbinding en bewaart niets in de browser. Alles staat in de map die je kiest:</p>
+    <p>De pagina werkt volledig op je eigen computer: ze maakt geen enkele netwerkverbinding en bewaart niets in de browser. Tabbladen van dezelfde browser laten elkaar alleen weten welke map ze open hebben, om te waarschuwen als dat dezelfde is. Alles staat in de map die je kiest:</p>
     <ul>
       <li><code>werkdruk.md</code>: je takenlijst en werkoverzicht. De pagina schrijft erin als je opslaat of in het document een taak afvinkt.</li>
       <li><code>instellingen.md</code>: je uren per werkdag, parttimedag, verlof, geboorteverlof, feestdagen, verlofplanning, thema, stijl, starttabblad, de zijbalk (in- of uitgeklapt), het vastleggen van externe wijzigingen, en de codes voor notities met het volgnummer. De pagina schrijft erin zodra je iets wijzigt. Lukt dat niet, dan zie je een melding, probeert de pagina het om de paar seconden opnieuw en waarschuwt ze als je de pagina sluit voordat het gelukt is. Het is gewone tekst; pas je het met de hand aan, dan neemt de pagina dat meteen of binnen enkele seconden over. Je kunt er ook eigen aantekeningen in zetten: een regel die de pagina niet gebruikt, blijft bij het opslaan onder dezelfde kop staan, en een eigen kop met tekst komt onderaan. Regels die de pagina wel gebruikt (zoals <code>- Uren per werkdag: 9</code>) schrijft ze zelf opnieuw, met de waarde uit Instellingen.</li>
@@ -8167,6 +8175,53 @@ WIB.kern.document = (function () {
   /* ---------- Map kiezen: alle bestanden in één map ---------- */
   const NIEUW_MD = '# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur per keer - wanneer - locatie - opmerkingen\n\n## Taken\n';
   function meld(t, gewoon) { if (window.WIB.werkdruk) WIB.werkdruk.melding(t, gewoon); }
+  /* ---------- Dezelfde map in twee tabbladen (v245) ----------
+     Tabbladen van dezelfde browser praten met elkaar over een BroadcastChannel (blijft binnen de browser: geen netwerk,
+     geen opslag). Opent een tabblad een map, dan meldt het dat; een tabblad dat dezelfde map open heeft, antwoordt. Beide
+     tonen dan een waarschuwing, die verdwijnt zodra een van de twee de map loslaat of sluit. Dezelfde map: dezelfde naam
+     en, als de browser het handvat van de map kan meesturen, ook echt dezelfde map (isSameEntry). */
+  const tabId = Math.random().toString(36).slice(2) + Date.now().toString(36);
+  const tabKanaal = typeof window.BroadcastChannel === 'function' ? new window.BroadcastChannel('werkdruk-in-beeld') : null;
+  let tabAnderen = {}, tabGemeld = false;
+  function tabStuur(b) { b.id = tabId; tabKanaal.postMessage(b); }
+  function tabToon() {
+    const dubbel = Object.keys(tabAnderen).length > 0;
+    document.getElementById('dubbelopen').hidden = !dubbel;
+    document.getElementById('zijbalkbron').classList.toggle('dubbel', dubbel);
+  }
+  function tabZelfde(id) {
+    if (!hist.map || tabAnderen[id]) return;
+    tabAnderen[id] = true; tabToon();
+    tabStuur({ soort: 'ook', aan: id });
+    meld('De map «' + hist.map.name + '» is zojuist ook in een ander tabblad geopend. Werk bij voorkeur in één tabblad, zodat je niet langs elkaar heen werkt.');
+  }
+  // de map van dit tabblad is gekozen, gewisseld of losgelaten
+  function tabMapGewijzigd() {
+    if (!tabKanaal) return;
+    if (tabGemeld) tabStuur({ soort: 'dicht' });
+    tabAnderen = {}; tabGemeld = !!hist.map; tabToon();
+    if (!hist.map) return;
+    // het handvat van de map erbij, voor een exacte vergelijking; kan het niet mee, dan geldt alleen de naam
+    try { tabStuur({ soort: 'handvat', naam: hist.map.name, map: hist.map }); }
+    catch (e) { tabStuur({ soort: 'open', naam: hist.map.name }); /* niet te versturen (DataCloneError): de ontvanger vergelijkt op naam */ }
+  }
+  if (tabKanaal) {
+    tabKanaal.onmessage = function (e) {
+      const b = e.data || {};
+      if (!b.id || b.id === tabId) return;
+      if (b.soort === 'open' && hist.map && b.naam === hist.map.name) tabZelfde(b.id);
+      else if (b.soort === 'handvat' && hist.map && b.naam === hist.map.name) {
+        if (b.map && typeof hist.map.isSameEntry === 'function') hist.map.isSameEntry(b.map).then(function (zelfde) { if (zelfde) tabZelfde(b.id); }, function () { tabZelfde(b.id); });
+        else tabZelfde(b.id);
+      } else if (b.soort === 'ook' && b.aan === tabId && hist.map && !tabAnderen[b.id]) {
+        tabAnderen[b.id] = true; tabToon();
+        meld('De map «' + hist.map.name + '» is al open in een ander tabblad van deze browser. Werk bij voorkeur in één tabblad, zodat je niet langs elkaar heen werkt.');
+      } else if (b.soort === 'dicht') {
+        if (tabAnderen[b.id]) { delete tabAnderen[b.id]; tabToon(); }
+      }
+    };
+    window.addEventListener('pagehide', function () { if (tabGemeld) tabStuur({ soort: 'dicht' }); });
+  }
   // tekst van een bestand in de map; null als het niet bestaat. Een leesfout gaat door (v133): anders zou een onleesbaar
   // werkdruk.md of instellingen.md als "ontbreekt" gelden en door een nieuw, leeg bestand worden vervangen.
   function leesTekst(dir, naam) {
@@ -8242,6 +8297,7 @@ WIB.kern.document = (function () {
       .then(function (h) {
         return openHandle(h, true, 'map-fs').then(function () {
           meld(aangemaakt.length ? 'Map «' + dir.name + '» gekozen. Aangemaakt: ' + aangemaakt.join(' en ') + '.' : 'Map «' + dir.name + '» ingeladen.', true);
+          tabMapGewijzigd();   // v245: staat deze map ook in een ander tabblad open?
         });
       })
       .catch(function (e) {
@@ -8270,7 +8326,7 @@ WIB.kern.document = (function () {
     const mapNaam = top(files[0])[0] || 'map';
     const namen = ['werkdruk.md', 'instellingen.md', 'werkdruk_historie.md', 'instellingen_historie.md', 'daginvoer.md', 'notities_historie.md'];
     Promise.all(namen.map(function (n) { const f = pak(n); return f ? WIB.hulp.tekstVan(f) : null; })).then(function (r) {
-      if (hist.map) hist.map = null;
+      if (hist.map) { hist.map = null; tabMapGewijzigd(); }
       if (window.WIB.werkdruk) WIB.werkdruk.zetMap({ name: mapNaam, setHandle: null, readonly: true, tekst: r[1] });
       zetHistorieTekst('werkdruk', r[2] || ''); zetHistorieTekst('instellingen', r[3] || ''); zetHistorieTekst('notities', r[5] || ''); zetDaginvoerTekst(r[4] || '');
       if (window.WIB.notities) WIB.notities.zetBestanden(files);
@@ -9404,6 +9460,19 @@ WIB.kern.document = (function () {
       const n = sel.anchorNode, x = (n.nodeType === 1 ? n : n.parentNode).closest('[data-regel]');
       return x && el.contains(x) ? x : null;
     }
+    // zet de cursor aan het eind van de laatste regel vóór de cursor (zonder cursor in de editor: de laatste regel); false als er geen regel is
+    function cursorInBlokVoor() {
+      const sel = window.getSelection(), alle = Array.prototype.slice.call(el.querySelectorAll('[data-regel]'));
+      if (!alle.length) return false;
+      let doel = alle[alle.length - 1];
+      if (sel && sel.rangeCount && el.contains(sel.anchorNode)) {
+        const r = sel.getRangeAt(0), voor = alle.filter(function (x) { return r.comparePoint(x, 0) < 0; });
+        doel = voor.length ? voor[voor.length - 1] : alle[0];
+      }
+      const r = document.createRange(); r.selectNodeContents(doel); r.collapse(false);
+      el.focus({ preventScroll: true }); zetCursor(r);
+      return !!cursorBlok();
+    }
     function inTabelOfCode() {
       const sel = window.getSelection(), n = sel && sel.rangeCount ? sel.anchorNode : null, x = n && (n.nodeType === 1 ? n : n.parentNode);
       return !!(x && el.contains(x) && x.closest('table, pre'));
@@ -9904,7 +9973,10 @@ WIB.kern.document = (function () {
         const sel = window.getSelection();
         if (sel && sel.rangeCount && !sel.isCollapsed) { toevoegselsWeg(sel.getRangeAt(0)); document.execCommand('delete'); }
         const nieuw = md.replace(/\r\n?/g, '\n').split('\n');
-        if (!cursorBlok()) { melding(inTabelOfCode() ? 'Hele punten of alinea\'s kun je niet in een tabel of codeblok plakken.' : geenCursor()); return; }
+        if (inTabelOfCode()) { melding('Hele punten of alinea\'s kun je niet in een tabel of codeblok plakken.'); return; }
+        // v246: staat de cursor nog niet in een regel (een notitie die net open is, een klik in de lege ruimte), dan komen
+        // de blokken onder de laatste regel vóór de cursor; voorheen gebeurde er niets, met "Zet eerst de cursor in de tekst"
+        if (!cursorBlok() && !cursorInBlokVoor()) { melding(geenCursor()); return; }
         regelActie(function (regels, nr, blok) {
           const eind = blok.hasAttribute('data-tot') ? +blok.getAttribute('data-tot') : nr;
           // in een lege regel (een leeg punt of een lege alinea): de blokken komen op die plek
@@ -10402,6 +10474,7 @@ WIB.kern.document = (function () {
   function ontkoppelMap() {
     const naam = hist.map.name;
     hist.map = null;
+    tabMapGewijzigd();
     if (window.WIB.werkdruk) WIB.werkdruk.zetMap(null);
     if (window.WIB.notities) WIB.notities.zetMap(null);
     if (kanMap) document.getElementById('hist-map').hidden = false;
@@ -10505,8 +10578,9 @@ WIB.kern.document = (function () {
     laad(f);
   });
   /* ---------- Project- en TPO-nummers: label dat de notities opent ---------- */
-  // Een code aan het begin van een opsommingspunt of (sinds v167) een kop wordt een label dat de notities opent
-  function nummersMarkeren(wortel) {
+  // Een code aan het begin van een opsommingspunt of (sinds v167) een kop wordt een label dat de notities opent.
+  // sla(blok, sleutel) (v247, het notitievenster): geeft true voor een punt of kop dat geen label krijgt.
+  function nummersMarkeren(wortel, sla) {
     const LABEL_PLEKKEN = 'li, h1, h2, h3, h4, h5, h6';
     wortel.querySelectorAll(LABEL_PLEKKEN).forEach(function (li) {
       let w = document.createTreeWalker(li, NodeFilter.SHOW_TEXT, null), t;
@@ -10515,6 +10589,7 @@ WIB.kern.document = (function () {
         if (!t.nodeValue.trim()) continue;
         const re = window.WIB.codes && WIB.codes.start(), m = re ? re.exec(t.nodeValue) : null;
         if (!m || t.parentNode.closest('a, code, button')) return;
+        if (sla && sla(li, WIB.codes.sleutel(m[2]))) return;
         const rest = t.nodeValue.slice(m[0].length);
         const na = t.splitText(m[1].length);
         na.nodeValue = rest;
@@ -14941,6 +15016,7 @@ WIB.kern.notities = (function () {
       const md = String(t || '').replace(/\r\n?/g, '\n');
       editorEl.innerHTML = WIB.document.markdownNaarHtml(md);
       verbergLicenties(editorEl, md);
+      labels(editorEl);
       editor.opgebouwd(md);
     },
     lees: function () { return ta.value; },
@@ -14953,8 +15029,36 @@ WIB.kern.notities = (function () {
       if (herstel) editor.teken(t);
     },
     melding: function (t) { if (window.WIB.werkdruk && WIB.werkdruk.melding) WIB.werkdruk.melding(t); },
-    bijCursor: function (v) { if (document.activeElement !== ntKop) ntKop.value = v; }
+    bijCursor: function (v) { if (document.activeElement !== ntKop) ntKop.value = v; },
+    naFlush: planLabels
   }) : null;
+  /* v247: een code vooraan een punt of kop is ook in de notities een label dat de notities bij die code opent, zoals in
+     Document. De code van de notities zelf krijgt geen label. Een code die je typt, wordt een label kort nadat je de regel
+     hebt verlaten: zolang je in de regel typt, verandert er niets onder je handen. */
+  let labelT = null, labelWacht = false;
+  function labels(wortel, nietIn) {
+    let wacht = false;
+    WIB.document.nummersMarkeren(wortel, function (blok, code) {
+      if (huidig && code === huidig.nr) return true;
+      if (nietIn && blok === nietIn) { wacht = true; return true; }
+      return false;
+    });
+    werkLabelsBij();
+    return wacht;
+  }
+  function planLabels() {
+    clearTimeout(labelT);
+    labelT = setTimeout(function () {
+      labelWacht = false;
+      if (!editor || !isOpen() || editorEl.hidden) return;
+      try {
+        labelWacht = labels(editorEl, editor.cursorBlok());
+        editorEl.querySelectorAll('.nr-label:not([contenteditable])').forEach(function (b) { b.setAttribute('contenteditable', 'false'); });
+        editor.stil();   // de labels zijn geen bewerking: de tekst blijft dezelfde
+      } catch (e) { console.warn('Labels bijwerken mislukt', e); }
+    }, 300);
+  }
+  document.addEventListener('selectionchange', function () { if (labelWacht) planLabels(); });
   function wysiwyg() { return !!editor && !(window.WIB.werkdruk && WIB.werkdruk.instelling && WIB.werkdruk.instelling('notitiesWysiwyg') === false); }
   // wat in de editor is getypt eerst in het tekstvak (vóór opslaan, sluiten, controleren)
   function editorBij() { if (editor) editor.flush(); }
@@ -15089,6 +15193,7 @@ WIB.kern.notities = (function () {
     if (wysiwyg() && !bekeken && weergave === 'opmaak') { editor.teken(tekst); return; }
     voorbeeld.innerHTML = window.WIB.document ? WIB.document.markdownNaarHtml(tekst) : '';
     if (!bekeken) verbergLicenties(voorbeeld, tekst);   // v225; een oude versie toon je volledig
+    if (window.WIB.document) labels(voorbeeld);
     voorbeeld.querySelectorAll('input[type="checkbox"]').forEach(function (i) { i.disabled = true; });
   }
   function zetWeergave(w) {
