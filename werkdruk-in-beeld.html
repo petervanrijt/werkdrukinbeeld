@@ -2160,6 +2160,20 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
 #vraag .hulp-vlak { max-width: 520px; }
 #vraag #vraag-tekst { white-space: pre-line; }
 #vraag #vraag-ja.gevaarlijk { background: var(--urg); border-color: var(--urg); color: #fff; }
+/* ---------- Voortgang bij het openen van een map (v251) ---------- */
+#laden { z-index: 75; align-items: center; cursor: progress; }
+#laden .hulp-vlak { max-width: 420px; outline: none; }
+.laden-kop { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.laden-kop h2 { margin: 0; flex: 1; font-size: var(--fs-kop-3); }
+.laden-pct { font-size: var(--fs-m); color: var(--muted); font-variant-numeric: tabular-nums; }
+.laden-draai { flex: none; width: 20px; height: 20px; border-radius: 50%; border: 3px solid var(--accent-soft); border-top-color: var(--accent); animation: laden-draai .8s linear infinite; }
+.laden-balk { position: relative; height: 8px; border-radius: 4px; background: var(--accent-soft); overflow: hidden; }
+#laden-vulling { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 4px; background: var(--accent); transition: width .2s ease-out; }
+.laden-balk.onbepaald #laden-vulling { left: -35%; width: 35%; animation: laden-loop 1.2s ease-in-out infinite; }
+.laden-stap { margin: 10px 0 0; min-height: 1.4em; font-size: var(--fs-m); color: var(--muted); }
+/* eigen stappen (geen from/to): die staan al in andere @keyframes en tellen in de structuurtest als selector */
+@keyframes laden-draai { 100% { transform: rotate(360deg); } }
+@keyframes laden-loop { 99.99% { left: 100%; } }
 /* --- stijl Crazy: de balk en de zijbalk --- */
 :root[data-stijl="crazy"] .balk::after { content: ""; position: absolute; left: 0; right: 0; bottom: -5px; height: 4px; background: linear-gradient(90deg, var(--pop-1), var(--pop-5), var(--pop-2), var(--pop-3), var(--pop-4), var(--pop-1)); background-size: 200% 100%; }
 :root[data-stijl="crazy"] .merk .balk-titel { background: linear-gradient(90deg, var(--accent), var(--pop-1), var(--pop-5), var(--pop-1), var(--accent)); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -2400,6 +2414,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v251</span> Voortgang bij het openen van een map <span class="datum">11 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Na <i>Map kiezen</i> kan het een paar seconden duren voordat je verder kunt: de browser geeft de gekozen map eerst door (na <i>Map selecteren</i>, <i>Bestanden bekijken</i> of <i>Uploaden</i>) en leest daarna elk bestand apart. Op een netwerkmap, in OneDrive of met een virusscanner die elk bestand controleert, duurt dat merkbaar langer; de pagina zelf heeft er maar een fractie van een seconde voor nodig. Je zag in die tijd niets gebeuren. Nu verschijnt het venster <i>Map openen</i> met een draaiend teken en een voortgangsbalk: eerst een lopende balk zolang de browser bezig is, daarna een percentage met de stap (<i>Bestanden lezen (4 van 6)</i>, <i>het document opbouwen</i>). Het venster komt pas na 300 ms, zodat je bij een snelle map niets ziet flitsen. Het wijkt voor een vraag tussendoor (bijvoorbeeld of ontbrekende bestanden mogen worden aangemaakt) en verdwijnt bij annuleren of een fout. Ook bij een map die je naar de pagina sleept en bij een map die alleen gelezen kan worden.</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v250</span> Geen verspringende tekst meer bij verwijderen, knippen en plakken in opsommingen <span class="datum">11 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Voegde je in Document of het notitievenster twee punten samen, en had het tweede punt subpunten, dan bleef er een leeg punt over met de subpunten eronder. Dat gebeurde met <kbd>Backspace</kbd> vooraan het punt, <kbd>Delete</kbd> aan het eind van de regel erboven, en bij het weghalen, knippen of overschrijven van een selectie die in zo'n punt eindigde. Bij een urgent punt kwam er een lege regel <code>-  &lt;!-- urgent --&gt;</code> in het bestand, en na het verlaten van de regel verdwenen de subpunten uit beeld. Liep de selectie vanuit een subpunt, dan stonden de subpunten op het scherm een niveau dieper dan in het bestand, en sprongen ze terug. De subpunten komen nu, zoals in een tekstverwerker, onder het samengevoegde punt, op het scherm en in het bestand gelijk.</li><li><span class="soort herstel">herstel</span>Kwam er tekst achter een urgent punt bij (samenvoegen), dan werd die pas rood als je de regel verliet. Nu meteen, zoals hij ook wordt opgeslagen.</li><li><span class="soort herstel">herstel</span>Het werkdruklabel van een leeg punt (<i>werkdruk: frequentie ontbreekt</i>) stond op een eigen regel. Maakte je een punt leeg, dan werd het een halve seconde later een regel hoger en versprong alle tekst eronder. Plakte je tekst van meer regels in een punt, dan stond het label even onder de laatste regel. Het label staat nu naast het punt. Na het samenvoegen van punten komen de labels meteen terug in plaats van na een halve seconde.</li><li><span class="soort herstel">herstel</span>Stond het werkdruklabel van een taak op een eigen regel (een smal venster, of een lange taak), dan sprong <kbd>pijl omlaag</kbd> vanuit die taak naar het eind van het document en <kbd>pijl omhoog</kbd> eronder naar het begin, met de pagina mee. De cursor gaat nu naar de regel eronder of erboven, en de pagina blijft staan.</li><li><span class="soort herstel">herstel</span><kbd>Delete</kbd> aan het eind van een regel met een taak eronder deed niets. Nu komt de tekst van de taak achter die regel, zonder vinkje.</li><li><span class="soort herstel">herstel</span><kbd>Backspace</kbd> met de cursor direct achter het vinkje van een taak (waar een klik vooraan de tekst hem zet) haalde alleen de spatie weg. Nu gaat het vinkje weg, zoals vooraan de tekst.</li><li><span class="soort herstel">herstel</span>Na het samenvoegen van een punt met subpunten kreeg die taak soms geen werkdruklabel meer, tot je opnieuw tekende.</li><li><span class="soort herstel">herstel</span>Een leeg punt zonder spatie na het streepje (<code>-</code>, bijvoorbeeld nadat een andere editor spaties aan het eind van regels heeft weggehaald) maakte van het punt erboven een kop, en het lege punt verdween. Het is nu een leeg punt.</li><li><span class="soort herstel">herstel</span>In het notitievenster op een smal scherm (tot 800 px breed) zakte alle tekst bij de eerste bewerking: <i>Niet opgeslagen · opslaan</i> verscheen naast de titel, en die brak dan af over meer regels. Die melding heeft daar nu een eigen regel onder de titel, die altijd ruimte houdt.</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v249</span> Verticale lijn ook onder kop 1 <span class="datum">11 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In Document springt nu ook de inhoud onder een kop 1 (<code>#</code>) in, met een verticale lijn ernaast, zoals al bij kop 2 tot en met 6. Zo zie je bij elke kop waar de inhoud ervan ophoudt. Dit geldt in alle stijlen; elke stijl gebruikt zijn eigen lijnkleur.</li><li><span class="soort herstel">herstel</span>Sinds v248 (de knop Link) liep de werkbalk van Document in de stijl Contrast op een scherm van 1400 pixels breed over op een tweede regel. Met iets minder ruimte tussen de knoppen staat hij weer op één regel, zoals in de andere stijlen.</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v248</span> Knop Link in Document en het notitievenster <span class="datum">11 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In de werkbalk van Document en van het notitievenster staat de knop <i>Link</i>, een kettingschakel naast <b>B</b> en <i>I</i>. Selecteer je tekst, dan wordt die tekst een link; zonder selectie komt de link bij de cursor. In het venster vul je de tekst en het adres in. Selecteer je een link (helemaal of een deel), of staat de cursor er direct voor of achter, dan bewerk je die link: tekst en adres aanpassen, of <i>Link weghalen</i> (de tekst blijft dan staan). Een adres is een webadres, een mailadres of een pad naar een bestand; spaties en haakjes in het adres worden %20, %28 en %29, zodat de link heel blijft. Een onveilig adres (zoals javascript:) kan niet. In het bestand staat de link als [tekst](adres); de rest van de regel blijft teken voor teken gelijk. Ongedaan maken werkt zoals bij typen.</li><li><span class="soort herstel">herstel</span>Een gewone klik op een link in het notitievenster zette de cursor nergens en haalde de focus uit de tekst. De cursor komt nu direct achter de link, zodat je hem met <i>Link</i> kunt bewerken. Met Ctrl+klik (op de Mac Cmd+klik) open je de link, zoals voorheen. In Document opent een klik op een link hem nog steeds.</li><li>Handmatige actie: geen.</li></ul></div>
@@ -3690,6 +3705,13 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     </div>
   </div>
 </div>
+<div class="hulp laadvenster" id="laden" hidden role="dialog" aria-modal="true" aria-labelledby="laden-titel" aria-describedby="laden-stap">
+  <div class="hulp-vlak" tabindex="-1">
+    <div class="laden-kop"><span class="laden-draai" aria-hidden="true"></span><h2 id="laden-titel">Even geduld</h2><span class="laden-pct" id="laden-pct"></span></div>
+    <div class="laden-balk onbepaald" id="laden-balk" role="progressbar" aria-labelledby="laden-titel" aria-valuemin="0" aria-valuemax="100"><span id="laden-vulling"></span></div>
+    <p class="laden-stap" id="laden-stap" aria-live="polite"></p>
+  </div>
+</div>
 <div id="tooltip" role="tooltip"></div>
 <div id="toast" role="status" aria-live="polite"></div>
 <div id="modalRoot"></div>
@@ -3796,7 +3818,8 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
           <li><code>daginvoer.md</code>: je vrije tekst per dag;</li>
           <li>de map <code>notities</code> en <code>notities_historie.md</code>: je notities per project- of TPO-code, met versies. Die worden pas aangemaakt bij je eerste notitie.</li>
         </ul>
-        Je kunt de map ook naar het venster slepen.</li>
+        Je kunt de map ook naar het venster slepen.
+        <p>Het openen van een map kan een paar seconden duren, vooral op een netwerkmap, in OneDrive of als een virusscanner meekijkt: de browser geeft de gekozen map eerst door en leest daarna elk bestand. Duurt het langer dan een fractie van een seconde, dan zie je het venster <i>Map openen</i> met een draaiend teken en een balk. Tijdens het kiezen loopt de balk heen en weer; zodra de pagina de bestanden leest, zie je welk deel klaar is (bijvoorbeeld <i>Bestanden lezen (4 van 6)</i>). Het venster verdwijnt vanzelf als alles er is, of als je het kiezen annuleert.</p></li>
       <li>Open <b>Instellingen</b> en controleer je uren per werkdag (standaard 9), je vaste parttimedag en je verlof per jaar. Elke wijziging wordt direct in <code>instellingen.md</code> opgeslagen.</li>
       <li>Voeg taken toe in het tabblad <b>Bewerken</b>: typ ze in de editor of gebruik <b>+ Nieuwe taak</b>. Sla daarna op met <kbd>Ctrl</kbd>+<kbd>S</kbd> of het label <i>Niet opgeslagen</i> in de balk.</li>
       <li>De pagina onthoudt niets in de browser. Open je haar later opnieuw, kies dan weer dezelfde map.</li>
@@ -4432,6 +4455,49 @@ WIB.vraag = (function () {
     });
   }
   return function (opties) { const deze = rij.then(function () { return stel(opties); }); rij = deze.catch(function () { /* de volgende vraag gaat gewoon door */ }); return deze; };
+})();
+// v251: voortgang bij het openen van een map. Het kiezen en doorgeven van een map door de browser en het lezen van de
+// bestanden kan seconden duren (trage schijf, netwerkmap, OneDrive, virusscanner); de pagina doet intussen niets zichtbaars.
+// start(titel, tekst) geeft een kenmerk terug; stap(tekst, gedaan, totaal) zet de stap en de balk (zonder getallen: een
+// lopende balk); pauze() verbergt het venster even (een vraag tussendoor), de volgende stap toont het weer; klaar(kenmerk)
+// sluit het, alleen als het kenmerk nog het huidige is. Het venster verschijnt pas na 300 ms: snel klaar = niets te zien.
+WIB.laden = (function () {
+  let huidig = 0, teller = 0, klok = 0, gepauzeerd = false;   // huidig: het kenmerk van wat nu laadt (0 = niets)
+  const $ = function (id) { return document.getElementById(id); };
+  let terug = null;   // waar de focus stond; daar gaat hij na het laden weer heen
+  function zichtbaar(aan) {
+    const el = $('laden'); if (!el || el.hidden === !aan) return;
+    if (aan) { terug = el.contains(document.activeElement) ? terug : document.activeElement; el.hidden = false; el.querySelector('.hulp-vlak').focus({ preventScroll: true }); return; }
+    const hadFocus = el.contains(document.activeElement);
+    el.hidden = true;
+    if (hadFocus && terug && terug.isConnected && typeof terug.focus === 'function') terug.focus({ preventScroll: true });
+    terug = null;
+  }
+  function stap(tekst, gedaan, totaal) {
+    if (!huidig) return;
+    const balk = $('laden-balk'), bepaald = typeof gedaan === 'number' && totaal > 0;
+    const pct = bepaald ? Math.max(0, Math.min(100, Math.round(gedaan / totaal * 100))) : null;
+    $('laden-stap').textContent = tekst || '';
+    $('laden-pct').textContent = bepaald ? pct + '%' : '';
+    balk.classList.toggle('onbepaald', !bepaald);
+    $('laden-vulling').style.width = bepaald ? pct + '%' : '';
+    if (bepaald) balk.setAttribute('aria-valuenow', pct); else balk.removeAttribute('aria-valuenow');
+    if (gepauzeerd) { gepauzeerd = false; zichtbaar(true); }
+  }
+  function start(titel, tekst) {
+    clearTimeout(klok); gepauzeerd = false; huidig = ++teller;
+    $('laden-titel').textContent = titel || 'Even geduld';
+    stap(tekst || '');
+    const mijn = huidig;
+    klok = setTimeout(function () { if (mijn === huidig && !gepauzeerd) zichtbaar(true); }, 300);
+    return mijn;
+  }
+  function pauze() { if (!huidig) return; clearTimeout(klok); gepauzeerd = true; zichtbaar(false); }
+  function klaar(kenmerk) {
+    if (!huidig || kenmerk !== huidig) return;
+    clearTimeout(klok); huidig = 0; gepauzeerd = false; zichtbaar(false);
+  }
+  return { start: start, stap: stap, pauze: pauze, klaar: klaar };
 })();
 // Bewaking van bestanden op wijzigingen van buitenaf (werkdruk.md, instellingen.md, de geopende notitie).
 // De delen melden hun controle aan met voegToe. Kan de browser zelf melden dat er iets in de map verandert
@@ -8296,8 +8362,13 @@ WIB.kern.document = (function () {
     if (!kanMap) { if (window.WIB.werkdruk) WIB.werkdruk.kiesMapAlleenLezen(); return; }
     bevestigVervangen().then(function (ok) { if (ok) mapKiezer(); });
   }
+  // v251: de voortgang begint al bij het kiezen; hij verschijnt achter het venster van de browser, zodat je ook ziet dat er iets
+  // gebeurt in de tijd dat de browser de gekozen map nog doorgeeft (na Map selecteren of Bestanden bekijken)
+  const KIES_TEKST = 'Kies de map in het venster van de browser. Daarna geeft de browser de map door; dat kan even duren.';
   function mapKiezer() {
-    return window.showDirectoryPicker({ id: 'werkdruk', mode: 'readwrite' }).then(openMap).catch(function (e) {
+    const laad = WIB.laden.start('Map openen', KIES_TEKST);
+    return window.showDirectoryPicker({ id: 'werkdruk', mode: 'readwrite' }).then(function (dir) { return openMap(dir, laad); }).catch(function (e) {
+      WIB.laden.klaar(laad);
       if (e && e.name === 'AbortError') return;
       if (e && (e.name === 'SecurityError' || e.name === 'NotAllowedError' || e.name === 'TypeError')) { kanMap = false; if (window.WIB.werkdruk) WIB.werkdruk.kiesMapAlleenLezen(); return; }
       fout.textContent = 'De map kon niet worden geopend' + (e && e.message ? ': ' + e.message : '') + '.';
@@ -8312,17 +8383,30 @@ WIB.kern.document = (function () {
       : 'In de map «' + dir.name + '» ontbreekt ' + ontbreekt[0] + '. Wil je het hier aanmaken?';
     return WIB.vraag({ titel: 'Bestanden aanmaken?', tekst: tekst, ja: 'Ja, aanmaken', anders: 'Nee, andere map kiezen', nee: 'Annuleren', veilig: true });
   }
-  function openMap(dir) {
+  // laad (v251): het kenmerk van de voortgang (WIB.laden) als die al loopt; anders begint openMap er zelf een.
+  // De stappen: toestemming (1), zes bestanden lezen (6), verwerken (1), werkdruk.md lezen en tonen (1), klaar (1).
+  const MAP_STAPPEN = 10;
+  function openMap(dir, laad) {
     const aangemaakt = [];
+    laad = laad || WIB.laden.start('Map openen');
+    let gedaan = 0;
+    const verder = function (tekst) { WIB.laden.stap(tekst, ++gedaan, MAP_STAPPEN); };
+    WIB.laden.stap('Toestemming voor de map «' + dir.name + '» controleren…', 0, MAP_STAPPEN);
     const p = typeof dir.queryPermission === 'function' ? dir.queryPermission({ mode: 'readwrite' }) : 'granted';
     return Promise.resolve(p)
       .then(function (s) { return s === 'granted' ? s : dir.requestPermission({ mode: 'readwrite' }); })
       .then(function (s) {
         if (s !== 'granted') throw new Error('zonder toestemming kan de pagina de map niet gebruiken');
-        return Promise.all(['werkdruk_historie.md', 'instellingen_historie.md', 'daginvoer.md', 'instellingen.md', 'werkdruk.md', 'notities_historie.md'].map(function (n) { return leesTekst(dir, n); }));
+        const namen = ['werkdruk_historie.md', 'instellingen_historie.md', 'daginvoer.md', 'instellingen.md', 'werkdruk.md', 'notities_historie.md'];
+        let gelezen = 0;
+        verder('Bestanden lezen (0 van ' + namen.length + ')…');
+        return Promise.all(namen.map(function (n) {
+          return leesTekst(dir, n).then(function (t) { verder('Bestanden lezen (' + (++gelezen) + ' van ' + namen.length + ')…'); return t; });
+        }));
       })
       .then(function (r) {
         const ontbreekt = [r[4] === null ? 'werkdruk.md' : '', r[3] === null ? 'instellingen.md' : ''].filter(Boolean);
+        if (ontbreekt.length) WIB.laden.pauze();   // de vraag gaat voor; de volgende stap toont de voortgang weer
         return vraagAanmaken(dir, ontbreekt).then(function (antwoord) {
           if (antwoord === true) return r;
           const stop = new Error('niets aangemaakt'); stop.niets = antwoord; throw stop;
@@ -8342,6 +8426,7 @@ WIB.kern.document = (function () {
         });
       })
       .then(function (o) {
+        verder('Instellingen, historie en daginvoer verwerken…');
         const r = o.r;
         hist.map = dir;
         if (window.WIB.werkdruk) WIB.werkdruk.zetMap({ name: dir.name, setHandle: o.setH, setLM: o.setLM, readonly: false, tekst: r[3] });
@@ -8352,15 +8437,18 @@ WIB.kern.document = (function () {
         zetDaginvoerTekst(r[2] || '', true);
         histStatusBijwerken(); dagStatusBijwerken();
         document.getElementById('hist-map').hidden = true;
+        verder('werkdruk.md lezen en het document opbouwen…');
         return dir.getFileHandle('werkdruk.md');
       })
       .then(function (h) {
         return openHandle(h, true, 'map-fs').then(function () {
+          WIB.laden.klaar(laad);
           meld(aangemaakt.length ? 'Map «' + dir.name + '» gekozen. Aangemaakt: ' + aangemaakt.join(' en ') + '.' : 'Map «' + dir.name + '» ingeladen.', true);
           tabMapGewijzigd();   // v245: staat deze map ook in een ander tabblad open?
         });
       })
       .catch(function (e) {
+        WIB.laden.klaar(laad);
         if (e && e.niets !== undefined) {   // v231: niet aanmaken; bij Nee meteen een andere map kiezen
           meld('Map «' + dir.name + '» niet geopend; er is niets aangemaakt.', true);
           if (e.niets === 'anders') return mapKiezer();
@@ -8370,11 +8458,13 @@ WIB.kern.document = (function () {
       });
   }
   // Firefox en Safari: de map alleen lezen (opslaan gaat via downloaden)
-  function openMapAlleenLezen(files) {
-    if (!files.length) return;
-    bevestigVervangen().then(function (ok) { if (ok) leesMapAlleenLezen(files); });
+  // v251: de voortgang loopt al sinds het kiezen (kiesMapAlleenLezen in het werkdrukdeel); laad is dat kenmerk
+  function openMapAlleenLezen(files, laad) {
+    if (!files.length) { WIB.laden.klaar(laad); return; }
+    if (nietOpgeslagen) WIB.laden.pauze();   // eerst de vraag over niet-opgeslagen wijzigingen
+    bevestigVervangen().then(function (ok) { if (ok) leesMapAlleenLezen(files, laad); else WIB.laden.klaar(laad); });
   }
-  function leesMapAlleenLezen(files) {
+  function leesMapAlleenLezen(files, laad) {
     const top = function (f) { return (f.webkitRelativePath || f.name).split('/'); };
     // staat wat je downloadde nu in de map? (v141)
     const wacht = Object.keys(WIB.hulp.onbewaard);
@@ -8385,7 +8475,13 @@ WIB.kern.document = (function () {
     const pak = function (naam) { return files.find(function (f) { const p = top(f); return p.length <= 2 && p[p.length - 1].toLowerCase() === naam; }); };
     const mapNaam = top(files[0])[0] || 'map';
     const namen = ['werkdruk.md', 'instellingen.md', 'werkdruk_historie.md', 'instellingen_historie.md', 'daginvoer.md', 'notities_historie.md'];
-    Promise.all(namen.map(function (n) { const f = pak(n); return f ? WIB.hulp.tekstVan(f) : null; })).then(function (r) {
+    laad = laad || WIB.laden.start('Map openen');
+    let gedaan = 0;
+    const verder = function (tekst) { WIB.laden.stap(tekst, ++gedaan, namen.length + 2); };
+    WIB.laden.stap('Bestanden lezen (0 van ' + namen.length + ')…', 0, namen.length + 2);
+    let gelezen = 0;
+    Promise.all(namen.map(function (n) { const f = pak(n); return (f ? WIB.hulp.tekstVan(f) : Promise.resolve(null)).then(function (t) { verder('Bestanden lezen (' + (++gelezen) + ' van ' + namen.length + ')…'); return t; }); })).then(function (r) {
+      verder('Het document opbouwen…');
       if (hist.map) { hist.map = null; tabMapGewijzigd(); }
       if (window.WIB.werkdruk) WIB.werkdruk.zetMap({ name: mapNaam, setHandle: null, readonly: true, tekst: r[1] });
       zetHistorieTekst('werkdruk', r[2] || ''); zetHistorieTekst('instellingen', r[3] || ''); zetHistorieTekst('notities', r[5] || ''); zetDaginvoerTekst(r[4] || '');
@@ -8397,13 +8493,14 @@ WIB.kern.document = (function () {
         zetBron({ soort: 'vast', naam: 'werkdruk.md', via: 'map-ro' });
         zetOpslag(wf ? wf.lastModified : null, false);
         toon('werkdruk.md', t);
+        WIB.laden.klaar(laad);
         meld('Map «' + mapNaam + '» ingeladen' + (r[0] === null ? ': er stond nog geen werkdruk.md in' : '') + '. Deze browser kan alleen lezen; opslaan gaat via downloaden.');
         // daarna pas: staat wat je downloadde er nog niet in, dan zegt de pagina dat (v141)
         return controle.then(function (nog) {
           if (nog.length) meld('In de gekozen map staat nog niet wat je het laatst downloadde: ' + nog.join(', ') + '. Zet de gedownloade bestanden in de map en kies de map daarna opnieuw.');
         });
       });
-    });
+    }).catch(function (e) { WIB.laden.klaar(laad); throw e; });   // v251: de voortgang blijft bij een fout niet staan
   }
   function laadVoorbeeld(tekst) {
     return bevestigVervangen().then(function (ok) {
@@ -12072,9 +12169,26 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
     _di.multiple = true;
     _di.className = 'sr-only';
     _di.tabIndex = -1;
-    _di.addEventListener('change', () => { const files = [..._di.files]; _di.value = ''; WIB.document.openMapAlleenLezen(files); });
+    _di.addEventListener('change', () => { const files = [..._di.files], laad = _diLaad; _diLaad = 0; clearTimeout(_diVangnet); _di.value = ''; WIB.document.openMapAlleenLezen(files, laad); });
+    _di.addEventListener('cancel', () => { WIB.laden.klaar(_diLaad); _diLaad = 0; clearTimeout(_diVangnet); });
     document.body.appendChild(_di);
     return _di;
+  }
+  // v251: de voortgang begint al bij het kiezen. Na Uploaden leest de browser eerst de hele map door (met de submappen) voordat
+  // de pagina de bestanden krijgt; dat kan seconden duren. Annuleren meldt de browser met 'cancel'. Twee vangnetten, zodat de
+  // voortgang nooit blijft staan: opent er na een seconde geen venster (de pagina houdt de focus), dan weg; en komt er een
+  // halve minuut nadat het venster dicht is (de pagina krijgt de focus terug) niets, dan ook weg.
+  let _diLaad = 0, _diVangnet = 0;
+  function kiesMapAlleenLezen() {
+    const laad = _diLaad = WIB.laden.start('Map openen', 'Kies de map in het venster van de browser en klik op Uploaden. Daarna leest de browser de map door; dat kan even duren.');
+    const weg = function () { if (_diLaad === laad) { _diLaad = 0; WIB.laden.klaar(laad); } };
+    let vensterOpen = false;
+    window.addEventListener('blur', function () {
+      vensterOpen = true;
+      window.addEventListener('focus', function () { clearTimeout(_diVangnet); _diVangnet = setTimeout(weg, 30000); }, { once: true });
+    }, { once: true });
+    clearTimeout(_diVangnet); _diVangnet = setTimeout(function () { if (!vensterOpen && document.hasFocus()) weg(); }, 1000);
+    dirInput().click();
   }
   // m = null: geen map meer; anders { name, setHandle, setLM, readonly, tekst (inhoud van instellingen.md of null) }
   function zetMap(m) {
@@ -14841,7 +14955,7 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
   window.WIB.werkdruk = {
     ontvangTekst, conceptGewijzigd, zetWeergave: zetView, editorBijgewerkt, openHulp: () => openHelp(), melding: toast, meldingWeg: toastWeg, zetMap,
     instellingenTekst: () => serializeSettings(), instellingenToepassen, herlaadInstellingen,
-    kiesMapAlleenLezen: () => dirInput().click(), voorbeeld: () => SAMPLE_MD,
+    kiesMapAlleenLezen: kiesMapAlleenLezen, voorbeeld: () => SAMPLE_MD,
     zoekTaken, daginvoerGewijzigd, dagInfo, gaNaarDag, wisselThema, zetInstelling, takenOpRegels, nieuweTaakMet,
     instelling: (k) => S.settings[k],
     // v244: een weergavekeuze (Alleen urgent, de mindmap) bewaren zonder alles opnieuw te tekenen
