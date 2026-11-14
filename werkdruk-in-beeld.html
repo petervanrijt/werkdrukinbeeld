@@ -902,6 +902,35 @@ tr.jump:hover td { background: var(--accent-soft); }
 .historie { padding: 20px 48px 100px; font-family: var(--font-body); }
 /* Totaaloverzicht (v161): hoofdzaken uit werkdruk.md met het detailbestand eronder */
 .totaal-kop .totaal-knoppen { display: flex; gap: 8px; margin: 10px 0 18px; }
+/* Tekstcontrole (v252): bevindingen per bestand */
+.tc-balk { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 12px 0 20px; }
+.tc-veld { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-m); color: var(--muted); }
+.tc-veld select { max-width: 260px; }
+.tc-ernst { flex-wrap: wrap; }
+.tc-ernst b { font-weight: 400; opacity: .8; margin-left: 2px; }
+.tc-bestand { margin: 0 0 26px; max-width: 980px; }
+.tc-bestand h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--line); font-size: var(--fs-kop-3); }
+.tc-naam { font-family: var(--font-mono); overflow-wrap: anywhere; }
+.tc-telling { font-family: var(--font-body); font-size: var(--fs-m); font-weight: 400; color: var(--muted); }
+.tc-bevindingen { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.tc-item { padding: 10px 14px; border: 1px solid var(--line); border-left: 4px solid var(--muted); border-radius: var(--radius-m, 10px); background: var(--surface); }
+.tc-item.tc-fout { border-left-color: var(--urg); }
+.tc-item.tc-waarschuwing { border-left-color: var(--warn); }
+.tc-item.tc-tip { border-left-color: var(--accent); }
+.tc-itemkop { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.tc-naar { border: 1px solid var(--line-strong); background: var(--surface-2); color: var(--ink); border-radius: var(--radius-pill); padding: 1px 10px; font-size: var(--fs-s); font-weight: 700; font-variant-numeric: tabular-nums; cursor: pointer; }
+.tc-naar:hover { background: var(--accent-soft); border-color: var(--accent); }
+.tc-item .tc-ernst { flex: none; font-size: var(--fs-s); font-weight: 700; padding: 0 8px; border-radius: var(--radius-pill); background: var(--accent-soft); color: var(--ink); }
+.tc-fout .tc-ernst { background: var(--urg-soft); color: var(--urg); }
+.tc-waarschuwing .tc-ernst { background: var(--warn-soft); color: var(--warn); }
+.tc-groep { font-size: var(--fs-s); color: var(--muted); }
+.tc-melding { margin: 6px 0 0; font-size: var(--fs-l); font-weight: 600; overflow-wrap: anywhere; }
+.tc-fragment { margin: 6px 0 0; padding: 6px 10px; border-radius: 6px; background: var(--surface-2); font-family: var(--font-mono); font-size: var(--fs-m); white-space: pre-wrap; overflow-wrap: anywhere; }
+.tc-fragment mark { background: var(--hl); color: inherit; border-bottom: 2px solid var(--hl-strong); border-radius: 2px; }
+.tc-advies, .tc-ook { margin: 6px 0 0; font-size: var(--fs-m); color: var(--muted); overflow-wrap: anywhere; }
+.tc-ook .tc-naar { margin: 2px 0; }
+.tc-leeg { color: var(--muted); font-size: var(--fs-l); margin: 4px 0; }
+.tc-schoon { padding: 30px 0; }
 .totaal-doc { font-size: var(--fs-body); }
 .totaal-doc .totaal-detail { margin: 6px 0 12px; border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 10px 10px 0; padding: 4px 14px 6px; }
 .totaal-doc .totaal-detail > summary { cursor: pointer; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 4px 0; font-size: var(--fs-m); color: var(--muted); }
@@ -2259,6 +2288,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <button type="button" role="tab" id="tab-mindmap" aria-selected="false" aria-controls="mindmap" tabindex="-1" disabled title="Mindmap (beschikbaar zodra er een bestand, map of het voorbeeld is geladen)"><svg class="tab-ikoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.5"/><circle cx="4.5" cy="5.5" r="2"/><circle cx="19.5" cy="5.5" r="2"/><circle cx="4.5" cy="18.5" r="2"/><circle cx="19.5" cy="18.5" r="2"/><path d="M10.2 10.3 6 7M13.8 10.3 18 7M10.2 13.7 6 17M13.8 13.7 18 17"/></svg><span class="tab-label">Mindmap</span></button>
       <button type="button" role="tab" id="tab-bewerken" hidden aria-selected="false" aria-controls="bewerken" tabindex="-1" disabled title="Bewerken (beschikbaar zodra er een bestand, map of het voorbeeld is geladen)"><svg class="tab-ikoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><span class="tab-label">Bewerken</span></button>
       <button type="button" role="tab" id="tab-totaal" aria-selected="false" aria-controls="totaal" tabindex="-1" disabled title="Totaaloverzicht (beschikbaar zodra er een bestand, map of het voorbeeld is geladen)"><svg class="tab-ikoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="5" rx="1"/><path d="M7 8v11h4"/><path d="M7 13.5h4"/><rect x="13" y="11" width="8" height="5" rx="1"/><rect x="13" y="17" width="8" height="4" rx="1"/></svg><span class="tab-label">Totaaloverzicht</span></button>
+      <button type="button" role="tab" id="tab-tekstcontrole" aria-selected="false" aria-controls="tekstcontrole" tabindex="-1" disabled title="Tekstcontrole (beschikbaar zodra er een bestand, map of het voorbeeld is geladen)"><svg class="tab-ikoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h10"/><path d="M4 11h7"/><path d="M4 16h5"/><path d="m13 17 3 3 5-6"/></svg><span class="tab-label">Tekstcontrole</span></button>
     </div>
     <div class="tabgroep" data-gebied="Werkdruk">
       <span class="gebiedsnaam" aria-hidden="true">Werkdruk</span>
@@ -2404,6 +2434,22 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     </div>
     <div class="document totaal-doc" id="totaal-doc"></div>
   </section>
+  <section class="historie tekstcontrole" id="tekstcontrole" role="tabpanel" aria-labelledby="tab-tekstcontrole" hidden>
+    <div class="tc-kop">
+      <h1 class="tabkop">Tekstcontrole</h1>
+      <p class="lic-uitleg">Loopt werkdruk.md, daginvoer.md en je notities na op syntaxfouten, taken die niet meetellen, opmaak, schrijfstijl en ongewenste patronen. De pagina wijzigt niets: je verbetert de regels zelf, in Document of in het notitievenster.</p>
+      <div class="tc-balk">
+        <label class="tc-veld">Bestand <select id="tc-bestand" class="knop"><option value="">Alle bestanden</option></select></label>
+        <label class="tc-veld">Soort <select id="tc-groep" class="knop"><option value="">Alle soorten</option><option>Syntax</option><option>Taken</option><option>Opmaak</option><option>Schrijfstijl</option><option>Patronen</option></select></label>
+        <div class="seg tc-ernst" id="tc-ernst" role="group" aria-label="Ernst">
+          <button type="button" data-tc-ernst="alles" aria-pressed="true">Alles <b>0</b></button><button type="button" data-tc-ernst="fout" aria-pressed="false">Fouten <b>0</b></button><button type="button" data-tc-ernst="waarschuwing" aria-pressed="false">Waarschuwingen <b>0</b></button><button type="button" data-tc-ernst="tip" aria-pressed="false">Tips <b>0</b></button>
+        </div>
+        <button type="button" class="knop" id="tc-opnieuw">Opnieuw controleren</button>
+        <span class="hist-status" id="tc-status" role="status"></span>
+      </div>
+    </div>
+    <div id="tc-lijst"></div>
+  </section>
   <section class="historie dossier" id="dossier" role="tabpanel" aria-labelledby="tab-dossier" hidden>
     <div id="dossier-inhoud"></div>
   </section>
@@ -2414,6 +2460,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v252</span> Nieuw tabblad Tekstcontrole <span class="datum">14 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In de zijbalk staat onder Totaaloverzicht het tabblad <b>Tekstcontrole</b>. Het loopt je markdownbestanden na, vooral <code>werkdruk.md</code>, maar ook <code>daginvoer.md</code> en je notities, en toont de bevindingen op de pagina. Er wordt niets gewijzigd: je verbetert de regels zelf.</li><li><span class="soort nieuw">nieuw</span>Wat er wordt gecontroleerd, in vijf soorten. <i>Syntax</i>: een codeblok of commentaar dat niet is afgesloten, een kop zonder spatie of zonder tekst, een opsommingspunt of nummer zonder spatie, een vinkje dat niet wordt herkend (<code>[]</code>, <code>[x]tekst</code>), vet, doorhalen, code of urgent (<code>!!</code>) dat niet is afgesloten, links zonder adres, met een spatie in het adres, met een geblokkeerd adres of met een spatie tussen <code>]</code> en <code>(</code>, tabellen zonder scheidingsregel of met een ongelijk aantal kolommen, een verschreven code zoals <code>&lt;!-- urgnt --&gt;</code>, en HTML-code. <i>Taken</i> (alleen werkdruk.md): taken die niet meetellen omdat frequentie, uren of het jaar bij eenmalig ontbreken, en dezelfde taak twee keer in één categorie. <i>Opmaak</i>: een overgeslagen kopniveau, dezelfde kop twee keer, geen lege regel boven een kop, spaties aan het eind van een regel, tabs, meerdere lege regels of spaties, oneven inspringen, verschillende opsommingstekens, gemengde regeleinden. <i>Schrijfstijl</i>: een woord twee keer achter elkaar, spaties rond leestekens, woorden in hoofdletters, een lange zin of omschrijving, een kop met een leesteken of kleine letter, datums met schuine strepen. <i>Patronen</i>: een datum die niet bestaat, onzichtbare tekens (zoals een harde spatie uit Word), aantekeningen als TODO, meerdere vraagtekens, een afgevinkte taak die nog urgent is, en markeringen van een samenvoegconflict.</li><li><span class="soort nieuw">nieuw</span>Elke bevinding is een fout, een waarschuwing of een tip, met de regel uit het bestand (de plek gemarkeerd) en een advies. Je filtert op bestand, soort en ernst. Een klik op <i>regel …</i> brengt je naar die regel in Document, of opent de notities of de daginvoer. Hetzelfde op veel regels staat één keer in de lijst, met de andere regels erbij. De controle draait opnieuw als je het tabblad opent, als werkdruk.md of een notitie verandert, en met <i>Opnieuw controleren</i>; niet-opgeslagen wijzigingen in werkdruk.md tellen mee.</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v251</span> Voortgang bij het openen van een map <span class="datum">11 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Na <i>Map kiezen</i> kan het een paar seconden duren voordat je verder kunt: de browser geeft de gekozen map eerst door (na <i>Map selecteren</i>, <i>Bestanden bekijken</i> of <i>Uploaden</i>) en leest daarna elk bestand apart. Op een netwerkmap, in OneDrive of met een virusscanner die elk bestand controleert, duurt dat merkbaar langer; de pagina zelf heeft er maar een fractie van een seconde voor nodig. Je zag in die tijd niets gebeuren. Nu verschijnt het venster <i>Map openen</i> met een draaiend teken en een voortgangsbalk: eerst een lopende balk zolang de browser bezig is, daarna een percentage met de stap (<i>Bestanden lezen (4 van 6)</i>, <i>het document opbouwen</i>). Het venster komt pas na 300 ms, zodat je bij een snelle map niets ziet flitsen. Het wijkt voor een vraag tussendoor (bijvoorbeeld of ontbrekende bestanden mogen worden aangemaakt) en verdwijnt bij annuleren of een fout. Ook bij een map die je naar de pagina sleept en bij een map die alleen gelezen kan worden.</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v250</span> Geen verspringende tekst meer bij verwijderen, knippen en plakken in opsommingen <span class="datum">11 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Voegde je in Document of het notitievenster twee punten samen, en had het tweede punt subpunten, dan bleef er een leeg punt over met de subpunten eronder. Dat gebeurde met <kbd>Backspace</kbd> vooraan het punt, <kbd>Delete</kbd> aan het eind van de regel erboven, en bij het weghalen, knippen of overschrijven van een selectie die in zo'n punt eindigde. Bij een urgent punt kwam er een lege regel <code>-  &lt;!-- urgent --&gt;</code> in het bestand, en na het verlaten van de regel verdwenen de subpunten uit beeld. Liep de selectie vanuit een subpunt, dan stonden de subpunten op het scherm een niveau dieper dan in het bestand, en sprongen ze terug. De subpunten komen nu, zoals in een tekstverwerker, onder het samengevoegde punt, op het scherm en in het bestand gelijk.</li><li><span class="soort herstel">herstel</span>Kwam er tekst achter een urgent punt bij (samenvoegen), dan werd die pas rood als je de regel verliet. Nu meteen, zoals hij ook wordt opgeslagen.</li><li><span class="soort herstel">herstel</span>Het werkdruklabel van een leeg punt (<i>werkdruk: frequentie ontbreekt</i>) stond op een eigen regel. Maakte je een punt leeg, dan werd het een halve seconde later een regel hoger en versprong alle tekst eronder. Plakte je tekst van meer regels in een punt, dan stond het label even onder de laatste regel. Het label staat nu naast het punt. Na het samenvoegen van punten komen de labels meteen terug in plaats van na een halve seconde.</li><li><span class="soort herstel">herstel</span>Stond het werkdruklabel van een taak op een eigen regel (een smal venster, of een lange taak), dan sprong <kbd>pijl omlaag</kbd> vanuit die taak naar het eind van het document en <kbd>pijl omhoog</kbd> eronder naar het begin, met de pagina mee. De cursor gaat nu naar de regel eronder of erboven, en de pagina blijft staan.</li><li><span class="soort herstel">herstel</span><kbd>Delete</kbd> aan het eind van een regel met een taak eronder deed niets. Nu komt de tekst van de taak achter die regel, zonder vinkje.</li><li><span class="soort herstel">herstel</span><kbd>Backspace</kbd> met de cursor direct achter het vinkje van een taak (waar een klik vooraan de tekst hem zet) haalde alleen de spatie weg. Nu gaat het vinkje weg, zoals vooraan de tekst.</li><li><span class="soort herstel">herstel</span>Na het samenvoegen van een punt met subpunten kreeg die taak soms geen werkdruklabel meer, tot je opnieuw tekende.</li><li><span class="soort herstel">herstel</span>Een leeg punt zonder spatie na het streepje (<code>-</code>, bijvoorbeeld nadat een andere editor spaties aan het eind van regels heeft weggehaald) maakte van het punt erboven een kop, en het lege punt verdween. Het is nu een leeg punt.</li><li><span class="soort herstel">herstel</span>In het notitievenster op een smal scherm (tot 800 px breed) zakte alle tekst bij de eerste bewerking: <i>Niet opgeslagen · opslaan</i> verscheen naast de titel, en die brak dan af over meer regels. Die melding heeft daar nu een eigen regel onder de titel, die altijd ruimte houdt.</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v249</span> Verticale lijn ook onder kop 1 <span class="datum">11 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In Document springt nu ook de inhoud onder een kop 1 (<code>#</code>) in, met een verticale lijn ernaast, zoals al bij kop 2 tot en met 6. Zo zie je bij elke kop waar de inhoud ervan ophoudt. Dit geldt in alle stijlen; elke stijl gebruikt zijn eigen lijnkleur.</li><li><span class="soort herstel">herstel</span>Sinds v248 (de knop Link) liep de werkbalk van Document in de stijl Contrast op een scherm van 1400 pixels breed over op een tweede regel. Met iets minder ruimte tussen de knoppen staat hij weer op één regel, zoals in de andere stijlen.</li><li>Handmatige actie: geen.</li></ul></div>
@@ -3798,6 +3845,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <button type="button" data-jump="h-koppel">Document en werkdruk</button>
     <button type="button" data-jump="h-notities">Notities per code</button>
     <button type="button" data-jump="h-totaal">Totaaloverzicht</button>
+    <button type="button" data-jump="h-tekstcontrole">Tekstcontrole</button>
     <button type="button" data-jump="h-dossier">Dossier</button>
     <button type="button" data-jump="h-dag">Daginvoer</button>
     <button type="button" data-jump="h-hist">Historie</button>
@@ -4139,6 +4187,19 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li>Het zoekveld zoekt in het hele overzicht, ook in de detailbestanden. <b>Alleen urgent</b> laat de hoofdzaken zien die zelf of in hun detailbestand urgente items hebben.</li>
       <li>Wijzig je werkdruk.md of een detailbestand (in de pagina of daarbuiten), dan wordt het overzicht vanzelf bijgewerkt.</li>
       <li>Je kunt taken <b>afvinken</b> in het overzicht. Een taak in een detailblok wordt opgeslagen in het detailbestand, met een versie en een vermelding in de historie, net als opslaan in het notitievenster; een vinkje bij een hoofdzaak past werkdruk.md aan, net als in Document. Is het detailbestand intussen gewijzigd, of staat het open in het notitievenster met wijzigingen die nog niet zijn opgeslagen, dan wordt er niets afgevinkt en zegt de pagina waarom.</li>
+    </ul>
+  </section>
+  <section id="h-tekstcontrole">
+    <h3>Tekstcontrole</h3>
+    <p>Het tabblad <b>Tekstcontrole</b> (in de zijbalk onder <i>Overzicht</i>, onder Totaaloverzicht) loopt je markdownbestanden na en laat zien wat er niet klopt of beter kan. Het gaat vooral om <code>werkdruk.md</code>; <code>daginvoer.md</code> en je notities worden ook gecontroleerd. De pagina wijzigt niets: je verbetert de regels zelf.</p>
+    <ul>
+      <li>Elke bevinding heeft een ernst. Een <b>fout</b> is iets wat niet werkt zoals je het typte (een codeblok dat niet is afgesloten, een vinkje dat niet wordt herkend, een link die afbreekt, een datum die niet bestaat). Een <b>waarschuwing</b> is iets wat waarschijnlijk niet de bedoeling is (een taak die niet meetelt voor de werkdruk, een overgeslagen kopniveau, een dubbele kop of taak, een woord dat twee keer achter elkaar staat). Een <b>tip</b> gaat over netheid en schrijfstijl (spaties aan het eind van een regel, meerdere lege regels, een lange zin, hoofdletters, een aantekening als TODO).</li>
+      <li>De bevindingen zijn ingedeeld in vijf soorten: <i>Syntax</i>, <i>Taken</i>, <i>Opmaak</i>, <i>Schrijfstijl</i> en <i>Patronen</i>. Met de keuzelijsten <b>Bestand</b> en <b>Soort</b> en de knoppen <b>Alles</b>, <b>Fouten</b>, <b>Waarschuwingen</b> en <b>Tips</b> beperk je de lijst; het getal op elke knop is het aantal.</li>
+      <li>Bij elke bevinding staat de regel uit het bestand, met de plek gemarkeerd, en een advies hoe je het oplost. Komt hetzelfde op veel regels voor (bijvoorbeeld spaties aan het eind), dan staat het één keer in de lijst, met de andere regels erbij.</li>
+      <li>Klik op <b>regel …</b> om naar die regel te gaan. Bij werkdruk.md kom je in Document op die regel, die even oplicht. Bij een notitie opent het notitievenster van die code; bij de daginvoer ga je naar het tabblad Daginvoer.</li>
+      <li>werkdruk.md wordt gecontroleerd zoals hij nu in de pagina staat, dus met wijzigingen die je nog niet hebt opgeslagen. De controle draait opnieuw als je het tabblad opent, als werkdruk.md of een notitie verandert, en met <b>Opnieuw controleren</b>.</li>
+      <li>Tekst in een codeblok (tussen <code>```</code>) en code tussen backticks wordt niet gecontroleerd. De soort <i>Taken</i> geldt alleen voor werkdruk.md, en volgt wat het tabblad Taken <i>Onvolledig</i> noemt.</li>
+      <li>Niet elke bevinding is een fout van jou: een tip mag je laten staan. De controle kent geen spelling en geen grammatica.</li>
     </ul>
   </section>
   <section id="h-dossier">
@@ -6787,7 +6848,251 @@ WIB.kern.document = (function () {
     return uit;
   }
 
-  return { linkMd, linkUitMd, inlineMd, mmStanden, mmAfwijkingen, inline, reKenmerk, wisselUrgent, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, vormVan, wisselTaak, tekstsoortRegels, takDikte };
+  /* ---------- Tekstcontrole (v252): markdown nalopen op syntax, taken, opmaak, schrijfstijl en ongewenste patronen ----------
+     lint(tekst, opties) geeft een lijst bevindingen, op regelnummer: { regel (vanaf 1), kolom (vanaf 0; -1 = hele regel),
+     lengte, ernst ('fout' | 'waarschuwing' | 'tip'), groep (Syntax, Taken, Opmaak, Schrijfstijl of Patronen), id, melding, advies, ook (andere regels met
+     hetzelfde, bij een gebundelde bevinding) }. Er wordt niets gewijzigd: de gebruiker verbetert zelf.
+     opties.soort: 'werkdruk' (alles), 'notitie' (geen takenregels) of 'daginvoer' (geen takenregels en geen regels over
+     koppen: die schrijft de pagina daar zelf). opties.taken: de taken uit de rekenkern (parseMarkdown(tekst).tasks), voor
+     de groep Taken. */
+  const LINT_CODES = ['urgent', 'geen werkdruk', 'ingeklapt', 'uitgeklapt'];
+  const LINT_LETTER = 'A-Za-zÀ-ÖØ-öø-ÿ';
+  function lintAfstand(a, b) {
+    const rij = []; for (let j = 0; j <= b.length; j++) rij.push(j);
+    for (let i = 1; i <= a.length; i++) {
+      let vorig = rij[0]; rij[0] = i;
+      for (let j = 1; j <= b.length; j++) { const t = rij[j]; rij[j] = Math.min(rij[j] + 1, rij[j - 1] + 1, vorig + (a[i - 1] === b[j - 1] ? 0 : 1)); vorig = t; }
+    }
+    return rij[b.length];
+  }
+  function lintDatumKan(d, m, j) { const x = new Date(j, m - 1, d); return m >= 1 && m <= 12 && d >= 1 && x.getFullYear() === j && x.getMonth() === m - 1 && x.getDate() === d; }
+  // code tussen backticks, commentaar en adressen vervangen door spaties (even lang): daarin gelden de stijlregels niet
+  function lintZonderCode(l) {
+    const wis = function (s) { return s.replace(/[^\n]/g, ' '); };
+    return l.replace(/(`+)[^`]*?\1/g, wis).replace(/<!--[\s\S]*?-->/g, wis).replace(/\]\([^)\s]*(?:\s+"[^"]*")?\)/g, wis)
+      .replace(/<(?:https?:|mailto:)[^>\s]*>/gi, wis).replace(/\b(?:https?:\/\/|www\.|file:\/\/|mailto:)[^\s)>\]]+/gi, wis).replace(/\b[a-z]:\\[^\s]+/gi, wis);
+  }
+  function lint(tekst, opties) {
+    opties = opties || {};
+    const soort = opties.soort || 'werkdruk', metKoppen = soort !== 'daginvoer';
+    const bron = String(tekst == null ? '' : tekst).replace(/^﻿/, '');
+    const lijnen = bron.split(/\r\n|\n|\r/);
+    const uit = [], bundels = {};
+    function meld(regel, ernst, groep, id, melding, advies, kolom, lengte) {
+      uit.push({ regel: regel, kolom: kolom == null ? -1 : kolom, lengte: lengte || 0, ernst: ernst, groep: groep, id: id, melding: melding, advies: advies || '', ook: [] });
+    }
+    // hetzelfde op veel regels: één bevinding op de eerste regel, met de andere regels erbij
+    function bundel(regel, ernst, groep, id, melding, advies, kolom, lengte) {
+      if (bundels[id]) { if (bundels[id].regel !== regel && bundels[id].ook.indexOf(regel) < 0) bundels[id].ook.push(regel); return; }
+      meld(regel, ernst, groep, id, melding, advies, kolom, lengte); bundels[id] = uit[uit.length - 1];
+    }
+    if (!bron.trim()) return uit;
+
+    // --- het bestand als geheel ---
+    const crlf = (bron.match(/\r\n/g) || []).length, los = (bron.match(/(?:^|[^\r])\n/g) || []).length;
+    if (crlf && los) meld(1, 'waarschuwing', 'Opmaak', 'regeleinden', 'Het bestand heeft twee soorten regeleinden door elkaar (Windows en Unix).', 'Sla het bestand in je teksteditor op met één soort regeleinden.');
+    if (!/\n$/.test(bron.replace(/\r/g, '\n'))) meld(lijnen.length, 'tip', 'Opmaak', 'eindregel', 'Het bestand eindigt niet met een regeleinde.', 'Zet een Enter achter de laatste regel.');
+    if (!lijnen[0].trim()) meld(1, 'tip', 'Opmaak', 'beginleeg', 'Het bestand begint met een lege regel.', 'Haal de lege regels bovenaan weg.');
+
+    let hek = null, leeg = 0, vorigNiveau = 0, tabel = null;
+    const kopPad = [], gezieneKoppen = {}, tekens = { '-': [], '*': [], '+': [] };
+    let lijstStapel = [];
+    lijnen.forEach(function (l, i) {
+      const nr = i + 1;
+      // codeblokken: de inhoud wordt niet gecontroleerd
+      const hm = /^ {0,3}(```+|~~~+)/.exec(l);
+      if (hek) { if (hm && hm[1].charAt(0) === hek.teken.charAt(0) && hm[1].length >= hek.teken.length && !l.slice(hm[0].length).trim()) hek = null; return; }
+      if (hm) { hek = { teken: hm[1], regel: nr }; leeg = 0; tabel = null; lijstStapel = []; return; }
+      if (/^(<{7}|={7}|>{7})(\s|$)/.test(l)) { meld(nr, 'fout', 'Patronen', 'conflict', 'Markering van een samenvoegconflict (' + l.slice(0, 7) + ').', 'Twee versies van het bestand zijn door elkaar gekomen. Kies de goede tekst en haal de regels met <<<<<<<, ======= en >>>>>>> weg.'); return; }
+
+      // --- witruimte ---
+      if (!l.trim()) {
+        if (l.length) bundel(nr, 'tip', 'Opmaak', 'eindspaties', 'Spaties of tabs aan het eind van de regel.', 'Haal ze weg. Let op: twee spaties aan het eind van een regel geven in markdown een harde regelafbreking.', 0, l.length);
+        if (++leeg === 2) bundel(nr, 'tip', 'Opmaak', 'legeregels', 'Meer dan één lege regel achter elkaar.', 'Eén lege regel is genoeg; meer verandert niets aan wat je ziet.');
+        tabel = null;
+        return;
+      }
+      const hadLeeg = leeg > 0 || i === 0; leeg = 0;
+      const eind = /[ \t]+$/.exec(l);
+      if (eind) bundel(nr, 'tip', 'Opmaak', 'eindspaties', 'Spaties of tabs aan het eind van de regel.', 'Haal ze weg. Let op: twee spaties aan het eind van een regel geven in markdown een harde regelafbreking.', eind.index, eind[0].length);
+      const voor = /^[ \t]*/.exec(l)[0];
+      if (voor.indexOf('\t') >= 0) bundel(nr, 'tip', 'Opmaak', 'tabs', 'Ingesprongen met een tab.', 'Spring in met spaties (twee per niveau); een tab telt in de ene editor anders dan in de andere.', 0, voor.length);
+      const onz = /[ ­​-‍⁠﻿\u0000-\u0008\u000B\u000C\u000E-\u001F]/.exec(l);
+      if (onz) meld(nr, 'waarschuwing', 'Patronen', 'onzichtbaar', 'Onzichtbaar teken in de regel (' + (onz[0] === ' ' ? 'harde spatie' : 'U+' + ('000' + onz[0].charCodeAt(0).toString(16).toUpperCase()).slice(-4)) + ').', 'Komt vaak mee bij kopiëren uit Word of een webpagina. Zoeken en codes werken er niet goed mee: typ de plek opnieuw.', onz.index, 1);
+
+      const z = lintZonderCode(l);      // zonder code, commentaar en adressen
+      const kaal = z.trim();
+
+      // --- commentaarcodes ---
+      const open = l.lastIndexOf('<!--');
+      if (open >= 0 && l.indexOf('-->', open) < 0) meld(nr, 'fout', 'Syntax', 'commentaar', 'Commentaar <!-- is niet afgesloten met -->.', 'Zet --> achter de code, bijvoorbeeld <!-- urgent -->. Zonder afsluiting verdwijnt de tekst erna uit beeld.', open, 4);
+      l.replace(/<!--\s*([\s\S]*?)\s*-->/g, function (heel, c, plek) {
+        const code = c.toLowerCase().replace(/\s+/g, ' ');
+        if (!code || LINT_CODES.indexOf(code) >= 0 || /^soort\s*:/.test(code)) return heel;
+        const lijkt = LINT_CODES.concat(['soort']).filter(function (k) { return lintAfstand(code.replace(/\s*:.*$/, ''), k) <= 2; })[0];
+        if (lijkt) meld(nr, 'waarschuwing', 'Syntax', 'code', 'Onbekende code <!-- ' + c + ' -->; die doet niets.', 'Bedoel je <!-- ' + (lijkt === 'soort' ? 'soort: …' : lijkt) + ' -->?', plek, heel.length);
+        return heel;
+      });
+
+      // --- koppen ---
+      const kop = /^ {0,3}(#{1,6})\s+(.*?)\s*#*\s*$/.exec(l);
+      const leegKop = /^ {0,3}#{1,6}\s*$/.test(l);
+      if (!kop && !leegKop && /^ {0,3}#{1,6}[^#\s]/.test(l)) meld(nr, 'waarschuwing', 'Syntax', 'kopspatie', 'Geen spatie tussen # en de tekst: dit wordt geen kop.', 'Zet een spatie achter de hekjes: ' + l.trim().replace(/^(#+)/, '$1 ').slice(0, 40) + '.', l.indexOf('#'), 1);
+      if (/^ {0,3}#{7,}/.test(l)) meld(nr, 'waarschuwing', 'Syntax', 'kopdiep', 'Meer dan zes hekjes: dit wordt geen kop.', 'Een kop heeft één tot zes hekjes.', l.indexOf('#'));
+      if (leegKop) { meld(nr, 'fout', 'Syntax', 'kopleeg', 'Kop zonder tekst.', 'Typ een naam achter de hekjes of haal de regel weg.'); tabel = null; lijstStapel = []; return; }
+      if (kop) {
+        const niveau = kop[1].length, naam = kop[2].replace(/<!--[\s\S]*?-->/g, '').replace(/\{\s*\.?(ingeklapt|uitgeklapt)\s*\}/i, '').trim();
+        tabel = null; lijstStapel = [];
+        if (!naam) meld(nr, 'fout', 'Syntax', 'kopleeg', 'Kop zonder tekst.', 'Typ een naam achter de hekjes of haal de regel weg.');
+        if (metKoppen) {
+          if (vorigNiveau && niveau > vorigNiveau + 1) meld(nr, 'waarschuwing', 'Opmaak', 'kopsprong', 'Kop ' + niveau + ' volgt op kop ' + vorigNiveau + ': er is een niveau overgeslagen.', 'Gebruik hier ' + '#'.repeat(vorigNiveau + 1) + ', zodat de indeling en de mindmap kloppen.', l.indexOf('#'), niveau);
+          if (!hadLeeg) bundel(nr, 'tip', 'Opmaak', 'kopwit', 'Geen lege regel boven de kop.', 'Zet een lege regel boven elke kop; dat leest rustiger en voorkomt dat de kop bij de alinea ervoor wordt getrokken.');
+          kopPad.length = niveau - 1;
+          const sleutel = kopPad.join(' > ') + ' > ' + niveau + ':' + naam.toLowerCase();
+          if (naam && gezieneKoppen[sleutel]) meld(nr, 'waarschuwing', 'Opmaak', 'kopdubbel', 'De kop "' + naam + '" staat al op regel ' + gezieneKoppen[sleutel] + ', op dezelfde plek in de indeling.', 'Voeg de twee stukken samen of geef een van beide een andere naam; nu lopen ze in de index en de overzichten door elkaar.');
+          else if (naam) gezieneKoppen[sleutel] = nr;
+          kopPad[niveau - 1] = naam.toLowerCase();
+          const kz = lintZonderCode(naam).replace(/!!/g, '').replace(/[*_~]/g, '').trim();
+          if (/[.,;:]$/.test(kz) && !/\.\.\.$/.test(kz)) meld(nr, 'tip', 'Schrijfstijl', 'kopleesteken', 'De kop eindigt op een leesteken (' + kz.slice(-1) + ').', 'Een kop is geen zin: laat het leesteken weg.');
+          if (new RegExp('^[a-zà-öø-ÿ][' + LINT_LETTER + ']').test(kz)) meld(nr, 'tip', 'Schrijfstijl', 'kopklein', 'De kop begint met een kleine letter.', 'Begin een kop met een hoofdletter.');
+        }
+        vorigNiveau = niveau;
+      }
+
+      // --- opsommingen en vinkjes ---
+      const item = reLijst.exec(l);
+      if (!kop) {
+        const geenSpatie = new RegExp('^\\s*(?:-(?=[' + LINT_LETTER + '\\[])|\\d{1,9}[.)](?=[' + LINT_LETTER + '\\[]))').exec(l);
+        if (!item && geenSpatie) meld(nr, 'waarschuwing', 'Syntax', 'puntspatie', 'Geen spatie na ' + (/\d/.test(geenSpatie[0]) ? 'het nummer' : 'het streepje') + ': dit wordt geen opsommingspunt.', 'Zet een spatie tussen ' + geenSpatie[0].trim() + ' en de tekst.', voor.length, geenSpatie[0].length - voor.length);
+        if (!item && /^\s*\[[ xX]?\](\s|$)/.test(l)) meld(nr, 'waarschuwing', 'Syntax', 'vinklos', 'Een vinkje zonder streepje ervoor wordt geen afvinkbare taak.', 'Begin de regel met "- [ ] ".', voor.length, 3);
+        if (!item && /^\s*[-*+]\s*$/.test(l) && !reHr.test(l)) meld(nr, 'waarschuwing', 'Syntax', 'puntleeg', 'Leeg opsommingspunt.', 'Typ er tekst achter of haal de regel weg.');
+      }
+      if (item) {
+        const inspr = item[1].replace(/\t/g, '    ').length, teken = item[2], rest = item[3];
+        if (tekens[teken]) tekens[teken].push(nr);
+        while (lijstStapel.length && lijstStapel[lijstStapel.length - 1] >= inspr) lijstStapel.pop();
+        const ouder = lijstStapel.length ? lijstStapel[lijstStapel.length - 1] : (inspr ? 0 : null);
+        if (ouder !== null && (inspr - ouder) % 2 === 1 && !/\d/.test(teken)) bundel(nr, 'tip', 'Opmaak', 'inspringing', 'Het punt springt een oneven aantal spaties in (' + (inspr - ouder) + ').', 'Spring per niveau twee spaties in; dan staat een subpunt in elke editor onder het goede punt.', 0, item[1].length);
+        lijstStapel.push(inspr);
+        const plek = l.length - rest.length;
+        if (!rest.trim()) meld(nr, 'waarschuwing', 'Syntax', 'puntleeg', 'Leeg opsommingspunt.', 'Typ er tekst achter of haal de regel weg.');
+        else if (/^\[\](?!\()/.test(rest)) meld(nr, 'fout', 'Syntax', 'vink', 'Het vinkje [] mist een spatie tussen de haken.', 'Schrijf "- [ ] taak" voor een open taak en "- [x] taak" voor een afgevinkte.', plek, 2);
+        else if (/^\[(?:[ xX]{2,}|[^\]\sxX])\](?!\()(?=\s)/.test(rest) && rest.charAt(1) !== '^') meld(nr, 'fout', 'Syntax', 'vink', 'Dit vinkje wordt niet herkend: ' + rest.slice(0, rest.indexOf(']') + 1) + '.', 'Tussen de haken hoort precies één spatie of één x: "- [ ] taak" of "- [x] taak".', plek, rest.indexOf(']') + 1);
+        else if (/^\[[ xX]\]\S/.test(rest) && rest.charAt(3) !== '(') meld(nr, 'fout', 'Syntax', 'vink', 'Na het vinkje ontbreekt een spatie.', 'Zet een spatie tussen ] en de tekst.', plek, 3);
+        else if (/^\[[ xX]\]\s*$/.test(rest)) meld(nr, 'waarschuwing', 'Syntax', 'puntleeg', 'Afvinkbare taak zonder tekst.', 'Typ er tekst achter of haal de regel weg.');
+        if (/^\[[xX]\]\s/.test(rest) && (/!!\S(?:.*?\S)?!!/.test(rest) || /<!--\s*urgent\s*-->/i.test(rest))) meld(nr, 'tip', 'Patronen', 'klaarurgent', 'Afgevinkte taak die nog als urgent is gemarkeerd.', 'Haal de uitroeptekens (!!…!!) of <!-- urgent --> weg; een afgevinkte taak telt toch niet als urgent.');
+        const naam = lintZonderCode(rest.replace(/^\[[ xX]\]\s+/, '')).split(/\s+[-–—]\s+/)[0];
+        if (naam.trim().length > 120) meld(nr, 'tip', 'Schrijfstijl', 'langpunt', 'Lange omschrijving (' + naam.trim().length + ' tekens).', 'Houd de naam kort en zet de toelichting in een subpunt, in het veld opmerkingen of in de notities.');
+      } else if (!kop) lijstStapel = /^\s/.test(l) ? lijstStapel : [];
+
+      // --- tabellen ---
+      const cellen = function (r) { let t = r.trim(); if (t.charAt(0) === '|') t = t.slice(1); if (/\|$/.test(t) && !/\\\|$/.test(t)) t = t.slice(0, -1); return t.split(/(?<!\\)\|/).length; };
+      const isScheiding = function (r) { return /^\s*\|?\s*:?-{1,}:?\s*(\|\s*:?-{1,}:?\s*)*\|?\s*$/.test(r || '') && (r || '').indexOf('-') >= 0; };
+      if (kaal.charAt(0) === '|') {
+        if (!tabel) {
+          if (isScheiding(lijnen[i + 1]) && (lijnen[i + 1] || '').indexOf('|') >= 0) tabel = { kolommen: cellen(z), kop: nr };
+          else meld(nr, 'waarschuwing', 'Syntax', 'tabelkop', 'Tabelregel zonder scheidingsregel eronder: dit wordt geen tabel.', 'Zet onder de eerste regel van de tabel een regel als | --- | --- |.');
+        } else if (nr === tabel.kop + 1) {
+          if (cellen(z) !== tabel.kolommen) meld(nr, 'fout', 'Syntax', 'tabelkolommen', 'De scheidingsregel heeft ' + cellen(z) + ' kolommen, de kopregel ' + tabel.kolommen + '.', 'Geef de scheidingsregel evenveel kolommen als de kopregel; anders wordt het geen tabel.');
+        } else if (cellen(z) !== tabel.kolommen) meld(nr, 'waarschuwing', 'Syntax', 'tabelkolommen', 'Deze rij heeft ' + cellen(z) + ' kolommen, de kopregel ' + tabel.kolommen + '.', 'Zet evenveel | in elke rij; een teveel valt weg en een tekort geeft lege cellen.');
+      } else tabel = null;
+
+      // --- links en nadruk ---
+      let zoek = 0, p;
+      while ((p = l.indexOf('](', zoek)) >= 0) {
+        zoek = p + 2;
+        if (lintZonderCode(l.slice(0, p + 1)).charAt(p) !== ']') continue;   // in code
+        let diep = 1, q = p + 2;
+        for (; q < l.length && diep; q++) { if (l.charAt(q) === '(') diep++; else if (l.charAt(q) === ')') diep--; }
+        const begin = l.lastIndexOf('[', p);
+        if (diep) { meld(nr, 'fout', 'Syntax', 'linkopen', 'De link is niet afgesloten met een haakje ).', 'Schrijf een link als [tekst](adres).', p, 2); continue; }
+        const adres = l.slice(p + 2, q - 1).trim().replace(/\s+"[^"]*"$/, '');
+        if (!adres) meld(nr, 'fout', 'Syntax', 'linkleeg', 'Link zonder adres.', 'Zet het adres tussen de ronde haken: [tekst](adres).', p, q - p);
+        else if (/\s/.test(adres)) meld(nr, 'fout', 'Syntax', 'linkspatie', 'Het adres van de link bevat een spatie; de link breekt daar af.', 'Vervang elke spatie in het adres door %20, of maak de link opnieuw met de knop Link.', p + 2, q - p - 3);
+        else if (veiligeUrl(adres) === null) meld(nr, 'fout', 'Syntax', 'linkonveilig', 'Het adres van deze link wordt geblokkeerd (' + adres.slice(0, 30) + ').', 'Gebruik een webadres (https://…), een mailadres (mailto:…) of een pad naar een bestand.', p + 2, q - p - 3);
+        if (begin >= 0 && !l.slice(begin + 1, p).trim() && l.charAt(begin - 1) !== '!') meld(nr, 'waarschuwing', 'Syntax', 'linktekst', 'Link zonder tekst: er is niets om op te klikken.', 'Zet de tekst tussen de rechte haken: [tekst](adres).', begin, 2);
+      }
+      const lm = /\]\s+\((?:https?:|www\.|mailto:|file:)/i.exec(l);
+      if (lm) meld(nr, 'waarschuwing', 'Syntax', 'linkruimte', 'Spatie tussen ] en (: dit wordt geen link.', 'Haal de spatie weg: [tekst](adres).', lm.index, lm[0].length);
+      const tel = function (re) { return (z.match(re) || []).length; };
+      if (tel(/\*\*/g) % 2) meld(nr, 'waarschuwing', 'Syntax', 'vetopen', 'Vet (**) is niet afgesloten.', 'Zet ** vóór en achter de tekst die vet moet zijn.', z.lastIndexOf('**'), 2);
+      if (tel(/~~/g) % 2) meld(nr, 'waarschuwing', 'Syntax', 'doorhaalopen', 'Doorhalen (~~) is niet afgesloten.', 'Zet ~~ vóór en achter de tekst die doorgehaald moet zijn.', z.lastIndexOf('~~'), 2);
+      if ((l.match(/`/g) || []).length % 2) meld(nr, 'waarschuwing', 'Syntax', 'codeopen', 'Code (`) is niet afgesloten.', 'Zet een ` vóór en achter de code.', l.lastIndexOf('`'), 1);
+      const uitroep = z.replace(/!{3,}/g, function (s) { return ' '.repeat(s.length); });
+      if ((uitroep.match(/!!/g) || []).length % 2) meld(nr, 'waarschuwing', 'Syntax', 'urgentopen', 'De markering voor urgent (!!) is niet afgesloten.', 'Zet !! vóór en achter de urgente tekst (!!zo!!), of gebruik één uitroepteken als je geen urgent bedoelt.', uitroep.lastIndexOf('!!'), 2);
+      const html = /<\/?([a-z][a-z0-9]*)(?:\s[^<>]*)?\/?>/i.exec(z);
+      if (html && !/^(https?|mailto)$/i.test(html[1])) meld(nr, 'tip', 'Syntax', 'html', 'HTML-code (' + html[0].slice(0, 20) + ') wordt niet opgemaakt, maar als tekst getoond.', 'Gebruik markdown: **vet**, *schuin*, een lege regel voor een nieuwe alinea.', html.index, html[0].length);
+
+      // --- datums ---
+      z.replace(/(^|[^\d-])(\d{1,2})-(\d{1,2})-(\d{4})(?![\d-])/g, function (heel, v, d, m, j, plek) {
+        if (!lintDatumKan(+d, +m, +j)) meld(nr, 'fout', 'Patronen', 'datum', 'De datum ' + d + '-' + m + '-' + j + ' bestaat niet.', 'Controleer dag en maand (dag-maand-jaar).', plek + v.length, heel.length - v.length);
+        return heel;
+      });
+      z.replace(/(^|[^\d-])(\d{4})-(\d{2})-(\d{2})(?![\d-])/g, function (heel, v, j, m, d, plek) {
+        if (!lintDatumKan(+d, +m, +j)) meld(nr, 'fout', 'Patronen', 'datum', 'De datum ' + j + '-' + m + '-' + d + ' bestaat niet.', 'Controleer maand en dag (jaar-maand-dag).', plek + v.length, heel.length - v.length);
+        return heel;
+      });
+      const schuin = /(^|[^\d\/])(\d{1,2}\/\d{1,2}\/\d{4})(?![\d\/])/.exec(z);
+      if (schuin) bundel(nr, 'tip', 'Schrijfstijl', 'datumvorm', 'Datum met schuine strepen (' + schuin[2] + ').', 'Schrijf datums als dag-maand-jaar met streepjes (15-03-2027); zo herkent de pagina ze overal.', schuin.index + schuin[1].length, schuin[2].length);
+
+      // --- ongewenste patronen ---
+      const todo = /(^|[^A-Za-z])(TODO|FIXME|XXX|TBD)(?![A-Za-z])|nog invullen|lorem ipsum/i.exec(z);
+      if (todo && (todo[2] ? todo[2] === todo[2].toUpperCase() : true)) meld(nr, 'tip', 'Patronen', 'todo', 'Aantekening voor later ("' + (todo[2] || todo[0]) + '").', 'Werk de regel af, of maak er een afvinkbare taak van (- [ ] …) zodat hij in de overzichten meetelt.', todo.index + (todo[1] || '').length, (todo[2] || todo[0]).length);
+      const vraag = /\?{2,}/.exec(z);
+      if (vraag) meld(nr, 'tip', 'Patronen', 'vraagtekens', 'Meerdere vraagtekens achter elkaar.', 'Vul in wat nog onbekend is, of zet één vraagteken.', vraag.index, vraag[0].length);
+      const roep = /!{3,}/.exec(z);
+      if (roep) meld(nr, 'tip', 'Schrijfstijl', 'uitroeptekens', 'Drie of meer uitroeptekens achter elkaar.', 'Eén uitroepteken is genoeg. Voor urgent zet je !! vóór en achter de tekst.', roep.index, roep[0].length);
+
+      // --- schrijfstijl ---
+      if (kaal.charAt(0) !== '|') {
+        // in de regel zelf zoeken (niet in z: daar staan spaties op de plek van code en adressen)
+        const dubbel = /\S( {2,})\S/.exec(l);
+        if (dubbel && z.charAt(dubbel.index) !== ' ' && z.charAt(dubbel.index + 1 + dubbel[1].length) !== ' ') bundel(nr, 'tip', 'Opmaak', 'dubbelespatie', 'Twee of meer spaties achter elkaar in de tekst.', 'Eén spatie is genoeg.', dubbel.index + 1, dubbel[1].length);
+      }
+      const herhaal = new RegExp('(^|[^' + LINT_LETTER + '])([' + LINT_LETTER + ']{2,})\\s+\\2(?![' + LINT_LETTER + '\\-])', 'i').exec(z);
+      // alleen als er in de regel zelf niets tussen staat (in z staan spaties op de plek van code en adressen)
+      if (herhaal && /^\S+\s+\S+$/.test(l.substr(herhaal.index + herhaal[1].length, herhaal[0].length - herhaal[1].length))) meld(nr, 'waarschuwing', 'Schrijfstijl', 'herhaling', 'Het woord "' + herhaal[2] + '" staat twee keer achter elkaar.', 'Haal er één weg, als het geen bedoeling is.', herhaal.index + herhaal[1].length, herhaal[0].length - herhaal[1].length);
+      const voorLees = new RegExp('[' + LINT_LETTER + '\\d)] ([,;])').exec(z);
+      if (voorLees) meld(nr, 'tip', 'Schrijfstijl', 'spatieleesteken', 'Spatie vóór een leesteken (' + voorLees[1] + ').', 'Zet het leesteken direct achter het woord.', voorLees.index + 1, 2);
+      const naKomma = new RegExp('[' + LINT_LETTER + '],[' + LINT_LETTER + ']').exec(z);
+      if (naKomma) meld(nr, 'tip', 'Schrijfstijl', 'spatiekomma', 'Geen spatie na de komma.', 'Zet een spatie na elke komma.', naKomma.index + 1, 1);
+      const naPunt = /[a-zà-öø-ÿ]{2}\.[A-ZÀ-ÖØ-Þ][a-zà-öø-ÿ]/.exec(z);
+      if (naPunt) meld(nr, 'tip', 'Schrijfstijl', 'spatiepunt', 'Geen spatie na de punt.', 'Zet een spatie tussen twee zinnen.', naPunt.index + 2, 1);
+      const kapitaal = /(?:^|[^A-Za-zÀ-ÿ\d-])((?:[A-ZÀ-ÖØ-Þ]{4,}[ ]+){1,}[A-ZÀ-ÖØ-Þ]{4,})(?![A-Za-zÀ-ÿ\d-])/.exec(z);
+      if (kapitaal) meld(nr, 'tip', 'Schrijfstijl', 'hoofdletters', 'Meerdere woorden in hoofdletters ("' + kapitaal[1].slice(0, 30) + '").', 'Hoofdletters lezen als schreeuwen. Gebruik **vet** voor nadruk, of !!…!! voor urgent.', z.indexOf(kapitaal[1]), kapitaal[1].length);
+      if (!item && !kop && kaal.charAt(0) !== '|' && kaal.charAt(0) !== '>') {
+        const zin = kaal.split(/[.!?](?:\s|$)/).filter(function (s) { return s.split(/\s+/).length > 40; })[0];
+        if (zin) meld(nr, 'tip', 'Schrijfstijl', 'langezin', 'Lange zin (' + zin.split(/\s+/).length + ' woorden).', 'Knip de zin in tweeën; korte zinnen lees je sneller terug.');
+      }
+    });
+    if (hek) meld(hek.regel, 'fout', 'Syntax', 'codeblok', 'Het codeblok dat hier begint (' + hek.teken + '), wordt nergens afgesloten.', 'Zet onder het blok een regel met alleen ' + hek.teken + '. Nu geldt alles tot het eind van het bestand als code.');
+    // verschillende tekens voor opsommingen: het minst gebruikte teken melden
+    const gebruikt = ['-', '*', '+'].filter(function (t) { return tekens[t].length; }).sort(function (a, b) { return tekens[b].length - tekens[a].length; });
+    gebruikt.slice(1).forEach(function (t) {
+      tekens[t].forEach(function (r) { bundel(r, 'tip', 'Opmaak', 'opsomteken' + t, 'Opsommingspunt met ' + t + ', terwijl de meeste punten ' + gebruikt[0] + ' gebruiken.', 'Gebruik overal hetzelfde teken (' + gebruikt[0] + ').', 0, 0); });
+    });
+
+    // --- taken (alleen werkdruk.md): wat de werkdrukberekening niet kan gebruiken ---
+    if (soort === 'werkdruk' && opties.taken) {
+      const gezien = {};
+      opties.taken.forEach(function (t) {
+        const mist = [];
+        if (!t.klaar) {
+          if (!t.freq) mist.push('geen frequentie');
+          if (!t.hoursSpec || !(t.hoursSpec.v > 0)) mist.push('geen uren');
+          if (t.freq === 'eenmalig' && !t.jaar) mist.push('geen jaar bij eenmalig (bijvoorbeeld "eenmalig 2027")');
+        }
+        if (mist.length) meld(t.line, 'waarschuwing', 'Taken', 'taakonvolledig', 'De taak "' + t.name + '" telt niet mee voor de werkdruk: ' + mist.join(' en ') + (t.freqRaw && !t.freq ? ' ("' + t.freqRaw + '" is niet herkend)' : '') + (t.hoursRaw && !t.hoursSpec ? ' ("' + t.hoursRaw + '" is niet herkend)' : '') + '.', 'Vul de regel aan in de opzet: taak - frequentie - uur per keer - wanneer - locatie - opmerkingen. Hoort de regel niet bij de werkdruk, zet hem dan onder een kop met <!-- geen werkdruk -->.');
+        const k = (t.cat + '::' + t.name).toLowerCase();
+        if (gezien[k]) meld(t.line, 'waarschuwing', 'Taken', 'taakdubbel', 'De taak "' + t.name + '" staat ook op regel ' + gezien[k] + ', in dezelfde categorie.', 'Voeg de twee regels samen of geef ze een eigen naam; nu tellen ze allebei mee.');
+        else gezien[k] = t.line;
+      });
+    }
+    const ERNST = { fout: 0, waarschuwing: 1, tip: 2 };
+    uit.forEach(function (b) { b.ook.sort(function (a, c) { return a - c; }); });
+    return uit.sort(function (a, b) { return a.regel - b.regel || ERNST[a.ernst] - ERNST[b.ernst] || (a.kolom - b.kolom); });
+  }
+  return { lint, linkMd, linkUitMd, inlineMd, mmStanden, mmAfwijkingen, inline, reKenmerk, wisselUrgent, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, vormVan, wisselTaak, tekstsoortRegels, takDikte };
 })();
 </script>
 <script data-deel="document">
@@ -6803,7 +7108,7 @@ WIB.kern.document = (function () {
 
   const escapeHtml = WIB.hulp.esc;
   // de DOM-vrije logica (markdown, regels, historie, daginvoer) staat sinds v108 in WIB.kern.document
-  const { linkMd, linkUitMd, inlineMd, reKenmerk, wisselUrgent, losMarkdown, regelsOnder, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte, mmStanden, mmAfwijkingen } = WIB.kern.document;
+  const { lint, linkMd, linkUitMd, inlineMd, reKenmerk, wisselUrgent, losMarkdown, regelsOnder, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte, mmStanden, mmAfwijkingen } = WIB.kern.document;
 
   /* ---------- Interface ---------- */
 
@@ -7363,7 +7668,7 @@ WIB.kern.document = (function () {
   function zoekveldVoorTab(naam) {
     zoekveld.placeholder = zoekPlaceholder[naam] || 'Zoeken…';
     zoekveld.value = zoektermen[naam] || '';
-    zoekvak.hidden = (naam === 'document' && doc.hidden) || ['jaar', 'maand', 'week', 'dag', 'dossier', 'licenties'].indexOf(naam) >= 0 || (naam === 'taken' && !bron);
+    zoekvak.hidden = (naam === 'document' && doc.hidden) || ['jaar', 'maand', 'week', 'dag', 'dossier', 'licenties', 'tekstcontrole'].indexOf(naam) >= 0 || (naam === 'taken' && !bron);
     document.getElementById('zoekvorige').hidden = document.getElementById('zoekvolgende').hidden = !(naam === 'document' || naam === 'bewerken');
     zoekActief(false);
   }
@@ -7539,11 +7844,11 @@ WIB.kern.document = (function () {
   const wdVlak = document.getElementById('wd-vlak');
   const wdExtra = document.getElementById('wd-tabextra');
   const WD_TABS = ['jaar', 'maand', 'week', 'dag', 'taken'];
-  const TAB_VOLGORDE = ['document', 'mindmap', 'bewerken', 'totaal', 'jaar', 'maand', 'week', 'dag', 'taken', 'dossier', 'licenties', 'daginvoer', 'historie', 'releasenotes'];
+  const TAB_VOLGORDE = ['document', 'mindmap', 'bewerken', 'totaal', 'tekstcontrole', 'jaar', 'maand', 'week', 'dag', 'taken', 'dossier', 'licenties', 'daginvoer', 'historie', 'releasenotes'];
   let tabActief = 'document', vorigeTab = 'document', documentScroll = 0;   // bij het openen Document, met het beginscherm (v170)
   function isWdTab(naam) { return WD_TABS.indexOf(naam) >= 0; }
   // tabbladen die pas te kiezen zijn als er een bestand, map of het voorbeeld is geladen (v136, uitgebreid in v170)
-  const NA_LADEN = ['mindmap', 'bewerken', 'totaal', 'jaar', 'maand', 'week', 'dag', 'taken', 'dossier', 'licenties', 'daginvoer', 'historie'];
+  const NA_LADEN = ['mindmap', 'bewerken', 'totaal', 'tekstcontrole', 'jaar', 'maand', 'week', 'dag', 'taken', 'dossier', 'licenties', 'daginvoer', 'historie'];
   function heeftBron() { return !!bron; }
   // welke vlakken zichtbaar zijn, hangt af van het tabblad en van of er al een bestand is
   function pasVlakkenAan() {
@@ -7556,6 +7861,7 @@ WIB.kern.document = (function () {
     mindmapVlak.hidden = tabActief !== 'mindmap';
     bewerkVlak.hidden = tabActief !== 'bewerken';
     totaalVlak.hidden = tabActief !== 'totaal';
+    document.getElementById('tekstcontrole').hidden = tabActief !== 'tekstcontrole';   // v252
     releaseVlak.hidden = tabActief !== 'releasenotes';
     historieVlak.hidden = tabActief !== 'historie';
     dagVlak.hidden = tabActief !== 'daginvoer';
@@ -7588,6 +7894,7 @@ WIB.kern.document = (function () {
     else if (naam === 'mindmap') { window.scrollTo(0, 0); if (mindmapVuil) tekenMindmap(); }
     else if (naam === 'bewerken') { window.scrollTo(0, 0); bwToon(); }
     else if (naam === 'totaal') { window.scrollTo(0, 0); toonTotaal(); }
+    else if (naam === 'tekstcontrole') { window.scrollTo(0, 0); tcControleer(); }
     else if (naam === 'historie') { window.scrollTo(0, 0); toonHistorie(); }
     else if (naam === 'daginvoer') { window.scrollTo(0, 0); toonDaginvoer(); }
     else if (naam === 'licenties') { window.scrollTo(0, 0); if (window.WIB.notities) WIB.notities.toonLicenties(); }
@@ -9406,6 +9713,7 @@ WIB.kern.document = (function () {
       b.disabled = false; b.title = b.title.replace(/ \(beschikbaar zodra[^)]*\)$/, '');
     });
     if (tabActief === 'totaal') toonTotaal();
+    planTekstcontrole();
     if (tabActief === 'dossier' && window.WIB.notities) WIB.notities.toonDossier();   // v218
     werkHerlaadBij();
     filterKnop.hidden = false; filterKnop.disabled = false; werkFilterKnopBij();
@@ -9424,7 +9732,7 @@ WIB.kern.document = (function () {
     document.title = naam + ' – Werkdruk in beeld';
     doc.hidden = false; colofon.hidden = false; kiesknop.hidden = false;
     pasVlakkenAan();
-    zoekvak.hidden = ['jaar', 'maand', 'week', 'dag', 'dossier', 'licenties'].indexOf(tabActief) >= 0;
+    zoekvak.hidden = ['jaar', 'maand', 'week', 'dag', 'dossier', 'licenties', 'tekstcontrole'].indexOf(tabActief) >= 0;
     if (!editorVuil()) { bwVuil = true; if (tabActief === 'bewerken') bwToon(); }
     window.scrollTo(0, behoud ? scroll : 0);
     if (zoekveld.value.trim() && tabActief === 'document') zoek(false);
@@ -11085,8 +11393,9 @@ WIB.kern.document = (function () {
       if (zoekveld.value.trim().length >= 2) zoekActief(false);
     });
   }
-  // later opnieuw opbouwen (na een wijziging in werkdruk.md of in notities), alleen als het tabblad zichtbaar is
-  function planTotaal() { if (tabActief !== 'totaal') return; clearTimeout(totaalPlan); totaalPlan = setTimeout(toonTotaal, 60); }
+  // later opnieuw opbouwen (na een wijziging in werkdruk.md of in notities), alleen als het tabblad zichtbaar is;
+  // hetzelfde moment geldt voor de Tekstcontrole (v252)
+  function planTotaal() { planTekstcontrole(); if (tabActief !== 'totaal') return; clearTimeout(totaalPlan); totaalPlan = setTimeout(toonTotaal, 60); }
   // wijzigingen in de detailbestanden van buitenaf opmerken (zelfde ritme als de andere controles)
   let totaalBezig = false;
   function controleerTotaal() {
@@ -11156,6 +11465,98 @@ WIB.kern.document = (function () {
     docEd.vergeet(); docEd.teken(laatsteTekst || '');
     bijwerkOpslagstatus(); bwStatus.textContent = 'Wijzigingen weggegooid'; bwStatus.classList.remove('vuil'); if (tabActief === 'bewerken') bwToon(true);
   }
+  /* ---------- Tekstcontrole (v252): de markdownbestanden nalopen (lint in de kern) ----------
+     Toont de bevindingen per bestand; er wordt niets gewijzigd, verbeteren doe je zelf. werkdruk.md wordt gecontroleerd
+     zoals hij nu in de pagina staat (met niet-opgeslagen wijzigingen), daginvoer.md en de notities zoals ze zijn gelezen. */
+  const tcLijst = document.getElementById('tc-lijst'), tcBestand = document.getElementById('tc-bestand'), tcGroep = document.getElementById('tc-groep');
+  const tcStatus = document.getElementById('tc-status'), tcErnstKnoppen = document.getElementById('tc-ernst');
+  const TC_ERNST = { fout: ['Fout', 'Fouten'], waarschuwing: ['Waarschuwing', 'Waarschuwingen'], tip: ['Tip', 'Tips'] };
+  let tcBeurt = 0, tcPlan = 0, tcBestanden = [], tcErnst = 'alles';
+  function tcControleer() {
+    if (!bron || laatsteTekst === null || laatsteTekst === undefined) { tcBestanden = []; tcLijst.innerHTML = ''; tcStatus.textContent = ''; return Promise.resolve(); }
+    const beurt = ++tcBeurt, N = window.WIB.notities;
+    const codes = N ? N.bekend().filter(function (c, i, a) { return a.indexOf(c) === i && N.heeft(c); }).sort() : [];
+    tcStatus.textContent = 'Bezig met controleren…';
+    return leesDetails(codes).then(function (lijst) {
+      if (beurt !== tcBeurt) return;
+      const bestanden = [{ naam: 'werkdruk.md', soort: 'werkdruk', tekst: editorVuil() ? bwTekst.value : lf(laatsteTekst) }];
+      if ((dagInvoer.tekst || '').trim()) bestanden.push({ naam: 'daginvoer.md', soort: 'daginvoer', tekst: dagInvoer.tekst });
+      lijst.forEach(function (x) {
+        if (x.fout) bestanden.push({ naam: 'notities/' + x.code + '.md', soort: 'notitie', code: x.code, tekst: '', leesfout: WIB.hulp.reden(x.fout) });
+        else if (x.tekst.trim()) bestanden.push({ naam: 'notities/' + x.code + '.md', soort: 'notitie', code: x.code, tekst: x.tekst });
+      });
+      bestanden.forEach(function (b) {
+        b.lijnen = b.tekst.replace(/^﻿/, '').split(/\r\n|\n|\r/);
+        b.bevindingen = b.leesfout ? [] : lint(b.tekst, { soort: b.soort, taken: b.soort === 'werkdruk' ? parseMarkdown(b.tekst).tasks : null });
+      });
+      tcBestanden = bestanden;
+      // de keuzelijst met bestanden; de keuze blijft staan als het bestand er nog is
+      const gekozen = tcBestand.value;
+      tcBestand.innerHTML = '<option value="">Alle bestanden (' + bestanden.length + ')</option>' + bestanden.map(function (b) {
+        return '<option value="' + escapeHtml(b.naam) + '">' + escapeHtml(b.naam) + ' (' + b.bevindingen.length + ')</option>';
+      }).join('');
+      tcBestand.value = bestanden.some(function (b) { return b.naam === gekozen; }) ? gekozen : '';
+      tcStatus.textContent = 'Gecontroleerd om ' + new Date().toLocaleTimeString('nl-NL') + (editorVuil() || nietOpSchijf ? ' · werkdruk.md met je niet-opgeslagen wijzigingen' : '');
+      tcTeken();
+    });
+  }
+  function planTekstcontrole() { if (tabActief !== 'tekstcontrole') return; clearTimeout(tcPlan); tcPlan = setTimeout(tcControleer, 150); }
+  // de regel met de plek van de bevinding gemarkeerd; een lange regel wordt rond die plek ingekort
+  function tcFragment(regelTekst, b) {
+    let t = regelTekst, van = b.kolom, len = b.lengte;
+    if (van < 0 || van >= t.length || !len) { van = -1; len = 0; }
+    let begin = 0;
+    if (t.length > 160) { begin = Math.max(0, Math.min(van < 0 ? 0 : van - 60, t.length - 160)); t = t.slice(begin, begin + 160); if (van >= 0) { van -= begin; len = Math.min(len, t.length - van); } }
+    const zicht = function (s) { return escapeHtml(s).replace(/\t/g, '→').replace(/ /g, '⍽'); };
+    const midden = van >= 0 ? zicht(t.slice(0, van)) + '<mark>' + (zicht(t.slice(van, van + len)).replace(/ /g, '·') || '·') + '</mark>' + zicht(t.slice(van + len)) : zicht(t);
+    return (begin ? '…' : '') + midden + (begin + 160 < regelTekst.length ? '…' : '');
+  }
+  function tcTeken() {
+    const welk = tcBestand.value, groep = tcGroep.value;
+    const tel = { alles: 0, fout: 0, waarschuwing: 0, tip: 0 };
+    const past = function (b) { return !groep || b.groep === groep; };
+    const zichtbaar = tcBestanden.filter(function (b) { return !welk || b.naam === welk; });
+    zichtbaar.forEach(function (b) { b.bevindingen.filter(past).forEach(function (x) { tel[x.ernst]++; tel.alles++; }); });
+    tcErnstKnoppen.querySelectorAll('button').forEach(function (k) {
+      const e = k.getAttribute('data-tc-ernst');
+      k.setAttribute('aria-pressed', e === tcErnst ? 'true' : 'false');
+      k.querySelector('b').textContent = tel[e];
+    });
+    const knopTitel = function (b) { return b.soort === 'werkdruk' ? 'Naar deze regel in Document' : b.soort === 'notitie' ? 'De notities bij ' + b.code + ' openen' : 'Naar het tabblad Daginvoer'; };
+    let h = '';
+    zichtbaar.forEach(function (b) {
+      const i = tcBestanden.indexOf(b);
+      const lijst = b.bevindingen.filter(function (x) { return past(x) && (tcErnst === 'alles' || x.ernst === tcErnst); });
+      if (!lijst.length && !b.leesfout && (welk !== b.naam)) return;
+      const per = { fout: 0, waarschuwing: 0, tip: 0 }; lijst.forEach(function (x) { per[x.ernst]++; });
+      const samen = ['fout', 'waarschuwing', 'tip'].filter(function (e) { return per[e]; }).map(function (e) { return per[e] + ' ' + TC_ERNST[e][per[e] === 1 ? 0 : 1].toLowerCase(); }).join(', ');
+      h += '<section class="tc-bestand" data-tc-naam="' + escapeHtml(b.naam) + '"><h2><span class="tc-naam">' + escapeHtml(b.naam) + '</span><span class="tc-telling">' + (b.leesfout ? 'niet gelezen' : samen || 'geen bevindingen') + '</span></h2>';
+      if (b.leesfout) h += '<p class="tc-leeg">Dit bestand kon niet worden gelezen (' + escapeHtml(b.leesfout) + ').</p>';
+      else if (!lijst.length) h += '<p class="tc-leeg">Geen bevindingen' + (groep || tcErnst !== 'alles' ? ' met dit filter' : '') + '.</p>';
+      else h += '<ol class="tc-bevindingen">' + lijst.map(function (x) {
+        const naar = function (r) { return '<button type="button" class="tc-naar" data-tc-bestand="' + i + '" data-tc-regel="' + r + '" title="' + knopTitel(b) + '">regel ' + r + '</button>'; };
+        const ook = x.ook.length ? '<p class="tc-ook">Ook op ' + x.ook.slice(0, 12).map(naar).join(' ') + (x.ook.length > 12 ? ' en nog ' + (x.ook.length - 12) + ' regels' : '') + '</p>' : '';
+        return '<li class="tc-item tc-' + x.ernst + '" data-tc-id="' + x.id + '"><div class="tc-itemkop">' + naar(x.regel) + '<span class="tc-ernst">' + TC_ERNST[x.ernst][0] + '</span><span class="tc-groep">' + x.groep + '</span></div>' +
+          '<p class="tc-melding">' + escapeHtml(x.melding) + '</p>' +
+          '<pre class="tc-fragment"><code>' + tcFragment(b.lijnen[x.regel - 1] || '', x) + '</code></pre>' +
+          (x.advies ? '<p class="tc-advies">' + escapeHtml(x.advies) + '</p>' : '') + ook + '</li>';
+      }).join('') + '</ol>';
+      h += '</section>';
+    });
+    if (!h) h = '<p class="tc-leeg tc-schoon">' + (tel.alles ? 'Geen bevindingen met dit filter.' : 'Geen bevindingen: de gecontroleerde bestanden zijn in orde.') + '</p>';
+    tcLijst.innerHTML = h;
+  }
+  tcBestand.addEventListener('change', tcTeken);
+  tcGroep.addEventListener('change', tcTeken);
+  tcErnstKnoppen.addEventListener('click', function (e) { const k = e.target.closest('button[data-tc-ernst]'); if (k) { tcErnst = k.getAttribute('data-tc-ernst'); tcTeken(); } });
+  document.getElementById('tc-opnieuw').addEventListener('click', tcControleer);
+  tcLijst.addEventListener('click', function (e) {
+    const k = e.target.closest('.tc-naar'); if (!k) return;
+    const b = tcBestanden[+k.getAttribute('data-tc-bestand')]; if (!b) return;
+    if (b.soort === 'werkdruk') springNaarRegel(+k.getAttribute('data-tc-regel') - 1);
+    else if (b.soort === 'notitie') { if (window.WIB.notities) WIB.notities.open(b.code); }
+    else toonTab('daginvoer');
+  });
   window.WIB.document = {
     toonTab: toonTab,
     // v230: de zoekterm van een tabblad zetten (Zoeken in alles); staat dat tabblad open, dan meteen zoeken
@@ -11251,7 +11652,7 @@ WIB.kern.werkdruk = (function () {
 
   const STIJLEN = ['helder', 'papier', 'contrast', 'compact', 'zacht', 'crazy'];
   const STIJL_LABEL = { helder: 'Helder', papier: 'Papier', contrast: 'Contrast', compact: 'Compact', zacht: 'Zacht', crazy: 'Crazy' };
-  const TAB_NAMEN = { document: 'Document', mindmap: 'Mindmap', bewerken: 'Bewerken', totaal: 'Totaaloverzicht', daginvoer: 'Daginvoer', historie: 'Historie', jaar: 'Jaar', maand: 'Maand', week: 'Week', dag: 'Dag', taken: 'Taken' };
+  const TAB_NAMEN = { document: 'Document', mindmap: 'Mindmap', bewerken: 'Bewerken', totaal: 'Totaaloverzicht', tekstcontrole: 'Tekstcontrole', daginvoer: 'Daginvoer', historie: 'Historie', jaar: 'Jaar', maand: 'Maand', week: 'Week', dag: 'Dag', taken: 'Taken' };
 
   // v197: menuopties die je in Instellingen kunt verbergen (Werkdruk, Projecten, Logboek)
   const MENU_KEUZE = ['jaar', 'maand', 'week', 'dag', 'taken', 'dossier', 'licenties', 'daginvoer', 'historie'];
