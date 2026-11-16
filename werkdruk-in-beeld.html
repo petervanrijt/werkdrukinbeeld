@@ -780,6 +780,9 @@ tr.jump:hover td { background: var(--accent-soft); }
   @media print { .sectie.ingeklapt > .sectie-inhoud { display: block; } .sectie > .kop-inklap::before { display: none; } .doc-werkbalk { display: none !important; } }
   /* Bewerken in Document (v173): de koptekst is te bewerken; in- en uitklappen gaat met het pijltje ervoor */
   .document[contenteditable="true"] { outline: none; }
+  /* v256: in de stijlen Contrast en Crazy krijgt het document bij het bewerken wel een focuskader (hun regel voor :focus-visible weegt zwaarder).
+     Dat kader stond buiten het document en liep door de onderrand van de index; het staat nu binnen de witruimte van het document */
+  #hoofd > .document[contenteditable="true"] { outline-offset: -12px; }
   .document[contenteditable="true"] .sectie > .kop-inklap { cursor: text; user-select: text; -webkit-user-select: text; }
   .document[contenteditable="true"] .sectie > .kop-inklap::before { cursor: pointer; }
   /* werkbalk en opzetregel (v178) blijven samen bovenaan, onder de balk */
@@ -1739,7 +1742,16 @@ body {
 .nt-lic-rij input[type="text"] { font: inherit; font-size: var(--fs-m); padding: 4px 8px; border: 1px solid var(--line-strong); border-radius: var(--radius-s); background: var(--surface); color: var(--ink); }
 .nt-lic-naam { width: 16em; }
 .nt-lic-datum { width: 8.5em; font-family: var(--font-mono); }
-.nt-lic-datum.lic-fout { border-color: var(--urg) !important; background: var(--urg-soft) !important; }
+.nt-lic-datum.lic-fout, .nt-lic-link.lic-fout { border-color: var(--urg) !important; background: var(--urg-soft) !important; }
+/* v257: startdatum, einddatum en link naar de schijf; een verplicht veld dat nog leeg is, heeft een oranje rand */
+.nt-lic-groep { display: inline-flex; align-items: center; gap: 8px; }
+.nt-lic-tm { font-size: var(--fs-s); color: var(--muted); }
+.nt-lic-link { flex: 1 1 14em; min-width: 0; }
+.nt-lic-rij input.lic-mist { border-color: var(--warn); box-shadow: inset 0 0 0 1px var(--warn); }
+.nt-lic-let { flex-basis: 100%; font-size: var(--fs-s); color: var(--warn); }
+.nt-lic-open { text-decoration: none; }
+.nt-lic-geen { display: inline-flex; align-items: center; gap: 5px; font-size: var(--fs-m); }
+.nt-lic-geen:has(input:disabled) { color: var(--muted); }
 .nt-lic-kies { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .nt-lic-rij .ikoon-knop { padding: 2px 7px; font-size: var(--fs-l); }
 .lic-status { font-size: var(--fs-s); font-weight: 700; border-radius: var(--radius-pill); padding: 1px 9px; white-space: nowrap; }
@@ -2461,6 +2473,8 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v257</span> Licenties: startdatum, link naar de schijf en "geen licenties" <span class="datum">16 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In het notitievenster heeft een licentie onder <i>Geldigheid licenties</i> nu vier velden: naam (verplicht), startdatum (verplicht), einddatum (verplicht) en link naar de schijf (optioneel). Een verplicht veld dat nog leeg is, heeft een oranje rand, en onder de licentie staat wat je nog moet invullen. Dat geldt ook voor bestaande licenties, die nog geen startdatum hebben. Een startdatum na de einddatum wordt gemeld. Opslaan blijft altijd mogelijk.</li><li><span class="soort nieuw">nieuw</span>De link naar de schijf is een pad naar een bestand of map (zoals G:\Licenties\contract.pdf of \\server\map) of een webadres. Met ↗ naast het veld open je de link in een nieuw tabblad. Een adres dat geen link kan zijn, krijgt een rode rand en komt niet in het bestand.</li><li><span class="soort nieuw">nieuw</span>Met het vinkje <i>Deze dienst heeft geen licenties</i> leg je vast dat er geen licenties zijn. Het kan alleen als er geen licenties staan; voeg je een licentie toe, dan gaat het uit.</li><li>In het notitiebestand staat een licentie als <code>- CRM systeem: 01-01-2026 t/m 31-12-2026 [schijf](G:\Licenties\contract.pdf)</code>, en "geen licenties" als de regel <code>Geen licenties.</code> onder de kop. Bestaande regels met alleen een einddatum blijven geldig en worden niet gewijzigd. Het tabblad Licenties, het dossier, de randen om de labels en de melding bij het openen werken zoals voorheen, op de einddatum.</li><li>Hulp bijgewerkt (Notities per code, Geldigheid licenties).</li><li>Handmatige actie: geen. Wil je de meldingen bij bestaande licenties weg hebben, vul dan per licentie de startdatum in.</li></ul></div>
+    <div class="release"><h2><span class="versie">v256</span> Het focuskader van Document loopt niet meer door de index <span class="datum">16 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>In de stijlen Contrast en Crazy verscheen bij het klikken in de tekst van Document een gekleurde lijn die dwars door de onderrand van de index liep. Dat is het kader dat laat zien dat je in de tekst aan het bewerken bent. Het staat nu iets naar binnen: de bovenste lijn loopt tussen de index en de eerste kop, en links, rechts en onderaan staat het kader net binnen de rand van het document. In de andere stijlen is er geen kader en verandert er niets.</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v255</span> De cursor staat achter het vakje van een lege taak <span class="datum">14 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Haal je in Document of in het notitievenster alle tekst van een taak weg (knippen, Delete of Backspace), dan staat de cursor nu achter het lege vakje, op de plek waar de tekst begint. Sinds v253 was de lege taak wel een regel hoog, maar de cursor werd nog links onder het vakje getekend. Aan de tekst in het bestand verandert niets.</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v254</span> Backspace haalt een lege taak in één keer weg <span class="datum">14 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Staat de cursor in Document of in het notitievenster in een taak zonder tekst (bijvoorbeeld nadat je de tekst hebt geknipt), dan haalt <kbd>Backspace</kbd> de hele regel weg en staat de cursor aan het eind van de regel erboven. Voorheen verdween alleen het vakje: er bleef een leeg punt staan, met het label <i>werkdruk: frequentie ontbreekt</i>, en je had nog een <kbd>Backspace</kbd> nodig. Bij een taak mét tekst blijft het zoals het was: <kbd>Backspace</kbd> vooraan haalt het vinkje weg. Heeft de lege taak subpunten, dan blijft het punt staan (zonder vakje), zodat de subpunten hun plek houden.</li><li><span class="soort herstel">herstel</span>Dit geldt ook voor de lege taak die <kbd>Enter</kbd> aan het eind van een taak maakt: <kbd>Backspace</kbd> haalt die regel weer weg, waar je tot nu toe een gewoon punt overhield. Wil je onder een taak een gewoon punt, typ dan eerst de tekst en kies <i>Taak ⇄ punt</i>, of zet de cursor vooraan de tekst en druk op <kbd>Backspace</kbd>.</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v253</span> Een lege taak blijft een regel hoog <span class="datum">14 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Haal je in Document of in het notitievenster alle tekst van een taak met een vakje weg (selecteren en knippen, Delete of Backspace), dan blijft het lege vakje staan op een eigen regel, met de cursor erachter. Voorheen had zo'n lege taak geen hoogte: het vakje viel over de regel eronder, de verticale lijn links stopte een regel te vroeg en de cursor stond eronder. Hetzelfde gold voor een regel <code>- [ ]</code> zonder tekst die al in het bestand stond. Aan de tekst in het bestand verandert niets.</li><li>Handmatige actie: geen.</li></ul></div>
@@ -3813,7 +3827,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <button type="button" class="knop nt-ikoon" id="nt-o-vooruit" title="Opnieuw (Ctrl+Shift+Z of ⌘⇧Z)" aria-label="Opnieuw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg></button>
     </div>
     <div class="nt-lic" id="nt-lic">
-      <div class="nt-lic-kop"><b>Geldigheid licenties</b><button type="button" class="knop" id="nt-lic-plus" title="Een licentie met naam en datum toevoegen">+ Licentie</button><span class="nt-lic-leeg" id="nt-lic-leeg">Geen licenties. Voeg er een toe met + Licentie.</span></div>
+      <div class="nt-lic-kop"><b>Geldigheid licenties</b><button type="button" class="knop" id="nt-lic-plus" title="Een licentie toevoegen: naam, startdatum, einddatum en eventueel een link naar de schijf">+ Licentie</button><label class="nt-lic-geen" title="Leg vast dat deze dienst geen licenties heeft. Staan er licenties, haal die dan eerst weg."><input type="checkbox" id="nt-lic-geen"> Deze dienst heeft geen licenties</label><span class="nt-lic-leeg" id="nt-lic-leeg">Nog niets vastgelegd. Voeg een licentie toe met + Licentie, of vink aan dat er geen zijn.</span></div>
       <div id="nt-lic-rijen"></div>
     </div>
     <div class="nt-vlak">
@@ -4161,8 +4175,11 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li>Zonder map, of in Firefox en Safari, blijven nieuwe notities in het geheugen van het tabblad; bewaar ze met <i>Downloaden</i> in het venster en zet ze zelf in de map <code>notities</code>.</li>
     </ul>
     <h4>Geldigheid licenties</h4>
-    <p>Boven de tekst van het notitievenster staat <b>Geldigheid licenties</b>. Standaard is het leeg. Met <i>+ Licentie</i> voeg je een licentie toe: een naam en de datum tot en met wanneer hij geldig is, in de vorm dd-mm-jjjj. Je typt de datum (ook <code>31122026</code> of <code>31/12/2026</code> mag; het wordt <code>31-12-2026</code>) of kiest hem met 📅 in de kalender; met ✕ haal je een licentie weg. Een project kan meerdere licenties hebben. Naast elke datum zie je de status: verlopen, binnen 90 dagen, of later.</p>
-    <p>De licenties staan als gewone tekst in het notitiebestand, onder de kop <code>## Geldigheid licenties</code>, bijvoorbeeld <code>- CRM systeem: 31-12-2026</code>. In de opgemaakte weergave zie je die kop en de licenties eronder niet, want ze staan al in het onderdeel erboven; daar wijzig je ze. In het bestand blijven ze gewoon staan. Bewerk je notities als markdown (Instellingen), dan kun je ze ook in de tekst zelf wijzigen; het onderdeel erboven volgt. Staat er onder de kop ook andere tekst dan licenties, dan zie je het hele blok wel, zodat die tekst niet onder een verkeerde kop lijkt te staan. Het blok bestaat uit de kop en de regels met licenties eronder; gewone tekst die daarna volgt, hoort er niet meer bij en blijft altijd staan, ook als je alle licenties weghaalt. Ze gaan mee in de versies, de historie en bij code omzetten. Sla op zoals altijd met <kbd>Ctrl</kbd>+<kbd>S</kbd>.</p>
+    <p>Boven de tekst van het notitievenster staat <b>Geldigheid licenties</b>. Standaard is het leeg. Met <i>+ Licentie</i> voeg je een licentie toe. Je vult vier velden in: de naam (verplicht), de startdatum (verplicht), de einddatum tot en met wanneer hij geldig is (verplicht) en een link naar de schijf (optioneel). Een datum schrijf je als dd-mm-jjjj. Je typt hem (ook <code>31122026</code> of <code>31/12/2026</code> mag; het wordt <code>31-12-2026</code>) of kiest hem met 📅 in de kalender; met ✕ haal je een licentie weg. Een project kan meerdere licenties hebben. Naast de einddatum zie je de status: verlopen, binnen 90 dagen, of later.</p>
+    <p>Is een verplicht veld nog leeg, dan heeft het een oranje rand en staat onder de licentie wat je nog moet invullen. Dat geldt ook voor een licentie van vroeger zonder startdatum. Ook een startdatum na de einddatum wordt gemeld. Opslaan kan altijd; de melding blijft staan tot je het veld invult.</p>
+    <p>De <b>link naar de schijf</b> is een pad naar een bestand of map, zoals <code>G:\Licenties\contract.pdf</code> of <code>\\server\map</code>, of een webadres. Met ↗ naast het veld open je de link in een nieuw tabblad. Een adres dat geen link kan zijn, krijgt een rode rand en komt niet in het bestand.</p>
+    <p>Heeft een dienst geen licenties, vink dan <i>Deze dienst heeft geen licenties</i> aan. Zo zie je later dat je het hebt nagegaan. Het vinkje kan alleen als er geen licenties staan; voeg je er een toe, dan gaat het vanzelf uit.</p>
+    <p>De licenties staan als gewone tekst in het notitiebestand, onder de kop <code>## Geldigheid licenties</code>, bijvoorbeeld <code>- CRM systeem: 01-01-2026 t/m 31-12-2026 [schijf](G:\Licenties\contract.pdf)</code>. Een regel met alleen een einddatum, zoals <code>- CRM systeem: 31-12-2026</code>, blijft geldig. Dat een dienst geen licenties heeft, staat er als de regel <code>Geen licenties.</code> In de opgemaakte weergave zie je die kop en de licenties eronder niet, want ze staan al in het onderdeel erboven; daar wijzig je ze. In het bestand blijven ze gewoon staan. Bewerk je notities als markdown (Instellingen), dan kun je ze ook in de tekst zelf wijzigen; het onderdeel erboven volgt. Staat er onder de kop ook andere tekst dan licenties, dan zie je het hele blok wel, zodat die tekst niet onder een verkeerde kop lijkt te staan. Het blok bestaat uit de kop en de regels met licenties eronder; gewone tekst die daarna volgt, hoort er niet meer bij en blijft altijd staan, ook als je alle licenties weghaalt. Ze gaan mee in de versies, de historie en bij code omzetten. Sla op zoals altijd met <kbd>Ctrl</kbd>+<kbd>S</kbd>.</p>
     <p>Het tabblad <b>Licenties</b> (naast Release notes) toont alle licenties van alle projecten, de eerst verlopende bovenaan, in de groepen <i>Verlopen</i>, <i>Binnen 90 dagen</i>, <i>Later</i> en <i>Zonder datum</i>. Klik op een regel om de notities van dat project te openen. Daarnaast waarschuwt de pagina op twee manieren: het label van de code in Document en Taken krijgt een rode rand (verlopen) of oranje rand (binnen 90 dagen), en bij het openen van een map verschijnt een melding met de knop <i>Bekijk licenties</i>.</p>
     <h4>Volgnummer</h4>
     <p>De knop <b>+ Volgnummer</b> in Document (en in Bewerken, als dat aan staat) voegt het eerstvolgende vrije nummer in volgens <b>Instellingen → Volgnummer</b> (standaard <code>ONB-999</code>): eerst <code>ONB-001</code>, dan <code>ONB-002</code>, enzovoort. Vrij betekent: hoger dan elk nummer dat al in werkdruk.md staat of al notities heeft. Staat de cursor op een opsommingspunt, dan komt het nummer vooraan dat punt; op een kopregel komt het direct na de #; op een lege regel begint de knop een nieuw punt; begint de regel al met een code, dan gebeurt er niets. Je geeft één volgnummer op. Typ of plak je er meer (met een komma, puntkomma of spatie ertussen), dan blijft alleen het eerste staan; staan er in <code>instellingen.md</code> toch meerdere, dan gebruikt de pagina het eerste en meldt ze dat. Laat je het volgnummer leeg, of staat er geen reeks negens in, dan verdwijnt de knop. Een nummer dat ooit is gebruikt komt niet terug: instellingen.md houdt een teller bij (<code>Laatste volgnummer</code>). Bij elk nummer haalt de knop eerst de nieuwste teller van schijf, legt het nieuwe nummer vast in instellingen.md, en voegt het pas daarna in; lukt het vastleggen niet, dan wordt er niets ingevoegd. De knop kijkt bovendien in daginvoer.md, in de versiebestanden en in notities_historie.md.</p>
@@ -15609,25 +15626,77 @@ WIB.kern.notities = (function () {
   // Het blok "## Geldigheid licenties" in een notitie (v128): de kop, eventuele tekst vóór de eerste licentie, de licenties
   // ("- naam: datum") en de lege regels direct erna. Het blok eindigt bij de volgende kop, of bij de eerste gewone tekst ná
   // een licentie; die tekst hoort er niet meer bij (F9). Geeft null als er geen blok is.
+  /* v257: een licentie heeft een naam, een startdatum, een einddatum (datum) en een link naar de schijf:
+     "- naam: start t/m eind [schijf](adres)". Elk deel na de naam mag ontbreken; de oude vorm "- naam: eind" blijft dus
+     geldig en ongewijzigd. Spaties en haakjes in het adres staan in het bestand als %20, %28 en %29 (anders breekt de link af). */
+  function licAdresNaarMd(a) { return String(a || '').trim().replace(/ /g, '%20').replace(/\(/g, '%28').replace(/\)/g, '%29'); }
+  function licAdresUitMd(a) { return /^(https?:|www\.)/i.test(a) ? a : String(a || '').replace(/%20/g, ' ').replace(/%28/g, '(').replace(/%29/g, ')'); }
+  // waar de link naartoe gaat: een webadres, een pad op de schijf (G:\map, \\server\map, /map) of een pad naast dit bestand; null als het geen link kan zijn
+  function licLinkHref(adres) {
+    const a = licAdresNaarMd(adres);
+    if (!a || /[\s<>"]/.test(a)) return null;
+    if (/^(https?:|file:)/i.test(a)) return a;
+    if (/^www\./i.test(a)) return 'https://' + a;
+    if (/^[a-z]:[\\/]/i.test(a)) return 'file:///' + a.replace(/\\/g, '/');
+    if (/^\\\\[^\\]/.test(a)) return 'file:' + a.replace(/\\/g, '/');
+    if (/^\//.test(a)) return 'file://' + a;
+    if (/^[a-z][a-z0-9+.-]*:/i.test(a)) return null;   // een ander schema (javascript:, data:, …)
+    return a.replace(/\\/g, '/');
+  }
+  function licDelen(rest) {
+    let s = String(rest || '').trim(), link = '';
+    const lm = /(?:^|\s)\[[^\]]*\]\(([^()\s]+)\)$/.exec(s);
+    if (lm) { link = licAdresUitMd(lm[1]); s = s.slice(0, lm.index).trim(); }
+    const tm = /^(.*?)\s*\bt\/m(?=\s|$)\s*(.*)$/i.exec(s);
+    return tm ? { start: tm[1].trim(), datum: tm[2].trim(), link: link } : { start: '', datum: s, link: link };
+  }
+  function licRegel(l) {
+    const delen = [], start = String(l.start || '').trim(), eind = String(l.datum || '').trim();
+    if (start) delen.push(start + ' t/m');
+    if (eind) delen.push(eind);
+    if (licLinkHref(l.link)) delen.push('[schijf](' + licAdresNaarMd(l.link) + ')');
+    return ('- ' + (String(l.naam || '').trim() || 'Licentie') + ': ' + delen.join(' ')).replace(/\s+$/, '');
+  }
+  // wat er aan een licentie nog niet klopt: de verplichte velden (naam, startdatum, einddatum) en de volgorde van de datums
+  function licControle(l) {
+    const uit = [], mist = [], start = String(l.start || '').trim(), eind = String(l.datum || '').trim();
+    if (!String(l.naam || '').trim()) mist.push('naam');
+    if (!start) mist.push('startdatum');
+    if (!eind) mist.push('einddatum');
+    if (mist.length) uit.push('nog invullen: ' + mist.join(', '));
+    const s = leesNlDatum(start), e = leesNlDatum(eind);
+    if (start && !s) uit.push('startdatum: schrijf als dd-mm-jjjj');
+    if (s && e && s > e) uit.push('de startdatum ligt na de einddatum');
+    if (String(l.link || '').trim() && !licLinkHref(l.link)) uit.push('deze link kan niet: gebruik een pad op de schijf of een webadres');
+    return uit;
+  }
+  // v257: de regel "Geen licenties." onder de kop legt vast dat een dienst geen licenties heeft
+  const LIC_GEEN = /^\s*geen\s+licenties\.?\s*$/i;
   function licBlok(r) {
     const i = r.findIndex(function (l) { return LIC_KOP.test(l.trim()); });
     if (i < 0) return null;
     const item = /^\s*[-*+]\s+(.*?)\s*:\s*(.*?)\s*$/;
-    let j = i + 1, eind = i + 1, gezien = false;
+    let j = i + 1, eind = i + 1, gezien = false, geen = false;
     const overig = [], lijst = [];
     while (j < r.length && !/^#{1,6}\s/.test(r[j])) {
+      if (LIC_GEEN.test(r[j]) && !gezien) { geen = true; eind = j + 1; j++; continue; }
       const m = item.exec(r[j]);
-      if (m) { gezien = true; lijst.push({ naam: m[1], datum: m[2] }); eind = j + 1; j++; continue; }
+      if (m) { gezien = true; const d = licDelen(m[2]); lijst.push({ naam: m[1], start: d.start, datum: d.datum, link: d.link }); eind = j + 1; j++; continue; }
       if (!r[j].trim()) { j++; continue; }
       if (gezien) break;                 // gewone tekst na de licenties: het blok is af
       overig.push(r[j]); eind = j + 1; j++;
     }
     while (eind < r.length && !r[eind].trim() && eind < j) eind++;   // de lege regels direct na het blok
-    return { begin: i, eind: eind, overig: overig, lijst: lijst };
+    return { begin: i, eind: eind, overig: overig, lijst: lijst, geen: geen && !lijst.length };
   }
   function licUitTekst(t) {
     const b = licBlok(String(t || '').replace(/\r\n?/g, '\n').split('\n'));
     return b ? b.lijst : [];
+  }
+  // v257: is vastgelegd dat deze dienst geen licenties heeft? (alleen als er ook geen licenties staan)
+  function licGeen(t) {
+    const b = licBlok(String(t || '').replace(/\r\n?/g, '\n').split('\n'));
+    return !!b && b.geen;
   }
   // v225: de regels (0-based, van t/m tot) die de opgemaakte weergave van het notitievenster niet toont: de kop
   // ## Geldigheid licenties en de licenties eronder, want die staan al in het kader erboven. Staat er in het blok ook
@@ -15637,10 +15706,12 @@ WIB.kern.notities = (function () {
     return b && !b.overig.length ? { van: b.begin, tot: b.eind - 1 } : null;
   }
   // het blok ## Geldigheid licenties in de tekst vervangen (of maken, of weghalen als de lijst leeg is)
-  function licNaarTekst(t, lijst) {
+  // geen (v257): true legt "Geen licenties." vast, false haalt het weg; niet opgegeven: zoals het in de tekst staat.
+  // Staan er licenties, dan vervalt die regel.
+  function licNaarTekst(t, lijst, geen) {
     const crlf = /\r\n/.test(t), r = String(t).replace(/\r\n?/g, '\n').split('\n');
-    const regels = lijst.map(function (l) { return ('- ' + (l.naam.trim() || 'Licentie') + ': ' + (l.datum || '').trim()).replace(/\s+$/, ''); });
     const b = licBlok(r);
+    const regels = lijst.length ? lijst.map(licRegel) : (geen === undefined ? !!b && b.geen : geen) ? ['Geen licenties.'] : [];
     if (b) {
       // andere tekst tussen de kop en de licenties blijft staan, op dezelfde plek
       const blok = regels.length || b.overig.length ? ['## Geldigheid licenties'].concat(b.overig, regels, ['']) : [];
@@ -15839,7 +15910,7 @@ WIB.kern.notities = (function () {
     });
     return { woorden: w, acties: groep(acties), werkdruk: groep(werkdruk), notities: groep(notities), daginvoer: groep(daginvoer), historie: groep(historie), fouten: fouten };
   }
-  return { zoekAlles, versiesNaarTekst, versiesUitTekst, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging };
+  return { zoekAlles, versiesNaarTekst, versiesUitTekst, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, licGeen, licLinkHref, licControle, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging };
 })();
 </script>
 <script data-deel="notities">
@@ -15856,7 +15927,7 @@ WIB.kern.notities = (function () {
 (function () {
   'use strict';
   // de DOM-vrije logica (versies, vermeldingen, licenties) staat sinds v108 in WIB.kern.notities
-  const { versiesNaarTekst, versiesUitTekst, telIn, analyseer, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, codesIn, dossierVan, dossierLogboek, zoekAlles, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging } = WIB.kern.notities;
+  const { versiesNaarTekst, versiesUitTekst, telIn, analyseer, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, licGeen, licLinkHref, licControle, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, codesIn, dossierVan, dossierLogboek, zoekAlles, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging } = WIB.kern.notities;
   const vlak = document.getElementById('notitievenster');
   const bijlageKnop = document.getElementById('nt-bijlage');
   const titelEl = document.getElementById('nt-titel');
@@ -15907,8 +15978,8 @@ WIB.kern.notities = (function () {
     schrijf: function (t) {
       // Backspace of Delete over het verborgen blok heen (of alles selecteren en wissen) zou de licenties uit de tekst halen,
       // zonder dat je ze ziet: dan komen ze terug. Licenties wijzig je in het kader erboven.
-      const voor = licVerstopt ? licUitTekst(ta.value) : null, herstel = !!voor && JSON.stringify(licUitTekst(t)) !== JSON.stringify(voor);
-      if (herstel) t = licNaarTekst(t, voor);
+      const voor = licVerstopt ? licUitTekst(ta.value) : null, voorGeen = licGeen(ta.value), herstel = !!voor && (JSON.stringify(licUitTekst(t)) !== JSON.stringify(voor) || licGeen(t) !== voorGeen);
+      if (herstel) t = licNaarTekst(t, voor, voorGeen);
       vanEditor = true; try { ta.value = t; ta.dispatchEvent(new Event('input', { bubbles: true })); } finally { vanEditor = false; }
       if (herstel) editor.teken(t);
     },
@@ -16830,68 +16901,104 @@ WIB.kern.notities = (function () {
       .map(function (x) { return x.naam + ': ' + x.datum + ' (' + licStaat(x.datum).tekst + ')'; }).join('; ');
   }
   // paneel in het notitievenster opbouwen uit de tekst
+  const licGeenVak = document.getElementById('nt-lic-geen');
   function renderLic() {
     const lijst = licUitTekst(ta.value);
     licRijen.innerHTML = '';
-    licLeeg.hidden = lijst.length > 0;
     lijst.forEach(function (l) { licRijen.appendChild(licRij(l)); });
+    licGeenVak.checked = licGeen(ta.value);
+    licKop();
+  }
+  // v257: de kop volgt de rijen: het vinkje "geen licenties" kan alleen als er geen licenties staan
+  function licKop() {
+    const n = licRijen.children.length;
+    licGeenVak.disabled = n > 0;
+    if (n) licGeenVak.checked = false;
+    licLeeg.hidden = n > 0 || licGeenVak.checked;
+  }
+  function licDatumVeld(soort, label, woord) {
+    return '<span class="nt-lic-groep"><span class="nt-lic-tm">' + woord + '</span><input type="text" class="nt-lic-datum nt-lic-' + soort + '" placeholder="dd-mm-jjjj" autocomplete="off" aria-required="true" aria-label="' + label + ' (dd-mm-jjjj)" title="' + label + ' (dd-mm-jjjj), verplicht; ook 31122026 of 31/12/2026 mag">' +
+      '<button type="button" class="ikoon-knop nt-lic-kal" title="' + label + ' kiezen in de kalender" aria-label="' + label + ' kiezen in de kalender">📅</button>' +
+      '<input type="date" class="nt-lic-kies" tabindex="-1" aria-hidden="true"></span>';
   }
   function licRij(l) {
     const rij = document.createElement('div'); rij.className = 'nt-lic-rij';
-    rij.innerHTML = '<input type="text" class="nt-lic-naam" placeholder="Naam van de licentie" aria-label="Naam van de licentie">' +
-      '<input type="text" class="nt-lic-datum" placeholder="dd-mm-jjjj" autocomplete="off" aria-label="Geldig tot en met (dd-mm-jjjj)" title="Geldig tot en met (dd-mm-jjjj); ook 31122026 of 31/12/2026 mag">' +
-      '<button type="button" class="ikoon-knop nt-lic-kal" title="Datum kiezen in de kalender" aria-label="Datum kiezen in de kalender">📅</button>' +
-      '<input type="date" class="nt-lic-kies" tabindex="-1" aria-hidden="true">' +
+    rij.innerHTML = '<input type="text" class="nt-lic-naam" placeholder="Naam van de licentie" aria-required="true" aria-label="Naam van de licentie" title="Naam van de licentie, verplicht">' +
+      licDatumVeld('start', 'Startdatum', 'van') + licDatumVeld('eind', 'Einddatum: geldig tot en met', 't/m') +
       '<span class="lic-status"></span>' +
-      '<button type="button" class="ikoon-knop nt-lic-weg" title="Deze licentie verwijderen" aria-label="Deze licentie verwijderen">✕</button>';
-    const naam = rij.querySelector('.nt-lic-naam'), datum = rij.querySelector('.nt-lic-datum'), kies = rij.querySelector('.nt-lic-kies');
-    naam.value = l.naam; datum.value = l.datum;
-    rij.dataset.geldig = leesNlDatum(l.datum) ? l.datum : '';
+      '<input type="text" class="nt-lic-link" placeholder="Link naar schijf (optioneel)" autocomplete="off" spellcheck="false" aria-label="Link naar schijf (optioneel)" title="Link naar de schijf, optioneel: een pad zoals G:\\Licenties\\contract.pdf of \\\\server\\map, of een webadres">' +
+      '<a class="ikoon-knop nt-lic-open" target="_blank" rel="noopener" title="De link openen" aria-label="De link openen" hidden>↗</a>' +
+      '<button type="button" class="ikoon-knop nt-lic-weg" title="Deze licentie verwijderen" aria-label="Deze licentie verwijderen">✕</button>' +
+      '<span class="nt-lic-let" role="status" hidden></span>';
+    const naam = rij.querySelector('.nt-lic-naam'), link = rij.querySelector('.nt-lic-link');
+    naam.value = l.naam; link.value = l.link || ''; link.dataset.geldig = l.link || '';
+    [['.nt-lic-start', l.start || ''], ['.nt-lic-eind', l.datum]].forEach(function (paar) {
+      const veld = rij.querySelector(paar[0]), kal = veld.nextElementSibling, kies = kal.nextElementSibling;
+      veld.value = paar[1]; veld.dataset.geldig = leesNlDatum(paar[1]) ? paar[1] : '';
+      veld.addEventListener('input', function () { toonRijStatus(rij); licNaarVeld(); });
+      veld.addEventListener('blur', function () { const d = leesNlDatum(veld.value); if (d) { veld.value = nlTekst(d); toonRijStatus(rij); licNaarVeld(); } });
+      kal.addEventListener('click', function () {
+        const d = leesNlDatum(veld.value);
+        kies.value = d ? d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) : '';
+        try { kies.showPicker(); } catch (e) { kies.focus(); kies.click(); }
+      });
+      kies.addEventListener('change', function () {
+        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(kies.value);
+        if (m) { veld.value = m[3] + '-' + m[2] + '-' + m[1]; toonRijStatus(rij); licNaarVeld(); veld.focus(); }
+      });
+    });
     toonRijStatus(rij);
-    naam.addEventListener('input', licNaarVeld);
-    datum.addEventListener('input', function () { toonRijStatus(rij); licNaarVeld(); });
-    datum.addEventListener('blur', function () { const d = leesNlDatum(datum.value); if (d) { datum.value = nlTekst(d); toonRijStatus(rij); licNaarVeld(); } });
-    rij.querySelector('.nt-lic-kal').addEventListener('click', function () {
-      const d = leesNlDatum(datum.value);
-      kies.value = d ? d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) : '';
-      try { kies.showPicker(); } catch (e) { kies.focus(); kies.click(); }
-    });
-    kies.addEventListener('change', function () {
-      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(kies.value);
-      if (m) { datum.value = m[3] + '-' + m[2] + '-' + m[1]; toonRijStatus(rij); licNaarVeld(); datum.focus(); }
-    });
+    naam.addEventListener('input', function () { toonRijStatus(rij); licNaarVeld(); });
+    link.addEventListener('input', function () { toonRijStatus(rij); licNaarVeld(); });
     rij.querySelector('.nt-lic-weg').addEventListener('click', function () {
-      rij.remove(); licLeeg.hidden = licRijen.children.length > 0; licNaarVeld();
+      rij.remove(); licKop(); licNaarVeld();
     });
     return rij;
   }
   function toonRijStatus(rij) {
-    const datum = rij.querySelector('.nt-lic-datum'), st = rij.querySelector('.lic-status');
+    const naam = rij.querySelector('.nt-lic-naam'), start = rij.querySelector('.nt-lic-start'), datum = rij.querySelector('.nt-lic-eind');
+    const link = rij.querySelector('.nt-lic-link'), open = rij.querySelector('.nt-lic-open'), st = rij.querySelector('.lic-status'), let_ = rij.querySelector('.nt-lic-let');
+    [start, datum].forEach(function (veld) {
+      const w = veld.value.trim(), dd = leesNlDatum(w);
+      veld.classList.toggle('lic-fout', !!w && !dd);
+      veld.classList.toggle('lic-mist', !w);
+      if (dd || !w) veld.dataset.geldig = dd ? w : '';
+    });
+    naam.classList.toggle('lic-mist', !naam.value.trim());
+    // de link: alleen een pad of webadres dat een link kan zijn
+    const adres = link.value.trim(), href = licLinkHref(adres);
+    link.classList.toggle('lic-fout', !!adres && !href);
+    if (href || !adres) link.dataset.geldig = adres;
+    open.hidden = !href;
+    if (href) open.href = href; else open.removeAttribute('href');
+    const meldingen = licControle({ naam: naam.value, start: start.value, datum: datum.value, link: link.value });
+    let_.hidden = !meldingen.length; let_.textContent = meldingen.length ? 'Let op, ' + meldingen.join('; ') + '.' : '';
     const v = datum.value.trim(), d = leesNlDatum(v);
-    datum.classList.toggle('lic-fout', !!v && !d);
     if (v && !d) { st.className = 'lic-status zonder'; st.textContent = 'schrijf als dd-mm-jjjj'; return; }
     const s = licStaat(v);
     st.className = 'lic-status ' + s.staat; st.textContent = s.tekst;
-    rij.dataset.geldig = d ? v : '';
   }
-  // paneel -> tekst (alleen geldige of lege datums; bij een ongeldige datum blijft de laatste geldige staan)
+  // paneel -> tekst (alleen geldige of lege datums en links; bij een ongeldige waarde blijft de laatste geldige staan)
   function licNaarVeld() {
+    const dat = function (veld) { const v = veld.value.trim(), d = leesNlDatum(v); return !v ? '' : d ? nlTekst(d) : (veld.dataset.geldig || ''); };
     const lijst = [].map.call(licRijen.querySelectorAll('.nt-lic-rij'), function (rij) {
-      const v = rij.querySelector('.nt-lic-datum').value.trim(), d = leesNlDatum(v);
-      return { naam: rij.querySelector('.nt-lic-naam').value, datum: !v ? '' : d ? nlTekst(d) : (rij.dataset.geldig || '') };
+      const link = rij.querySelector('.nt-lic-link'), adres = link.value.trim();
+      return { naam: rij.querySelector('.nt-lic-naam').value, start: dat(rij.querySelector('.nt-lic-start')), datum: dat(rij.querySelector('.nt-lic-eind')),
+        link: !adres || licLinkHref(adres) ? adres : (link.dataset.geldig || '') };
     });
     editorBij();   // v192: wat net in de editor is getypt, eerst in de tekst
-    const nieuw = licNaarTekst(ta.value, lijst);
+    const nieuw = licNaarTekst(ta.value, lijst, licGeenVak.checked);
     if (nieuw !== ta.value) { ta.value = nieuw; ta.dispatchEvent(new Event('input', { bubbles: true })); }
   }
   document.getElementById('nt-lic-plus').addEventListener('click', function () {
     const rij = licRij({ naam: '', datum: '' });
-    licRijen.appendChild(rij); licLeeg.hidden = true;
+    licRijen.appendChild(rij); licKop();
     editorBij();   // v192
     const lijst = licUitTekst(ta.value).concat([{ naam: 'Licentie', datum: '' }]);
-    ta.value = licNaarTekst(ta.value, lijst); ta.dispatchEvent(new Event('input', { bubbles: true }));
+    ta.value = licNaarTekst(ta.value, lijst, false); ta.dispatchEvent(new Event('input', { bubbles: true }));
     rij.querySelector('.nt-lic-naam').focus();
   });
+  licGeenVak.addEventListener('change', function () { licKop(); licNaarVeld(); });
 
   // tabblad Licenties: alle licenties van alle projecten
   function verzamelLicenties() {
