@@ -2515,6 +2515,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v262</span> Document opent standaard; Totaaloverzicht is een keuze <span class="datum">19 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Na het kiezen van een map of bestand opent standaard het tabblad <b>Document</b> in plaats van Jaar. Dat geldt als er in instellingen.md geen starttabblad staat (een nieuwe map, het voorbeeld). Staat er al een starttabblad in je instellingen.md, dan blijft die keuze gelden.</li><li><span class="soort nieuw">nieuw</span>Het tabblad <b>Totaaloverzicht</b> staat standaard uit. In Instellingen staat de nieuwe schakelaar <i>Tabblad Totaaloverzicht</i> waarmee je het aanzet; de keuze staat in instellingen.md als <code>Tabblad Totaaloverzicht: aan</code> of <code>uit</code>. Staat het uit, dan staat het niet in de zijbalk en niet bij Starttabblad; is het je starttabblad, dan opent Document.</li><li>Hulp bijgewerkt: De balk en de tabbladen, Totaaloverzicht en Tekstcontrole.</li><li>Handmatige actie: opent bij jou nog steeds Jaar, kies dan eenmalig bij Instellingen → Starttabblad voor Document. Wil je het Totaaloverzicht blijven gebruiken, zet dan in Instellingen <i>Tabblad Totaaloverzicht</i> aan.</li></ul></div>
     <div class="release"><h2><span class="versie">v261</span> Van project naar dienst: vaste regel in de notities en het tabblad Overgang <span class="datum">19 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Je legt de overgang van een project naar dienstverlening vast met een vaste regel in de notities: <code>Overgegaan in: D-014</code> bij het project of <code>Voortgekomen uit: 482828</code> bij de dienst. Eén kant is genoeg. <code>Overgegaan in: geen</code> betekent dat er nooit dienstverlening komt; <code>(placeholder)</code> achter een code betekent dat de dienst er nog niet echt is. Een dienst met een voorlopige code van je volgnummer (zoals ONB-004) telt vanzelf als placeholder.</li><li><span class="soort nieuw">nieuw</span>Nieuw tabblad <b>Overgang</b> in de zijbalk onder Projecten: links de projecten, rechts de dienstverlening, met lijnen ertussen. In groepen: naar dienstverlening, naar een placeholder (stippelrand en oranje vlak), nog niet vastgelegd, geen dienstverlening en diensten zonder project. Een klik op een project of dienst opent de notities. Een code die nergens anders voorkomt, krijgt het label "onbekende code".</li><li>Projecten en diensten herkent de pagina aan de regels in de notities en aan de koppen Projecten en Diensten (of Dienstverlening) in werkdruk.md. Het tabblad is te verbergen bij Instellingen → Menu.</li><li>De pagina schrijft de regels niet zelf: je typt ze in het notitievenster. Bestaande bestanden worden niet gewijzigd.</li><li>Hulp bijgewerkt: nieuw onderdeel Van project naar dienst; De balk en de tabbladen.</li><li>Handmatige actie: geen. Om het overzicht te vullen zet je zelf de regels in je notities.</li></ul></div>
     <div class="release"><h2><span class="versie">v260</span> Een link blijft staan bij knippen en plakken <span class="datum">16 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Knipte of kopieerde je in Document of het notitievenster een stuk van één regel met een link erin en plakte je dat weer, dan was de link weg: alleen de tekst kwam terug. De link komt nu mee, met zijn adres zoals het in het bestand staat. Vet, schuin en doorgehaald in zo'n stuk komen dan ook mee.</li><li>Dit werkt binnen deze pagina (ook van Document naar het notitievenster). Een ander programma krijgt nog steeds de platte tekst, en in een codeblok komt het stuk als tekst. Zonder link in de selectie verandert er niets.</li><li>Hulp bijgewerkt (Bewerken in Document).</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v259</span> Licenties: de startdatum is optioneel <span class="datum">16 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In het notitievenster is de startdatum van een licentie niet meer verplicht. Een lege startdatum heeft geen oranje rand meer en wordt niet meer gemeld; dat geldt ook voor licenties van vroeger zonder startdatum. Naam en einddatum blijven verplicht. Vul je wel een startdatum in, dan wordt hij nog steeds gecontroleerd (dd-mm-jjjj, niet na de einddatum).</li><li>Het notitiebestand verandert niet.</li><li>Hulp bijgewerkt (Notities per code, Geldigheid licenties).</li><li>Handmatige actie: geen.</li></ul></div>
@@ -3957,7 +3958,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li>Op een smal scherm (telefoon) staan de knoppen achter <b>☰</b>, staat de titel op een eigen regel en is de zijbalk altijd een smalle strook met icoontjes.</li>
     </ul>
     <h4>De tabbladen</h4>
-    <p>De tabbladen staan in de <b>zijbalk</b> links, gegroepeerd per werkgebied: <i>Overzicht</i> (Document, Mindmap, Totaaloverzicht, en Bewerken als je dat in Instellingen aanzet), <i>Werkdruk</i> (Jaar, Maand, Week, Dag, Taken), <i>Projecten</i> (Dossier, Licenties, Overgang), <i>Logboek</i> (Daginvoer, Historie) en <i>Over</i> (Release notes, met de nieuwste versie erachter, zoals <i>Release notes v189</i>). Elk tabblad heeft een icoontje. Zolang er nog geen bestand, map of het voorbeeld is geladen, zijn alleen Document (met het beginscherm) en Release notes te kiezen; de andere tabbladen staan er wel, maar zijn grijs. Daarna opent de pagina je starttabblad (Instellingen → Starttabblad). Tabbladen die je niet gebruikt, verberg je in Instellingen onder <i>Menu</i>, met een schakelaar per tabblad van Werkdruk, Projecten en Logboek; een groep zonder tabbladen verdwijnt dan met zijn naam. Een verborgen tabblad opent niet met zijn sneltoets, en is het je starttabblad, dan opent Document. Met <b>Inklappen</b> bovenaan maak je de zijbalk smal: dan zie je alleen de icoontjes, en wijs je een icoontje aan voor de naam; met <b>»</b> klap je hem weer uit. Die keuze wordt bewaard in instellingen.md. In de zijbalk kies je met <kbd>↑</kbd> en <kbd>↓</kbd> (of <kbd>←</kbd> en <kbd>→</kbd>) het vorige of volgende tabblad. Bij Jaar tot en met Taken staan boven de samenvatting de jaarkeuze (‹ 2026 ›) en de knop <i>Verlof plannen</i>; de samenvatting zelf staat alleen bij die tabbladen.</p>
+    <p>De tabbladen staan in de <b>zijbalk</b> links, gegroepeerd per werkgebied: <i>Overzicht</i> (Document, Mindmap, Tekstcontrole, en Totaaloverzicht en Bewerken als je die in Instellingen aanzet), <i>Werkdruk</i> (Jaar, Maand, Week, Dag, Taken), <i>Projecten</i> (Dossier, Licenties, Overgang), <i>Logboek</i> (Daginvoer, Historie) en <i>Over</i> (Release notes, met de nieuwste versie erachter, zoals <i>Release notes v189</i>). Elk tabblad heeft een icoontje. Zolang er nog geen bestand, map of het voorbeeld is geladen, zijn alleen Document (met het beginscherm) en Release notes te kiezen; de andere tabbladen staan er wel, maar zijn grijs. Daarna opent de pagina je starttabblad: Document, tenzij je bij Instellingen → Starttabblad een ander kiest. Tabbladen die je niet gebruikt, verberg je in Instellingen onder <i>Menu</i>, met een schakelaar per tabblad van Werkdruk, Projecten en Logboek; een groep zonder tabbladen verdwijnt dan met zijn naam. Totaaloverzicht en Bewerken staan standaard uit en hebben in Instellingen elk een eigen schakelaar (<i>Tabblad Totaaloverzicht</i>, <i>Tabblad Bewerken</i>). Een verborgen tabblad opent niet met zijn sneltoets, en is het je starttabblad, dan opent Document. Met <b>Inklappen</b> bovenaan maak je de zijbalk smal: dan zie je alleen de icoontjes, en wijs je een icoontje aan voor de naam; met <b>»</b> klap je hem weer uit. Die keuze wordt bewaard in instellingen.md. In de zijbalk kies je met <kbd>↑</kbd> en <kbd>↓</kbd> (of <kbd>←</kbd> en <kbd>→</kbd>) het vorige of volgende tabblad. Bij Jaar tot en met Taken staan boven de samenvatting de jaarkeuze (‹ 2026 ›) en de knop <i>Verlof plannen</i>; de samenvatting zelf staat alleen bij die tabbladen.</p>
     <p>Onderaan de zijbalk staat onder <b>Bron</b> waar je gegevens vandaan komen: de naam van het bestand (of <i>voorbeeld</i>), wanneer het voor het laatst is opgeslagen (of <i>Wordt niet opgeslagen</i>), en of wijzigingen van buitenaf vanzelf verschijnen (<i>Ververst automatisch</i>, met een gekleurde stip) of niet (<i>Niet automatisch ververst</i>, grijze stip). Het kaartje verschijnt zodra er iets is geladen. In de ingeklapte zijbalk en op een telefoon zie je alleen het pictogram met de stip; wijs het aan voor de volledige tekst. Heb je dezelfde map ook in een ander tabblad van dezelfde browser open, dan staat er <i>Ook open in een ander tabblad</i> en krijg je in beide tabbladen een melding. Werk dan bij voorkeur in één tabblad. De regel verdwijnt zodra je het andere tabblad sluit of daar een andere map kiest. De pagina ziet dit alleen binnen dezelfde browser: niet in een andere browser, een privévenster of op een andere computer. Twee mappen met dezelfde naam kan ze in een enkel geval voor dezelfde map aanzien.</p>
     <ul>
       <li><b>Jaar</b>: alle maanden als kalender, gekleurd naar drukte. Klik op een dag, een weeknummer of een maand voor details. Daaronder grafieken per maand en per week, <i>Ruimte en pieken</i> (de rustigste en drukste weken) en de tijd per categorie of per locatie.</li>
@@ -4247,7 +4248,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
 
   <section id="h-totaal">
     <h3>Totaaloverzicht</h3>
-    <p>Houd je de hoofdzaken bij in <code>werkdruk.md</code> en de details per hoofdzaak in zijn notities, dan zie je in het tabblad <b>Totaaloverzicht</b> (in de zijbalk onder <i>Overzicht</i>) alles bij elkaar: de hoofdzaken in dezelfde volgorde en indeling als in werkdruk.md, en onder elke hoofdzaak die met een code begint het hele detailbestand uit <code>notities/&lt;code&gt;.md</code>. Een hoofdzaak is een opsommingspunt of een kop.</p>
+    <p>Houd je de hoofdzaken bij in <code>werkdruk.md</code> en de details per hoofdzaak in zijn notities, dan zie je in het tabblad <b>Totaaloverzicht</b> alles bij elkaar. Het tabblad staat standaard uit: zet het aan bij Instellingen → <i>Tabblad Totaaloverzicht</i>; daarna staat het in de zijbalk onder <i>Overzicht</i>. Je ziet er de hoofdzaken in dezelfde volgorde en indeling als in werkdruk.md, en onder elke hoofdzaak die met een code begint het hele detailbestand uit <code>notities/&lt;code&gt;.md</code>. Een hoofdzaak is een opsommingspunt of een kop.</p>
     <ul>
       <li>Een hoofdzaak hoort bij een detailbestand via de code aan het begin van de regel, bijvoorbeeld <code>- 482828 Implementatie nieuw CRM systeem</code> bij <code>notities/482828.md</code>. Welke codes er zijn, stel je in bij <b>Instellingen → Codes voor notities</b>.</li>
       <li>Elk detailblok toont de bestandsnaam, het aantal open taken, de knop <b>Openen</b> (opent het notitievenster) en de knop <b>Dossier</b> (alles over die code, zie Dossier). De titel van het detailbestand staat er niet nog eens; de koppen erin zijn kleiner, zodat de hoofdzaken de indeling bepalen.</li>
@@ -4260,7 +4261,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   </section>
   <section id="h-tekstcontrole">
     <h3>Tekstcontrole</h3>
-    <p>Het tabblad <b>Tekstcontrole</b> (in de zijbalk onder <i>Overzicht</i>, onder Totaaloverzicht) loopt je markdownbestanden na en laat zien wat er niet klopt of beter kan. Het gaat vooral om <code>werkdruk.md</code>; <code>daginvoer.md</code> en je notities worden ook gecontroleerd. De pagina wijzigt niets: je verbetert de regels zelf.</p>
+    <p>Het tabblad <b>Tekstcontrole</b> (in de zijbalk onder <i>Overzicht</i>) loopt je markdownbestanden na en laat zien wat er niet klopt of beter kan. Het gaat vooral om <code>werkdruk.md</code>; <code>daginvoer.md</code> en je notities worden ook gecontroleerd. De pagina wijzigt niets: je verbetert de regels zelf.</p>
     <ul>
       <li>Elke bevinding heeft een ernst. Een <b>fout</b> is iets wat niet werkt zoals je het typte (een codeblok dat niet is afgesloten, een vinkje dat niet wordt herkend, een link die afbreekt, een datum die niet bestaat). Een <b>waarschuwing</b> is iets wat waarschijnlijk niet de bedoeling is (een taak die niet meetelt voor de werkdruk, een overgeslagen kopniveau, een dubbele kop of taak, een woord dat twee keer achter elkaar staat). Een <b>tip</b> gaat over netheid en schrijfstijl (spaties aan het eind van een regel, meerdere lege regels, een lange zin, hoofdletters, een aantekening als TODO).</li>
       <li>De bevindingen zijn ingedeeld in vijf soorten: <i>Syntax</i>, <i>Taken</i>, <i>Opmaak</i>, <i>Schrijfstijl</i> en <i>Patronen</i>. Met de keuzelijsten <b>Bestand</b> en <b>Soort</b> en de knoppen <b>Alles</b>, <b>Fouten</b>, <b>Waarschuwingen</b> en <b>Tips</b> beperk je de lijst; het getal op elke knop is het aantal.</li>
@@ -11801,11 +11802,13 @@ WIB.kern.werkdruk = (function () {
   // v197: menuopties die je in Instellingen kunt verbergen (Werkdruk, Projecten, Logboek)
   const MENU_KEUZE = ['jaar', 'maand', 'week', 'dag', 'taken', 'dossier', 'licenties', 'overgang', 'daginvoer', 'historie'];
   const MENU_NAAM = { jaar: 'Jaar', maand: 'Maand', week: 'Week', dag: 'Dag', taken: 'Taken', dossier: 'Dossier', licenties: 'Licenties', overgang: 'Overgang', daginvoer: 'Daginvoer', historie: 'Historie' };
+  // v262: staat dit tabblad uit in Instellingen? Bewerken en Totaaloverzicht hebben een eigen schakelaar (standaard uit), de rest staat bij Menu
+  function tabUit(s, t) { return (t === 'bewerken' && !s.bewerkenTab) || (t === 'totaal' && !s.totaalTab) || s.verborgen.includes(t); }
   const DEFAULT_SETTINGS = {
     urenPerDag: 9, parttime: -1, customHolidays: [], geboorte: [], gbvUren: [],
     contract: 45, workdays: [1, 2, 3, 4, 5], verlof: 25, verlofUnit: 'dagen',
     holidays: {}, verlofGedrag: 'inhalen', krap: 90, theme: 'auto',
-    stijl: 'papier', histExtern: false, starttab: 'jaar', zijbalk: 'uitgeklapt', bewerkenTab: false, notitiesWysiwyg: true, verborgen: [],
+    stijl: 'papier', histExtern: false, starttab: 'document', zijbalk: 'uitgeklapt', bewerkenTab: false, totaalTab: false, notitiesWysiwyg: true, verborgen: [],   // v262: Document opent, Totaaloverzicht staat uit
     codes: ['999999', '9999-999', 'ONB-999'], volgnummer: 'ONB-999', volgTeller: 0,
     alleenUrgent: false, mindmap: null,   // v244: null = de standaardkeuzes (mindmapKeuzes)
     soortTonen: false, soorten: null,   // v216: null = de standaardsoorten (DEFAULT_SOORTEN)
@@ -11899,9 +11902,10 @@ WIB.kern.werkdruk = (function () {
     s.alleenUrgent = s.alleenUrgent === true;
     s.mindmap = mindmapKeuzes(s.mindmap);
     s.bewerkenTab = s.bewerkenTab === true;   // v190: het tabblad Bewerken staat standaard uit
+    s.totaalTab = s.totaalTab === true;   // v262: het tabblad Totaaloverzicht ook
     s.notitiesWysiwyg = s.notitiesWysiwyg !== false;
     s.verborgen = (Array.isArray(s.verborgen) ? s.verborgen : []).filter(function (t, i, a) { return MENU_KEUZE.includes(t) && a.indexOf(t) === i; });   // v197   // v191: notities bewerk je standaard zoals in Document (WYSIWYG)
-    if (!TAB_NAMEN[s.starttab]) s.starttab = 'jaar';
+    if (!TAB_NAMEN[s.starttab]) s.starttab = 'document';
     if (s.zijbalk !== 'ingeklapt') s.zijbalk = 'uitgeklapt';
     s.codes = (Array.isArray(s.codes) ? s.codes : DEFAULT_SETTINGS.codes).map(c => String(c).trim()).filter((c, i, a) => c && a.indexOf(c) === i);
     s.volgnummer = typeof s.volgnummer === 'string' ? eenVolgnummer(s.volgnummer).waarde : DEFAULT_SETTINGS.volgnummer;   // één (v152)
@@ -11934,7 +11938,7 @@ WIB.kern.werkdruk = (function () {
     L.push('## Werkweek', '- Uren per werkdag: ' + fmtNum(s.urenPerDag, 3), '- Parttimedag: ' + (s.parttime > 0 ? DAGEN[s.parttime] : 'geen'), '');
     L.push('## Verlof', '- Verlof per jaar: ' + fmtNum(s.verlof) + ' ' + s.verlofUnit, '- Taken tijdens verlof: ' + s.verlofGedrag, '');
     L.push('## Weergave', '- Krap vanaf: ' + s.krap + '%', '- Thema: ' + ({ auto: 'automatisch', licht: 'licht', donker: 'donker' }[s.theme] || 'automatisch'),
-      '- Stijl: ' + STIJL_LABEL[s.stijl], '- Starttabblad: ' + TAB_NAMEN[s.starttab], '- Zijbalk: ' + s.zijbalk, '- Tabblad Bewerken: ' + (s.bewerkenTab ? 'aan' : 'uit'), '- Alleen urgent: ' + (s.alleenUrgent ? 'aan' : 'uit'),
+      '- Stijl: ' + STIJL_LABEL[s.stijl], '- Starttabblad: ' + TAB_NAMEN[s.starttab], '- Zijbalk: ' + s.zijbalk, '- Tabblad Bewerken: ' + (s.bewerkenTab ? 'aan' : 'uit'), '- Tabblad Totaaloverzicht: ' + (s.totaalTab ? 'aan' : 'uit'), '- Alleen urgent: ' + (s.alleenUrgent ? 'aan' : 'uit'),
       '- Verborgen tabbladen: ' + (s.verborgen.length ? MENU_KEUZE.filter(t => s.verborgen.includes(t)).map(t => MENU_NAAM[t]).join(', ') : 'geen'), '');
     const mm = s.mindmap || mindmapKeuzes(null), ids = function (a) { return a.length ? a.join(', ') : 'geen'; };
     L.push('## Mindmap', 'De knoppen boven de mindmap, en de takken die anders staan dan de standaardweergave.', '',
@@ -12088,7 +12092,7 @@ WIB.kern.werkdruk = (function () {
         continue;
       }
       const n = parseFloat(v.replace(',', '.'));
-      if (/uren per (werk)?dag|parttime|verlof per jaar|tijdens verlof|krap|thema|^stijl|starttab|zijbalk|^tabblad bewerken|^notities bewerken|^verborgen tabbladen|^codes?\b|notitiecode|volgnummer|extern|^alleen urgent/.test(k)) gebruikt.add(nr);
+      if (/uren per (werk)?dag|parttime|verlof per jaar|tijdens verlof|krap|thema|^stijl|starttab|zijbalk|^tabblad (bewerken|totaaloverzicht)|^notities bewerken|^verborgen tabbladen|^codes?\b|notitiecode|volgnummer|extern|^alleen urgent/.test(k)) gebruikt.add(nr);
       if (/uren per (werk)?dag/.test(k)) { if (isFinite(n)) raw.urenPerDag = n; }
       else if (/parttime/.test(k)) { const i = DAGEN.findIndex(d => vl.startsWith(d) || vl === d.slice(0, 2)); raw.parttime = i >= 1 && i <= 5 ? i : -1; }
       else if (/verlof per jaar/.test(k)) { if (isFinite(n)) raw.verlof = n; raw.verlofUnit = /\b(uur|uren)\b/.test(vl) ? 'uren' : 'dagen'; }
@@ -12101,6 +12105,7 @@ WIB.kern.werkdruk = (function () {
       else if (/^verborgen tabbladen/.test(k)) raw.verborgen = vl.split(/[,;]/).map(function (x) { x = x.trim(); return MENU_KEUZE.find(function (t) { return MENU_NAAM[t].toLowerCase() === x || t === x; }); }).filter(Boolean);
       else if (/^notities bewerken/.test(k)) raw.notitiesWysiwyg = !/markdown|platte|tekstvak/.test(vl);
       else if (/^tabblad bewerken/.test(k)) raw.bewerkenTab = /^(ja|aan|yes|true)\b/.test(vl);
+      else if (/^tabblad totaaloverzicht/.test(k)) raw.totaalTab = /^(ja|aan|yes|true)\b/.test(vl);
       else if (/starttab/.test(k)) { const tb = Object.keys(TAB_NAMEN).find(x => vl.startsWith(x)); if (tb) raw.starttab = tb; }
       else if (/^codes?\b|notitiecode/.test(k)) raw.codes = v.split(/[,;]/).map(x => x.trim()).filter(Boolean);
       else if (/laatste volgnummer/.test(k)) raw.volgTeller = parseInt(vl, 10) || 0;
@@ -12257,7 +12262,7 @@ WIB.kern.werkdruk = (function () {
     return lijnen.join(eol) + (eindNl ? eol : '');
   }
 
-  return { MENU_KEUZE, MENU_NAAM, STIJLEN, STIJL_LABEL, TAB_NAMEN, DEFAULT_SETTINGS, jaarovergangPlan, jaarovergangToepassen, DEFAULT_SOORTEN, soortenUitTekst, soortenAlsTekst, grensUitTekst, grensAlsTekst, soortTeVeel, soortTeWeinig, focusPastNiet, deriveSettings, normalizeVerlof, normalizeSettings, fmtNum, serializeSettings, parseSettingsText, codeSleutel, codeRegex, volgDelen, volgendeCode, dagStatus, niceStep, grafiekAs, wanneerNietHerkend, eenVolgnummer };
+  return { MENU_KEUZE, MENU_NAAM, tabUit, STIJLEN, STIJL_LABEL, TAB_NAMEN, DEFAULT_SETTINGS, jaarovergangPlan, jaarovergangToepassen, DEFAULT_SOORTEN, soortenUitTekst, soortenAlsTekst, grensUitTekst, grensAlsTekst, soortTeVeel, soortTeWeinig, focusPastNiet, deriveSettings, normalizeVerlof, normalizeSettings, fmtNum, serializeSettings, parseSettingsText, codeSleutel, codeRegex, volgDelen, volgendeCode, dagStatus, niceStep, grafiekAs, wanneerNietHerkend, eenVolgnummer };
 })();
 </script>
 <script data-deel="werkdruk">
@@ -12271,7 +12276,7 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
   'use strict';
   // de DOM-vrije logica (instellingen.md, codes en volgnummer) staat sinds v108 in WIB.kern.werkdruk
   const K = WIB.kern.werkdruk;
-  const { MENU_KEUZE, MENU_NAAM, STIJLEN, STIJL_LABEL, TAB_NAMEN, DEFAULT_SETTINGS, deriveSettings, normalizeSettings, fmtNum, parseSettingsText, codeSleutel, codeRegex, dagStatus, grafiekAs, wanneerNietHerkend, eenVolgnummer, soortenUitTekst, soortenAlsTekst, grensUitTekst, grensAlsTekst, soortTeVeel, soortTeWeinig, focusPastNiet } = K;
+  const { MENU_KEUZE, MENU_NAAM, tabUit, STIJLEN, STIJL_LABEL, TAB_NAMEN, DEFAULT_SETTINGS, deriveSettings, normalizeSettings, fmtNum, parseSettingsText, codeSleutel, codeRegex, dagStatus, grafiekAs, wanneerNietHerkend, eenVolgnummer, soortenUitTekst, soortenAlsTekst, grensUitTekst, grensAlsTekst, soortTeVeel, soortTeWeinig, focusPastNiet } = K;
   // regels onder het blok bij de cursor zetten (v185): dezelfde functie als de knop Taak in Document
   const { regelsOnder } = WIB.kern.document;
 
@@ -12900,15 +12905,10 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
     }
     if (window.WIB.document) WIB.document.toonHistExtern();
     if (window.WIB.notities && WIB.notities.weergaveBij) WIB.notities.weergaveBij();   // v191: notities WYSIWYG of markdown
-    // v190: het tabblad Bewerken alleen als het in Instellingen aan staat; staat het open en gaat het uit, dan naar Document
-    const bwKnop = document.getElementById('tab-bewerken');
-    if (bwKnop) {
-      bwKnop.hidden = !S.settings.bewerkenTab;
-      if (!S.settings.bewerkenTab && window.WIB.document && WIB.document.tab() === 'bewerken') WIB.document.toonTab('document');
-    }
-    // v197: menuopties die je in Instellingen hebt uitgezet; een groep zonder zichtbare opties verdwijnt met zijn naam
-    MENU_KEUZE.forEach(t => {
-      const k = document.getElementById('tab-' + t), uit = S.settings.verborgen.includes(t);
+    // v190/v197/v262: tabbladen die in Instellingen uit staan (Bewerken, Totaaloverzicht en de keuzes bij Menu); staat er een open
+    // en gaat het uit, dan naar Document. Een groep zonder zichtbare tabbladen verdwijnt met zijn naam.
+    ['bewerken', 'totaal'].concat(MENU_KEUZE).forEach(t => {
+      const k = document.getElementById('tab-' + t), uit = tabUit(S.settings, t);
       if (!k) return;
       k.hidden = uit;
       if (uit && window.WIB.document && WIB.document.tab() === t) WIB.document.toonTab('document');
@@ -14707,7 +14707,7 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
     DRAFT = WIB.document.concept();
     full(); renderAll();
     updateDraftUi();
-    if (!startTabGedaan) { startTabGedaan = true; WIB.document.toonTab((S.settings.starttab === 'bewerken' && !S.settings.bewerkenTab) || S.settings.verborgen.includes(S.settings.starttab) ? 'document' : S.settings.starttab); }
+    if (!startTabGedaan) { startTabGedaan = true; WIB.document.toonTab(tabUit(S.settings, S.settings.starttab) ? 'document' : S.settings.starttab); }
     if (!behoud) {
       const n = PARSED.tasks.length;
       toast(n ? SRC.name + ' ingeladen: ' + n + (n === 1 ? ' werkdruktaak' : ' werkdruktaken') : 'In ' + SRC.name + ' zijn nog geen werkdruktaken herkend', true);
@@ -14787,7 +14787,7 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
   }
   // v199: alleen tabbladen die je in de zijbalk ziet; staat het huidige starttabblad uit, dan met de uitleg erbij
   function starttabOpties(s) {
-    const verborgen = (t) => (t === 'bewerken' && !s.bewerkenTab) || s.verborgen.includes(t);
+    const verborgen = (t) => tabUit(s, t);
     return Object.keys(TAB_NAMEN).filter(t => !verborgen(t) || t === s.starttab)
       .map(t => '<option value="' + t + '"' + (s.starttab === t ? ' selected' : '') + '>' + TAB_NAMEN[t] + (verborgen(t) ? ' (verborgen: opent Document)' : '') + '</option>').join('');
   }
@@ -14814,6 +14814,8 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
       '<div class="field"><label for="setStart">Starttabblad</label><div class="inline"><select id="setStart" data-set="starttab">' + starttabOpties(s) + '</select></div><span class="help-text">Het tabblad dat je ziet nadat je een map of bestand hebt gekozen.</span></div>' +
       '<div class="field"><span class="lbl" id="lblBewerkenTab">Tabblad Bewerken</span><button type="button" class="schakelaar" data-set="bewerkenTab" role="switch" aria-labelledby="lblBewerkenTab" aria-checked="' + (s.bewerkenTab ? 'true' : 'false') + '"><span class="baan" aria-hidden="true"></span><span class="schakel-tekst">' + (s.bewerkenTab ? 'Aan' : 'Uit') + '</span></button>' +
       '<span class="help-text">Je bewerkt je tekst in Document. Zet dit aan als je ook de platte markdown wilt zien en bewerken, met de takencontrole ernaast.</span></div>' +
+      '<div class="field"><span class="lbl" id="lblTotaalTab">Tabblad Totaaloverzicht</span><button type="button" class="schakelaar" data-set="totaalTab" role="switch" aria-labelledby="lblTotaalTab" aria-checked="' + (s.totaalTab ? 'true' : 'false') + '"><span class="baan" aria-hidden="true"></span><span class="schakel-tekst">' + (s.totaalTab ? 'Aan' : 'Uit') + '</span></button>' +
+      '<span class="help-text">Zet dit aan als je de hoofdzaken uit werkdruk.md met de notities eronder in één overzicht wilt zien.</span></div>' +
       '<div class="field"><span class="lbl">Menu</span><span class="help-text">Welke tabbladen je in de zijbalk ziet. Een groep zonder tabbladen verdwijnt helemaal.</span>' +
       [['Werkdruk', ['jaar', 'maand', 'week', 'dag', 'taken']], ['Projecten', ['dossier', 'licenties', 'overgang']], ['Logboek', ['daginvoer', 'historie']]].map(([groep, tabs]) =>
         '<div class="menukeuze"><span class="menukeuze-groep">' + groep + '</span>' + tabs.map(t => {
