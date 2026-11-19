@@ -1763,6 +1763,43 @@ body {
 .nr-label.lic-binnenkort { box-shadow: 0 0 0 2px var(--warn); }
 .nr-label.lic-verlopen { box-shadow: 0 0 0 2px var(--urg); }
 #hoofd > .licenties { max-width: none; }
+/* ---------- Van project naar dienst (v261) ---------- */
+.ov-telling { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 10px; margin: 10px 0 16px; padding: 0; font-size: var(--fs-m); color: var(--muted); }
+.ov-telling li { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); }
+.ov-telling b { color: var(--ink); }
+.ov-koppen, .ov-rij { display: grid; grid-template-columns: minmax(0, 1fr) clamp(32px, 14%, 160px) minmax(0, 1fr); align-items: center; max-width: 1100px; }
+.ov-koppen { font-size: var(--fs-s); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.ov-uitleg { color: var(--muted); font-size: var(--fs-m); margin: 0 0 8px; }
+.ov-rij { margin: 0 0 8px; }
+.ov-kolom { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.ov-lijnen { display: block; width: 100%; }
+.ov-lijn { fill: none; stroke: var(--line-strong); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.ov-lijn-placeholder { stroke: var(--warn); stroke-dasharray: 6 5; }
+.ov-lijn-open, .ov-lijn-los { stroke-dasharray: 2 6; }
+.ov-lijn-geen { stroke: var(--line); }
+.ov-knoop, .ov-leeg { height: 38px; padding: 0 10px; border-radius: 8px; min-width: 0; overflow: hidden; font-size: var(--fs-l); }
+.ov-knoop { display: flex; align-items: center; gap: 8px; width: 100%; font-family: inherit; color: var(--ink); text-align: left; cursor: pointer; background: var(--surface); border: 1px solid var(--line-strong); border-left: 4px solid var(--accent); }
+.ov-knoop:hover { background: var(--accent-soft); }
+.ov-knoop.ov-dienst { border-left-color: var(--ok); }
+.ov-knoop.ov-placeholder { border-style: dashed; border-color: var(--warn); background: var(--warn-soft); }
+.ov-code { font-family: var(--font-mono); font-size: var(--fs-m); font-weight: 700; color: var(--accent); white-space: nowrap; }
+.ov-titel { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ov-tag { flex: none; padding: 1px 7px; border-radius: 999px; font-size: var(--fs-xs); font-weight: 700; color: var(--warn); border: 1px solid var(--warn); background: var(--surface); white-space: nowrap; }
+.ov-tag.ov-let { color: var(--urg); border-color: var(--urg); }
+.ov-leeg { line-height: 36px; white-space: nowrap; text-overflow: ellipsis; border: 1px dashed var(--line-strong); color: var(--muted); font-style: italic; }
+.ov-leeg.ov-geen { border-style: solid; border-color: var(--line); background: var(--surface-2); font-style: normal; }
+.ov-leeg:empty { visibility: hidden; }
+.ov-hulp { margin-top: 24px; max-width: 1100px; font-size: var(--fs-l); color: var(--muted); }
+.ov-hulp summary { cursor: pointer; font-weight: 700; color: var(--ink); }
+/* smal scherm: de code boven de titel, zodat er van de titel meer te lezen is; een placeholder herken je aan de stippelrand */
+@media (max-width: 640px) {
+  .ov-knoop { flex-direction: column; align-items: stretch; justify-content: center; gap: 0; padding: 0 8px; line-height: 1.25; }
+  .ov-code { font-size: var(--fs-s); overflow: hidden; text-overflow: ellipsis; }
+  .ov-titel { flex: none; font-size: var(--fs-xs); }
+  .ov-titel:empty, .ov-tag:not(.ov-let) { display: none; }
+  .ov-tag.ov-let { align-self: flex-start; padding: 0 5px; }
+  .ov-leeg { padding: 0 8px; font-size: var(--fs-s); }
+}
 /* ---------- Dossier (v218) ---------- */
 .dossier-balk { display: flex; align-items: center; gap: 10px; margin: 10px 0 14px; font-size: var(--fs-m); font-weight: 700; color: var(--muted); }
 .dossier-kop { display: flex; align-items: baseline; gap: 8px 14px; flex-wrap: wrap; margin-bottom: 8px; }
@@ -2316,6 +2353,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <span class="gebiedsnaam" aria-hidden="true">Projecten</span>
       <button type="button" role="tab" id="tab-dossier" aria-selected="false" aria-controls="dossier" tabindex="-1" disabled title="Dossier (beschikbaar zodra er een bestand, map of het voorbeeld is geladen)"><svg class="tab-ikoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M8 13h8M8 16h5"/></svg><span class="tab-label">Dossier</span></button>
       <button type="button" role="tab" id="tab-licenties" aria-selected="false" aria-controls="licenties" tabindex="-1" disabled title="Licenties (beschikbaar zodra er een bestand, map of het voorbeeld is geladen)"><svg class="tab-ikoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M14 9l2 2"/></svg><span class="tab-label">Licenties</span></button>
+      <button type="button" role="tab" id="tab-overgang" aria-selected="false" aria-controls="overgang" tabindex="-1" disabled title="Overgang (beschikbaar zodra er een bestand, map of het voorbeeld is geladen)"><svg class="tab-ikoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="3"/><path d="M8 12h10m-4-4 4 4-4 4"/><path d="M21 7v10"/></svg><span class="tab-label">Overgang</span></button>
     </div>
     <div class="tabgroep" data-gebied="Logboek">
       <span class="gebiedsnaam" aria-hidden="true">Logboek</span>
@@ -2470,10 +2508,14 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   <section class="historie licenties" id="licenties" role="tabpanel" aria-labelledby="tab-licenties" hidden>
     <div id="lic-overzicht"></div>
   </section>
+  <section class="historie overgang" id="overgang" role="tabpanel" aria-labelledby="tab-overgang" hidden>
+    <div id="ov-inhoud"></div>
+  </section>
   <section class="releasenotes" id="releasenotes" role="tabpanel" aria-labelledby="tab-releasenotes" hidden>
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v261</span> Van project naar dienst: vaste regel in de notities en het tabblad Overgang <span class="datum">19 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Je legt de overgang van een project naar dienstverlening vast met een vaste regel in de notities: <code>Overgegaan in: D-014</code> bij het project of <code>Voortgekomen uit: 482828</code> bij de dienst. Eén kant is genoeg. <code>Overgegaan in: geen</code> betekent dat er nooit dienstverlening komt; <code>(placeholder)</code> achter een code betekent dat de dienst er nog niet echt is. Een dienst met een voorlopige code van je volgnummer (zoals ONB-004) telt vanzelf als placeholder.</li><li><span class="soort nieuw">nieuw</span>Nieuw tabblad <b>Overgang</b> in de zijbalk onder Projecten: links de projecten, rechts de dienstverlening, met lijnen ertussen. In groepen: naar dienstverlening, naar een placeholder (stippelrand en oranje vlak), nog niet vastgelegd, geen dienstverlening en diensten zonder project. Een klik op een project of dienst opent de notities. Een code die nergens anders voorkomt, krijgt het label "onbekende code".</li><li>Projecten en diensten herkent de pagina aan de regels in de notities en aan de koppen Projecten en Diensten (of Dienstverlening) in werkdruk.md. Het tabblad is te verbergen bij Instellingen → Menu.</li><li>De pagina schrijft de regels niet zelf: je typt ze in het notitievenster. Bestaande bestanden worden niet gewijzigd.</li><li>Hulp bijgewerkt: nieuw onderdeel Van project naar dienst; De balk en de tabbladen.</li><li>Handmatige actie: geen. Om het overzicht te vullen zet je zelf de regels in je notities.</li></ul></div>
     <div class="release"><h2><span class="versie">v260</span> Een link blijft staan bij knippen en plakken <span class="datum">16 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Knipte of kopieerde je in Document of het notitievenster een stuk van één regel met een link erin en plakte je dat weer, dan was de link weg: alleen de tekst kwam terug. De link komt nu mee, met zijn adres zoals het in het bestand staat. Vet, schuin en doorgehaald in zo'n stuk komen dan ook mee.</li><li>Dit werkt binnen deze pagina (ook van Document naar het notitievenster). Een ander programma krijgt nog steeds de platte tekst, en in een codeblok komt het stuk als tekst. Zonder link in de selectie verandert er niets.</li><li>Hulp bijgewerkt (Bewerken in Document).</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v259</span> Licenties: de startdatum is optioneel <span class="datum">16 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In het notitievenster is de startdatum van een licentie niet meer verplicht. Een lege startdatum heeft geen oranje rand meer en wordt niet meer gemeld; dat geldt ook voor licenties van vroeger zonder startdatum. Naam en einddatum blijven verplicht. Vul je wel een startdatum in, dan wordt hij nog steeds gecontroleerd (dd-mm-jjjj, niet na de einddatum).</li><li>Het notitiebestand verandert niet.</li><li>Hulp bijgewerkt (Notities per code, Geldigheid licenties).</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v258</span> Licenties: de omschrijving over meerdere regels <span class="datum">16 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>In het notitievenster is de naam van een licentie nu een tekstvak dat meegroeit. Met Enter begin je een nieuwe regel; een lange omschrijving loopt vanzelf door op de volgende regel. Het tabblad Licenties en het dossier tonen de naam met dezelfde regels.</li><li><span class="soort herstel">herstel</span>Een dubbele punt in de naam van een licentie (zoals "Let op: 2 stuks") knipte de naam af bij die dubbele punt; de rest kwam in het datumveld terecht. De naam blijft nu heel.</li><li>In het notitiebestand staat een licentie nog steeds op één regel; tussen de regels van de naam staat <code>&lt;br&gt;</code>. Bestaande licenties worden niet gewijzigd.</li><li>Hulp bijgewerkt (Notities per code, Geldigheid licenties).</li><li>Handmatige actie: geen.</li></ul></div>
@@ -3869,6 +3911,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <button type="button" data-jump="h-totaal">Totaaloverzicht</button>
     <button type="button" data-jump="h-tekstcontrole">Tekstcontrole</button>
     <button type="button" data-jump="h-dossier">Dossier</button>
+    <button type="button" data-jump="h-overgang">Van project naar dienst</button>
     <button type="button" data-jump="h-dag">Daginvoer</button>
     <button type="button" data-jump="h-hist">Historie</button>
     <button type="button" data-jump="h-stijl">Stijl en thema</button>
@@ -3902,7 +3945,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h4>De balk bovenaan</h4>
     <ul>
       <li><b>Bron ▾</b>: <i>Map kiezen…</i> (een andere map), <i>Los bestand kiezen…</i> (alleen één werkdruk.md, zonder de andere bestanden uit de map; instellingen, historie en notities blijven dan in het geheugen), <i>Opnieuw inladen</i> (werkdruk.md en instellingen.md opnieuw van schijf lezen; uitgeschakeld zolang er nog niets of alleen het voorbeeld is ingeladen) en <i>Voorbeeld bekijken</i>.</li>
-      <li><b>Zoekveld</b>: zoekt in het tabblad dat je ziet (Document, Mindmap, Bewerken, Totaaloverzicht, Daginvoer, Historie, Taken, Release notes). In Jaar, Maand, Week, Dag, Dossier en Licenties is er geen zoekveld. Het zoekveld is overal even breed; in Document en Bewerken staan er de pijltjes ↑ en ↓ in om naar de vorige of volgende treffer te gaan. Op een telefoon staat het zoekveld achter <b>☰</b>, op een eigen regel over de volle breedte.</li>
+      <li><b>Zoekveld</b>: zoekt in het tabblad dat je ziet (Document, Mindmap, Bewerken, Totaaloverzicht, Daginvoer, Historie, Taken, Release notes). In Jaar, Maand, Week, Dag, Dossier, Licenties en Overgang is er geen zoekveld. Het zoekveld is overal even breed; in Document en Bewerken staan er de pijltjes ↑ en ↓ in om naar de vorige of volgende treffer te gaan. Op een telefoon staat het zoekveld achter <b>☰</b>, op een eigen regel over de volle breedte.</li>
       <li><b>Alleen urgent</b>: alleen de urgente items tonen, in Document, Mindmap, Bewerken (in de opgemaakte weergave rechts; de tekst links blijft volledig), Totaaloverzicht, Maand, Week en Dag (in de lijsten met taken; de kalender, de uren en de kleuren blijven gelden voor al je taken) en Taken. Een afgevinkte taak telt niet als urgent. In Jaar, Dossier, Licenties, Daginvoer, Historie en Release notes zijn geen urgente items: daar is de knop grijs, maar je ziet wel of het filter aan staat. De stand wordt bewaard in <code>instellingen.md</code>: open je de map opnieuw, dan staat de knop zoals je hem achterliet. Beschikbaar zodra er een bestand, map of het voorbeeld is geladen.</li>
       <li><b>n secties gewijzigd</b>: verschijnt als een ander programma werkdruk.md heeft gewijzigd; een klik springt naar de volgende gewijzigde sectie.</li>
       <li><b>Instellingen</b> (het pictogram met schuifjes, rechtsboven direct na <b>?</b>): uren, parttimedag, verlof, feestdagen, geboorteverlof, weergave, historie en codes voor notities. Terwijl je typt, rekent de pagina pas na een korte pauze opnieuw; kies je een waarde of sluit je het venster, dan meteen. Het venster heeft twee delen: <i>Algemeen</i> geldt voor elk jaar; <i>Alleen voor 2026</i> (met pijltjes voor een ander jaar) bevat geboorteverlof en eigen feestdagen van dat jaar. Elke wijziging gaat direct naar instellingen.md; <i>Klaar</i> sluit het venster. Onderaan staat <i>Instellingen en verlof wissen</i>: dat zet alle instellingen terug naar de standaard en wist je verlofplanning, eigen feestdagen en geboorteverlof. werkdruk.md, je notities en de historie blijven staan. Je klikt twee keer om te bevestigen.</li>
@@ -3914,7 +3957,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li>Op een smal scherm (telefoon) staan de knoppen achter <b>☰</b>, staat de titel op een eigen regel en is de zijbalk altijd een smalle strook met icoontjes.</li>
     </ul>
     <h4>De tabbladen</h4>
-    <p>De tabbladen staan in de <b>zijbalk</b> links, gegroepeerd per werkgebied: <i>Overzicht</i> (Document, Mindmap, Totaaloverzicht, en Bewerken als je dat in Instellingen aanzet), <i>Werkdruk</i> (Jaar, Maand, Week, Dag, Taken), <i>Projecten</i> (Dossier, Licenties), <i>Logboek</i> (Daginvoer, Historie) en <i>Over</i> (Release notes, met de nieuwste versie erachter, zoals <i>Release notes v189</i>). Elk tabblad heeft een icoontje. Zolang er nog geen bestand, map of het voorbeeld is geladen, zijn alleen Document (met het beginscherm) en Release notes te kiezen; de andere tabbladen staan er wel, maar zijn grijs. Daarna opent de pagina je starttabblad (Instellingen → Starttabblad). Tabbladen die je niet gebruikt, verberg je in Instellingen onder <i>Menu</i>, met een schakelaar per tabblad van Werkdruk, Projecten en Logboek; een groep zonder tabbladen verdwijnt dan met zijn naam. Een verborgen tabblad opent niet met zijn sneltoets, en is het je starttabblad, dan opent Document. Met <b>Inklappen</b> bovenaan maak je de zijbalk smal: dan zie je alleen de icoontjes, en wijs je een icoontje aan voor de naam; met <b>»</b> klap je hem weer uit. Die keuze wordt bewaard in instellingen.md. In de zijbalk kies je met <kbd>↑</kbd> en <kbd>↓</kbd> (of <kbd>←</kbd> en <kbd>→</kbd>) het vorige of volgende tabblad. Bij Jaar tot en met Taken staan boven de samenvatting de jaarkeuze (‹ 2026 ›) en de knop <i>Verlof plannen</i>; de samenvatting zelf staat alleen bij die tabbladen.</p>
+    <p>De tabbladen staan in de <b>zijbalk</b> links, gegroepeerd per werkgebied: <i>Overzicht</i> (Document, Mindmap, Totaaloverzicht, en Bewerken als je dat in Instellingen aanzet), <i>Werkdruk</i> (Jaar, Maand, Week, Dag, Taken), <i>Projecten</i> (Dossier, Licenties, Overgang), <i>Logboek</i> (Daginvoer, Historie) en <i>Over</i> (Release notes, met de nieuwste versie erachter, zoals <i>Release notes v189</i>). Elk tabblad heeft een icoontje. Zolang er nog geen bestand, map of het voorbeeld is geladen, zijn alleen Document (met het beginscherm) en Release notes te kiezen; de andere tabbladen staan er wel, maar zijn grijs. Daarna opent de pagina je starttabblad (Instellingen → Starttabblad). Tabbladen die je niet gebruikt, verberg je in Instellingen onder <i>Menu</i>, met een schakelaar per tabblad van Werkdruk, Projecten en Logboek; een groep zonder tabbladen verdwijnt dan met zijn naam. Een verborgen tabblad opent niet met zijn sneltoets, en is het je starttabblad, dan opent Document. Met <b>Inklappen</b> bovenaan maak je de zijbalk smal: dan zie je alleen de icoontjes, en wijs je een icoontje aan voor de naam; met <b>»</b> klap je hem weer uit. Die keuze wordt bewaard in instellingen.md. In de zijbalk kies je met <kbd>↑</kbd> en <kbd>↓</kbd> (of <kbd>←</kbd> en <kbd>→</kbd>) het vorige of volgende tabblad. Bij Jaar tot en met Taken staan boven de samenvatting de jaarkeuze (‹ 2026 ›) en de knop <i>Verlof plannen</i>; de samenvatting zelf staat alleen bij die tabbladen.</p>
     <p>Onderaan de zijbalk staat onder <b>Bron</b> waar je gegevens vandaan komen: de naam van het bestand (of <i>voorbeeld</i>), wanneer het voor het laatst is opgeslagen (of <i>Wordt niet opgeslagen</i>), en of wijzigingen van buitenaf vanzelf verschijnen (<i>Ververst automatisch</i>, met een gekleurde stip) of niet (<i>Niet automatisch ververst</i>, grijze stip). Het kaartje verschijnt zodra er iets is geladen. In de ingeklapte zijbalk en op een telefoon zie je alleen het pictogram met de stip; wijs het aan voor de volledige tekst. Heb je dezelfde map ook in een ander tabblad van dezelfde browser open, dan staat er <i>Ook open in een ander tabblad</i> en krijg je in beide tabbladen een melding. Werk dan bij voorkeur in één tabblad. De regel verdwijnt zodra je het andere tabblad sluit of daar een andere map kiest. De pagina ziet dit alleen binnen dezelfde browser: niet in een andere browser, een privévenster of op een andere computer. Twee mappen met dezelfde naam kan ze in een enkel geval voor dezelfde map aanzien.</p>
     <ul>
       <li><b>Jaar</b>: alle maanden als kalender, gekleurd naar drukte. Klik op een dag, een weeknummer of een maand voor details. Daaronder grafieken per maand en per week, <i>Ruimte en pieken</i> (de rustigste en drukste weken) en de tijd per categorie of per locatie.</li>
@@ -3925,6 +3968,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li><b>Release notes</b>: wat er per versie is veranderd, ook van Werkdruk in beeld en EBS vóór de samenvoeging. Toets <kbd>R</kbd> opent dit tabblad.</li>
       <li><b>Dossier</b>: alles over één code op één scherm, met de taken in werkdruk.md en de notities als tijdlijn (zie Dossier).</li>
       <li><b>Licenties</b>: wanneer de licenties per project verlopen (zie Notities per code, Geldigheid licenties).</li>
+      <li><b>Overgang</b>: welke projecten zijn overgegaan in dienstverlening en welke niet (zie Van project naar dienst).</li>
     </ul>
   </section>
 
@@ -4244,6 +4288,27 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     </ul>
     <p>Met de knoppen onder de kopregel open je de notities, zet je er meteen een kop met de datum van vandaag in (<i>Datum invoegen</i>), maak je een <i>Nieuwe taak</i> in werkdruk.md met de code al vooraan, of start je <i>Code omzetten</i>. Je komt ook in het dossier met de knop <b>Dossier</b> in het notitievenster en bij elk detailblok in het Totaaloverzicht.</p>
     <p>Sla je notities op in het notitievenster of voeg je er een bijlage toe, dan werkt het dossier meteen bij. Wil je Dossier niet in de zijbalk, zet het dan uit bij Instellingen → Menu.</p>
+  </section>
+  <section id="h-overgang">
+    <h3>Van project naar dienst</h3>
+    <p>Een project gaat na afronding vaak over in dienstverlening, met een ander nummer. Die koppeling leg je vast met een <b>vaste regel in de notities</b>, bijvoorbeeld direct onder de titel. Je typt de regel zelf, in het notitievenster. Eén kant is genoeg; je mag het ook aan beide kanten vastleggen.</p>
+    <ul>
+      <li>In de notities van het project: <code>Overgegaan in: D-014</code>. Meer diensten scheid je met een komma: <code>Overgegaan in: D-014, D-015</code>.</li>
+      <li>In de notities van de dienst: <code>Voortgekomen uit: 482828</code>.</li>
+      <li>Komt er nooit dienstverlening, schrijf dan <code>Overgegaan in: geen</code>.</li>
+      <li>Is de dienst nog een placeholder, zet dat er dan achter: <code>Overgegaan in: D-014 (placeholder)</code>. Een dienst met een voorlopige code van je volgnummer (Instellingen → Volgnummer, zoals <code>ONB-004</code>) telt vanzelf als placeholder.</li>
+    </ul>
+    <p>Hoofdletters maken niet uit, en de regel mag ook een opsommingspunt zijn of vet gedrukt. Achter een code mag een opmerking staan; alleen de code telt. Zet je met <i>Code omzetten</i> een voorlopige code om naar het echte nummer, dan gaan deze regels mee.</p>
+    <p>Het tabblad <b>Overgang</b> (in de zijbalk onder Projecten) laat het zien: links de projecten, rechts de dienstverlening, met een lijn ertussen. Er zijn vijf groepen:</p>
+    <ul>
+      <li><i>Naar dienstverlening</i>: het project is overgegaan in een of meer diensten;</li>
+      <li><i>Naar een placeholder</i>: er is een plek voor de dienstverlening, maar de dienst zelf is er nog niet. Een placeholder heeft een stippelrand, een oranje vlak en een stippellijn, zodat je hem niet voor een gewone dienst aanziet;</li>
+      <li><i>Nog niet vastgelegd</i>: een project waarbij nog niets over dienstverlening staat;</li>
+      <li><i>Geen dienstverlening</i>: een project waarvoor nooit dienstverlening komt;</li>
+      <li><i>Diensten zonder project</i>: een dienst waarbij geen project van herkomst is vastgelegd.</li>
+    </ul>
+    <p>Welke codes projecten en diensten zijn, leest de pagina uit de regels in de notities en uit werkdruk.md: een code onder een kop die met <i>Project</i> of <i>Projecten</i> begint, is een project; onder een kop die met <i>Dienst</i>, <i>Diensten</i> of <i>Dienstverlening</i> begint, een dienst. Een project dat niet meer in werkdruk.md staat, blijft in het overzicht zolang zijn notities de regel <code>Overgegaan in:</code> hebben of een dienst ernaar verwijst.</p>
+    <p>Klik op een project of dienst om de notities te openen. Staat er <i>onbekende code</i> bij, dan komt die code nergens anders voor: niet in werkdruk.md en niet als notitiebestand. Controleer dan of je de code goed hebt getypt. Sla je notities op terwijl het tabblad open staat, dan werkt het overzicht meteen bij. Wil je Overgang niet in de zijbalk, zet het dan uit bij Instellingen → Menu.</p>
   </section>
 
   <section id="h-dag">
@@ -7693,7 +7758,7 @@ WIB.kern.document = (function () {
   function zoekveldVoorTab(naam) {
     zoekveld.placeholder = zoekPlaceholder[naam] || 'Zoeken…';
     zoekveld.value = zoektermen[naam] || '';
-    zoekvak.hidden = (naam === 'document' && doc.hidden) || ['jaar', 'maand', 'week', 'dag', 'dossier', 'licenties', 'tekstcontrole'].indexOf(naam) >= 0 || (naam === 'taken' && !bron);
+    zoekvak.hidden = (naam === 'document' && doc.hidden) || ['jaar', 'maand', 'week', 'dag', 'dossier', 'licenties', 'overgang', 'tekstcontrole'].indexOf(naam) >= 0 || (naam === 'taken' && !bron);
     document.getElementById('zoekvorige').hidden = document.getElementById('zoekvolgende').hidden = !(naam === 'document' || naam === 'bewerken');
     zoekActief(false);
   }
@@ -7869,11 +7934,11 @@ WIB.kern.document = (function () {
   const wdVlak = document.getElementById('wd-vlak');
   const wdExtra = document.getElementById('wd-tabextra');
   const WD_TABS = ['jaar', 'maand', 'week', 'dag', 'taken'];
-  const TAB_VOLGORDE = ['document', 'mindmap', 'bewerken', 'totaal', 'tekstcontrole', 'jaar', 'maand', 'week', 'dag', 'taken', 'dossier', 'licenties', 'daginvoer', 'historie', 'releasenotes'];
+  const TAB_VOLGORDE = ['document', 'mindmap', 'bewerken', 'totaal', 'tekstcontrole', 'jaar', 'maand', 'week', 'dag', 'taken', 'dossier', 'licenties', 'overgang', 'daginvoer', 'historie', 'releasenotes'];
   let tabActief = 'document', vorigeTab = 'document', documentScroll = 0;   // bij het openen Document, met het beginscherm (v170)
   function isWdTab(naam) { return WD_TABS.indexOf(naam) >= 0; }
   // tabbladen die pas te kiezen zijn als er een bestand, map of het voorbeeld is geladen (v136, uitgebreid in v170)
-  const NA_LADEN = ['mindmap', 'bewerken', 'totaal', 'tekstcontrole', 'jaar', 'maand', 'week', 'dag', 'taken', 'dossier', 'licenties', 'daginvoer', 'historie'];
+  const NA_LADEN = ['mindmap', 'bewerken', 'totaal', 'tekstcontrole', 'jaar', 'maand', 'week', 'dag', 'taken', 'dossier', 'licenties', 'overgang', 'daginvoer', 'historie'];
   function heeftBron() { return !!bron; }
   // welke vlakken zichtbaar zijn, hangt af van het tabblad en van of er al een bestand is
   function pasVlakkenAan() {
@@ -7891,6 +7956,7 @@ WIB.kern.document = (function () {
     historieVlak.hidden = tabActief !== 'historie';
     dagVlak.hidden = tabActief !== 'daginvoer';
     document.getElementById('licenties').hidden = tabActief !== 'licenties';
+    document.getElementById('overgang').hidden = tabActief !== 'overgang';   // v261
     document.getElementById('dossier').hidden = tabActief !== 'dossier';   // v218
   }
   function toonTab(naam) {
@@ -7924,6 +7990,7 @@ WIB.kern.document = (function () {
     else if (naam === 'daginvoer') { window.scrollTo(0, 0); toonDaginvoer(); }
     else if (naam === 'licenties') { window.scrollTo(0, 0); if (window.WIB.notities) WIB.notities.toonLicenties(); }
     else if (naam === 'dossier') { window.scrollTo(0, 0); if (window.WIB.notities) WIB.notities.toonDossier(); }   // v218
+    else if (naam === 'overgang') { window.scrollTo(0, 0); if (window.WIB.notities) WIB.notities.toonOvergang(); }   // v261
     else if (isWdTab(naam)) { if (window.WIB.werkdruk) WIB.werkdruk.zetWeergave(naam); }
     else { window.scrollTo(0, 0); }
     zoekveldVoorTab(naam);
@@ -9757,7 +9824,7 @@ WIB.kern.document = (function () {
     document.title = naam + ' – Werkdruk in beeld';
     doc.hidden = false; colofon.hidden = false; kiesknop.hidden = false;
     pasVlakkenAan();
-    zoekvak.hidden = ['jaar', 'maand', 'week', 'dag', 'dossier', 'licenties', 'tekstcontrole'].indexOf(tabActief) >= 0;
+    zoekvak.hidden = ['jaar', 'maand', 'week', 'dag', 'dossier', 'licenties', 'overgang', 'tekstcontrole'].indexOf(tabActief) >= 0;
     if (!editorVuil()) { bwVuil = true; if (tabActief === 'bewerken') bwToon(); }
     window.scrollTo(0, behoud ? scroll : 0);
     if (zoekveld.value.trim() && tabActief === 'document') zoek(false);
@@ -11732,8 +11799,8 @@ WIB.kern.werkdruk = (function () {
   const TAB_NAMEN = { document: 'Document', mindmap: 'Mindmap', bewerken: 'Bewerken', totaal: 'Totaaloverzicht', tekstcontrole: 'Tekstcontrole', daginvoer: 'Daginvoer', historie: 'Historie', jaar: 'Jaar', maand: 'Maand', week: 'Week', dag: 'Dag', taken: 'Taken' };
 
   // v197: menuopties die je in Instellingen kunt verbergen (Werkdruk, Projecten, Logboek)
-  const MENU_KEUZE = ['jaar', 'maand', 'week', 'dag', 'taken', 'dossier', 'licenties', 'daginvoer', 'historie'];
-  const MENU_NAAM = { jaar: 'Jaar', maand: 'Maand', week: 'Week', dag: 'Dag', taken: 'Taken', dossier: 'Dossier', licenties: 'Licenties', daginvoer: 'Daginvoer', historie: 'Historie' };
+  const MENU_KEUZE = ['jaar', 'maand', 'week', 'dag', 'taken', 'dossier', 'licenties', 'overgang', 'daginvoer', 'historie'];
+  const MENU_NAAM = { jaar: 'Jaar', maand: 'Maand', week: 'Week', dag: 'Dag', taken: 'Taken', dossier: 'Dossier', licenties: 'Licenties', overgang: 'Overgang', daginvoer: 'Daginvoer', historie: 'Historie' };
   const DEFAULT_SETTINGS = {
     urenPerDag: 9, parttime: -1, customHolidays: [], geboorte: [], gbvUren: [],
     contract: 45, workdays: [1, 2, 3, 4, 5], verlof: 25, verlofUnit: 'dagen',
@@ -14748,7 +14815,7 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
       '<div class="field"><span class="lbl" id="lblBewerkenTab">Tabblad Bewerken</span><button type="button" class="schakelaar" data-set="bewerkenTab" role="switch" aria-labelledby="lblBewerkenTab" aria-checked="' + (s.bewerkenTab ? 'true' : 'false') + '"><span class="baan" aria-hidden="true"></span><span class="schakel-tekst">' + (s.bewerkenTab ? 'Aan' : 'Uit') + '</span></button>' +
       '<span class="help-text">Je bewerkt je tekst in Document. Zet dit aan als je ook de platte markdown wilt zien en bewerken, met de takencontrole ernaast.</span></div>' +
       '<div class="field"><span class="lbl">Menu</span><span class="help-text">Welke tabbladen je in de zijbalk ziet. Een groep zonder tabbladen verdwijnt helemaal.</span>' +
-      [['Werkdruk', ['jaar', 'maand', 'week', 'dag', 'taken']], ['Projecten', ['dossier', 'licenties']], ['Logboek', ['daginvoer', 'historie']]].map(([groep, tabs]) =>
+      [['Werkdruk', ['jaar', 'maand', 'week', 'dag', 'taken']], ['Projecten', ['dossier', 'licenties', 'overgang']], ['Logboek', ['daginvoer', 'historie']]].map(([groep, tabs]) =>
         '<div class="menukeuze"><span class="menukeuze-groep">' + groep + '</span>' + tabs.map(t => {
           const aan = !s.verborgen.includes(t);
           return '<button type="button" class="schakelaar" data-set="menuTab" data-tab="' + t + '" role="switch" aria-checked="' + aan + '" aria-label="' + MENU_NAAM[t] + ' tonen in het menu"><span class="baan" aria-hidden="true"></span><span class="schakel-tekst">' + MENU_NAAM[t] + '</span></button>';
@@ -15905,6 +15972,112 @@ WIB.kern.notities = (function () {
     return { daginvoer: dag, historie: hist };
   }
 
+  /* ---------- Van project naar dienst (v261) ----------
+     Een project gaat na afronding vaak over in dienstverlening, met een ander nummer. De koppeling staat als vaste regel
+     in de notities: bij het project "Overgegaan in: D-014" (meer codes met komma's; "geen" als er nooit een dienst komt;
+     achter een code mag "(placeholder)"), bij de dienst "Voortgekomen uit: 482828". Eén kant is genoeg. */
+  const KOPPEL_NAAR = /^\s*(?:[-*+]\s+)?[*_]*overgegaan\s+(?:in|naar)[*_]*\s*:[*_]*\s*(.*)$/i;
+  const KOPPEL_UIT = /^\s*(?:[-*+]\s+)?[*_]*voortgekomen\s+uit[*_]*\s*:[*_]*\s*(.*)$/i;
+  const KOPPEL_GEEN = /^(?:geen(?:\s+dienst(?:verlening)?)?|nooit|nvt|n\.v\.t\.?)\.?$/i;
+  // de codes achter de dubbele punt: [{ code, placeholder }]; een opmerking tussen haakjes hoort bij de code ervoor
+  function koppelCodes(waarde) {
+    const kaal = platteTekst(waarde).replace(/\([^)]*\)/g, function (h) { return h.replace(/[,;]|\sen\s/g, ' '); });
+    return kaal.split(/\s*[,;]\s*|\s+en\s+/).map(function (deel) {
+      const m = /^([^\s(]+)\s*(.*)$/.exec(deel.trim()), code = m ? m[1].replace(/[.:]+$/, '') : '';
+      return code ? { code: code, placeholder: /placeholder|voorlopig/i.test(m[2]) } : null;
+    }).filter(Boolean);
+  }
+  // De koppelregels in één notitie: { naar: [{ code, placeholder }], geen, uit: [code] }. geen: er komt nooit een dienst
+  // ("Overgegaan in: geen"); staat er ook een code, dan telt die. Regels in een codeblok tellen niet.
+  function koppelingUitTekst(tekst) {
+    const uit = { naar: [], geen: false, uit: [] };
+    let inCode = false;
+    String(tekst || '').replace(/\r\n?/g, '\n').split('\n').forEach(function (r) {
+      if (/^\s*(```|~~~)/.test(r)) { inCode = !inCode; return; }
+      if (inCode) return;
+      let m = KOPPEL_NAAR.exec(r);
+      if (m) { if (KOPPEL_GEEN.test(platteTekst(m[1]))) uit.geen = true; else uit.naar = uit.naar.concat(koppelCodes(m[1])); return; }
+      m = KOPPEL_UIT.exec(r);
+      if (m && !KOPPEL_GEEN.test(platteTekst(m[1]))) uit.uit = uit.uit.concat(koppelCodes(m[1]).map(function (c) { return c.code; }));
+    });
+    if (uit.naar.length) uit.geen = false;
+    return uit;
+  }
+  // Onder welke kop van werkdruk.md staat een regel: 'project' (Project, Projecten), 'dienst' (Dienst, Diensten,
+  // Dienstverlening) of ''. De dichtstbijzijnde kop telt.
+  function koppelSoort(pad) {
+    for (let i = (pad || []).length - 1; i >= 0; i--) {
+      const k = platteTekst(pad[i]);
+      if (/^project(?:en)?(?![a-z])/i.test(k)) return 'project';
+      if (/^dienst(?:en|verlening)?(?![a-z])/i.test(k)) return 'dienst';
+    }
+    return '';
+  }
+  // Het overzicht van project naar dienst. werkdruk: de tekst van werkdruk.md; notities: [{ code, tekst }];
+  // codeRe en sleutel: zoals WIB.codes.start() en .sleutel; volg: het volgnummerpatroon ({ voor, len, na } of null), een
+  // dienst met zo'n voorlopige code is een placeholder.
+  // Geeft { dienst, placeholder, open, geen, los }: per groep de rijen { projecten, diensten, links }, met
+  // knopen { code, titel, placeholder, onbekend } en links { van, naar, zijde: 'beide' | 'project' | 'dienst', placeholder }.
+  //   dienst: overgegaan in een dienst; placeholder: alleen naar een placeholder; open: project zonder iets vastgelegd;
+  //   geen: er komt nooit een dienst; los: dienst zonder project.
+  function overgangen(werkdruk, notities, codeRe, sleutel, volg) {
+    const info = {}, links = {}, lijst = [];
+    const voorlopig = volg ? new RegExp('^' + escRe(volg.voor) + '\\d{' + volg.len + ',}' + escRe(volg.na) + '$', 'i') : null;
+    const cmp = function (a, b) { return a.localeCompare(b, 'nl', { sensitivity: 'base' }); };
+    function van(code) { const k = sleutel(code); return info[k] || (info[k] = { code: k, titel: '', project: false, dienst: false, bekend: false, geen: false, placeholder: false }); }
+    function link(p, d, zijde, ph) {
+      const k = p + '\u0001' + d;
+      if (!links[k]) { links[k] = { van: p, naar: d, project: false, dienst: false, placeholder: false }; lijst.push(links[k]); }
+      links[k][zijde] = true;
+      if (ph) links[k].placeholder = true;
+    }
+    codeRegels(werkdruk, codeRe, function (code, r) {
+      const x = van(code), s = koppelSoort(r.pad);
+      x.bekend = true;
+      if (!x.titel) x.titel = platteTekst(r.rest).split(/\s+[-|]\s+/)[0];
+      if (s === 'project') x.project = true; else if (s === 'dienst') x.dienst = true;
+    });
+    (notities || []).forEach(function (n) {
+      const x = van(n.code), tekst = String(n.tekst || '').replace(/\r\n?/g, '\n');
+      x.bekend = true;
+      const titel = platteTekst((/^#\s+(.*)$/m.exec(tekst) || [])[1] || '').replace(new RegExp('^' + escRe(x.code) + '\\s*[·:\\-–]?\\s*', 'i'), '');
+      if (titel) x.titel = titel;
+      const k = koppelingUitTekst(tekst);
+      if (k.geen) { x.project = true; x.geen = true; }
+      k.naar.forEach(function (d) { const y = van(d.code); if (y === x) return; x.project = true; y.dienst = true; link(x.code, y.code, 'project', d.placeholder); });
+      k.uit.forEach(function (p) { const y = van(p); if (y === x) return; x.dienst = true; y.project = true; link(y.code, x.code, 'dienst', false); });
+    });
+    Object.keys(info).forEach(function (k) { if (info[k].dienst && voorlopig && voorlopig.test(k)) info[k].placeholder = true; });
+    lijst.forEach(function (l) { if (l.placeholder) info[l.naar].placeholder = true; });
+    const knoop = function (k) { const x = info[k]; return { code: x.code, titel: x.titel, placeholder: x.placeholder, onbekend: !x.bekend }; };
+    // wat aan elkaar hangt, staat in één rij
+    const groep = {};
+    function wortel(k) { while (groep[k] !== k) k = groep[k]; return k; }
+    lijst.forEach(function (l) { [l.van, l.naar].forEach(function (k) { if (!groep[k]) groep[k] = k; }); });
+    lijst.forEach(function (l) { const a = wortel(l.van), b = wortel(l.naar); if (a !== b) groep[b] = a; });
+    const rijen = {}, uit = { dienst: [], placeholder: [], open: [], geen: [], los: [] };
+    lijst.forEach(function (l) {
+      const w = wortel(l.van), r = rijen[w] || (rijen[w] = { p: [], d: [], links: [] });
+      if (r.p.indexOf(l.van) < 0) r.p.push(l.van);
+      if (r.d.indexOf(l.naar) < 0) r.d.push(l.naar);
+      r.links.push({ van: l.van, naar: l.naar, zijde: l.project && l.dienst ? 'beide' : l.project ? 'project' : 'dienst', placeholder: info[l.naar].placeholder });
+    });
+    Object.keys(rijen).forEach(function (w) {
+      const r = rijen[w];
+      r.p.sort(cmp); r.d.sort(cmp);
+      r.links.sort(function (a, b) { return cmp(a.van, b.van) || cmp(a.naar, b.naar); });
+      uit[r.d.every(function (k) { return info[k].placeholder; }) ? 'placeholder' : 'dienst'].push({ projecten: r.p.map(knoop), diensten: r.d.map(knoop), links: r.links });
+    });
+    Object.keys(info).forEach(function (k) {
+      const x = info[k];
+      if (x.project && !lijst.some(function (l) { return l.van === k; })) uit[x.geen ? 'geen' : 'open'].push({ projecten: [knoop(k)], diensten: [], links: [] });
+      if (x.dienst && !lijst.some(function (l) { return l.naar === k; })) uit.los.push({ projecten: [], diensten: [knoop(k)], links: [] });
+    });
+    const eerste = function (r) { return (r.projecten[0] || r.diensten[0]).code; };
+    Object.keys(uit).forEach(function (g) { uit[g].sort(function (a, b) { return cmp(eerste(a), eerste(b)); }); });
+    return uit;
+  }
+
   /* ---------- Zoeken in alles (v230) ---------- */
   // Eén zoekopdracht over werkdruk.md, de notities, daginvoer, historie en de acties. Een regel past als alle woorden van de
   // zoekopdracht erin staan, in willekeurige volgorde, zonder onderscheid tussen hoofdletters en accenten.
@@ -15951,7 +16124,7 @@ WIB.kern.notities = (function () {
     });
     return { woorden: w, acties: groep(acties), werkdruk: groep(werkdruk), notities: groep(notities), daginvoer: groep(daginvoer), historie: groep(historie), fouten: fouten };
   }
-  return { zoekAlles, versiesNaarTekst, versiesUitTekst, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, licGeen, licLinkHref, licControle, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging };
+  return { zoekAlles, versiesNaarTekst, versiesUitTekst, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, licGeen, licLinkHref, licControle, koppelingUitTekst, overgangen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging };
 })();
 </script>
 <script data-deel="notities">
@@ -15968,7 +16141,7 @@ WIB.kern.notities = (function () {
 (function () {
   'use strict';
   // de DOM-vrije logica (versies, vermeldingen, licenties) staat sinds v108 in WIB.kern.notities
-  const { versiesNaarTekst, versiesUitTekst, telIn, analyseer, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, licGeen, licLinkHref, licControle, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, codesIn, dossierVan, dossierLogboek, zoekAlles, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging } = WIB.kern.notities;
+  const { versiesNaarTekst, versiesUitTekst, telIn, analyseer, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licNaarTekst, licVerborgen, licGeen, licLinkHref, licControle, overgangen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, codesIn, dossierVan, dossierLogboek, zoekAlles, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging } = WIB.kern.notities;
   const vlak = document.getElementById('notitievenster');
   const bijlageKnop = document.getElementById('nt-bijlage');
   const titelEl = document.getElementById('nt-titel');
@@ -16261,6 +16434,7 @@ WIB.kern.notities = (function () {
           huidig.basis = tekst; huidig.lm = lm;
           gevuld[nr] = !!tekst.trim(); licStatusZet(nr, tekst); werkLabelsBij();
           if (WIB.document.tab() === 'licenties') toonLicenties();
+          if (WIB.document.tab() === 'overgang') toonOvergang();   // v261
           if (WIB.document.tab() === 'dossier') toonDossier();   // v218
           const tijd = new Date().toLocaleTimeString('nl-NL');
           if (versieFout) zetStatus('Opgeslagen ' + tijd + ', maar de versie kon niet in ' + naamVoor(nr, true) + ' worden bewaard (' + (versieFout.message || versieFout) + '). Je notities zelf staan wel op schijf.', true);
@@ -17089,6 +17263,86 @@ WIB.kern.notities = (function () {
       el.innerHTML = '<h1 class="tabkop" style="margin:0 0 6px">Licenties</h1><p class="hist-leeg">' + esc('De map notities kon niet worden gelezen (' + (e && e.message ? e.message : e) + '). Daardoor is niet te zien welke licenties verlopen.') + '</p>';
     });
   }
+  /* ---------- Van project naar dienst (v261): het tabblad Overgang ----------
+     Links de projecten, rechts de diensten, met een lijn ertussen. De koppeling komt uit de vaste regels in de notities
+     (zie koppelingUitTekst); welke codes projecten en diensten zijn, ook uit de koppen Projecten en Diensten in werkdruk.md. */
+  const OV_HOOG = 38, OV_STAP = 46;   // de hoogte van een knoop en de afstand tot de volgende (px); de lijnen rekenen ermee
+  const OV_GROEPEN = [
+    ['dienst', 'Naar dienstverlening', 'Projecten die zijn overgegaan in een dienst.'],
+    ['placeholder', 'Naar een placeholder', 'Er is een plek voor de dienstverlening, maar de dienst zelf is er nog niet.'],
+    ['open', 'Nog niet vastgelegd', 'Projecten waarbij nog niets over dienstverlening is vastgelegd.'],
+    ['geen', 'Geen dienstverlening', 'Projecten waarvoor nooit dienstverlening komt.'],
+    ['los', 'Diensten zonder project', 'Diensten waarbij geen project van herkomst is vastgelegd.']
+  ];
+  const OV_LEEG = { open: ['', 'nog niet vastgelegd'], geen: ['', 'geen dienstverlening'], los: ['geen project vastgelegd', ''] };
+  function alleNotities() {
+    if (!map) return Promise.resolve(Object.keys(geheugen).map(function (k) { return { code: k, tekst: geheugen[k].tekst }; }));
+    return notitieMap(false).then(function (dir) {
+      const alles = [];
+      return doorloopNotities(dir, function (naam, h, o) {
+        if (!o.versies) return leesHandle(h).then(function (t) { alles.push({ code: o.code, tekst: t }); });
+      }).then(function () { return alles; });
+    });
+  }
+  function ovKnoop(k, kant) {
+    const ph = kant === 'dienst' && k.placeholder;
+    const tags = (ph ? '<span class="ov-tag">placeholder</span>' : '') + (k.onbekend ? '<span class="ov-tag ov-let">onbekende code</span>' : '');
+    const uitleg = (kant === 'dienst' ? (ph ? 'Placeholder voor dienstverlening ' : 'Dienst ') : 'Project ') + k.code + (k.titel ? ': ' + k.titel : '') +
+      (k.onbekend ? ' (deze code staat niet in werkdruk.md en heeft geen notities)' : '') + '. Klik om de notities te openen.';
+    return '<button type="button" class="ov-knoop ov-' + kant + (ph ? ' ov-placeholder' : '') + '" data-code="' + esc(k.code) + '" data-titel="' + esc(k.titel) + '" title="' + esc(uitleg) + '">' +
+      '<span class="ov-code">' + esc(k.code) + '</span><span class="ov-titel">' + esc(k.titel) + '</span>' + tags + '</button>';
+  }
+  function ovRij(soort, rij) {
+    const nL = Math.max(rij.projecten.length, 1), nR = Math.max(rij.diensten.length, 1), hoog = Math.max(nL, nR) * OV_STAP - (OV_STAP - OV_HOOG);
+    const y = function (i, n) { return (hoog - (n * OV_STAP - (OV_STAP - OV_HOOG))) / 2 + i * OV_STAP + OV_HOOG / 2; };
+    const plek = function (lijst, code) { return lijst.map(function (k) { return k.code; }).indexOf(code); };
+    const lijnen = rij.links.length ? rij.links.map(function (l) {
+      const a = y(plek(rij.projecten, l.van), nL), b = y(plek(rij.diensten, l.naar), nR);
+      return '<path class="ov-lijn' + (l.placeholder ? ' ov-lijn-placeholder' : '') + '" d="M0,' + a + ' C50,' + a + ' 50,' + b + ' 100,' + b + '"/>';
+    }).join('') : '<path class="ov-lijn ov-lijn-' + soort + '" d="M0,' + hoog / 2 + ' L100,' + hoog / 2 + '"/>';
+    const leeg = OV_LEEG[soort] || ['', ''];
+    return '<div class="ov-rij" data-ov-soort="' + soort + '">' +
+      '<div class="ov-kolom">' + (rij.projecten.length ? rij.projecten.map(function (k) { return ovKnoop(k, 'project'); }).join('') : '<span class="ov-leeg">' + leeg[0] + '</span>') + '</div>' +
+      '<svg class="ov-lijnen" viewBox="0 0 100 ' + hoog + '" height="' + hoog + '" preserveAspectRatio="none" aria-hidden="true">' + lijnen + '</svg>' +
+      '<div class="ov-kolom">' + (rij.diensten.length ? rij.diensten.map(function (k) { return ovKnoop(k, 'dienst'); }).join('') : '<span class="ov-leeg' + (soort === 'geen' ? ' ov-geen' : '') + '">' + leeg[1] + '</span>') + '</div></div>';
+  }
+  let ovBeurt = 0;
+  function toonOvergang() {
+    const el = document.getElementById('ov-inhoud');
+    if (!el) return Promise.resolve();
+    const beurt = ++ovBeurt, kop = '<h1 class="tabkop" style="margin:0 0 6px">Van project naar dienst</h1>';
+    const zo = '<p>Zet een vaste regel in de notities, bijvoorbeeld direct onder de titel. Eén kant is genoeg; de andere kant mag ook.</p><ul>' +
+      '<li>In de notities van het project: <code>Overgegaan in: D-014</code>. Meer diensten scheid je met een komma.</li>' +
+      '<li>In de notities van de dienst: <code>Voortgekomen uit: 482828</code>.</li>' +
+      '<li>Komt er nooit dienstverlening: <code>Overgegaan in: geen</code>.</li>' +
+      '<li>Is de dienst nog een placeholder: <code>Overgegaan in: D-014 (placeholder)</code>. Een dienst met een voorlopige code van je volgnummer (zoals ONB-004) telt vanzelf als placeholder.</li>' +
+      '</ul><p>Welke codes projecten en diensten zijn, leest de pagina ook uit de koppen <i>Projecten</i> en <i>Diensten</i> (of <i>Dienstverlening</i>) in werkdruk.md.</p>';
+    if (!el.firstChild) el.innerHTML = kop + '<p class="lic-uitleg">Bezig met inlezen…</p>';
+    return alleNotities().then(function (notities) {
+      if (beurt !== ovBeurt) return;
+      const volg = WIB.kern.werkdruk.volgDelen(window.WIB.werkdruk ? WIB.werkdruk.instelling('volgnummer') : '');
+      const o = overgangen(WIB.document.tekst(), notities, WIB.codes.start(), sleutel, volg);
+      const tel = function (g) { return o[g].reduce(function (s, r) { return s + (g === 'los' ? r.diensten.length : r.projecten.length); }, 0); };
+      const totaal = OV_GROEPEN.reduce(function (s, g) { return s + o[g[0]].length; }, 0);
+      let h = kop + '<p class="lic-uitleg">Welke projecten zijn overgegaan in dienstverlening, welke nog niet, en bij welke dat nooit gebeurt. Klik op een project of dienst om de notities te openen.' + (map ? '' : ' Er is geen map gekozen: alleen notities in het geheugen van dit tabblad tellen mee.') + '</p>';
+      if (!totaal) h += '<p class="hist-leeg">Nog geen projecten of diensten gevonden. Zet je projecten onder een kop <b>Projecten</b> en je diensten onder een kop <b>Diensten</b> in werkdruk.md, of leg een overgang vast in de notities.</p>';
+      else {
+        h += '<ul class="ov-telling">' + OV_GROEPEN.map(function (g) { return '<li data-ov-telling="' + g[0] + '"><b>' + tel(g[0]) + '</b> ' + esc(g[1].toLowerCase()) + '</li>'; }).join('') + '</ul>' +
+          '<div class="ov-koppen" aria-hidden="true"><span>Project</span><span></span><span>Dienstverlening</span></div>';
+        OV_GROEPEN.forEach(function (g) {
+          if (!o[g[0]].length) return;
+          h += '<section class="ov-groep" data-ov-groep="' + g[0] + '"><h2 class="lic-groep">' + esc(g[1]) + ' (' + tel(g[0]) + ')</h2><p class="ov-uitleg">' + esc(g[2]) + '</p>' +
+            o[g[0]].map(function (r) { return ovRij(g[0], r); }).join('') + '</section>';
+        });
+      }
+      h += '<details class="ov-hulp"' + (totaal ? '' : ' open') + '><summary>Zo leg je een overgang vast</summary>' + zo + '</details>';
+      el.innerHTML = h;
+      el.querySelectorAll('.ov-knoop').forEach(function (b) { b.addEventListener('click', function () { open(b.getAttribute('data-code'), b.getAttribute('data-titel')); }); });
+    }).catch(function (e) {
+      if (beurt !== ovBeurt) return;
+      el.innerHTML = kop + '<p class="hist-leeg">' + esc('De map notities kon niet worden gelezen (' + (e && e.message ? e.message : e) + '). Daardoor is niet te zien welke projecten zijn overgegaan in dienstverlening.') + '</p>';
+    });
+  }
   /* ---------- Dossier (v218): alles over één code op één scherm ---------- */
   let dossierCode = '', dossierBeurt = 0;
   // de codes om uit te kiezen: eerst die in werkdruk.md (in volgorde), dan die alleen notities hebben (op naam)
@@ -17525,6 +17779,7 @@ WIB.kern.notities = (function () {
     licStatus: function (nr) { return licStatus[nr] || null; },
     toonLicenties: toonLicenties,
     toonDossier: toonDossier,
+    toonOvergang: toonOvergang,
     openDossier: openDossier,
     // Firefox/Safari: map alleen lezen; notities uit notities/ in het geheugen zetten
     zetBestanden: function (files) {
