@@ -2515,6 +2515,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v264</span> Toetsen in opsommingen en taken zoals in een tekstverwerker <span class="datum">20 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span><kbd>Tab</kbd> en <kbd>Shift</kbd>+<kbd>Tab</kbd> met meer punten geselecteerd lieten alleen het punt inspringen of uitspringen waar de selectie begon. Nu doen alle geselecteerde punten mee, in dezelfde volgorde, en blijft de selectie staan. Een groep die bij het eerste punt van een lijst begint, kan niet inspringen (er is geen punt om onder te hangen).</li><li><span class="soort herstel">herstel</span><kbd>Backspace</kbd> vooraan een punt met tekst voegde het meteen samen met de regel erboven. Nu gaat eerst het opsommingsteken weg: het punt wordt een alinea en de lijst gaat eronder verder; een subpunt springt eerst een niveau terug. De volgende <kbd>Backspace</kbd> voegt samen, en de lijst is dan weer één lijst. Bij een taak gaat zoals voorheen eerst het vinkje weg. Een leeg punt gaat nog steeds in één keer weg, en een punt met subpunten voegt meteen samen (als alinea zou het zijn subpunten kwijtraken).</li><li><span class="soort herstel">herstel</span><kbd>Enter</kbd> vooraan een afgevinkte taak liet het vinkje op de lege regel staan; de tekst werd een open taak. Het vinkje blijft nu bij de tekst.</li><li><span class="soort herstel">herstel</span><kbd>Delete</kbd> aan het eind van een punt met een werkdruklabel deed niets. Het haalt nu de regel eronder erbij, zoals bij een punt zonder label.</li><li><span class="soort herstel">herstel</span>Met pijl rechts vanaf het eind van een regel kwam de cursor vóór het vakje van de taak eronder; wat je typte, stond voor het vakje. Met pijl links waren twee of drie toetsen nodig om op de regel erboven te komen. De cursor slaat het vakje nu over. Selecteerde je met <kbd>Shift</kbd>+pijl het regeleinde vóór een taak en typte, wiste, knipte of plakte je, dan raakte die taak stil zijn vinkje kwijt; nu voegen de twee regels samen.</li><li><span class="soort herstel">herstel</span>Kopieerde of knipte je een selectie die midden in een kop eindigde, dan ging de verborgen code van die kop (zoals <code>&lt;!-- uitgeklapt --&gt;</code>) mee en kreeg je na plakken een tweede kop met die code. Het stuk kop gaat nu zonder code mee.</li><li><span class="soort herstel">herstel</span>Haal je de alinea tussen twee lijsten weg (leeg en <kbd>Backspace</kbd>, of samengevoegd met het punt erboven), dan worden de twee lijsten weer één lijst, zonder lege regel ertussen in het bestand.</li><li><span class="soort nieuw">nieuw</span>Tests in een echte browser voor elk van deze punten, in Document en (voor Tab en Backspace) in het notitievenster. Drie bestaande tests volgen het nieuwe gedrag van <kbd>Backspace</kbd>. Hulp bijgewerkt (Document en mindmap).</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v263</span> Knippen, kopiëren en plakken van punten en taken zoals in een tekstverwerker <span class="datum">20 nov 2026</span></h2><ul><li><span class="soort herstel">herstel</span>Een heel punt of een hele taak knippen (drie keer klikken, of vanaf het begin van de regel <kbd>Shift</kbd>+<kbd>pijl omlaag</kbd>) haalde alleen de tekst weg: er bleef een leeg punt staan, en op het klembord stond alleen tekst, zonder vinkje of urgent. Bij taken raakte bovendien de taak eronder zijn vinkje kwijt. Nu gaat het punt als geheel naar het klembord en verdwijnt het helemaal, zoals in Word. Subpunten die je niet hebt geselecteerd, blijven staan: onder het punt erboven, of een niveau hoger als dat er niet is. Geldt voor Document en het notitievenster.</li><li><span class="soort herstel">herstel</span>Geplakte punten en taken kwamen altijd <i>onder</i> de regel met de cursor; boven het eerste punt van een lijst plakken kon niet. Staat de cursor vooraan een regel, dan komen ze nu <i>boven</i> die regel. Knippen en meteen weer plakken geeft daardoor precies de oude tekst. Staat de cursor elders in de regel, dan komen ze eronder, zoals voorheen.</li><li><span class="soort herstel">herstel</span>Kopieerde je een punt met zijn subpunten, dan werd het punt zelf een losse alinea met een lijst eronder. Kopieerde je subpunten samen met een punt op een hoger niveau, dan kwam er een leeg punt boven. En na <kbd>Shift</kbd>+<kbd>pijl omlaag</kbd> over meer regels stond er een leeg punt achteraan. Je krijgt nu precies de punten die je hebt geselecteerd.</li><li><span class="soort herstel">herstel</span>Vet, schuin, doorgehaald en code in een stuk van één regel overleven knippen en plakken (voorheen alleen als er ook een link in stond). Dat geldt ook als je precies één vet of schuin woord selecteert, of een stuk van de tekst van een link.</li><li><span class="soort herstel">herstel</span>Plak je tekst met meer regels in een taak, dan wordt elke regel een taak. Voorheen werden het punten zonder vinkje.</li><li><span class="soort nieuw">nieuw</span>Een opsomming uit Word of Outlook plakken geeft een echte opsomming, met subpunten, nummers en vakjes. Voorheen kwam het bolletje met een tab als tekst in het punt te staan. De pagina herkent dit aan het teken met een tab waarmee Word elk punt in platte tekst begint; dit is getest met nagemaakte tekst, niet met Word zelf.</li><li><span class="soort nieuw">nieuw</span>Wat je kopieert of knipt, staat nu ook als opgemaakte tekst op het klembord. Plak je het in Word, Outlook of een mail, dan blijft een opsomming een opsomming, met vet, schuin en links; een vinkje wordt ☐ of ☑. Werkdruklabels en "naar index" gaan nog steeds niet mee.</li><li><span class="soort nieuw">nieuw</span>Tests: in Node de regels boven een punt zetten, tekst uit Word omzetten en de opgemaakte tekst voor het klembord; in een echte browser hele punten en taken knippen en plakken (drie keer klikken, <kbd>Shift</kbd>+<kbd>pijl omlaag</kbd>, boven en onder een regel, ongedaan maken), kopiëren met subpunten, opmaak binnen een regel, tekst met meer regels in een taak, tekst uit Word, en het notitievenster. Hulp bijgewerkt (Document en mindmap).</li><li>Handmatige actie: geen.</li></ul></div>
     <div class="release"><h2><span class="versie">v262</span> Document opent standaard; Totaaloverzicht is een keuze <span class="datum">19 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Na het kiezen van een map of bestand opent standaard het tabblad <b>Document</b> in plaats van Jaar. Dat geldt als er in instellingen.md geen starttabblad staat (een nieuwe map, het voorbeeld). Staat er al een starttabblad in je instellingen.md, dan blijft die keuze gelden.</li><li><span class="soort nieuw">nieuw</span>Het tabblad <b>Totaaloverzicht</b> staat standaard uit. In Instellingen staat de nieuwe schakelaar <i>Tabblad Totaaloverzicht</i> waarmee je het aanzet; de keuze staat in instellingen.md als <code>Tabblad Totaaloverzicht: aan</code> of <code>uit</code>. Staat het uit, dan staat het niet in de zijbalk en niet bij Starttabblad; is het je starttabblad, dan opent Document.</li><li>Hulp bijgewerkt: De balk en de tabbladen, Totaaloverzicht en Tekstcontrole.</li><li>Handmatige actie: opent bij jou nog steeds Jaar, kies dan eenmalig bij Instellingen → Starttabblad voor Document. Wil je het Totaaloverzicht blijven gebruiken, zet dan in Instellingen <i>Tabblad Totaaloverzicht</i> aan.</li></ul></div>
     <div class="release"><h2><span class="versie">v261</span> Van project naar dienst: vaste regel in de notities en het tabblad Overgang <span class="datum">19 nov 2026</span></h2><ul><li><span class="soort nieuw">nieuw</span>Je legt de overgang van een project naar dienstverlening vast met een vaste regel in de notities: <code>Overgegaan in: D-014</code> bij het project of <code>Voortgekomen uit: 482828</code> bij de dienst. Eén kant is genoeg. <code>Overgegaan in: geen</code> betekent dat er nooit dienstverlening komt; <code>(placeholder)</code> achter een code betekent dat de dienst er nog niet echt is. Een dienst met een voorlopige code van je volgnummer (zoals ONB-004) telt vanzelf als placeholder.</li><li><span class="soort nieuw">nieuw</span>Nieuw tabblad <b>Overgang</b> in de zijbalk onder Projecten: links de projecten, rechts de dienstverlening, met lijnen ertussen. In groepen: naar dienstverlening, naar een placeholder (stippelrand en oranje vlak), nog niet vastgelegd, geen dienstverlening en diensten zonder project. Een klik op een project of dienst opent de notities. Een code die nergens anders voorkomt, krijgt het label "onbekende code".</li><li>Projecten en diensten herkent de pagina aan de regels in de notities en aan de koppen Projecten en Diensten (of Dienstverlening) in werkdruk.md. Het tabblad is te verbergen bij Instellingen → Menu.</li><li>De pagina schrijft de regels niet zelf: je typt ze in het notitievenster. Bestaande bestanden worden niet gewijzigd.</li><li>Hulp bijgewerkt: nieuw onderdeel Van project naar dienst; De balk en de tabbladen.</li><li>Handmatige actie: geen. Om het overzicht te vullen zet je zelf de regels in je notities.</li></ul></div>
@@ -4159,7 +4160,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   <section id="h-doc">
     <h3>Document en mindmap</h3>
     <p>Het tabblad <b>Document</b> toont <code>werkdruk.md</code> als opgemaakte tekst. Elke kop vormt met de inhoud eronder een sectie die je met een klik op het pijltje vóór de kop in- en uitklapt. Standaard staan <code>##</code>- en <code>###</code>-koppen ingeklapt; klap je een <code>###</code> open, dan klapt alles eronder volledig uit. Bovenaan staat een inklapbare index met alle koppen, met de knoppen <i>Alles inklappen</i> en <i>Alles uitklappen</i>; elke kop heeft een link <i>naar index</i>. In de index staat bij koppen met afvinkbare taken de voortgang, bijvoorbeeld 3/5. Die telt ook mee terwijl je typt of afvinkt in tekst die nog niet is opgeslagen. Achter een werkdruktaak staat een label met de frequentie, de uren per keer en de uren per jaar, bijvoorbeeld <i>wekelijks · 2,00 u · 104,00 u per jaar</i>; klik erop om de taak in de takenlijst te openen.</p>
-    <p>Je kunt direct in <b>Document</b> bewerken: klik in de tekst en typ. <kbd>Enter</kbd> in een opsommingspunt geeft een nieuw punt (in een taak een nieuwe taak; een nieuw punt wordt niet vanzelf urgent), <kbd>Enter</kbd> in een leeg punt springt een niveau terug of maakt er een alinea onder de lijst van, <kbd>Enter</kbd> aan het eind van een kop geeft een gewone alinea onder die kop (staat de kop ingeklapt, dan klapt hij open), <kbd>Backspace</kbd> vooraan een taak haalt het vinkje weg (ook met de cursor direct achter het vinkje), <kbd>Delete</kbd> aan het eind van een regel haalt de tekst van de taak eronder naar die regel (zonder vinkje), voeg je twee punten samen (met <kbd>Backspace</kbd>, <kbd>Delete</kbd> of door een selectie over punten heen weg te halen, te knippen of te overschrijven), dan komen de subpunten van het laatste punt onder het samengevoegde punt, <kbd>Tab</kbd> en <kbd>Shift</kbd>+<kbd>Tab</kbd> laten een punt in- en uitspringen, en <kbd>Ctrl</kbd>+<kbd>B</kbd> en <kbd>Ctrl</kbd>+<kbd>I</kbd> maken tekst vet of schuin. Plakken gaat als platte tekst. Knip of kopieer je in deze pagina een stuk van een regel met een link erin, dan komt de link (en vet of schuin in dat stuk) bij het plakken mee. Knippen, kopiëren en plakken werken zoals in een tekstverwerker. Selecteer je een stuk tekst binnen één regel, dan gaat alleen die tekst mee, met vet, schuin en links; plakken zet hem op de plek van de cursor. Selecteer je een heel punt of een hele taak (drie keer klikken, of vanaf het begin van de regel <kbd>Shift</kbd>+<kbd>pijl omlaag</kbd>) of meer dan één regel (punten, taken, alinea's), dan gaan ze als geheel mee: met hun vinkje, urgent en subpunten, maar zonder werkdruklabels of "naar index". Knip je hele punten, dan verdwijnen ze helemaal en blijft er geen leeg punt achter; subpunten die je niet hebt geselecteerd, blijven staan. Plak je ze met de cursor vooraan een regel, dan komen ze boven die regel; staat de cursor elders in de regel, dan komen ze onder het punt of de alinea. Staat de cursor nog niet in een regel (bijvoorbeeld in een notitie die je net hebt geopend), dan komen ze onder de laatste regel. Zo plak je punten uit Document ook in het notitievenster, met subpunten en links. Zo verplaats je taken met <kbd>Ctrl</kbd>+<kbd>X</kbd> en <kbd>Ctrl</kbd>+<kbd>V</kbd>. Plak je tekst met meer regels in een taak, dan wordt elke regel een taak. Een opsomming die je uit Word of Outlook plakt, wordt een echte opsomming. Andersom kun je wat je hier kopieert in Word, Outlook of een mail plakken: een opsomming blijft een opsomming, met vet, schuin en links, en een vinkje wordt ☐ of ☑. <kbd>Enter</kbd> in een codeblok geeft een nieuwe regel in de code; in een tabelcel kan dat niet, want een tabel in markdown heeft één regel per rij. Links, codelabels en werkdruklabels kun je niet doortypen, wel aanklikken; achter "naar index" bij een kop en achter het werkdruklabel van een taak kun je de cursor niet zetten, hij blijft aan het eind van de tekst (ook met <kbd>End</kbd>). De werkdruklabels rekenen mee terwijl je typt: wijzig je de uren of de frequentie van een taak, dan staat even later het nieuwe getal erachter, en een nieuwe taak krijgt een label zodra frequentie en uren er staan. De werkbalk bovenaan blijft onder de balk staan als je scrolt. Hij heeft dezelfde knoppen als Bewerken, die werken op de plek van de cursor: <i>+ Nieuwe taak</i> (de taak komt standaard bij de cursor, onder het punt, de kop of de alinea; in het invulvenster kun je bij <i>Onder kop</i> ook een andere plek kiezen), <i>+ Volgnummer</i> (het nummer komt vooraan het punt, de kop of de alinea, ook in een citaat), <i>✎ Taak bewerken</i> (<kbd>F2</kbd>), <i>Urgent</i> (het punt, de alinea of de kop), <i>Taak</i> (een nieuwe taak onder het punt, met de cursor erin; in een genummerde lijst met het volgende nummer, in een citaat binnen het citaat), <i>Taak ⇄ punt</i> (van het punt bij de cursor een taak met vinkje maken, of van een taak weer een gewoon punt; een alinea wordt een taak; met een selectie wissel je alle punten erin tegelijk; urgent, subpunten en de rest van de regel blijven; op een lege regel, zoals net na <kbd>Enter</kbd> achter een kop, maken <i>Taak</i> en <i>Taak ⇄ punt</i> van die regel een taak) en <i>In/uitgeklapt</i>: daarmee bepaal je hoe de kop bij de cursor opent als de pagina wordt geladen, met elke klik de volgende stand: <i>gesloten</i>, <i>geopend</i> of <i>standaard</i> (<code>##</code>- en <code>###</code>-koppen dicht, andere open); de sectie volgt meteen en een melding noemt de stand. Met de keuzelijst <i>Alinea / Kop 1–6</i> zet je de regel bij de cursor om naar een alinea of een kop van niveau 1 tot en met 6; de lijst laat zien wat er nu staat. Een opsommingspunt zonder subpunten kan ook een kop worden. Verder <b>B</b> en <i>I</i> voor vet en schuin, <i>Link</i> (de kettingschakel), de pijltjes <i>Ongedaan maken</i> en <i>Opnieuw</i> (<kbd>Ctrl</kbd>+<kbd>Z</kbd> en <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>), <i>Wijzigingen weggooien</i>, en de status: of er iets niet is opgeslagen. <i>Link</i> maakt een link of bewerkt er een. Selecteer je tekst, dan wordt die tekst de link; zonder selectie komt de link bij de cursor. Selecteer je een link (of een deel ervan), of staat de cursor er direct voor of achter, dan pas je de tekst en het adres aan of haal je de link weg; de tekst blijft dan staan. Een adres is een webadres (<code>https://…</code> of <code>www.…</code>), een mailadres of een pad naar een bestand; spaties en haakjes daarin worden <code>%20</code>, <code>%28</code> en <code>%29</code>. Laat je de tekst ongewijzigd, dan blijft opmaak als vet erin staan. Opslaan gaat zoals in Bewerken, met <kbd>Ctrl</kbd>+<kbd>S</kbd> of het label <i>Niet opgeslagen</i>. Lukt opslaan niet (bijvoorbeeld zonder toestemming, of omdat een ander programma het bestand bezet houdt), dan zie je dat met de reden in de status en in een melding; je tekst blijft staan en <kbd>Ctrl</kbd>+<kbd>S</kbd> probeert het opnieuw. Alleen wat je wijzigt, verandert in <code>werkdruk.md</code>: de rest van het bestand blijft teken voor teken gelijk, ook de tekens van je opsommingen en de verborgen codes. Zijn er niet-opgeslagen wijzigingen, dan hoort een vinkje daarbij en wordt het pas met de rest opgeslagen. Met <kbd>Esc</kbd> stop je met typen, zodat de sneltoetsen weer werken. Typ of plak je een code, zoals <code>- </code> of <code># </code> vooraan een regel, <code>*nadruk*</code>, <code>!!urgent!!</code> of <code>&lt;!-- urgent --&gt;</code>, dan staat die eerst letterlijk op het scherm. Zodra je de regel verlaat (met de pijltjes of door ergens anders te klikken), bij opslaan en als je terugkomt in Document, toont Document de echte vorm: een punt, een kop, nadruk of urgent. Wat je dan ziet, is wat er in <code>werkdruk.md</code> komt. De index bovenaan volgt je koppen terwijl je typt. Onder de werkbalk staat, net als in Bewerken, de <i>opzet van een werkdruktaak</i>: staat de cursor in een taak, dan licht het deel op dat je bewerkt (taak, frequentie, uur per keer, wanneer, locatie of opmerkingen) en zijn ontbrekende delen gemarkeerd; met <i>Hoe schrijf ik een taak?</i> open je de uitleg.</p>
+    <p>Je kunt direct in <b>Document</b> bewerken: klik in de tekst en typ. <kbd>Enter</kbd> in een opsommingspunt geeft een nieuw punt (in een taak een nieuwe taak; een nieuw punt wordt niet vanzelf urgent), <kbd>Enter</kbd> in een leeg punt springt een niveau terug of maakt er een alinea onder de lijst van, <kbd>Enter</kbd> aan het eind van een kop geeft een gewone alinea onder die kop (staat de kop ingeklapt, dan klapt hij open), <kbd>Enter</kbd> vooraan een afgevinkte taak zet een lege, open taak erboven (het vinkje blijft bij de tekst), <kbd>Backspace</kbd> vooraan een taak haalt het vinkje weg (ook met de cursor direct achter het vinkje), <kbd>Backspace</kbd> vooraan een punt met tekst haalt eerst het opsommingsteken weg (het punt wordt een alinea; een subpunt springt een niveau terug) en voegt pas bij de volgende <kbd>Backspace</kbd> samen met de regel erboven (een leeg punt gaat in één keer weg, en een punt met subpunten voegt meteen samen), <kbd>Delete</kbd> aan het eind van een regel haalt de tekst van het punt of de taak eronder naar die regel (zonder vinkje), voeg je twee punten samen (met <kbd>Backspace</kbd>, <kbd>Delete</kbd> of door een selectie over punten heen weg te halen, te knippen of te overschrijven), dan komen de subpunten van het laatste punt onder het samengevoegde punt, <kbd>Tab</kbd> en <kbd>Shift</kbd>+<kbd>Tab</kbd> laten een punt in- en uitspringen (heb je meer punten geselecteerd, dan allemaal; het eerste punt van een lijst kan niet inspringen), de pijltjes links en rechts slaan het vakje van een taak over, en <kbd>Ctrl</kbd>+<kbd>B</kbd> en <kbd>Ctrl</kbd>+<kbd>I</kbd> maken tekst vet of schuin. Plakken gaat als platte tekst. Knip of kopieer je in deze pagina een stuk van een regel met een link erin, dan komt de link (en vet of schuin in dat stuk) bij het plakken mee. Knippen, kopiëren en plakken werken zoals in een tekstverwerker. Selecteer je een stuk tekst binnen één regel, dan gaat alleen die tekst mee, met vet, schuin en links; plakken zet hem op de plek van de cursor. Selecteer je een heel punt of een hele taak (drie keer klikken, of vanaf het begin van de regel <kbd>Shift</kbd>+<kbd>pijl omlaag</kbd>) of meer dan één regel (punten, taken, alinea's), dan gaan ze als geheel mee: met hun vinkje, urgent en subpunten, maar zonder werkdruklabels of "naar index". Knip je hele punten, dan verdwijnen ze helemaal en blijft er geen leeg punt achter; subpunten die je niet hebt geselecteerd, blijven staan. Plak je ze met de cursor vooraan een regel, dan komen ze boven die regel; staat de cursor elders in de regel, dan komen ze onder het punt of de alinea. Staat de cursor nog niet in een regel (bijvoorbeeld in een notitie die je net hebt geopend), dan komen ze onder de laatste regel. Zo plak je punten uit Document ook in het notitievenster, met subpunten en links. Zo verplaats je taken met <kbd>Ctrl</kbd>+<kbd>X</kbd> en <kbd>Ctrl</kbd>+<kbd>V</kbd>. Plak je tekst met meer regels in een taak, dan wordt elke regel een taak. Een opsomming die je uit Word of Outlook plakt, wordt een echte opsomming. Andersom kun je wat je hier kopieert in Word, Outlook of een mail plakken: een opsomming blijft een opsomming, met vet, schuin en links, en een vinkje wordt ☐ of ☑. <kbd>Enter</kbd> in een codeblok geeft een nieuwe regel in de code; in een tabelcel kan dat niet, want een tabel in markdown heeft één regel per rij. Links, codelabels en werkdruklabels kun je niet doortypen, wel aanklikken; achter "naar index" bij een kop en achter het werkdruklabel van een taak kun je de cursor niet zetten, hij blijft aan het eind van de tekst (ook met <kbd>End</kbd>). De werkdruklabels rekenen mee terwijl je typt: wijzig je de uren of de frequentie van een taak, dan staat even later het nieuwe getal erachter, en een nieuwe taak krijgt een label zodra frequentie en uren er staan. De werkbalk bovenaan blijft onder de balk staan als je scrolt. Hij heeft dezelfde knoppen als Bewerken, die werken op de plek van de cursor: <i>+ Nieuwe taak</i> (de taak komt standaard bij de cursor, onder het punt, de kop of de alinea; in het invulvenster kun je bij <i>Onder kop</i> ook een andere plek kiezen), <i>+ Volgnummer</i> (het nummer komt vooraan het punt, de kop of de alinea, ook in een citaat), <i>✎ Taak bewerken</i> (<kbd>F2</kbd>), <i>Urgent</i> (het punt, de alinea of de kop), <i>Taak</i> (een nieuwe taak onder het punt, met de cursor erin; in een genummerde lijst met het volgende nummer, in een citaat binnen het citaat), <i>Taak ⇄ punt</i> (van het punt bij de cursor een taak met vinkje maken, of van een taak weer een gewoon punt; een alinea wordt een taak; met een selectie wissel je alle punten erin tegelijk; urgent, subpunten en de rest van de regel blijven; op een lege regel, zoals net na <kbd>Enter</kbd> achter een kop, maken <i>Taak</i> en <i>Taak ⇄ punt</i> van die regel een taak) en <i>In/uitgeklapt</i>: daarmee bepaal je hoe de kop bij de cursor opent als de pagina wordt geladen, met elke klik de volgende stand: <i>gesloten</i>, <i>geopend</i> of <i>standaard</i> (<code>##</code>- en <code>###</code>-koppen dicht, andere open); de sectie volgt meteen en een melding noemt de stand. Met de keuzelijst <i>Alinea / Kop 1–6</i> zet je de regel bij de cursor om naar een alinea of een kop van niveau 1 tot en met 6; de lijst laat zien wat er nu staat. Een opsommingspunt zonder subpunten kan ook een kop worden. Verder <b>B</b> en <i>I</i> voor vet en schuin, <i>Link</i> (de kettingschakel), de pijltjes <i>Ongedaan maken</i> en <i>Opnieuw</i> (<kbd>Ctrl</kbd>+<kbd>Z</kbd> en <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>), <i>Wijzigingen weggooien</i>, en de status: of er iets niet is opgeslagen. <i>Link</i> maakt een link of bewerkt er een. Selecteer je tekst, dan wordt die tekst de link; zonder selectie komt de link bij de cursor. Selecteer je een link (of een deel ervan), of staat de cursor er direct voor of achter, dan pas je de tekst en het adres aan of haal je de link weg; de tekst blijft dan staan. Een adres is een webadres (<code>https://…</code> of <code>www.…</code>), een mailadres of een pad naar een bestand; spaties en haakjes daarin worden <code>%20</code>, <code>%28</code> en <code>%29</code>. Laat je de tekst ongewijzigd, dan blijft opmaak als vet erin staan. Opslaan gaat zoals in Bewerken, met <kbd>Ctrl</kbd>+<kbd>S</kbd> of het label <i>Niet opgeslagen</i>. Lukt opslaan niet (bijvoorbeeld zonder toestemming, of omdat een ander programma het bestand bezet houdt), dan zie je dat met de reden in de status en in een melding; je tekst blijft staan en <kbd>Ctrl</kbd>+<kbd>S</kbd> probeert het opnieuw. Alleen wat je wijzigt, verandert in <code>werkdruk.md</code>: de rest van het bestand blijft teken voor teken gelijk, ook de tekens van je opsommingen en de verborgen codes. Zijn er niet-opgeslagen wijzigingen, dan hoort een vinkje daarbij en wordt het pas met de rest opgeslagen. Met <kbd>Esc</kbd> stop je met typen, zodat de sneltoetsen weer werken. Typ of plak je een code, zoals <code>- </code> of <code># </code> vooraan een regel, <code>*nadruk*</code>, <code>!!urgent!!</code> of <code>&lt;!-- urgent --&gt;</code>, dan staat die eerst letterlijk op het scherm. Zodra je de regel verlaat (met de pijltjes of door ergens anders te klikken), bij opslaan en als je terugkomt in Document, toont Document de echte vorm: een punt, een kop, nadruk of urgent. Wat je dan ziet, is wat er in <code>werkdruk.md</code> komt. De index bovenaan volgt je koppen terwijl je typt. Onder de werkbalk staat, net als in Bewerken, de <i>opzet van een werkdruktaak</i>: staat de cursor in een taak, dan licht het deel op dat je bewerkt (taak, frequentie, uur per keer, wanneer, locatie of opmerkingen) en zijn ontbrekende delen gemarkeerd; met <i>Hoe schrijf ik een taak?</i> open je de uitleg.</p>
     <p>Wijzigt een ander programma (bijvoorbeeld Kladblok) het bestand, dan ververst de pagina: meteen als de browser wijzigingen zelf kan melden, anders binnen enkele seconden. Wijs het label <i>Ververst automatisch</i> in de balk aan om te zien welke van de twee. Gewijzigde secties lichten oranje op en krijgen een oranje stip; met de knop <i>n secties gewijzigd</i> of de toets <kbd>w</kbd> spring je erlangs.</p>
     <p>Het tabblad <b>Mindmap</b> toont de koppen als een boom rond de <code>#</code>-kop. Klik op een tak om hem uit te klappen (zijn er onder de tak nog punten verborgen, dan worden die meteen getoond); klik nogmaals om hem in te klappen. Dubbelklik om naar die plek in het document te gaan, sleep om te verplaatsen en scroll om te zoomen. Standaard zie je koppen 1 tot en met 3; een gestippeld bolletje geeft het aantal verborgen opsommingspunten (klik erop of druk op <kbd>p</kbd>). Een kop met de naam "Verwerkt" of met <code>&lt;!-- ingeklapt --&gt;</code> start dicht. De knoppen boven de mindmap: <i>Passend</i> (alles in beeld), <i>+</i> en <i>−</i> (zoomen), <i>Alles uitklappen</i>, <i>Alles inklappen</i>, <i>Standaard</i> (terug naar koppen 1 tot en met 3, zonder opsommingen), <i>Opsommingen: aan/uit</i> (de punten onder de koppen wel of niet tonen), <i>Taken: aan/uit</i> (bij elke kop het aantal afgevinkte taken en alle taken eronder, zoals 1/2; standaard uit), <i>Projectnummers: aan/uit</i> (de code vooraan een kop of punt, zoals 482828 of 2026-117, wel of niet tonen; welke codes dat zijn, stel je in bij Instellingen → Codes voor notities; standaard uit) en <i>Dikte naar uren: aan/uit</i> (de lijn naar een tak wordt dikker naarmate er meer uren per jaar aan werkdruktaken onder staan; standaard aan). Ook als de projectnummers uit staan, vind je een kop of punt met het zoekveld op zijn nummer, en zie je het volledige nummer als je de knoop aanwijst.</p>
     <p>Met <i>Dikte naar uren</i> aan zie je waar je tijd zit; zo opent de mindmap. Zet je de knop uit, dan zijn alle takken even dik. Die keuze geldt tot je de pagina herlaadt. De zwaarste tak is het dikst, de andere takken zijn naar verhouding dunner, en een tak waar geen uren onder staan is dun en vaag. Een kop telt alle taken eronder mee, ook onder subkoppen en in ingeklapte takken. Het zijn dezelfde uren per jaar als in de labels in Document, voor het jaar dat je bij de werkdruk bekijkt. Wijs een tak aan om het aantal uren te zien. Staan er nergens taken met uren, dan blijven alle takken even dik; zet je de knop dan zelf aan, dan krijg je daar een melding van.</p>
@@ -10003,7 +10004,7 @@ WIB.kern.document = (function () {
   window.WIB.editor = { maak: function (o) {
     const el = o.el;
     let basis = '', vuil = new WeakSet(), gewijzigd = false, timer = null, terugS = [], vooruitS = [];
-    let onzeker = false, bewerkt = null, vormT = null, muis = false, muisDoel = null, muisY = 0, comp = false, taakEnter = null, enterBlok = null, aan = false, getypt = false, samenEind = null, labelsWeg = false, eigenOpdracht = false, drieklik = null;
+    let onzeker = false, bewerkt = null, vormT = null, muis = false, muisDoel = null, muisY = 0, comp = false, taakEnter = null, enterBlok = null, aan = false, getypt = false, samenEind = null, labelsWeg = false, eigenOpdracht = false, drieklik = null, lijstNaad = null;
     const melding = function (t) { if (o.melding) o.melding(t); };
     const status = function () { if (o.status) o.status(); };
     const geenCursor = function () { return 'Zet eerst de cursor in de tekst' + (o.inHet ? ' van ' + o.inHet : '') + '.'; };
@@ -10361,10 +10362,89 @@ WIB.kern.document = (function () {
         const li = liBij();
         if (!li) return;   // buiten een lijst: Tab gaat gewoon naar het volgende veld
         e.preventDefault();
+        const sel = window.getSelection();
+        if (!sel.isCollapsed) { springSelectie(e.shiftKey); return; }
         const c = bewaar();
         if (e.shiftKey ? uitspringen(li) : inspringen(li)) herstel(c);
       }
+      // v264: pijl links en rechts langs het vakje van een taak (de cursor bleef ervoor hangen)
+      if (!e.ctrlKey && !e.metaKey && !e.altKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) pijlLangsVak(e.key === 'ArrowRight' ? 1 : -1, e.shiftKey);
     });
+    /* v264: Tab en Shift+Tab met een selectie over meer punten: alle geselecteerde punten springen in of uit, zoals in een
+       tekstverwerker (voorheen alleen het punt waar de selectie begon). Punten die naast elkaar staan, gaan als groep: samen
+       onder het punt erboven, of samen een niveau terug. Subpunten gaan met hun punt mee. Een groep zonder punt erboven kan
+       niet inspringen, een groep op het hoogste niveau niet uitspringen. */
+    function puntenInSelectie() {
+      const sel = window.getSelection(), r = sel.getRangeAt(0), slot = blokBij(r.endContainer);
+      const eindLi = slot && slot !== blokBij(r.startContainer) && vooraan(slot, r.endContainer, r.endOffset) ? slot.closest('li') : null;
+      const gekozen = Array.prototype.filter.call(el.querySelectorAll('li'), function (li) {
+        if (li === eindLi) return false;   // de selectie eindigt vooraan dit punt: het hoort er niet bij
+        const eigen = document.createRange(), sub = li.querySelector(':scope > ul, :scope > ol');
+        eigen.setStart(li, 0); if (sub) eigen.setEndBefore(sub); else eigen.setEnd(li, li.childNodes.length);
+        return r.compareBoundaryPoints(Range.START_TO_END, eigen) > 0 && r.compareBoundaryPoints(Range.END_TO_START, eigen) < 0;
+      });
+      // alleen de bovenste: wat in een geselecteerd punt staat, gaat met dat punt mee
+      return gekozen.filter(function (li) { return !gekozen.some(function (x) { return x !== li && x.contains(li); }); });
+    }
+    function springSelectie(uit) {
+      const sel = window.getSelection(), plek = [sel.anchorNode, sel.anchorOffset, sel.focusNode, sel.focusOffset];
+      const punten = puntenInSelectie(), groepen = [];
+      punten.forEach(function (li) { const g = groepen[groepen.length - 1]; if (g && g[g.length - 1].nextElementSibling === li) g.push(li); else groepen.push([li]); });
+      let gedaan = false;
+      groepen.forEach(function (g) {
+        // een groep zonder punt erboven kan niet inspringen (ook niet voor een deel: dan zouden de punten onder elkaar verspringen)
+        if (!uit && !(g[0].previousElementSibling && g[0].previousElementSibling.tagName === 'LI')) return;
+        // uitspringen van achter naar voren: zo blijven de punten in dezelfde volgorde onder elkaar staan
+        (uit ? g.slice().reverse() : g).forEach(function (li) { if (uit ? uitspringen(li) : inspringen(li)) gedaan = true; });
+      });
+      if (!gedaan) return;
+      el.focus({ preventScroll: true });
+      try { sel.setBaseAndExtent(plek[0], plek[1], plek[2], plek[3]); } catch (fout) { /* de plek bestaat niet meer: de selectie blijft zoals de browser haar liet */ }
+    }
+    /* v264: het vakje van een taak staat in de tekst, maar je kunt er niet in typen. Met pijl rechts vanaf het eind van de
+       regel erboven kwam de cursor vóór het vakje; wat je daar typte, stond op het scherm voor het vakje. Met pijl links
+       vanaf het begin van de taak waren twee of drie toetsen nodig om op de regel erboven te komen. De cursor slaat het
+       vakje nu over: naar rechts vooraan de tekst van de taak, naar links aan het eind van de regel erboven. */
+    function voorVak(li, n, offset) {
+      const vak = li && li.tagName === 'LI' ? li.querySelector(':scope > input[type="checkbox"]') : null;
+      if (!vak || blokBij(n) !== li) return false;
+      const i = Array.prototype.indexOf.call(li.childNodes, vak), r = document.createRange();
+      r.setStart(n, offset); r.collapse(true);
+      if (r.comparePoint(li, i) >= 0 || r.comparePoint(li, i + 1) === 0) return true;
+      return n === vak.nextSibling && n.nodeType === 3 && offset === 0 && /^\s/.test(n.nodeValue);
+    }
+    function pijlLangsVak(stap, selecteren) {
+      setTimeout(function () {
+        const sel = window.getSelection();
+        if (!aan || !sel || !sel.rangeCount || !el.contains(sel.focusNode) || (!selecteren && !sel.isCollapsed)) return;
+        const li = blokBij(sel.focusNode);
+        if (!voorVak(li, sel.focusNode, sel.focusOffset)) return;
+        const vorige = stap < 0 ? zichtbaarBlok(li, -1) : null;
+        const naar = vorige ? eindVanTekst(vorige) : beginVanTekst(li);
+        if (selecteren) sel.extend(naar.startContainer, naar.startOffset); else zetCursor(naar);
+      }, 0);
+    }
+    // vóór het typen: staat de cursor voor het vakje van een taak, dan eerst naar het begin van de tekst
+    function cursorNaVak() {
+      const sel = window.getSelection();
+      if (!aan || !sel || !sel.rangeCount || !sel.isCollapsed || !el.contains(sel.anchorNode)) return;
+      const li = blokBij(sel.anchorNode);
+      if (voorVak(li, sel.anchorNode, sel.anchorOffset)) zetCursor(beginVanTekst(li));
+    }
+    /* v264: eindigt een selectie vooraan een taak (voor of net na het vakje) en begon ze in een ander blok, dan wiste de
+       browser bij typen, wissen, knippen of plakken het vakje zonder de regels samen te voegen: de taak werd stil een gewoon
+       punt. Het vakje gaat nu eerst weg en de selectie eindigt vooraan de tekst; de regels voegen dan samen, zoals in een
+       tekstverwerker als je het regeleinde meeselecteert. */
+    function eindVoorTaak(r) {
+      if (!r || r.collapsed) return false;
+      const a = blokBij(r.startContainer), b = blokBij(r.endContainer);
+      const vak = b && b !== a && b.tagName === 'LI' && el.contains(b) ? b.querySelector(':scope > input[type="checkbox"]') : null;
+      if (!vak || !vooraan(b, r.endContainer, r.endOffset)) return false;
+      vakWeg(b, vak);
+      const eind = beginVanTekst(b);
+      r.setEnd(eind.startContainer, eind.startOffset);
+      return true;
+    }
 
     /* ---------- Enter en Backspace zoals in een tekstverwerker (v186) ---------- */
     // v193: een afbeelding (ook een niet geladen afbeelding) en een nummerlabel tellen als inhoud; in een opsommingspunt
@@ -10533,6 +10613,71 @@ WIB.kern.document = (function () {
       herstel(c);
       return true;
     }
+    /* v264: Backspace vooraan een punt met tekst voegde het meteen samen met de regel erboven. Zoals in een tekstverwerker
+       gaat nu eerst het punt zelf weg: een subpunt springt een niveau terug (zoals Shift+Tab), een punt op het hoogste niveau
+       wordt een alinea (het opsommingsteken verdwijnt, de lijst gaat eronder verder). Nog eens Backspace voegt de alinea
+       samen met de regel erboven, en de lijst is dan weer één lijst. Een leeg punt gaat nog steeds in één keer weg, en een
+       punt op het hoogste niveau mét subpunten voegt meteen samen (de subpunten komen onder het samengevoegde punt, v250):
+       als alinea zou het zijn subpunten kwijtraken. */
+    function backspaceVoorPunt(e) {
+      const sel = window.getSelection();
+      if (!sel || !sel.isCollapsed) return false;
+      const li = liBij();
+      if (!li || blokBij(sel.anchorNode) !== li || li.querySelector(':scope > input[type="checkbox"], :scope > p') || !heeftTekst(li)) return false;
+      if (!vooraan(li, sel.anchorNode, sel.anchorOffset)) return false;
+      // staat er vóór de cursor iets dat geen tekst is (een afbeelding, een codelabel), dan is dit niet het begin van het punt
+      const voor = document.createRange(); voor.setStart(li, 0); voor.setEnd(sel.anchorNode, sel.anchorOffset);
+      if (voor.cloneContents().querySelector('img, .afbeelding-placeholder, .nr-label, a, button')) return false;
+      const sub = li.parentNode.parentNode && li.parentNode.parentNode.tagName === 'LI';
+      if (!sub && li.querySelector(':scope > ul, :scope > ol')) return false;
+      e.preventDefault();
+      if (sub) { const c = bewaar(); if (uitspringen(li) && c) { c.teken = 0; herstel(c); } return true; }
+      puntNaarAlinea(li);
+      return true;
+    }
+    function puntNaarAlinea(li) {
+      const lijst = li.parentNode, na = [], p = document.createElement('p');
+      for (let k = li.nextElementSibling; k; k = k.nextElementSibling) na.push(k);
+      Array.prototype.slice.call(li.childNodes).forEach(function (k) {
+        if (k.nodeType === 1 && k.matches(TOEVOEGSEL)) return;
+        // een urgent punt (<!-- urgent -->) wordt een urgente alinea, zonder de omhulling van het punt
+        if (k.nodeType === 1 && k.tagName === 'SPAN' && k.classList.contains('urgent') && !k.classList.contains('kop-urgent') && li.classList.contains('heeft-urgent')) { while (k.firstChild) p.appendChild(k.firstChild); return; }
+        p.appendChild(k);
+      });
+      if (li.classList.contains('heeft-urgent')) p.className = 'urgent';
+      if (p.lastChild && p.lastChild.nodeType === 3) p.lastChild.nodeValue = p.lastChild.nodeValue.replace(/\s+$/, '');
+      lijst.parentNode.insertBefore(p, lijst.nextSibling);
+      if (na.length) {
+        const l = document.createElement(lijst.tagName.toLowerCase());
+        if (lijst.tagName === 'OL') l.setAttribute('start', String((+(lijst.getAttribute('start') || 1)) + Array.prototype.indexOf.call(lijst.children, li)));
+        na.forEach(function (k) { zonderBereik(k); l.appendChild(k); });
+        p.parentNode.insertBefore(l, p.nextSibling);
+      }
+      li.remove();
+      if (!lijst.children.length) lijst.remove(); else vuil.add(lijst);
+      const r = document.createRange(), t = tekstIn(p)[0];
+      if (t) r.setStart(t, 0); else r.setStart(p, 0);
+      r.collapse(true); zetCursor(r);
+      bewerkt = p;
+    }
+    /* v264: verdwijnt de alinea tussen twee lijsten van dezelfde soort (samengevoegd met het punt erboven, of leeg en
+       weggehaald), dan staan er twee lijsten direct onder elkaar. Dat is voor de lezer één lijst, en in het bestand stond
+       er dan een lege regel tussen. Ze worden weer één lijst, zoals in een tekstverwerker. */
+    function naadBij(blok) {
+      if (!blok || !el.contains(blok)) return null;
+      // de cursor in een alinea tussen twee lijsten, of in de lijst vóór zo'n alinea
+      let p = blok.tagName === 'P' && !blok.closest('li') ? blok : null, a;
+      if (p) a = p.previousElementSibling;
+      else { a = blok.closest('ul, ol'); while (a && a.parentNode && a.parentNode.closest && a.parentNode.closest('ul, ol') && el.contains(a.parentNode.closest('ul, ol'))) a = a.parentNode.closest('ul, ol'); p = a ? a.nextElementSibling : null; }
+      const b = p ? p.nextElementSibling : null;
+      return a && b && p.tagName === 'P' && /^(UL|OL)$/.test(a.tagName) && a.tagName === b.tagName ? { a: a, b: b } : null;
+    }
+    function sluitNaad(naad) {
+      if (!naad || !naad.a.isConnected || !naad.b.isConnected || naad.a.nextElementSibling !== naad.b) return;
+      while (naad.b.firstChild) { const k = naad.b.firstChild; if (k.nodeType === 1) zonderBereik(k); naad.a.appendChild(k); }
+      naad.b.remove();
+      vuil.add(naad.a);
+    }
     function vakWeg(li, vak) {
       const na = vak.nextSibling;
       vak.remove();
@@ -10549,15 +10694,18 @@ WIB.kern.document = (function () {
       if (!blok || !el.contains(blok) || blok.closest('pre, td, th') || tekstNaCursor(blok)) return false;
       const alle = Array.prototype.slice.call(el.querySelectorAll(CURSORBLOK)), volgend = alle[alle.indexOf(blok) + 1];
       const vak = volgend && volgend.tagName === 'LI' ? volgend.querySelector(':scope > input[type="checkbox"]') : null;
-      if (!vak) return false;
+      // v264: ook zonder taak eronder, als er een werkdruklabel achter de cursor staat: de browser wiste dan dat label (het
+      // kwam meteen terug) in plaats van de regels samen te voegen, dus Delete deed daar niets
+      if (!vak && !(volgend && blok.tagName === 'LI' && blok.querySelector(':scope > .wd-badge') && !volgend.closest('pre, table'))) return false;
       e.preventDefault();
-      vakWeg(volgend, vak);
+      const naad = naadBij(blok);
+      if (vak) vakWeg(volgend, vak);
       const r = document.createRange(); r.setStart(sel.anchorNode, sel.anchorOffset); r.setEnd(volgend, 0);
       const samen = samenVan(r);
       toevoegselsWeg(r);
       zetCursor(eindVanTekst(blok));
       opdracht('forwardDelete');
-      naSamenvoegen(samen); urgentSamen(liBij()); labelsTerug();
+      naSamenvoegen(samen); urgentSamen(liBij()); sluitNaad(naad); labelsTerug();
       return true;
     }
     // Backspace in een lege kop of alinea (v195): alleen dat blok weg en de cursor aan het eind van het blok erboven. De
@@ -10571,8 +10719,9 @@ WIB.kern.document = (function () {
       const vorige = i > 0 ? alle[i - 1] : null;
       if (!vorige) return false;
       e.preventDefault();
-      const ouder = blok.parentNode;
+      const ouder = blok.parentNode, naad = naadBij(blok);
       blok.remove();
+      sluitNaad(naad);
       const vuilBlok = ouder && ouder.closest ? ouder.closest(BLOKKEN) : null;
       if (vuilBlok) vuil.add(vuilBlok);
       const r = document.createRange(), tekst = tekstIn(vorige);
@@ -10745,13 +10894,17 @@ WIB.kern.document = (function () {
       if (e.inputType === 'historyUndo') { e.preventDefault(); terug(); return; }
       if (e.inputType === 'historyRedo') { e.preventDefault(); vooruit(); return; }
       if (o.voorInvoer) o.voorInvoer();
-      samenEind = null;
+      samenEind = null; lijstNaad = null;
       cursorVoorTerug();   // nooit typen achter "naar index" (v239)
+      cursorNaVak();       // en nooit vóór het vakje van een taak (v264)
+      if (/^(insert|delete)/.test(e.inputType)) { const s = window.getSelection(), r = s.rangeCount && !s.isCollapsed ? s.getRangeAt(0).cloneRange() : null; if (eindVoorTaak(r)) zetCursor(r); }
       enterBlok = e.inputType === 'insertParagraph' ? enterVoorLabel() : null;
       if (e.inputType === 'insertParagraph' && enterNaKop(e)) return;
       if ((e.inputType === 'insertParagraph' || e.inputType === 'insertLineBreak') && enterInCodeOfTabel(e)) return;
       if (e.inputType === 'insertParagraph' && enterInLeegPunt(e)) return;
       if (e.inputType === 'deleteContentBackward' && backspaceVoorTaak(e)) return;
+      if (e.inputType === 'deleteContentBackward' && backspaceVoorPunt(e)) return;
+      { const s = window.getSelection(); lijstNaad = /^delete/.test(e.inputType) && s.rangeCount && s.isCollapsed ? naadBij(blokBij(s.anchorNode)) : null; }
       if (e.inputType === 'deleteContentBackward' && backspaceInLeegBlok(e)) return;
       if (e.inputType === 'deleteContentForward' && deleteVoorTaak(e)) return;
       if (/^delete/.test(e.inputType) || !window.getSelection().isCollapsed) { const r = doelBereik(e); samenEind = samenVan(r); toevoegselsWeg(r); }
@@ -10787,6 +10940,7 @@ WIB.kern.document = (function () {
     el.addEventListener('input', function (e) {
       const sel = window.getSelection();
       if (samenEind) { const x = samenEind; samenEind = null; naSamenvoegen(x); urgentSamen(liBij()); }
+      if (lijstNaad) { const x = lijstNaad; lijstNaad = null; sluitNaad(x); }
       if (e.inputType === 'insertParagraph') {
         const hier = sel && sel.rangeCount ? blokBij(sel.anchorNode) : null;
         if (hier) {
@@ -10808,6 +10962,9 @@ WIB.kern.document = (function () {
         taakEnter = null;
         if (oud && li && li !== oud && !li.querySelector(':scope > input[type="checkbox"]')) {
           const spatie = vakIn(li);
+          // v264: Enter vooraan een afgevinkte taak: het vinkje hoort bij de tekst, niet bij de lege regel die erboven komt
+          const vakOud = oud.querySelector(':scope > input[type="checkbox"]');
+          if (vakOud && vakOud.checked && !heeftTekst(oud) && heeftTekst(li)) { vakOud.checked = false; spatie.previousSibling.checked = true; }
           const r = document.createRange(); r.setStart(spatie, 1); r.collapse(true); sel.removeAllRanges(); sel.addRange(r);
         }
       }
@@ -10930,6 +11087,12 @@ WIB.kern.document = (function () {
           houder.appendChild(om);
         }
       }
+      // v264: eindigt de selectie midden in een kop, dan gaan de verborgen codes van die kop (<!-- uitgeklapt -->, urgent) niet
+      // mee: die staan aan het eind van de regel en horen bij de kop zelf, niet bij het begin van zijn tekst
+      if (slot && /^H[1-6]$/.test(slot.tagName) && begin !== slot && !eindLeeg && tekstNa(slot, r.endContainer, r.endOffset)) {
+        const koppen = houder.querySelectorAll('h1, h2, h3, h4, h5, h6'), laatste = koppen[koppen.length - 1];
+        if (laatste) laatste.removeAttribute('data-staart');
+      }
       houder.querySelectorAll(TOEVOEGSEL).forEach(function (x) { x.remove(); });
       houder.querySelectorAll('[data-van], [data-tot]').forEach(function (x) { x.removeAttribute('data-van'); x.removeAttribute('data-tot'); });
       const tekst = platteTekst(houder, false).replace(/[ \t]+\n/g, '\n').replace(/\n{2,}/g, '\n').replace(/^\n+|\n+$/g, '');
@@ -11021,6 +11184,7 @@ WIB.kern.document = (function () {
       if (k.regel) e.clipboardData.setData(KLEMBORD_REGEL, k.regel);
       if (knippen && aan && k.md && k.punt && knipPunten(k)) { labelsTerug(); return; }
       if (knippen && aan) {
+        eindVoorTaak(k.bereik);
         const heel = k.md && blokBij(k.bereik.startContainer) !== blokBij(k.bereik.endContainer), eind = samenVan(k.bereik);
         toevoegselsWeg(k.bereik);
         const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(k.bereik);
@@ -11048,7 +11212,7 @@ WIB.kern.document = (function () {
       if (o.voorInvoer) o.voorInvoer();   // execCommand geeft geen beforeinput
       if (md) {
         const sel = window.getSelection();
-        if (sel && sel.rangeCount && !sel.isCollapsed) { const eind = samenVan(sel.getRangeAt(0)); toevoegselsWeg(sel.getRangeAt(0)); opdracht('delete'); samenEind = null; naSamenvoegen(eind); }
+        if (sel && sel.rangeCount && !sel.isCollapsed) { const r = sel.getRangeAt(0).cloneRange(); if (eindVoorTaak(r)) zetCursor(r); const eind = samenVan(sel.getRangeAt(0)); toevoegselsWeg(sel.getRangeAt(0)); opdracht('delete'); samenEind = null; naSamenvoegen(eind); }
         const nieuw = md.replace(/\r\n?/g, '\n').split('\n');
         if (inTabelOfCode()) { melding('Hele punten of alinea\'s kun je niet in een tabel of codeblok plakken.'); return; }
         // v246: staat de cursor nog niet in een regel (een notitie die net open is, een klik in de lege ruimte), dan komen
@@ -11082,7 +11246,9 @@ WIB.kern.document = (function () {
         if (b && el.contains(b)) { b.querySelectorAll(':scope > .wd-badge').forEach(function (x) { x.remove(); }); stil(); }
       }
       // ook over een selectie over blokken heen: execCommand geeft geen beforeinput
-      const over = window.getSelection(), overR = over && over.rangeCount && !over.isCollapsed ? over.getRangeAt(0) : null, eind = samenVan(overR);
+      const over = window.getSelection();
+      if (t && over && over.rangeCount && !over.isCollapsed) { const r = over.getRangeAt(0).cloneRange(); if (eindVoorTaak(r)) zetCursor(r); }
+      const overR = over && over.rangeCount && !over.isCollapsed ? over.getRangeAt(0) : null, eind = samenVan(overR);
       if (t && overR) toevoegselsWeg(overR);
       // v260: een stuk regel met een link (uit deze pagina geknipt of gekopieerd) komt terug met de link; in een codeblok als tekst
       const regel = t && !/\n/.test(t) ? cd.getData(KLEMBORD_REGEL) : '', hier = over && over.rangeCount ? over.anchorNode : null;
