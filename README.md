@@ -20,7 +20,7 @@ Zeven korte video's in de map [`instructievideo`](instructievideo), samen ongeve
 |---|---|---|---|
 | 1 | [De kern](instructievideo/1-de-kern.mp4) | Waar de pagina voor is, in vier punten | 0:52 |
 | 2 | [Beginnen, vanaf niets](instructievideo/2-beginnen.mp4) | Het bestand openen, een map kiezen, je uren instellen, de indeling van het scherm | 1:44 |
-| 3 | Je werk opschrijven | Typen in Document, taken met uren, to-do's en urgent, indelen, de mindmap | volgt |
+| 3 | [Je werk opschrijven](instructievideo/3-opschrijven.mp4) | Typen in Document, taken met uren, to-do's en urgent, indelen en verplaatsen, de mindmap, tekstcontrole | 4:56 |
 | 4 | [Past het? De werkdruk](instructievideo/4-doorrekenen.mp4) | Jaar, maand, week en dag, alle taken, verlof plannen, soort werk, naar een nieuw jaar | 4:13 |
 | 5 | [Per project alles bij elkaar](instructievideo/5-per-project.mp4) | Codes en notities, versies, bijlagen, licenties, dossier, van project naar dienst | 4:33 |
 | 6 | [Van jou, en terug te vinden](instructievideo/6-van-jou.mp4) | Zoeken, daginvoer en historie, je bestanden, stijl en sneltoetsen | 2:58 |
