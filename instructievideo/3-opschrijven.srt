@@ -4,277 +4,289 @@ Het eerste van de vier
 punten: je werk opschrijven.
 
 2
-00:00:04,680 --> 00:00:08,856
+00:00:04,681 --> 00:00:08,856
 Dat doe je in het tabblad Document, en
 het werkt zoals een tekstverwerker.
 
 3
-00:00:09,510 --> 00:00:11,163
+00:00:09,509 --> 00:00:11,152
 Klik in de tekst en typ.
 
 4
-00:00:13,796 --> 00:00:17,613
+00:00:13,798 --> 00:00:17,615
 Met de keuzelijst in de werkbalk
 maak je van een regel een kop.
 
 5
-00:00:21,116 --> 00:00:23,875
+00:00:21,118 --> 00:00:23,877
 Met Enter begin je een
 nieuw opsommingspunt.
 
 6
-00:00:24,272 --> 00:00:28,251
+00:00:24,274 --> 00:00:28,249
 Met Tab springt een punt in,
 en met Shift+Tab weer terug.
 
 7
-00:00:32,120 --> 00:00:36,024
+00:00:32,119 --> 00:00:36,022
 Vet, schuin en een link zet je
 met de knoppen in de werkbalk.
 
 8
-00:00:36,962 --> 00:00:41,930
+00:00:36,961 --> 00:00:41,929
 Zodra je iets wijzigt, verschijnt bovenaan
 het oranje label Niet opgeslagen.
 
 9
-00:00:42,577 --> 00:00:47,071
+00:00:42,576 --> 00:00:47,070
 Klik erop, of druk op Ctrl+S, en
 je tekst staat in het bestand.
 
 10
-00:00:48,377 --> 00:00:53,406
+00:00:48,374 --> 00:00:53,402
 Een taak die tijd kost, schrijf je op één
 regel, in een vaste volgorde: de naam,
 
 11
-00:00:53,406 --> 00:00:57,302
+00:00:53,402 --> 00:00:57,298
 hoe vaak, en hoeveel uur per
 keer, met streepjes ertussen.
 
 12
-00:00:59,937 --> 00:01:06,015
+00:00:59,933 --> 00:01:06,011
 Bijvoorbeeld: Maandrapportage opstellen,
 streepje, maandelijks, streepje, zes uur.
 
 13
-00:01:06,593 --> 00:01:10,242
+00:01:06,590 --> 00:01:10,238
 Daarachter mag je nog zetten
 wanneer, waar, en een opmerking.
 
 14
-00:01:11,506 --> 00:01:13,609
+00:01:11,502 --> 00:01:13,605
 Je hoeft die opzet niet te onthouden.
 
 15
-00:01:13,940 --> 00:01:18,458
+00:01:13,935 --> 00:01:18,453
 Klik op + Nieuwe taak, en je krijgt
 een invulvenster met keuzelijsten.
 
 16
-00:01:18,869 --> 00:01:20,554
+00:01:18,864 --> 00:01:20,550
 Alleen de naam is verplicht.
 
 17
-00:01:27,817 --> 00:01:30,647
+00:01:27,820 --> 00:01:30,635
 Weet je alleen hoeveel
 uur iets per jaar kost?
 
 18
-00:01:30,848 --> 00:01:32,244
+00:01:30,836 --> 00:01:32,233
 Ook daar is een knop voor.
 
 19
-00:01:36,301 --> 00:01:41,174
+00:01:36,292 --> 00:01:41,164
 Achter elke taak die de pagina herkent,
 verschijnt een label: de frequentie,
 
 20
-00:01:41,174 --> 00:01:43,796
+00:01:41,164 --> 00:01:43,786
 de uren per keer en de uren per jaar.
 
 21
-00:01:44,443 --> 00:01:47,157
+00:01:44,433 --> 00:01:47,147
 Is het label oranje, dan
 ontbreekt er nog iets.
 
 22
-00:01:47,750 --> 00:01:52,368
+00:01:47,740 --> 00:01:52,357
 Een bestaande taak pas je aan
 met Taak bewerken, of met F2.
 
 23
-00:01:59,552 --> 00:02:02,669
+00:01:59,531 --> 00:02:02,638
 En de kop boven een taak
 is meteen zijn categorie.
 
 24
-00:02:02,974 --> 00:02:04,911
+00:02:02,948 --> 00:02:04,877
 Die zie je later terug in de grafieken.
 
 25
-00:02:05,768 --> 00:02:07,905
+00:02:05,740 --> 00:02:07,876
 Niet alles is terugkerend werk.
 
 26
-00:02:08,083 --> 00:02:12,251
+00:02:08,055 --> 00:02:12,223
 Voor een losse to-do klik je op Taak:
 je krijgt een punt met een vakje,
 
 27
-00:02:12,251 --> 00:02:14,144
+00:02:12,223 --> 00:02:14,117
 dat je met één klik afvinkt.
 
 28
-00:02:15,278 --> 00:02:19,753
+00:02:15,250 --> 00:02:19,713
 Met de knop ernaast maak je van een
 bestaand punt een taak, of andersom.
 
 29
-00:02:20,237 --> 00:02:23,794
+00:02:20,209 --> 00:02:23,764
 Zo'n to-do zonder uren telt
 niet mee in je werkdruk.
 
 30
-00:02:24,556 --> 00:02:25,603
+00:02:24,528 --> 00:02:25,574
 Is iets dringend?
 
 31
-00:02:25,743 --> 00:02:28,397
+00:02:25,714 --> 00:02:28,369
 Zet de cursor erin en klik op Urgent.
 
 32
-00:02:29,287 --> 00:02:33,153
+00:02:29,259 --> 00:02:33,126
 Met Alleen urgent in de balk zie je
 daarna alleen nog wat dringend is,
 
 33
-00:02:33,153 --> 00:02:34,674
+00:02:33,126 --> 00:02:34,646
 in de meeste tabbladen.
 
 34
-00:02:36,496 --> 00:02:39,633
+00:02:35,261 --> 00:02:38,396
 Een afgevinkte taak telt
 niet meer als urgent.
 
 35
-00:02:43,731 --> 00:02:46,476
+00:02:42,618 --> 00:02:45,497
 Wordt je document lang,
 dan helpt de indeling.
 
 36
-00:02:46,837 --> 00:02:49,913
+00:02:45,808 --> 00:02:49,126
 Elke kop klap je in en uit
 met het pijltje ervoor.
 
 37
-00:02:50,594 --> 00:02:55,091
-Bovenaan staat een index met alle koppen,
-en met de voortgang van je to-do's:
+00:02:49,825 --> 00:02:51,650
+Bovenaan staat een index.
 
 38
-00:02:55,091 --> 00:02:57,094
-bijvoorbeeld drie van de vijf.
+00:02:51,769 --> 00:02:55,816
+Klap hem open, en je ziet alle koppen,
+met de voortgang van je to-do's:
 
 39
-00:02:58,841 --> 00:03:03,924
+00:02:55,816 --> 00:02:57,776
+bijvoorbeeld drie van de vijf.
+
+40
+00:02:59,685 --> 00:03:04,428
 Met de knop In/uitgeklapt bepaal je hoe
 een kop opent als je de pagina laadt.
 
-40
-00:03:08,005 --> 00:03:10,397
+41
+00:03:08,184 --> 00:03:10,521
 Verplaatsen gaat met knippen en plakken.
 
-41
-00:03:10,765 --> 00:03:14,446
-Klik drie keer op een punt om het
-helemaal te selecteren, knip het,
-
 42
-00:03:14,446 --> 00:03:16,124
-en plak het ergens anders.
+00:03:10,716 --> 00:03:13,932
+Klik drie keer op een punt om
+het te selecteren, knip het,
 
 43
-00:03:17,532 --> 00:03:20,805
-Het vinkje, urgent en
-de subpunten gaan mee.
+00:03:13,932 --> 00:03:15,623
+en plak het ergens anders.
 
 44
-00:03:29,662 --> 00:03:34,610
+00:03:17,153 --> 00:03:19,309
+Het vinkje en urgent gaan mee.
+
+45
+00:03:19,949 --> 00:03:21,769
+Wil je ook de subpunten meenemen?
+
+46
+00:03:21,996 --> 00:03:26,095
+Selecteer dan vanaf het begin van
+de regel, met Shift en pijl omlaag.
+
+47
+00:03:32,588 --> 00:03:37,142
 Een opsomming uit Word of Outlook plak
 je er zo in, en andersom werkt het ook.
 
-45
-00:03:36,313 --> 00:03:40,011
+48
+00:03:39,208 --> 00:03:42,830
 En gaat er iets mis, dan
 maakt Ctrl+Z het ongedaan.
 
-46
-00:03:43,523 --> 00:03:47,182
+49
+00:03:45,557 --> 00:03:49,452
 Hetzelfde document zie je in het
 tabblad Mindmap als een boom.
 
-47
-00:03:47,778 --> 00:03:49,678
+50
+00:03:50,103 --> 00:03:52,082
 Klik op een tak om hem uit te klappen,
 
-48
-00:03:49,678 --> 00:03:52,678
+51
+00:03:52,082 --> 00:03:55,196
 en dubbelklik om naar die
 plek in het document te gaan.
 
-49
-00:03:59,235 --> 00:04:03,081
+52
+00:04:01,808 --> 00:04:05,490
 De dikte van een lijn laat zien
 hoeveel uren per jaar eronder vallen.
 
-50
-00:04:03,577 --> 00:04:05,863
+53
+00:04:06,067 --> 00:04:08,507
 Zo zie je in één blik waar je tijd zit.
 
-51
-00:04:06,347 --> 00:04:09,263
-Met de knoppen erboven toon
-je ook de opsommingen,
+54
+00:04:09,081 --> 00:04:12,604
+Met de knoppen erboven kies je
+wat je ziet: de opsommingen,
 
-52
-00:04:09,263 --> 00:04:12,254
+55
+00:04:12,604 --> 00:04:15,662
 de voortgang van je taken
 en de projectnummers.
 
-53
-00:04:16,173 --> 00:04:18,252
+56
+00:04:19,334 --> 00:04:21,406
 Twee hulpmiddelen horen hier nog bij.
 
-54
-00:04:18,658 --> 00:04:22,298
+57
+00:04:21,812 --> 00:04:25,452
 Tekstcontrole loopt je bestanden
 na en laat zien wat niet klopt:
 
-55
-00:04:22,298 --> 00:04:26,302
+58
+00:04:25,452 --> 00:04:29,456
 een taak die niet meetelt, een link
 die afbreekt, een dubbele kop.
 
-56
-00:04:27,060 --> 00:04:29,192
+59
+00:04:30,214 --> 00:04:32,346
 Klik op de regel en je staat er.
 
-57
-00:04:30,613 --> 00:04:32,640
+60
+00:04:33,767 --> 00:04:35,794
 De pagina wijzigt zelf niets.
 
-58
-00:04:33,294 --> 00:04:38,316
+61
+00:04:36,448 --> 00:04:41,470
 En wie liever de kale tekst ziet, zet in
 Instellingen het tabblad Bewerken aan.
 
-59
-00:04:45,492 --> 00:04:49,007
+62
+00:04:48,639 --> 00:04:52,154
 Links staat dan de tekst,
 rechts hoe de pagina hem leest.
 
-60
-00:04:50,893 --> 00:04:54,839
+63
+00:04:54,040 --> 00:04:57,985
 In de volgende video zie je wat
 de pagina met je taken uitrekent.

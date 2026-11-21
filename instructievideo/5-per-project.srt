@@ -18,208 +18,217 @@ Klik op het label, en je opent
 de notities van dat project.
 
 5
-00:00:23,130 --> 00:00:28,198
+00:00:23,128 --> 00:00:28,196
 Welke codes meetellen, stel je in bij
 Instellingen, onder Codes voor notities.
 
 6
-00:00:34,515 --> 00:00:35,736
+00:00:34,512 --> 00:00:35,733
 Heb je nog geen nummer?
 
 7
-00:00:36,083 --> 00:00:39,360
+00:00:36,080 --> 00:00:39,356
 Met + Volgnummer krijg
 je een voorlopig nummer.
 
 8
-00:00:42,907 --> 00:00:46,100
+00:00:42,903 --> 00:00:46,096
 Een omlijnd label betekent:
 nog geen notities.
 
 9
-00:00:46,728 --> 00:00:49,318
+00:00:46,725 --> 00:00:49,314
 Een gevuld label: er zijn notities.
 
 10
-00:00:53,280 --> 00:00:58,576
-Het notitievenster werkt precies zoals
-Document: dezelfde toetsen, dezelfde knoppen.
+00:00:53,026 --> 00:00:56,653
+Het notitievenster werkt zoals
+Document: dezelfde toetsen,
 
 11
-00:01:00,591 --> 00:01:03,867
-Met Datum invoegen zet je een
-kop met de datum van vandaag,
+00:00:56,653 --> 00:00:58,903
+en dezelfde knoppen voor opmaak.
 
 12
-00:01:03,867 --> 00:01:06,450
-en daaronder schrijf je wat er is gebeurd.
+00:01:00,904 --> 00:01:04,731
+Met Datum invoegen zet je een
+kop met de datum van vandaag.
 
 13
-00:01:08,572 --> 00:01:10,917
-Zo groeit er een logboek per project.
+00:01:05,243 --> 00:01:08,227
+Druk op Enter, en schrijf
+eronder wat er is gebeurd.
 
 14
-00:01:11,703 --> 00:01:13,731
-Sla op met Ctrl+S.
+00:01:10,676 --> 00:01:12,945
+Zo groeit er een logboek per project.
 
 15
-00:01:14,179 --> 00:01:17,843
+00:01:13,622 --> 00:01:15,611
+Sla op met Ctrl+S.
+
+16
+00:01:16,023 --> 00:01:19,697
 Elke keer dat je opslaat, bewaart
 de pagina de volledige versie.
 
-16
-00:01:18,257 --> 00:01:22,609
+17
+00:01:20,077 --> 00:01:24,528
 Onder Versies zie je wat er veranderde,
 en zet je een oude versie terug.
 
-17
-00:01:30,402 --> 00:01:32,798
+18
+00:01:32,314 --> 00:01:34,789
 Met Bijlage voeg je een bestand toe.
 
-18
-00:01:35,699 --> 00:01:40,077
+19
+00:01:37,581 --> 00:01:41,959
 De pagina zet een kopie in de map van het
 project, met een link in je notities.
 
-19
-00:01:41,197 --> 00:01:44,549
+20
+00:01:42,983 --> 00:01:46,335
 Boven de notities staat
 Geldigheid licenties.
 
-20
-00:01:44,980 --> 00:01:47,544
+21
+00:01:46,769 --> 00:01:49,331
 Voeg een licentie toe met
 een naam en een einddatum,
 
-21
-00:01:47,544 --> 00:01:49,865
+22
+00:01:49,331 --> 00:01:51,650
 en de pagina houdt de termijn in de gaten.
 
-22
-00:01:56,984 --> 00:02:01,463
+23
+00:01:58,790 --> 00:02:03,269
 Het tabblad Licenties toont ze van
 alle projecten bij elkaar: verlopen,
 
-23
-00:02:01,463 --> 00:02:03,732
+24
+00:02:03,269 --> 00:02:05,538
 binnen negentig dagen, en later.
 
-24
-00:02:07,691 --> 00:02:10,586
+25
+00:02:09,496 --> 00:02:12,392
 Het label van het project
 krijgt een oranje of rode rand,
 
-25
-00:02:10,586 --> 00:02:13,377
+26
+00:02:12,392 --> 00:02:15,182
 en bij het openen van je
 map krijg je een melding.
 
-26
-00:02:20,625 --> 00:02:22,499
+27
+00:02:22,430 --> 00:02:24,304
 Heeft een dienst geen licenties?
 
-27
-00:02:22,657 --> 00:02:23,611
+28
+00:02:24,462 --> 00:02:25,416
 Vink dat aan.
 
-28
-00:02:23,916 --> 00:02:25,970
+29
+00:02:25,721 --> 00:02:27,775
 Dan weet je later dat
 je het hebt nagegaan.
 
-29
-00:02:29,930 --> 00:02:33,014
+30
+00:02:31,733 --> 00:02:34,817
 Wil je alles over één
 project op één scherm?
 
-30
-00:02:33,284 --> 00:02:35,117
+31
+00:02:35,087 --> 00:02:36,920
 Dat is het tabblad Dossier.
 
-31
-00:02:41,147 --> 00:02:45,398
+32
+00:02:42,950 --> 00:02:47,201
 Je ziet de taken uit je document, met de
 eerstvolgende dag waarop ze gepland staan.
 
-32
-00:02:46,354 --> 00:02:49,864
+33
+00:02:48,156 --> 00:02:51,662
 Je ziet de notities als
 tijdlijn, de nieuwste bovenaan.
 
-33
-00:02:50,933 --> 00:02:56,434
+34
+00:02:52,735 --> 00:02:58,236
 En daaronder de bijlagen, de licenties, de
 versies en de daginvoer over dit project.
 
-34
-00:03:01,529 --> 00:03:05,933
+35
+00:03:03,334 --> 00:03:07,716
 Een project gaat na afronding vaak over
 in dienstverlening, met een ander nummer.
 
-35
-00:03:07,898 --> 00:03:12,713
+36
+00:03:09,704 --> 00:03:14,519
 Leg dat vast met één regel in de
 notities: Overgegaan in, dubbele punt,
 
-36
-00:03:12,713 --> 00:03:14,658
+37
+00:03:14,519 --> 00:03:16,464
 en de code van de dienst.
 
-37
-00:03:20,891 --> 00:03:26,102
+38
+00:03:22,701 --> 00:03:27,912
 Het tabblad Overgang tekent dan de lijn:
 links de projecten, rechts de diensten.
 
-38
-00:03:27,185 --> 00:03:30,520
+39
+00:03:28,995 --> 00:03:32,328
 Je ziet ook meteen bij welke
 projecten nog niets is vastgelegd.
 
-39
-00:03:34,655 --> 00:03:37,272
+40
+00:03:33,772 --> 00:03:36,338
 Krijgt een voorlopig
 nummer zijn echte nummer,
 
-40
-00:03:37,272 --> 00:03:40,254
+41
+00:03:36,338 --> 00:03:39,266
 gebruik dan Code omzetten
 in het notitievenster.
 
-41
-00:03:42,411 --> 00:03:45,387
+42
+00:03:41,417 --> 00:03:44,380
 Vul de nieuwe code in
 en klik op Controleren.
 
-42
-00:03:46,280 --> 00:03:51,991
+43
+00:03:45,198 --> 00:03:50,765
 Je ziet eerst precies wat er verandert:
 elke vermelding, elk bestand, elke bijlage.
 
-43
-00:03:52,913 --> 00:03:54,915
+44
+00:03:51,682 --> 00:03:53,727
 Pas bij Omzetten gebeurt het.
 
-44
-00:03:55,410 --> 00:03:58,136
-En mislukt er een stap, dan
-wordt alles teruggezet.
-
 45
-00:04:04,261 --> 00:04:07,897
+00:03:54,186 --> 00:03:58,904
+Mislukt er een stap voordat je takenlijst
+is opgeslagen, dan wordt alles teruggezet.
+
+46
+00:04:04,671 --> 00:04:08,434
 En wil je de hoofdlijnen en alle
 notities onder elkaar lezen,
 
-46
-00:04:07,897 --> 00:04:11,484
+47
+00:04:08,434 --> 00:04:12,139
 zet dan in Instellingen het
 tabblad Totaaloverzicht aan.
 
-47
-00:04:18,826 --> 00:04:23,909
-Onder elk project staat het hele
-notitiebestand, en je vinkt er taken direct af.
-
 48
-00:04:26,284 --> 00:04:31,548
+00:04:19,655 --> 00:04:23,414
+Onder elk project met notities
+staat het hele notitiebestand,
+
+49
+00:04:23,414 --> 00:04:25,574
+en je vinkt er taken direct af.
+
+50
+00:04:28,291 --> 00:04:33,422
 De volgende video gaat over je gegevens:
 waar ze staan, en hoe je alles terugvindt.

@@ -1,5 +1,5 @@
 1
-00:00:00,733 --> 00:00:01,750
+00:00:00,733 --> 00:00:01,742
 Samengevat.
 
 2
@@ -7,7 +7,7 @@ Samengevat.
 Schrijf je werk één keer op in Document.
 
 3
-00:00:05,732 --> 00:00:08,641
+00:00:05,733 --> 00:00:08,641
 Kijk in Jaar, Week en Dag of het past.
 
 4
@@ -28,9 +28,9 @@ open het bestand, kies een map,
 en controleer je uren.
 
 8
-00:00:21,413 --> 00:00:23,385
+00:00:21,414 --> 00:00:23,385
 Daarna typ je je eerste taak.
 
 9
-00:00:24,706 --> 00:00:25,624
+00:00:24,710 --> 00:00:25,624
 Veel succes.
