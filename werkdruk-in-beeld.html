@@ -1684,6 +1684,7 @@ body {
 .nt-kop { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--line); }
 .nt-kop h2 { margin: 0; font-size: var(--fs-kop-2); font-family: var(--font-display); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nt-status { font-size: var(--fs-m); color: var(--muted); white-space: nowrap; }
+.nt-wacht .hulp-vlak { cursor: progress; }   /* v283: het venster wacht met sluiten tot het opslaan klaar is */
 .nt-statusrij { display: contents; }   /* v250: op een smal scherm een eigen regel (zie de media-regel tot 800 px) */
 .nt-status.vuil { color: var(--warn); font-weight: 700; white-space: normal; }   /* een foutmelding mag afbreken (v140) */
 .nt-status.opslag-label { color: #fff; font-weight: 600; white-space: nowrap; }   /* v183: "Niet opgeslagen" als het label in de balk */
@@ -2529,6 +2530,32 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   <section class="releasenotes" id="releasenotes" role="tabpanel" aria-labelledby="tab-releasenotes" hidden>
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
+
+    <div class="release"><h2><span class="versie">v283</span> Het notitievenster wacht met sluiten tot het opslaan klaar is <span class="datum">22 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Sloot je het notitievenster terwijl het opslaan nog liep (dat merk je alleen op een trage schijf), dan vroeg de pagina of je de niet-opgeslagen notities wilde weggooien, terwijl ze wel werden opgeslagen. Nu wacht het venster tot het opslaan klaar is en sluit het daarna vanzelf, zonder vraag; zolang het wacht, staat er <i>Opslaan… het venster sluit daarna</i>. Dat geldt voor het kruisje, Esc, een klik naast het venster, de knop Dossier en het openen van een andere notitie.</li>
+      <li><span class="soort herstel">herstel</span>Mislukt het opslaan, dan blijft het venster open met de melding en kun je het opnieuw proberen. Heb je na het opslaan nog iets getypt, dan komt na het wachten de gewone vraag over niet-opgeslagen notities.</li>
+      <li><span class="soort herstel">herstel</span>Sluit of ververs je de pagina terwijl een vinkje uit het Totaaloverzicht nog wordt opgeslagen, dan waarschuwt de pagina.</li>
+      <li>Tests: vijf nieuwe in een echte browser, met een nagebootste schijf die traag schrijft; één test van v282 is aangepast omdat de vraag die hij bevestigde er niet meer komt. Hulp bijgewerkt (Notities per code).</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+
+    <div class="release"><h2><span class="versie">v282</span> Een taak is nooit een licentie; opslagacties op een notitie gaan om de beurt <span class="datum">22 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Een taak onder <i>Geldigheid licenties</i> (een punt met een afvinkvakje, zoals <code>- [ ] Contract tekenen: 31-12-2026</code>) is geen licentie meer, ook niet direct onder de kop. Ze staat niet in het kader of het tabblad Licenties, geeft geen waarschuwing, en blijft in de tekst staan waar je haar kunt afvinken. Geef je een licentie zelf een naam die met <code>[ ]</code> begint, dan blijft dat een licentie.</li>
+      <li><span class="soort herstel">herstel</span>Vinkte je in het <b>Totaaloverzicht</b> snel twee taken van dezelfde notitie af, dan kon op een trage schijf het eerste vinkje verdwijnen. Opslagacties op dezelfde notitie (opslaan in het notitievenster, afvinken in het Totaaloverzicht, Code omzetten) gaan nu om de beurt en lezen het bestand eerst opnieuw; beide vinkjes worden bewaard.</li>
+      <li><span class="soort herstel">herstel</span>Sloot je het notitievenster terwijl het opslaan nog liep en vinkte je meteen een taak af, dan kon de opgeslagen tekst verdwijnen. Dat kan niet meer. Twee keer achter elkaar opslaan geeft nog maar één vermelding in de historie.</li>
+      <li>Tests: één nieuwe in Node en vier in een echte browser, met een nagebootste schijf die traag schrijft. De vastgelegde uitkomst van Code omzetten is ongewijzigd. Hulp bijgewerkt (Notities per code, Totaaloverzicht).</li>
+      <li>Handmatige actie: (1) heb je licenties ooit met een afvinkvakje genoteerd (<code>- [ ] CRM: 31-12-2026</code>), haal het vakje dan weg als het een licentie moet blijven. (2) Mis je een vinkje of een stuk tekst in een notitie na snel achter elkaar afvinken of opslaan in een eerdere versie, kijk dan in het tabblad Historie met het filter <i>notities</i>: daar staat wat er had moeten staan.</li>
+    </ul></div>
+
+    <div class="release"><h2><span class="versie">v281</span> Een BOM, eigen tekst in de historie, archiveren en mislukt schrijven: niets verdwijnt meer ongemerkt <span class="datum">22 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Zette een programma een BOM vooraan daginvoer.md, een historiebestand of een versiebestand (een onzichtbaar teken dat sommige Windows-programma's toevoegen), dan zag de pagina de eerste invoer, vermelding of versie niet. Bij een historiebestand verdween die vermelding ook uit het bestand zodra je een andere verwijderde. De pagina leest nu over de BOM heen en laat hem staan, ook in instellingen.md.</li>
+      <li><span class="soort herstel">herstel</span>Een notitie met een BOM vooraan: Dossier, Overgang, Licenties en Zoeken in alles tonen de titel, een eerste licentie komt onder de titel in plaats van erboven, en Code omzetten zet de regel <i>Voorheen:</i> onder de titel.</li>
+      <li><span class="soort herstel">herstel</span>Een vermelding verwijderen in <b>Historie</b> gooide tekst weg die je zelf in het historiebestand had gezet, en zette alle regeleinden om. Nu blijft alles staan wat de pagina niet wijzigt, teken voor teken. <i>Historie laden</i> zet het gekozen bestand in de map zoals het is.</li>
+      <li><span class="soort herstel">herstel</span>Daginvoer archiveren meldde <i>Gearchiveerd</i>, ook als daginvoer.md niet kon worden leeggemaakt; historie archiveren zette na een mislukte en herhaalde poging alles dubbel in het archief. Archiveren gaat nu als één geheel: lukt het leegmaken niet, dan gaat de tekst weer uit het archief en zegt de melding dat er niets is gewijzigd.</li>
+      <li><span class="soort herstel">herstel</span>Kon de pagina daginvoer.md of een historiebestand niet schrijven, dan stond dat alleen in de statusregel van dat tabblad, en een vermelding in de historie kwam nooit meer in het bestand. Je ziet nu een melding, de pagina probeert het om de paar seconden opnieuw en waarschuwt als je de pagina sluit voordat het gelukt is.</li>
+      <li>Tests: vier nieuwe in Node en zes in een echte browser. Alles is aangetoond met de nagebootste map, niet met een echt bezet bestand. Hulp bijgewerkt (Daginvoer, Historie, Je gegevens).</li>
+      <li>Handmatige actie: (1) is een historiebestand ooit met een BOM opgeslagen (bijvoorbeeld na bewerken in een Windows-programma) en heb je daarna in de pagina een vermelding verwijderd of instellingen gewijzigd, dan kan de eerste vermelding van dat bestand zijn verdwenen; die is alleen terug te halen uit een back-up of een archiefbestand. (2) Gaf archiveren ooit een foutmelding en deed je het daarna opnieuw, kijk dan of er in het archiefbestand iets dubbel staat. (3) Heb je bij een notitie met een BOM een eerste licentie toegevoegd, kijk dan of <code>## Geldigheid licenties</code> boven de titel staat en zet de titel weer bovenaan.</li>
+    </ul></div>
 
     <div class="release"><h2><span class="versie">v280</span> Een eigen punt onder je licenties wordt overgeslagen; de licentie eronder telt weer mee <span class="datum">22 nov 2026</span></h2><ul>
       <li><span class="soort herstel">herstel</span>Staat er onder je licenties, na een lege regel, een eigen punt (<code>- B: nog opvragen</code>), dan slaat de pagina dat over en leest ze verder: een licentie eronder telt weer mee, ook voor de waarschuwing bij verlopen. Sinds v275 hield het blok bij zo'n punt op en viel een licentie eronder weg. Je eigen punt blijft staan waar het staat als je een licentie bewerkt, toevoegt, weghaalt of versleept. Gewone tekst die geen opsommingspunt is, of een kop, sluit het blok af.</li>
@@ -4372,7 +4399,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li><i>Bijlage…</i> bewaart een bestand bij het project. Kies een of meer bestanden, of sleep ze vanuit de Verkenner of Finder naar het notitievenster. De pagina zet een kopie in <code>notities/123456/</code> (een map met de code als naam, naast je notitiebestand) en zet in je notities een opsommingspunt met een link naar het bestand, onder de regel van de cursor (staat de cursor in een lijst, dan als laatste punt van die lijst; in de markdownweergave direct onder de regel). Sla daarna je notities op om de link te bewaren. Er wordt nooit een bijlage overschreven: staat er al een bestand met die naam en dezelfde inhoud, dan komt er alleen een link bij; is de inhoud anders, dan krijgt het nieuwe bestand een volgnummer, zoals <code>offerte (2).pdf</code>. Een map kun je niet als bijlage bewaren. Een bestand dat je naar het notitievenster sleept, wordt niet als document geopend. Zonder map waarin de pagina kan schrijven (dus ook in Firefox en Safari) is de knop er niet.</li>
       <li>Een bijlage open je met <kbd>Ctrl</kbd>+klik (op een Mac <kbd>Cmd</kbd>+klik) op de link in je notities, of met een gewone klik in het tabblad Dossier. Het bestand opent in een nieuw tabblad; wat de browser niet zelf kan tonen, biedt hij aan als download. De link is een pad vanaf de plek van het HTML-bestand. Hij werkt dus als <code>werkdruk-in-beeld.html</code> in je gegevensmap staat, naast werkdruk.md. Staat het HTML-bestand ergens anders, dan staat de bijlage wel in de map, maar opent de link niet.</li>
       <li><i>Dossier</i> sluit het venster en toont alles over deze code in het tabblad Dossier (heb je nog niet opgeslagen, dan vraagt de pagina eerst of je dat wilt weggooien).</li>
-      <li>Opslaan met de knop, met <kbd>Ctrl</kbd>+<kbd>S</kbd> of met een klik op het oranje label <i>Niet opgeslagen · opslaan</i> bovenaan, dat net als in de balk verschijnt zodra je iets wijzigt; dat slaat alleen de notities op, niet werkdruk.md. <kbd>Esc</kbd> sluit; heb je nog niet opgeslagen, dan vraagt de pagina eerst of je dat wilt weggooien.</li>
+      <li>Opslaan met de knop, met <kbd>Ctrl</kbd>+<kbd>S</kbd> of met een klik op het oranje label <i>Niet opgeslagen · opslaan</i> bovenaan, dat net als in de balk verschijnt zodra je iets wijzigt; dat slaat alleen de notities op, niet werkdruk.md. <kbd>Esc</kbd> sluit; heb je nog niet opgeslagen, dan vraagt de pagina eerst of je dat wilt weggooien. Sluit je het venster terwijl het opslaan nog loopt (dat merk je alleen op een trage schijf), dan wacht het venster tot het opslaan klaar is en sluit het daarna vanzelf, zonder vraag; zolang het wacht, staat er <i>Opslaan… het venster sluit daarna</i>. Mislukt het opslaan, dan blijft het venster open met de melding en kun je het opnieuw proberen.</li>
       <li>Wijzigt een ander programma het notitiebestand, dan neemt het venster dat over zolang je zelf niets hebt gewijzigd. Heb je wel iets gewijzigd, dan vraagt het venster bij opslaan of je toch wilt opslaan; doe je dat, dan komt de andere versie eerst bij de versies, zodat je hem kunt bekijken en terugzetten. Kan een notitiebestand niet worden gelezen (bijvoorbeeld omdat de browser geen toestemming meer heeft voor de map), dan opent het venster niet en zie je een melding. Zo kan er nooit een leeg venster over je bestaande notities heen worden opgeslagen.</li>
     </ul>
     <h4>Bestanden en versies</h4>
@@ -4388,7 +4415,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <p>Is een verplicht veld nog leeg, dan heeft het een oranje rand en staat onder de licentie wat je nog moet invullen. De startdatum mag je leeg laten. Vul je hem wel in, dan wordt een startdatum na de einddatum gemeld. Opslaan kan altijd; de melding blijft staan tot je het veld invult. Eén uitzondering: een licentie zonder naam komt als <i>Licentie</i> in het bestand. Open je de notities later opnieuw, dan staat die naam in het veld en is de melding erover weg.</p>
     <p>De <b>link naar de schijf</b> is een pad naar een bestand of map, zoals <code>G:\Licenties\contract.pdf</code> of <code>\\server\map</code>, of een webadres. Met ↗ naast het veld open je de link in een nieuw tabblad. Een adres dat geen link kan zijn, krijgt een rode rand en komt niet in het bestand; stond er al een link, dan blijft die staan tot je een adres invult dat wel kan, of het veld leegmaakt.</p>
     <p>Heeft een dienst geen licenties, vink dan <i>Deze dienst heeft geen licenties</i> aan. Zo zie je later dat je het hebt nagegaan. Het vinkje kan alleen als er geen licenties staan; voeg je er een toe, dan gaat het vanzelf uit.</p>
-    <p>De licenties staan als gewone tekst in het notitiebestand, onder de kop <code>## Geldigheid licenties</code>, bijvoorbeeld <code>- CRM systeem: 01-01-2026 t/m 31-12-2026 [schijf](G:\Licenties\contract.pdf)</code>. Een regel met alleen een einddatum, zoals <code>- CRM systeem: 31-12-2026</code>, blijft geldig. Een naam van meerdere regels staat in het bestand op één regel, met <code>&lt;br&gt;</code> tussen de regels. Dat een dienst geen licenties heeft, staat er als de regel <code>Geen licenties.</code> In de opgemaakte weergave zie je die kop en de licenties eronder niet, want ze staan al in het onderdeel erboven; daar wijzig je ze. In het bestand blijven ze gewoon staan. Bewerk je notities als markdown (Instellingen), dan kun je ze ook in de tekst zelf wijzigen; het onderdeel erboven volgt. Staat er onder de kop ook andere tekst dan licenties, dan zie je het hele blok wel, zodat die tekst niet onder een verkeerde kop lijkt te staan. Het blok bestaat uit de kop en de regels met licenties (of de regel <code>Geen licenties.</code>) eronder; gewone tekst die daarna volgt, hoort er niet meer bij en blijft altijd staan, ook als je alle licenties weghaalt. De pagina zet het blok onder de titel en de regels die daar direct onder staan, zoals <code>Voortgekomen uit: 482828</code>. Typ je licenties zelf in de tekst, zet ze dan direct onder de kop, zonder lege regel ertussen: daar telt elk opsommingspunt met een dubbele punt. Na een lege regel telt een punt alleen nog als licentie als er achter de dubbele punt niets staat, of een datum (dd-mm-jjjj), <code>start t/m eind</code> of een link. Een ander punt, zoals <code>- Belangrijk: de leverancier bellen</code>, is gewone tekst van jou: de pagina slaat het over en leest verder, zodat een licentie eronder gewoon meetelt. Het blijft staan waar het staat, ook als je een licentie bewerkt, toevoegt, weghaalt of versleept. Gewone tekst die geen opsommingspunt is, of een kop, sluit het blok af. Let op: een eigen punt met een datum achter de dubbele punt (<code>- Deadline: 31-12-2026</code>) telt daar als licentie. Staat er een eigen punt tussen je licenties, dan zie je in de opgemaakte tekst het hele blok: de kop, de licenties en je eigen punt. Wat je in het kader niet wijzigt, blijft in het bestand staan zoals het er stond: een licentie die je niet aanraakt teken voor teken, en van een licentie die je wel bewerkt elk veld dat je laat zoals het is, ook als daar iets anders staat dan een datum (<code>- Panelbestand: nog opvragen</code>). Ze gaan mee in de versies, de historie en bij code omzetten. Sla op zoals altijd met <kbd>Ctrl</kbd>+<kbd>S</kbd>.</p>
+    <p>De licenties staan als gewone tekst in het notitiebestand, onder de kop <code>## Geldigheid licenties</code>, bijvoorbeeld <code>- CRM systeem: 01-01-2026 t/m 31-12-2026 [schijf](G:\Licenties\contract.pdf)</code>. Een regel met alleen een einddatum, zoals <code>- CRM systeem: 31-12-2026</code>, blijft geldig. Een naam van meerdere regels staat in het bestand op één regel, met <code>&lt;br&gt;</code> tussen de regels. Dat een dienst geen licenties heeft, staat er als de regel <code>Geen licenties.</code> In de opgemaakte weergave zie je die kop en de licenties eronder niet, want ze staan al in het onderdeel erboven; daar wijzig je ze. In het bestand blijven ze gewoon staan. Bewerk je notities als markdown (Instellingen), dan kun je ze ook in de tekst zelf wijzigen; het onderdeel erboven volgt. Staat er onder de kop ook andere tekst dan licenties, dan zie je het hele blok wel, zodat die tekst niet onder een verkeerde kop lijkt te staan. Het blok bestaat uit de kop en de regels met licenties (of de regel <code>Geen licenties.</code>) eronder; gewone tekst die daarna volgt, hoort er niet meer bij en blijft altijd staan, ook als je alle licenties weghaalt. De pagina zet het blok onder de titel en de regels die daar direct onder staan, zoals <code>Voortgekomen uit: 482828</code>. Typ je licenties zelf in de tekst, zet ze dan direct onder de kop, zonder lege regel ertussen: daar telt elk opsommingspunt met een dubbele punt. Na een lege regel telt een punt alleen nog als licentie als er achter de dubbele punt niets staat, of een datum (dd-mm-jjjj), <code>start t/m eind</code> of een link. Een ander punt, zoals <code>- Belangrijk: de leverancier bellen</code>, is gewone tekst van jou: de pagina slaat het over en leest verder, zodat een licentie eronder gewoon meetelt. Het blijft staan waar het staat, ook als je een licentie bewerkt, toevoegt, weghaalt of versleept. Gewone tekst die geen opsommingspunt is, of een kop, sluit het blok af. Let op: een eigen punt met een datum achter de dubbele punt (<code>- Deadline: 31-12-2026</code>) telt daar als licentie. Een taak, dus een punt met een afvinkvakje zoals <code>- [ ] Contract tekenen: 31-12-2026</code>, is nooit een licentie, ook niet direct onder de kop: ze blijft in de tekst staan en je vinkt haar daar af. Staat er een eigen punt tussen je licenties, dan zie je in de opgemaakte tekst het hele blok: de kop, de licenties en je eigen punt. Wat je in het kader niet wijzigt, blijft in het bestand staan zoals het er stond: een licentie die je niet aanraakt teken voor teken, en van een licentie die je wel bewerkt elk veld dat je laat zoals het is, ook als daar iets anders staat dan een datum (<code>- Panelbestand: nog opvragen</code>). Ze gaan mee in de versies, de historie en bij code omzetten. Sla op zoals altijd met <kbd>Ctrl</kbd>+<kbd>S</kbd>.</p>
     <p>Het tabblad <b>Licenties</b> (in de zijbalk onder <i>Projecten</i>) toont alle licenties van alle projecten, de eerst verlopende bovenaan, in de groepen <i>Verlopen</i>, <i>Binnen 90 dagen</i>, <i>Later</i> en <i>Zonder datum</i>. Klik op een regel om de notities van dat project te openen. Daarnaast waarschuwt de pagina op twee manieren: het label van de code in Document en Taken krijgt een rode rand (verlopen) of oranje rand (binnen 90 dagen), en bij het openen van een map verschijnt een melding met de knop <i>Bekijk licenties</i>.</p>
     <h4>Volgnummer</h4>
     <p>De knop <b>+ Volgnummer</b> in Document (en in Bewerken, als dat aan staat) voegt het eerstvolgende vrije nummer in volgens <b>Instellingen → Volgnummer</b> (standaard <code>ONB-999</code>): eerst <code>ONB-001</code>, dan <code>ONB-002</code>, enzovoort. Vrij betekent: hoger dan elk nummer dat al in werkdruk.md staat of al notities heeft. Staat de cursor op een opsommingspunt, dan komt het nummer vooraan dat punt; op een kopregel komt het direct na de #; op een lege regel begint de knop een nieuw punt; begint de regel al met een code, dan gebeurt er niets. Je geeft één volgnummer op. Typ of plak je er meer (met een komma, puntkomma of spatie ertussen), dan blijft alleen het eerste staan; staan er in <code>instellingen.md</code> toch meerdere, dan gebruikt de pagina het eerste en meldt ze dat. In het volgnummer staat precies één reeks negens, zonder <code>?</code> of <code>*</code>. Laat je het leeg of voldoet het daar niet aan (zoals <code>9999-999</code>, met twee reeksen), dan verdwijnt de knop. Een nummer dat ooit is gebruikt komt niet terug: instellingen.md houdt een teller bij (<code>Laatste volgnummer</code>). Bij elk nummer haalt de knop eerst de nieuwste teller van schijf, legt het nieuwe nummer vast in instellingen.md, en voegt het pas daarna in; lukt het vastleggen niet, dan wordt er niets ingevoegd. De knop kijkt bovendien in daginvoer.md, in de versiebestanden en in notities_historie.md.</p>
@@ -4416,7 +4443,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li>Met <b>Alles uitklappen</b> en <b>Alles inklappen</b> open of sluit je alle detailblokken tegelijk; per blok klik je op de kopregel.</li>
       <li>Het zoekveld zoekt in het hele overzicht, ook in de detailbestanden. <b>Alleen urgent</b> laat de hoofdzaken zien die zelf of in hun detailbestand urgente items hebben.</li>
       <li>Wijzig je werkdruk.md of een detailbestand (in de pagina of daarbuiten), dan wordt het overzicht vanzelf bijgewerkt.</li>
-      <li>Je kunt taken <b>afvinken</b> in het overzicht. Een taak in een detailblok wordt opgeslagen in het detailbestand, met een versie en een vermelding in de historie, net als opslaan in het notitievenster; een vinkje bij een hoofdzaak past werkdruk.md aan, net als in Document. Is het detailbestand intussen gewijzigd, of staat het open in het notitievenster met wijzigingen die nog niet zijn opgeslagen, dan wordt er niets afgevinkt en zegt de pagina waarom.</li>
+      <li>Je kunt taken <b>afvinken</b> in het overzicht. Een taak in een detailblok wordt opgeslagen in het detailbestand, met een versie en een vermelding in de historie, net als opslaan in het notitievenster; een vinkje bij een hoofdzaak past werkdruk.md aan, net als in Document. Vink je snel meerdere taken na elkaar af, dan worden ze een voor een opgeslagen. Is het detailbestand intussen gewijzigd, of staat het open in het notitievenster met wijzigingen die nog niet zijn opgeslagen, dan wordt er niets afgevinkt en zegt de pagina waarom.</li>
     </ul>
   </section>
   <section id="h-tekstcontrole">
@@ -4475,7 +4502,8 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   <section id="h-dag">
     <h3>Daginvoer</h3>
     <p>Met <b>+ Nieuwe invoer</b> in het tabblad Daginvoer of <b>+ Daginvoer voor deze dag</b> in de dagweergave leg je vrije tekst vast voor een dag (standaard vandaag; markdown mag, <kbd>Ctrl</kbd>+<kbd>Enter</kbd> voegt toe). Per dag kun je zo vaak invoeren als je wilt; elke invoer heeft een tijdstip en kan worden verwijderd. Het tabblad Daginvoer toont de laatste vier weken per dag uitgeklapt en oudere invoer per maand ingeklapt. Staan er werkdruktaken in werkdruk.md, dan staat bij elke dag de link <i>Bekijk dag</i> naar de dagweergave, en bij een dag in het bekeken jaar ook wat de werkdrukberekening over die dag zegt (verlof, feestdag of geplande uren).</p>
-    <p>In het jaar- en maandoverzicht heeft een dag met daginvoer een stip. De dagweergave toont de daginvoer van die dag, met een knop om er iets aan toe te voegen. De tekst staat in <code>daginvoer.md</code> in de gekozen map. Pas je daginvoer.md buiten de pagina aan (of heb je de pagina in twee tabbladen open), dan neemt de pagina dat over, en bij een nieuwe of verwijderde invoer worden beide wijzigingen samengevoegd: er wordt niets overschreven. Een invoer begint in het bestand met een kop als <code>## 2026-11-20 09:15:00</code> (datum en tijd). Tekst die je zelf boven de eerste invoer zet, zoals een titel, een aantekening of een kop zonder tijdstip, staat niet in het tabblad maar blijft bovenaan in het bestand staan. Zonder map blijft de daginvoer in het geheugen en gebruik je Downloaden en Laden. <i>Archiveren</i> zet alle invoeren weg als <code>daginvoer-JJJJ-MM.md</code>.</p>
+    <p>In het jaar- en maandoverzicht heeft een dag met daginvoer een stip. De dagweergave toont de daginvoer van die dag, met een knop om er iets aan toe te voegen. De tekst staat in <code>daginvoer.md</code> in de gekozen map. Pas je daginvoer.md buiten de pagina aan (of heb je de pagina in twee tabbladen open), dan neemt de pagina dat over, en bij een nieuwe of verwijderde invoer worden beide wijzigingen samengevoegd: er wordt niets overschreven. Een invoer begint in het bestand met een kop als <code>## 2026-11-20 09:15:00</code> (datum en tijd). Tekst die je zelf boven de eerste invoer zet, zoals een titel, een aantekening of een kop zonder tijdstip, staat niet in het tabblad maar blijft bovenaan in het bestand staan. Zonder map blijft de daginvoer in het geheugen en gebruik je Downloaden en Laden. <i>Archiveren</i> zet alle invoeren weg als <code>daginvoer-JJJJ-MM.md</code> en maakt daginvoer.md leeg; je eigen tekst bovenaan blijft staan. Lukt het leegmaken niet, dan zegt de melding dat, gaan de invoeren weer uit het archief en is er niets gewijzigd.</p>
+    <p>Kan de pagina daginvoer.md niet schrijven (bijvoorbeeld omdat een ander programma het bestand bezet houdt), dan zie je een melding en staat je invoer alleen in de pagina. De pagina probeert het om de paar seconden opnieuw en waarschuwt als je de pagina sluit voordat het gelukt is.</p>
   </section>
 
   <section id="h-hist">
@@ -4486,7 +4514,8 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li>Wijzigingen in <code>instellingen.md</code> (instellingen, verlof, feestdagen, geboorteverlof, thema, stijl en codes) komen in <code>instellingen_historie.md</code>.</li>
       <li>Wijzigingen in de notities (opslaan, terugzetten, code omzetten) komen in <code>notities_historie.md</code>; de volledige versies staan daarnaast per code in <code>notities/…_versies.md</code>.</li>
     </ul>
-    <p>Het tabblad Historie toont alle drie, nieuwste eerst; met de knoppen bovenaan (<i>werkdruk.md</i>, <i>instellingen.md</i>, <i>notities</i>) kies je er één. De laatste vier weken staan per dag uitgeklapt, oudere vermeldingen per maand ingeklapt. Elke vermelding heeft een knop Verwijderen. Verwijderen en archiveren gaan uit van wat er op dat moment in het historiebestand staat, zodat een vermelding die intussen van buitenaf (bijvoorbeeld vanuit een tweede tabblad) is toegevoegd, bewaard blijft. <i>Externe wijzigingen</i> legt ook wijzigingen vast die een ander programma in werkdruk.md of instellingen.md maakt, met het label <i>extern</i>; voor de notities en de daginvoer geldt dit niet (in Instellingen heet dit <i>Ook wijzigingen van andere programma's vastleggen</i>); die keuze wordt in <code>instellingen.md</code> bewaard. Snel opeenvolgende wijzigingen in instellingen.md, zoals twintig verlofdagen aanklikken, komen samen in één vermelding zolang ze binnen drie minuten na elkaar volgen. Is instellingen_historie.md intussen buiten de pagina gewijzigd, dan voegt de pagina niets samen maar zet ze een nieuwe vermelding eronder, zodat er niets van die wijziging verloren gaat. <i>Downloaden</i> en <i>Archiveren</i> gelden voor alle historiebestanden die iets bevatten; archiveren zet ze weg als bijvoorbeeld <code>werkdruk_historie-JJJJ-MM.md</code>. <i>Historie laden</i> herkent aan de bestandsnaam welke historie je inleest (werkdruk, instellingen of notities). Is er nog geen map gekozen, dan staat hier ook een knop <i>Map kiezen</i>.</p>
+    <p>Het tabblad Historie toont alle drie, nieuwste eerst; met de knoppen bovenaan (<i>werkdruk.md</i>, <i>instellingen.md</i>, <i>notities</i>) kies je er één. De laatste vier weken staan per dag uitgeklapt, oudere vermeldingen per maand ingeklapt. Elke vermelding heeft een knop Verwijderen. Verwijderen en archiveren gaan uit van wat er op dat moment in het historiebestand staat, zodat een vermelding die intussen van buitenaf (bijvoorbeeld vanuit een tweede tabblad) is toegevoegd, bewaard blijft. Bij Verwijderen blijven de andere vermeldingen teken voor teken staan, net als tekst die je zelf in het historiebestand hebt gezet. <i>Externe wijzigingen</i> legt ook wijzigingen vast die een ander programma in werkdruk.md of instellingen.md maakt, met het label <i>extern</i>; voor de notities en de daginvoer geldt dit niet (in Instellingen heet dit <i>Ook wijzigingen van andere programma's vastleggen</i>); die keuze wordt in <code>instellingen.md</code> bewaard. Snel opeenvolgende wijzigingen in instellingen.md, zoals twintig verlofdagen aanklikken, komen samen in één vermelding zolang ze binnen drie minuten na elkaar volgen. Is instellingen_historie.md intussen buiten de pagina gewijzigd, dan voegt de pagina niets samen maar zet ze een nieuwe vermelding eronder, zodat er niets van die wijziging verloren gaat. <i>Downloaden</i> en <i>Archiveren</i> gelden voor alle historiebestanden die iets bevatten; archiveren zet ze weg als bijvoorbeeld <code>werkdruk_historie-JJJJ-MM.md</code> en maakt het historiebestand leeg. Lukt het leegmaken niet, dan gaat de tekst weer uit het archief, zodat er na een nieuwe poging niets dubbel in staat; de melding zegt wat niet is gelukt en welke bestanden wel zijn gearchiveerd. <i>Historie laden</i> herkent aan de bestandsnaam welke historie je inleest (werkdruk, instellingen of notities) en zet het gekozen bestand in de map zoals het is. Is er nog geen map gekozen, dan staat hier ook een knop <i>Map kiezen</i>.</p>
+    <p>Kan de pagina een vermelding niet in het historiebestand schrijven, dan zie je een melding en staat de vermelding alleen in de pagina. De pagina probeert het om de paar seconden opnieuw en waarschuwt als je de pagina sluit voordat het gelukt is.</p>
   </section>
 
   <section id="h-koppel">
@@ -4558,10 +4587,10 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <ul>
       <li><code>werkdruk.md</code>: je takenlijst en werkoverzicht. De pagina schrijft erin als je opslaat of in het document een taak afvinkt.</li>
       <li><code>instellingen.md</code>: je uren per werkdag, parttimedag, verlof, geboorteverlof, feestdagen, verlofplanning, thema, stijl, starttabblad, de zijbalk (in- of uitgeklapt), de weergave van herkende tijd in taken, het vastleggen van externe wijzigingen, en de codes voor notities met het volgnummer. De pagina schrijft erin zodra je iets wijzigt. Lukt dat niet, dan zie je een melding, probeert de pagina het om de paar seconden opnieuw en waarschuwt ze als je de pagina sluit voordat het gelukt is. Het is gewone tekst; pas je het met de hand aan, dan neemt de pagina dat meteen of binnen enkele seconden over. Je kunt er ook eigen aantekeningen in zetten: een regel die de pagina niet gebruikt, blijft bij het opslaan onder dezelfde kop staan, en een eigen kop met tekst komt onderaan. Regels die de pagina wel gebruikt (zoals <code>- Uren per werkdag: 9</code>) schrijft ze zelf opnieuw, met de waarde uit Instellingen.</li>
-      <li><code>werkdruk_historie.md</code>, <code>instellingen_historie.md</code> en <code>daginvoer.md</code>: zie Historie en Daginvoer.</li>
+      <li><code>werkdruk_historie.md</code>, <code>instellingen_historie.md</code> en <code>daginvoer.md</code>: zie Historie en Daginvoer. Lukt het schrijven niet, dan gaat het zoals bij instellingen.md: een melding, om de paar seconden een nieuwe poging, en een waarschuwing als je de pagina sluit voordat het gelukt is.</li>
       <li>De map <code>notities</code> met per code <code>123456.md</code> (de notities) en <code>123456_versies.md</code> (alle opgeslagen versies), en <code>notities_historie.md</code> met de verschillen: zie Notities per code.</li>
     </ul>
-    <p>Kan een bestand in de map niet worden gelezen (bijvoorbeeld zonder toestemming, of omdat een ander programma het bezet houdt), dan opent de pagina de map niet en schrijft ze er niets in; ze maakt alleen een nieuw bestand als het echt ontbreekt. Alle bestanden zijn UTF-8. Is een bestand anders opgeslagen, bijvoorbeeld als ANSI door Kladblok of als UTF-16, dan leest en schrijft de pagina het niet: zo gaan letters als é en ë niet verloren. Je ziet dan een melding met de naam van het bestand. Open het in Kladblok, kies Opslaan als, zet Codering op UTF-8 en sla op; kies daarna de map opnieuw. In werkdruk.md blijven Windows-regeleinden zoals ze zijn; regeleinden van een oude Mac (alleen CR) worden daar bij het opslaan gewone regeleinden. De andere bestanden schrijft de pagina met gewone regeleinden: staan er Windows-regeleinden in instellingen.md, daginvoer.md of een notitiebestand, dan worden dat bij de eerste wijziging gewone regeleinden, en in de historie- en versiebestanden komen nieuwe vermeldingen er met gewone regeleinden onder. Aan de tekst zelf verandert niets. De pagina bewaart niets in de browser: geen cookies, geen browseropslag, ook niet welke map je koos; daarom kies je de map elke keer opnieuw. Wel opent het kiesvenster van Chrome en Edge meestal in de map van de vorige keer: dat onthoudt de browser zelf, de pagina kan er niet bij. Er wordt niets verstuurd. Een ingebouwde beveiligingsregel verbiedt de pagina om iets op te halen of te versturen; alleen links die je zelf aanklikt, openen een website.</p>
+    <p>Kan een bestand in de map niet worden gelezen (bijvoorbeeld zonder toestemming, of omdat een ander programma het bezet houdt), dan opent de pagina de map niet en schrijft ze er niets in; ze maakt alleen een nieuw bestand als het echt ontbreekt. Alle bestanden zijn UTF-8. Zet een programma een BOM vooraan een bestand (een onzichtbaar teken dat sommige Windows-programma's toevoegen), dan leest de pagina het bestand gewoon en blijft de BOM staan. Is een bestand anders opgeslagen, bijvoorbeeld als ANSI door Kladblok of als UTF-16, dan leest en schrijft de pagina het niet: zo gaan letters als é en ë niet verloren. Je ziet dan een melding met de naam van het bestand. Open het in Kladblok, kies Opslaan als, zet Codering op UTF-8 en sla op; kies daarna de map opnieuw. In werkdruk.md blijven Windows-regeleinden zoals ze zijn; regeleinden van een oude Mac (alleen CR) worden daar bij het opslaan gewone regeleinden. De andere bestanden schrijft de pagina met gewone regeleinden: staan er Windows-regeleinden in instellingen.md, daginvoer.md of een notitiebestand, dan worden dat bij de eerste wijziging gewone regeleinden, en in de historie- en versiebestanden komen nieuwe vermeldingen er met gewone regeleinden onder. Aan de tekst zelf verandert niets. De pagina bewaart niets in de browser: geen cookies, geen browseropslag, ook niet welke map je koos; daarom kies je de map elke keer opnieuw. Wel opent het kiesvenster van Chrome en Edge meestal in de map van de vorige keer: dat onthoudt de browser zelf, de pagina kan er niet bij. Er wordt niets verstuurd. Een ingebouwde beveiligingsregel verbiedt de pagina om iets op te halen of te versturen; alleen links die je zelf aanklikt, openen een website.</p>
     <p>Aanpassingen in het tabblad Taken zijn tijdelijk: handig om te laten zien wat er gebeurt als een taak minder tijd kost of vervalt. Ze verdwijnen zodra je een ander bestand inlaadt of de pagina sluit.</p>
     <h4>Per browser</h4>
     <ul>
@@ -7228,30 +7257,67 @@ WIB.kern.document = (function () {
     }).join('');
   }
 
-  // historie.md terug inlezen naar vermeldingen
-  function parseHistorie(tekst) {
-    let lijnen = tekst.split(/\r?\n/), uit = [], v = null, hek = null, hunk = null;
-    lijnen.forEach(function (l) {
+  // Een historiebestand in delen (v281): { bom, voorloop, vermeldingen }. bom: de BOM vooraan ('' als die er niet staat);
+  // voorloop: wat er vóór de eerste vermelding staat (eigen tekst van de gebruiker), teken voor teken. Elke vermelding
+  // heeft naast datum, tijd, bestand, extern en hunks ook ruw en na: ruw is haar tekst in het bestand, teken voor teken en
+  // met de regeleinden van het bestand, tot en met de laatste regel die de pagina herkent (kop, Onder:, het verschil);
+  // na is wat daarna komt tot de volgende vermelding: de lege regel, of eigen tekst van de gebruiker. Zo kan een bestand
+  // worden herschreven zonder dat iets verdwijnt wat de pagina niet herkent, en blijft een ongewijzigde vermelding precies
+  // staan (historieSamen). Een BOM vooraan (Windows-programma's) hoort niet bij de eerste kop: tot en met v280 werd de
+  // eerste vermelding dan niet herkend.
+  function historieOpbouw(tekst) {
+    const t = String(tekst || ''), bom = t.charAt(0) === '\uFEFF' ? '\uFEFF' : '';
+    const stukken = t.slice(bom.length).split(/(\r?\n)/), uit = [];   // regel, regeleinde, regel, regeleinde, …
+    let voorloop = '', v = null, hek = null, hunk = null;
+    for (let i = 0; i < stukken.length; i += 2) {
+      const l = stukken[i], ruw = l + (stukken[i + 1] || '');
+      const kop = hek ? null : l.replace(/^\uFEFF/, '').match(/^## (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}) · (.+?)(?: · (extern))?\s*$/);
+      if (kop) { v = { datum: kop[1], tijd: kop[2], bestand: kop[3], extern: !!kop[4], hunks: [], ruw: '', na: 0 }; uit.push(v); hunk = null; }
+      if (v) v.ruw += ruw; else voorloop += ruw;
+      if (!v) continue;
+      if (kop) { v.na = v.ruw.length; continue; }
       if (hek) {
-        if (l.trim().indexOf(hek) === 0 && l.trim().length <= hek.length + 1) { hek = null; return; }
+        v.na = v.ruw.length;
+        if (l.trim().indexOf(hek) === 0 && l.trim().length <= hek.length + 1) { hek = null; continue; }
         const m = l.match(/^([-+]) ?(.*)$/);
         if (hunk && m) hunk.regels.push({ s: m[1], t: m[2] });
-        return;
+        continue;
       }
-      const kop = l.match(/^## (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}) · (.+?)(?: · (extern))?\s*$/);
-      if (kop) { v = { datum: kop[1], tijd: kop[2], bestand: kop[3], extern: !!kop[4], hunks: [] }; uit.push(v); hunk = null; return; }
-      if (!v) return;
       const onder = l.match(/^Onder: (.*)$/);
-      if (onder) { hunk = { pad: onder[1], regels: [] }; v.hunks.push(hunk); return; }
+      if (onder) { hunk = { pad: onder[1], regels: [] }; v.hunks.push(hunk); v.na = v.ruw.length; continue; }
       const fence = l.match(/^(```+)diff\s*$/);
-      if (fence) { hek = fence[1]; if (!hunk) { hunk = { pad: '', regels: [] }; v.hunks.push(hunk); } }
+      if (fence) { hek = fence[1]; if (!hunk) { hunk = { pad: '', regels: [] }; v.hunks.push(hunk); } v.na = v.ruw.length; }
+    }
+    uit.forEach(function (x) { const eind = x.na; x.na = x.ruw.slice(eind); x.ruw = x.ruw.slice(0, eind); });
+    return { bom: bom, voorloop: voorloop, vermeldingen: uit };
+  }
+  // De tekst van een historiebestand uit zijn delen (v281): de BOM en de voorloop zoals ze er stonden, dan de vermeldingen
+  // in de volgorde van de lijst. Een vermelding uit het bestand (met ruw) komt er teken voor teken in; een nieuwe wordt
+  // opgebouwd. Van een vermelding uit het bestand die niet meer in de lijst staat, blijft de eigen tekst erachter staan.
+  function historieSamen(opbouw, vermeldingen) {
+    const oud = opbouw.vermeldingen || [];
+    let uit = opbouw.voorloop || '', plek = 0;
+    const erbij = function (t) { if (!t) return; if (uit && !/\n$/.test(uit)) uit += '\n'; uit += t; };
+    const wezen = function (tot) {   // de eigen tekst achter vermeldingen die zijn weggehaald (zonder de lege regels ervoor)
+      for (; plek < tot; plek++) erbij(String(oud[plek].na || '').replace(/^(?:[ \t]*\r?\n)+/, '').replace(/^[ \t]+$/, ''));
+    };
+    vermeldingen.forEach(function (v) {
+      const i = oud.indexOf(v);
+      if (i < 0 || i < plek) { erbij(typeof v.ruw === 'string' ? v.ruw + (v.na || '') : serialiseerHistorie([v])); return; }
+      wezen(i); plek = i + 1;
+      erbij(v.ruw + v.na);
     });
-    return uit;
+    wezen(oud.length);
+    return (opbouw.bom || '') + uit;
+  }
+  // historie.md terug inlezen naar vermeldingen
+  function parseHistorie(tekst) {
+    return historieOpbouw(tekst).vermeldingen.map(function (v) { delete v.ruw; delete v.na; return v; });
   }
 
   // daginvoer.md: per item een kop "## JJJJ-MM-DD UU:MM:SS", daaronder de tekst (markdown)
   function parseDaginvoer(tekst) {
-    let lijnen = tekst.split(/\r?\n/), uit = [], v = null;
+    let lijnen = String(tekst || '').replace(/^\uFEFF/, '').split(/\r?\n/), uit = [], v = null;   // v281: een BOM vooraan hoort niet bij de eerste kop
     lijnen.forEach(function (l) {
       const kop = l.match(/^## (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})\s*$/);
       if (kop) { v = { datum: kop[1], tijd: kop[2], regels: [] }; uit.push(v); return; }
@@ -7263,8 +7329,9 @@ WIB.kern.document = (function () {
   // v268: wat in daginvoer.md vóór de eerste invoer staat (een eigen titel, een aantekening, een kop zonder tijdstip) is
   // geen invoer, maar hoort wel bij het bestand. Deze voorloop wordt bij het schrijven weer bovenaan gezet; tot en met
   // v267 verdween hij bij de eerstvolgende invoer.
+  // v281: zonder de BOM vooraan; die zet het documentdeel zelf terug (bomVan)
   function daginvoerVoorloop(tekst) {
-    const lijnen = String(tekst || '').split(/\r?\n/);
+    const lijnen = String(tekst || '').replace(/^\uFEFF/, '').split(/\r?\n/);
     const i = lijnen.findIndex(function (l) { return /^## (\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})\s*$/.test(l); });
     return (i < 0 ? lijnen : lijnen.slice(0, i)).join('\n').replace(/\s+$/, '');
   }
@@ -7277,6 +7344,8 @@ WIB.kern.document = (function () {
       }).join('\n');
     return voorloop ? voorloop + '\n' + (invoer ? '\n' + invoer : '') : invoer;
   }
+  // v281: de BOM vooraan een tekst ('' als die er niet staat). Wat de pagina herschrijft, houdt de BOM van het bestand.
+  function bomVan(tekst) { return String(tekst || '').charAt(0) === '\uFEFF' ? '\uFEFF' : ''; }
   // Taak nummer n (in de volgorde van het bestand) afvinken of weer openzetten (v113). verwachtAantal is het aantal
   // taken in de weergave; klopt dat niet meer met de tekst, dan is de koppeling met de regels onzeker en komt er null terug.
   function vinkAf(tekst, n, aan, verwachtAantal) {
@@ -7647,7 +7716,7 @@ WIB.kern.document = (function () {
     key = String(key || '');
     return /^[A-Za-z]$/.test(key) && key !== 'n' && key !== 'N' ? key.toLowerCase() : key;
   }
-  return { lint, linkMd, linkUitMd, inlineMd, sneltoetsLetter, mmStanden, mmAfwijkingen, inline, reKenmerk, wisselUrgent, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, regelsBoven, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, takDikte };
+  return { lint, linkMd, linkUitMd, inlineMd, sneltoetsLetter, mmStanden, mmAfwijkingen, inline, reKenmerk, wisselUrgent, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, historieOpbouw, historieSamen, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, regelsBoven, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, takDikte };
 })();
 </script>
 <script data-deel="document">
@@ -7663,7 +7732,7 @@ WIB.kern.document = (function () {
 
   const escapeHtml = WIB.hulp.esc;
   // de DOM-vrije logica (markdown, regels, historie, daginvoer) staat sinds v108 in WIB.kern.document
-  const { lint, linkMd, linkUitMd, inlineMd, inline, reKenmerk, wisselUrgent, losMarkdown, regelsOnder, regelsBoven, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte, mmStanden, mmAfwijkingen, sneltoetsLetter } = WIB.kern.document;
+  const { lint, linkMd, linkUitMd, inlineMd, inline, reKenmerk, wisselUrgent, losMarkdown, regelsOnder, regelsBoven, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, historieOpbouw, historieSamen, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte, mmStanden, mmAfwijkingen, sneltoetsLetter } = WIB.kern.document;
 
   /* ---------- Interface ---------- */
 
@@ -8540,7 +8609,8 @@ WIB.kern.document = (function () {
   window.addEventListener('beforeunload', function (e) {
     docEd.flush();
     // ook waarschuwen als iets alleen in je downloads staat en nog niet in de map (v141)
-    if (nietOpgeslagen || Object.keys(WIB.hulp.onbewaard).length) { e.preventDefault(); e.returnValue = ''; }
+    // v281: ook als een wijziging in daginvoer.md of een historiebestand nog niet op schijf staat (schrijven mislukt)
+    if (nietOpgeslagen || Object.keys(WIB.hulp.onbewaard).length || Object.keys(nietGeschreven).length) { e.preventDefault(); e.returnValue = ''; }
   });
 
   // De tekst in de pagina vervangen door een eigen bewerking: geen oranje "wijziging"-markering.
@@ -8944,9 +9014,9 @@ WIB.kern.document = (function () {
   // Zonder map werkt het op het geheugen. Geeft de nieuwe lijst terug.
   function herschrijfLog(k, bewerk) {
     const log = hist.logs[k];
-    function zet(lijst) {
-      log.vermeldingen = lijst.map(function (x) { x.log = k; return x; });
-      log.tekst = serialiseerHistorie(log.vermeldingen);
+    function zet(lijst, tekst) {
+      log.vermeldingen = lijst.map(function (x) { delete x.ruw; delete x.na; x.log = k; return x; });
+      log.tekst = typeof tekst === 'string' ? tekst : serialiseerHistorie(log.vermeldingen);
       if (tabActief === 'historie') toonHistorie();
       return log.vermeldingen;
     }
@@ -8954,27 +9024,85 @@ WIB.kern.document = (function () {
     const map = hist.map;
     return schrijfRij(log.bestand, function () {
       return WIB.hulp.leesBestand(map, log.bestand).then(function (r) {
-        const nieuw = bewerk(parseHistorie(r ? r.tekst : ''));
-        const tekst = serialiseerHistorie(nieuw);
+        // v281: het bestand in delen (historieOpbouw), zodat een BOM, eigen tekst vóór de eerste vermelding en de
+        // vermeldingen die niet veranderen teken voor teken blijven staan; wat nog niet op schijf stond, gaat mee
+        const o = historieOpbouw(metWacht(r ? r.tekst : '', log));
+        const nieuw = bewerk(o.vermeldingen), tekst = historieSamen(o, nieuw);
         return map.getFileHandle(log.bestand, { create: true }).then(function (h) { return WIB.hulp.schrijf(h, tekst); })
-          .then(function () { return zet(nieuw); });
+          .then(function () { log.wacht = ''; log.wachtVoor = ''; schrijfGelukt(log.bestand); return zet(nieuw, tekst); });
       });
     }).then(function (l) { histStatusBijwerken(); toonOpgeslagen('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL')); return l; });
   }
-  // Een historiebestand bewust vervangen door de lijst in het geheugen (Historie laden)
+  // Een historiebestand bewust vervangen door de geladen tekst (Historie laden). v281: zoals het geladen is, dus met wat de
+  // pagina niet herkent (eigen tekst, een BOM); geeft false terug als het schrijven niet lukte.
   function schrijfLog(k) {
     const log = hist.logs[k];
-    log.tekst = serialiseerHistorie(log.vermeldingen);
-    if (!hist.map) { toonOpgeslagen('Bijgewerkt (alleen in geheugen)'); return Promise.resolve(); }
+    if (!hist.map) { toonOpgeslagen('Bijgewerkt (alleen in geheugen)'); return Promise.resolve(true); }
     const map = hist.map;
     return schrijfRij(log.bestand, function () {
+      const tekst = log.tekst;
       return map.getFileHandle(log.bestand, { create: true })
-        .then(function (h) { return WIB.hulp.schrijf(h, log.tekst); });
+        .then(function (h) { return WIB.hulp.schrijf(h, tekst); })
+        .then(function () { log.wacht = ''; log.wachtVoor = ''; });
     })
-      .then(function () { histStatusBijwerken(); toonOpgeslagen('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL')); })
-      .catch(function (e) { histStatusBijwerken(log.bestand + ' kon niet worden herschreven: ' + (e && e.message ? e.message : e)); });
+      .then(function () { schrijfGelukt(log.bestand); histStatusBijwerken(); toonOpgeslagen('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL')); return true; })
+      .catch(function (e) {
+        const reden = schrijfMislukt(log.bestand, e, function () { schrijfLog(k); });
+        histStatusBijwerken(log.bestand + ' kon niet worden herschreven: ' + reden);
+        return false;
+      });
   }
 
+  /* ---------- v281: schrijfacties naar daginvoer.md en de historiebestanden die niet zijn gelukt ----------
+     Zolang zo'n wijziging alleen in de pagina staat, zegt een melding dat, waarschuwt de pagina bij sluiten en probeert
+     ze het opnieuw: bij de volgende wijziging en bij elke controle op de achtergrond (zoals bij instellingen.md, v207). */
+  const nietGeschreven = {};   // bestandsnaam -> { melding, opnieuw }
+  function schrijfMislukt(naam, e, opnieuw) {
+    const reden = WIB.hulp.reden(e), eerder = nietGeschreven[naam];
+    nietGeschreven[naam] = { melding: eerder ? eerder.melding : naam + ' kon niet worden bijgewerkt: ' + reden + '. De wijziging staat alleen in de pagina; de pagina probeert het opnieuw en waarschuwt als je de pagina sluit.', opnieuw: opnieuw };
+    if (!eerder) meld(nietGeschreven[naam].melding);
+    return reden;
+  }
+  function schrijfGelukt(naam, stil) {
+    const eerder = nietGeschreven[naam];
+    if (!eerder) return;
+    delete nietGeschreven[naam];
+    if (window.WIB.werkdruk) WIB.werkdruk.meldingWeg(eerder.melding);
+    if (!stil) meld(naam + ' is alsnog bijgewerkt.', true);
+  }
+  function vergeetMislukt() { Object.keys(nietGeschreven).forEach(function (n) { schrijfGelukt(n, true); }); }
+  WIB.bewaking.voegToe(function () {
+    if (!hist.map || document.hidden) return;
+    Object.keys(nietGeschreven).forEach(function (n) { nietGeschreven[n].opnieuw(); });
+  });
+  // De tekst van een historiebestand op schijf plus de vermeldingen die nog niet geschreven konden worden (log.wacht)
+  function metWacht(schijf, log) { return log.wacht ? schijf + (schijf && !/\n$/.test(schijf) ? '\n' : '') + log.wacht : schijf; }
+  // Een tekst achteraan een archiefbestand zetten, als stap van een transactie (notities-kern): mislukt het leegmaken van
+  // het bestand zelf daarna, dan gaat de tekst weer uit het archief, zodat een nieuwe poging niets dubbel zet. Staat de
+  // tekst er al (een eerdere poging die niet kon worden teruggezet), dan komt hij er niet nog een keer in.
+  function archiefStap(map, naam, tekst) {
+    let was;   // undefined: nog niets gedaan; null: het archief bestond niet; anders { tekst } van vóór het toevoegen
+    return {
+      naam: naam + ' schrijven',
+      doe: function () {
+        return WIB.hulp.leesBestand(map, naam).then(function (a) {
+          if (a && a.tekst.replace(/\s+$/, '').endsWith(tekst.replace(/\s+$/, ''))) return null;
+          return map.getFileHandle(naam, { create: true }).then(function (h) { was = a; return voegToeAanBestand(h, tekst, '\n'); });
+        });
+      },
+      herstel: function () {
+        if (was === undefined) return null;
+        if (was === null) return map.removeEntry(naam).catch(function (e) { if (!WIB.hulp.nietGevonden(e)) throw e; });
+        return map.getFileHandle(naam).then(function (h) { return WIB.hulp.schrijf(h, was.tekst); });
+      }
+    };
+  }
+  // De uitkomst van een mislukte archivering (transactie) in gewone woorden
+  function archiefMelding(u, naam) {
+    return u.mislukteStap + ' is niet gelukt (' + WIB.hulp.reden(u.fout) + '). ' + (u.herstelFouten.length
+      ? 'De tekst staat al wel in ' + naam + ' en kon daar niet worden weggehaald; bij een nieuwe poging komt hij er niet nog een keer in.'
+      : 'Er is niets gewijzigd.');
+  }
 
   function histStatusBijwerken(melding) {
     if (melding) { histStatus.textContent = melding; return; }
@@ -9098,25 +9226,40 @@ WIB.kern.document = (function () {
   function zetHistorieTekst(k, tekst) {
     const log = hist.logs[k];
     log.tekst = tekst || '';
+    log.wacht = ''; log.wachtVoor = '';   // v281: de tekst is opnieuw gelezen of vervangen; er wacht niets meer
     log.vermeldingen = parseHistorie(log.tekst).map(function (v) { v.log = k; return v; });
     toonHistorie();
   }
 
-  // Vermelding toevoegen: in het geheugen én, als er een map is, achteraan het historiebestand
-  function voegHistorieToe(k, vermelding) {
-    if (!vermelding) return Promise.resolve();
+  // Vermelding toevoegen: in het geheugen én, als er een map is, achteraan het historiebestand.
+  // v281: wat niet geschreven kon worden, blijft wachten (log.wacht) en gaat bij de volgende poging mee; opnieuw = alleen
+  // een nieuwe poging voor wat nog wacht (zonder nieuwe vermelding).
+  function voegHistorieToe(k, vermelding, opnieuw) {
+    if (!vermelding && !opnieuw) return Promise.resolve();
     const log = hist.logs[k];
-    log.tekst += vermelding;
-    log.vermeldingen = log.vermeldingen.concat(parseHistorie(vermelding).map(function (v) { v.log = k; return v; }));
-    if (tabActief === 'historie') toonHistorie();
+    if (vermelding) {
+      const voor = log.tekst.replace(/^\uFEFF/, '') && !/\n\s*$/.test(log.tekst) ? '\n' : '';
+      log.tekst += vermelding;
+      log.vermeldingen = log.vermeldingen.concat(parseHistorie(vermelding).map(function (v) { v.log = k; return v; }));
+      if (tabActief === 'historie') toonHistorie();
+      if (!hist.map) return Promise.resolve();
+      if (!log.wacht) log.wachtVoor = voor;
+      log.wacht = (log.wacht || '') + vermelding;
+    }
     if (!hist.map) return Promise.resolve();
-    const map = hist.map, prefix = !/\n\s*$/.test(log.tekst.slice(0, -vermelding.length)) ? '\n' : '';
+    const map = hist.map;
     // via de wachtrij van dit bestand: twee vermeldingen tegelijk kunnen elkaar niet meer overschrijven (v112)
     return schrijfRij(log.bestand, function () {
-      return map.getFileHandle(log.bestand, { create: true }).then(function (h) { return voegToeAanBestand(h, vermelding, prefix); });
+      const tekst = log.wacht;
+      if (!tekst) return null;
+      return map.getFileHandle(log.bestand, { create: true }).then(function (h) { return voegToeAanBestand(h, tekst, log.wachtVoor); })
+        .then(function () { log.wacht = log.wacht.slice(tekst.length); log.wachtVoor = ''; });
     })
-      .then(function () { histStatusBijwerken(); })
-      .catch(function (e) { histStatusBijwerken(log.bestand + ' kon niet worden bijgewerkt: ' + (e && e.message ? e.message : e)); });
+      .then(function () { schrijfGelukt(log.bestand); histStatusBijwerken(); })
+      .catch(function (e) {
+        const reden = schrijfMislukt(log.bestand, e, function () { voegHistorieToe(k, '', true); });
+        histStatusBijwerken(log.bestand + ' kon niet worden bijgewerkt: ' + reden);
+      });
   }
 
   // Na een opslagactie van werkdruk.md: verschil ten opzichte van wat op schijf stond vastleggen
@@ -9161,6 +9304,11 @@ WIB.kern.document = (function () {
           return v ? basis.concat(parseHistorie(v)) : basis;
         }).then(function (l) {
           instReeks = v ? { tijd: nu, basis: r.basis, vermelding: l[l.length - 1], tekst: log.tekst } : null;
+        }, function (e) {
+          // v281: samenvoegen lukte niet (het bestand is niet te lezen of te schrijven). De wijziging komt dan als eigen
+          // vermelding in de pagina en gaat naar het bestand zodra dat weer kan; de fout wordt hieronder gemeld
+          instReeks = null;
+          return voegHistorieToe('instellingen', maakVermelding(oud, nieuw, 'instellingen.md', false)).then(function () { throw e; });
         });
       });
     }).catch(function (e) {
@@ -9302,6 +9450,7 @@ WIB.kern.document = (function () {
         verder('Instellingen, historie en daginvoer verwerken…');
         const r = o.r;
         hist.map = dir;
+        vergeetMislukt();   // v281: alles is opnieuw van schijf gelezen
         if (window.WIB.werkdruk) WIB.werkdruk.zetMap({ name: dir.name, setHandle: o.setH, setLM: o.setLM, readonly: false, tekst: r[3] });
         zetHistorieTekst('werkdruk', r[0] || '');
         zetHistorieTekst('instellingen', r[1] || '');
@@ -9356,6 +9505,7 @@ WIB.kern.document = (function () {
     Promise.all(namen.map(function (n) { const f = pak(n); return (f ? WIB.hulp.tekstVan(f) : Promise.resolve(null)).then(function (t) { verder('Bestanden lezen (' + (++gelezen) + ' van ' + namen.length + ')…'); return t; }); })).then(function (r) {
       verder('Het document opbouwen…');
       if (hist.map) { hist.map = null; tabMapGewijzigd(); }
+      vergeetMislukt();   // v281
       if (window.WIB.werkdruk) WIB.werkdruk.zetMap({ name: mapNaam, setHandle: null, readonly: true, tekst: r[1] });
       zetHistorieTekst('werkdruk', r[2] || ''); zetHistorieTekst('instellingen', r[3] || ''); zetHistorieTekst('notities', r[5] || ''); zetDaginvoerTekst(r[4] || '');
       if (window.WIB.notities) WIB.notities.zetBestanden(files);
@@ -9463,7 +9613,7 @@ WIB.kern.document = (function () {
       WIB.hulp.tekstVan(f).then(function (inhoud) {
         zetHistorieTekst(k, inhoud);
         const klaar = hist.map ? schrijfLog(k) : Promise.resolve();
-        klaar.then(function () { histStatusBijwerken(log.bestand + ' ingelezen (' + log.vermeldingen.length + (log.vermeldingen.length === 1 ? ' vermelding)' : ' vermeldingen)') + (hist.map ? ' en in de map opgeslagen' : '')); });
+        klaar.then(function (ok) { if (ok === false) return; histStatusBijwerken(log.bestand + ' ingelezen (' + log.vermeldingen.length + (log.vermeldingen.length === 1 ? ' vermelding)' : ' vermeldingen)') + (hist.map ? ' en in de map opgeslagen' : '')); });
       }, function (e) { histStatusBijwerken((e && e.message ? e.message : 'Het bestand kon niet worden gelezen') + '.'); });
     });
   });
@@ -9482,26 +9632,32 @@ WIB.kern.document = (function () {
     WIB.vraag({ tekst: 'De huidige historie wordt weggezet als ' + namen.join(' en ') + ' en begint opnieuw. Doorgaan?', titel: 'Historie archiveren', ja: 'Archiveren' }).then(function (ok) {
       if (!ok) return;
       let stap = Promise.resolve();
+      const klaar = [];   // v281: wat wel is gearchiveerd, voor de melding als een later bestand mislukt
       ks.forEach(function (k, i) {
-        const naam = namen[i];
+        const naam = namen[i], log = hist.logs[k];
         stap = stap.then(function () {
-          if (!hist.map) { downloadTekst(hist.logs[k].tekst, naam); zetHistorieTekst(k, ''); return; }
+          if (!hist.map) { downloadTekst(log.tekst, naam); zetHistorieTekst(k, ''); klaar.push(naam); return; }
           const map = hist.map;
           // in de wachtrij van het historiebestand: een vermelding die intussen binnenkomt, gaat mee in het archief of komt erna (v112)
           return schrijfRij(hist.logs[k].bestand, function () {
             // wat er nu op schijf staat, ook als een ander programma intussen iets toevoegde (v139)
-            return WIB.hulp.leesBestand(map, hist.logs[k].bestand).then(function (r) { return r ? r.tekst : hist.logs[k].tekst; }).then(function (oud) {
-              return map.getFileHandle(naam, { create: true })
-              .then(function (h) { return voegToeAanBestand(h, oud, '\n'); })
-              .then(function () { return map.getFileHandle(hist.logs[k].bestand, { create: true }); })
-              .then(function (h) { return WIB.hulp.schrijf(h, ''); })
-              .then(function () { zetHistorieTekst(k, ''); });
+            return WIB.hulp.leesBestand(map, log.bestand).then(function (r) {
+              // v281: als één geheel. Lukt het leegmaken niet, dan gaat de tekst weer uit het archief (anders stond hij er
+              // na een nieuwe poging dubbel in). Een BOM blijft in het historiebestand; in het archief komt hij niet.
+              const schijf = r ? metWacht(r.tekst, log) : log.tekst, bom = bomVan(schijf);
+              return WIB.kern.notities.transactie([archiefStap(map, naam, schijf.slice(bom.length))], {
+                naam: log.bestand + ' leegmaken',
+                doe: function () {
+                  return map.getFileHandle(log.bestand, { create: true }).then(function (h) { return WIB.hulp.schrijf(h, bom); })
+                    .then(function () { zetHistorieTekst(k, bom); schrijfGelukt(log.bestand, true); klaar.push(naam); });
+                }
+              }, []).then(function (u) { if (!u.ok) throw new Error(archiefMelding(u, naam)); });
             });
           });
         });
       });
       stap.then(function () { histStatusBijwerken('Gearchiveerd als ' + namen.join(' en ') + (hist.map ? '' : ' (gedownload)')); })
-        .catch(function (e) { histStatusBijwerken('Archiveren mislukt: ' + (e && e.message ? e.message : e)); });
+        .catch(function (e) { histStatusBijwerken('Archiveren mislukt: ' + (e && e.message ? e.message : e) + (klaar.length ? ' Wel gearchiveerd: ' + klaar.join(' en ') + '.' : '')); });
     });
   });
   const histExternKnop = document.getElementById('hist-extern');
@@ -9524,7 +9680,7 @@ WIB.kern.document = (function () {
   toonHistExtern();
 
   /* ---------- Daginvoer: vrije tekst per dag, bewaard in daginvoer.md ---------- */
-  const dagInvoer = { tekst: '', items: [] };
+  const dagInvoer = { tekst: '', items: [], bom: '' };   // bom (v281): de BOM vooraan daginvoer.md, of ''
   const dagLijst = document.getElementById('dag-lijst');
   const dagStatus = document.getElementById('dag-status');
   const dagZoek = document.getElementById('dag-zoek');
@@ -9541,6 +9697,7 @@ WIB.kern.document = (function () {
     if (vanSchijf) dagInvoer.basis = dagInvoer.tekst;
     dagInvoer.items = parseDaginvoer(dagInvoer.tekst);
     dagInvoer.voorloop = daginvoerVoorloop(dagInvoer.tekst);   // v268: eigen tekst boven de eerste invoer blijft bewaard
+    dagInvoer.bom = bomVan(dagInvoer.tekst);   // v281: en een BOM vooraan ook
     toonDaginvoer();
     if (window.WIB.werkdruk) WIB.werkdruk.daginvoerGewijzigd();
   }
@@ -9570,12 +9727,14 @@ WIB.kern.document = (function () {
       throw e;
     });
   }
-  // De daginvoer opslaan. ruw: een tekst die de daginvoer bewust vervangt (Laden, Archiveren); anders de invoer in de pagina.
+  // De daginvoer opslaan. ruw: een tekst die de daginvoer bewust vervangt (Laden); anders de invoer in de pagina.
   // Vóór het schrijven wordt daginvoer.md opnieuw gelezen. Is het intussen buiten de pagina gewijzigd, dan worden beide
   // wijzigingen samengevoegd in plaats van dat de andere wordt overschreven (v138). Alles via de wachtrij van het bestand.
-  function schrijfDaginvoer(ruw) {
-    dagInvoer.tekst = typeof ruw === 'string' ? ruw : serialiseerDaginvoer(dagInvoer.items, dagInvoer.voorloop);
-    if (window.WIB.werkdruk) WIB.werkdruk.daginvoerGewijzigd();
+  // v281: schrijfDag wijst de belofte af als het schrijven niet lukt (Archiveren moet dat weten); schrijfDaginvoer meldt
+  // de fout, onthoudt dat de wijziging nog niet op schijf staat (waarschuwing bij sluiten, nieuwe poging) en geeft dan false.
+  function schrijfDag(ruw, opnieuw) {
+    dagInvoer.tekst = typeof ruw === 'string' ? ruw : dagInvoer.bom + serialiseerDaginvoer(dagInvoer.items, dagInvoer.voorloop);
+    if (!opnieuw && window.WIB.werkdruk) WIB.werkdruk.daginvoerGewijzigd();   // een nieuwe poging verandert niets aan wat je ziet
     if (!hist.map) {
       if (alleenDownload()) WIB.hulp.nietInMap('daginvoer.md', dagInvoer.tekst);   // v141
       dagStatusBijwerken(); toonOpgeslagen('Bijgewerkt (alleen in geheugen)'); return Promise.resolve();
@@ -9588,23 +9747,33 @@ WIB.kern.document = (function () {
         if (typeof ruw !== 'string' && dagInvoer.basis !== undefined && schijf !== dagInvoer.basis) {
           dagInvoer.items = voegDaginvoerSamen(parseDaginvoer(dagInvoer.basis), dagInvoer.items, parseDaginvoer(schijf));
           dagInvoer.voorloop = daginvoerVoorloop(schijf);   // v268: ook de eigen tekst bovenaan zoals die nu op schijf staat
-          dagInvoer.tekst = serialiseerDaginvoer(dagInvoer.items, dagInvoer.voorloop);
+          dagInvoer.bom = bomVan(schijf);
+          dagInvoer.tekst = dagInvoer.bom + serialiseerDaginvoer(dagInvoer.items, dagInvoer.voorloop);
           samengevoegd = true;
         }
         const tekst = dagInvoer.tekst;
         return map.getFileHandle('daginvoer.md', { create: true }).then(function (h) { return WIB.hulp.schrijf(h, tekst); })
           .then(function () {
             dagInvoer.basis = tekst;
+            schrijfGelukt('daginvoer.md');
             if (samengevoegd) { toonDaginvoer(); if (window.WIB.werkdruk) WIB.werkdruk.daginvoerGewijzigd(); meld('daginvoer.md was buiten de pagina gewijzigd; die wijzigingen en de jouwe zijn samengevoegd.'); }
             dagStatusBijwerken(); toonOpgeslagen('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL'));
           });
       });
-    }).catch(function (e) { dagStatusBijwerken('daginvoer.md kon niet worden geschreven: ' + (e && e.message ? e.message : e)); });
+    });
+  }
+  function schrijfDaginvoer(ruw, opnieuw) {
+    return schrijfDag(ruw, opnieuw).then(function () { return true; }, function (e) {
+      const reden = schrijfMislukt('daginvoer.md', e, function () { schrijfDaginvoer(undefined, true); });
+      dagStatusBijwerken('daginvoer.md kon niet worden geschreven: ' + reden + '. De wijziging staat alleen in de pagina.');
+      return false;
+    });
   }
   // Wijzigingen van buitenaf in daginvoer.md overnemen (v138), net als bij werkdruk.md en instellingen.md.
   let dagLm = 0, dagBezig = false;
   function controleerDaginvoer() {
-    if (!hist.map || dagBezig || document.hidden) return;
+    // v281: staat er een wijziging van de pagina nog niet op schijf, dan eerst die (de nieuwe poging voegt samen met het bestand)
+    if (!hist.map || dagBezig || document.hidden || nietGeschreven['daginvoer.md']) return;
     dagBezig = true;
     const map = hist.map;
     schrijfRij('daginvoer.md', function () {
@@ -9755,14 +9924,14 @@ WIB.kern.document = (function () {
         zetDaginvoerTekst(inhoud);
         // bewust vervangen (de gebruiker koos Laden en bevestigde): niet samenvoegen met wat er op schijf staat
         const klaar = hist.map ? schrijfDaginvoer(dagInvoer.tekst) : Promise.resolve();
-        klaar.then(function () { dagStatusBijwerken('daginvoer.md ingelezen (' + dagInvoer.items.length + (dagInvoer.items.length === 1 ? ' invoer)' : ' invoeren)') + (hist.map ? ' en in de map opgeslagen' : '')); });
+        klaar.then(function (ok) { if (ok === false) return; dagStatusBijwerken('daginvoer.md ingelezen (' + dagInvoer.items.length + (dagInvoer.items.length === 1 ? ' invoer)' : ' invoeren)') + (hist.map ? ' en in de map opgeslagen' : '')); });
       }, function (e) { dagStatusBijwerken((e && e.message ? e.message : 'Het bestand kon niet worden gelezen') + '.'); });
     });
   });
   document.getElementById('dag-download').addEventListener('click', function () {
     (!dagInvoer.items.length ? WIB.vraag({ tekst: 'De daginvoer is leeg; er wordt een leeg bestand daginvoer.md gedownload. Doorgaan?', titel: 'Lege daginvoer downloaden', ja: 'Downloaden' }) : Promise.resolve(true)).then(function (ok) {
       if (!ok) return;
-      WIB.hulp.download(serialiseerDaginvoer(dagInvoer.items, dagInvoer.voorloop), 'daginvoer.md');
+      WIB.hulp.download(dagInvoer.bom + serialiseerDaginvoer(dagInvoer.items, dagInvoer.voorloop), 'daginvoer.md');
     });
   });
   document.getElementById('dag-archief').addEventListener('click', function () {
@@ -9772,11 +9941,17 @@ WIB.kern.document = (function () {
       if (!ok) return;
       const oud = serialiseerDaginvoer(dagInvoer.items);
       if (hist.map) {
-        hist.map.getFileHandle(naam, { create: true })
-          .then(function (h) { return WIB.hulp.schrijf(h, oud, { achteraan: true, voorvoegsel: '\n' }); })
-          .then(function () { dagInvoer.items = []; return schrijfDaginvoer(); })
-          .then(function () { toonDaginvoer(); dagStatusBijwerken('Gearchiveerd als ' + naam); })
-          .catch(function (e) { dagStatusBijwerken('Archiveren mislukt: ' + (e && e.message ? e.message : e)); });
+        // v281: als één geheel (transactie). Tot en met v280 stond er "Gearchiveerd", ook als daginvoer.md niet kon worden
+        // leeggemaakt: de invoeren stonden dan in het archief én nog in daginvoer.md, en na een nieuwe poging dubbel.
+        const eerder = dagInvoer.items;
+        WIB.kern.notities.transactie([archiefStap(hist.map, naam, oud)], { naam: 'daginvoer.md leegmaken', doe: function () { dagInvoer.items = []; return schrijfDag(); } }, [])
+          .then(function (u) {
+            if (u.ok) { toonDaginvoer(); dagStatusBijwerken('Gearchiveerd als ' + naam); return; }
+            // niet gelukt: de invoeren staan nog in daginvoer.md, dus ook weer in de pagina
+            dagInvoer.items = eerder; dagInvoer.tekst = dagInvoer.bom + serialiseerDaginvoer(eerder, dagInvoer.voorloop);
+            toonDaginvoer(); if (window.WIB.werkdruk) WIB.werkdruk.daginvoerGewijzigd();
+            dagStatusBijwerken('Archiveren mislukt: ' + archiefMelding(u, naam));
+          });
       } else {
         WIB.hulp.download(oud, naam);
         dagInvoer.items = []; schrijfDaginvoer(); toonDaginvoer(); dagStatusBijwerken('Gearchiveerd als download ' + naam);
@@ -12544,6 +12719,7 @@ WIB.kern.document = (function () {
   /* ---------- Totaaloverzicht (v161): hoofdzaken met hun detailbestand eronder ---------- */
   let totaalBeurt = 0, totaalTeksten = null, totaalPlan = 0;
   const totaalOpen = {};   // code -> uitgeklapt (standaard ja); blijft bewaard zolang de pagina open is
+  const totaalWacht = {};  // v282: code -> de tekst van het vinkje dat nog wordt opgeslagen
   function totaalCodes() {
     const re = window.WIB.codes && WIB.codes.start();
     return re && laatsteTekst ? totaalIndeling(laatsteTekst, re, WIB.codes.sleutel).codes : [];
@@ -12617,7 +12793,9 @@ WIB.kern.document = (function () {
   });
   function vinkDetail(det, vak) {
     const code = det.getAttribute('data-code'), n = +vak.getAttribute('data-taak'), aan = vak.checked;
-    const oud = totaalTeksten ? totaalTeksten[code] : null;
+    // v282: loopt er voor dit detailbestand nog een vinkje, dan bouwt het volgende daarop voort (totaalWacht). Tot v281
+    // gingen beide uit van de oude tekst, en schreef het tweede over het eerste heen.
+    const oud = totaalWacht[code] !== undefined ? totaalWacht[code] : totaalTeksten ? totaalTeksten[code] : null;
     const aantal = det.querySelectorAll('.td-inhoud input[data-taak]').length;
     const nieuw = typeof oud === 'string' ? vinkAf(oud, n, aan, aantal) : null;
     if (nieuw === null) {
@@ -12628,12 +12806,15 @@ WIB.kern.document = (function () {
     const li = vak.closest('li');
     vak.disabled = true;
     if (filterUrgent && aan && li && li.querySelector('.urgent')) li.classList.add('verdwijnt');   // even laten oplichten, zoals in Document (v113)
+    totaalWacht[code] = nieuw;
     WIB.notities.vinkAf(code, oud, nieuw).then(function (r) {
+      if (totaalWacht[code] === nieuw) delete totaalWacht[code];
       totaalTeksten[code] = nieuw;
       toonOpgeslagen('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL'));
       if (r && r.versieFout) meld('notities/' + code + '.md is opgeslagen, maar de versie kon niet worden bewaard (' + (r.versieFout.message || r.versieFout) + ').');
       clearTimeout(totaalPlan); totaalPlan = setTimeout(toonTotaal, li && li.classList.contains('verdwijnt') ? 900 : 0);
     }, function (e) {
+      delete totaalWacht[code];
       vak.checked = !aan; vak.disabled = false; if (li) li.classList.remove('verdwijnt');
       WIB.vraag({ titel: 'Niet afgevinkt', tekst: (e && e.message ? e.message : String(e)), alleenOk: true });
       if (e && e.gewijzigd) toonTotaal();
@@ -13086,7 +13267,8 @@ WIB.kern.werkdruk = (function () {
       if (uit.length && uit[uit.length - 1].trim()) uit.push('');
       uit.push(sec.kopRegel); uit.push.apply(uit, regels);
     });
-    return uit.join('\n').replace(/\n*$/, '') + '\n';
+    // v281: stond er een BOM vooraan instellingen.md, dan blijft die staan (anders stond de eerste regel als gewijzigd in de historie)
+    return (String(basis).charAt(0) === '\uFEFF' ? '\uFEFF' : '') + uit.join('\n').replace(/\n*$/, '') + '\n';
   }
 
   function parseSettingsText(text) {
@@ -16820,7 +17002,7 @@ WIB.kern.notities = (function () {
   function versiesUitTekst(t) {
     let r = String(t || '').replace(/\r\n?/g, '\n').split('\n'), uit = [], i = 0;
     while (i < r.length) {
-      const m = /^## (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s*$/.exec(r[i]);
+      const m = /^\uFEFF?## (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s*$/.exec(r[i]);   // v281: een BOM vooraan (het bestand, of een overgenomen versiebestand) hoort niet bij de kop
       if (!m) { i++; continue; }
       const f = /^(`{4,})markdown\s*$/.exec(r[i + 1] || '');
       if (!f) { i++; continue; }
@@ -16860,13 +17042,15 @@ WIB.kern.notities = (function () {
 
   // "Voorheen: OUD (omgezet op …)" direct onder de titel van een hernoemd notitiebestand
   function voorheenRegel(tekst, oud, datum) {
-    const r = tekst.replace(/\r\n?/g, '\n').split('\n'), regel = 'Voorheen: ' + oud + ' (omgezet op ' + (datum || vandaag()) + ')';
-    if (/^#\s/.test(r[0] || '')) { r.splice(1, 0, '', regel); return r.join('\n'); }
-    return regel + '\n\n' + r.join('\n');
+    // v281: een BOM vooraan hoort niet bij de titel en blijft vooraan staan
+    const bom = tekst.charAt(0) === '\uFEFF' ? '\uFEFF' : '';
+    const r = tekst.slice(bom.length).replace(/\r\n?/g, '\n').split('\n'), regel = 'Voorheen: ' + oud + ' (omgezet op ' + (datum || vandaag()) + ')';
+    if (/^#\s/.test(r[0] || '')) { r.splice(1, 0, '', regel); return bom + r.join('\n'); }
+    return bom + regel + '\n\n' + r.join('\n');
   }
 
   function zonderTitel(tekst) {
-    const r = tekst.replace(/\r\n?/g, '\n').split('\n');
+    const r = tekst.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n').split('\n');   // v281: zonder de BOM (de tekst komt midden in een ander bestand)
     if (/^#\s/.test(r[0] || '')) { r.shift(); while (r.length && r[0].trim() === '') r.shift(); }
     return r.join('\n');
   }
@@ -16881,7 +17065,7 @@ WIB.kern.notities = (function () {
       ? vervangCode(plan.doelNotes || '', oud, plan.code, plan.nieuw).replace(/\s*$/, '\n\n') + '## Overgenomen van ' + oud + ' (' + datum + ')\n\n' + zonderTitel(omgezet)
       : voorheenRegel(omgezet, oud, datum);
     const snapshot = versiesNaarTekst([{ stempel: WIB.hulp.stempel(nu), tekst: samen }]);
-    const versiesNieuw = [plan.samenvoegen ? plan.doelVersies : null, plan.oudVersies, snapshot].filter(function (x) { return x && x.trim(); }).map(function (x) { return x.replace(/\s*$/, '\n'); }).join('\n');
+    const versiesNieuw = [plan.samenvoegen ? plan.doelVersies : null, plan.oudVersies, snapshot].filter(function (x) { return x && x.trim(); }).map(function (x, i) { return (i ? x.replace(/^\uFEFF/, '') : x).replace(/\s*$/, '\n'); }).join('\n');   // v281: een BOM alleen vooraan het bestand
     const nieuwMd = vervangGekozen(plan.md, plan.treffers, plan.code);
     const dagNieuw = plan.dagTreffers && plan.dagTreffers.some(function (t) { return t.kies; }) ? vervangGekozen(plan.dagTekst, plan.dagTreffers, plan.code) : null;
     return { samen: samen, snapshot: snapshot, versiesNieuw: versiesNieuw, nieuwMd: nieuwMd, mdWijzigt: nieuwMd !== plan.md, dagNieuw: dagNieuw };
@@ -16994,8 +17178,10 @@ WIB.kern.notities = (function () {
     return a.replace(/\\/g, '/');
   }
   // v258: de naam mag uit meerdere regels bestaan; in het bestand staat tussen de regels <br>
-  function licNaamNaarMd(n) { return String(n || '').split(/\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean).join('<br>'); }
-  function licNaamUitMd(n) { return String(n || '').split(/\s*<br\s*\/?>\s*/i).join('\n'); }
+  // v282: een naam die met een afvinkvakje begint ("[ ] Contract"), krijgt in het bestand een \ ervoor: anders zou de
+  // regel een taak zijn, en een taak is nooit een licentie (zie licBlok). Bij het lezen gaat de \ er weer af.
+  function licNaamNaarMd(n) { return String(n || '').split(/\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean).join('<br>').replace(/^(\[[ xX]\]\s)/, '\\$1'); }
+  function licNaamUitMd(n) { return String(n || '').replace(/^\\(\[[ xX]\]\s)/, '$1').split(/\s*<br\s*\/?>\s*/i).join('\n'); }
   // v258: een punt in het blok splitsen in naam en de rest. De naam mag zelf een dubbele punt bevatten: de naam eindigt bij
   // de eerste dubbele punt waarna alleen nog datums en een link staan; is die er niet, dan bij de eerste (zoals voorheen).
   const LIC_REST = /^(?:\d[\d\-\/.]*)?\s*(?:t\/m(?:\s+\d[\d\-\/.]*)?)?\s*(?:\[[^\]]*\]\([^()\s]+\))?$/i;
@@ -17058,6 +17244,9 @@ WIB.kern.notities = (function () {
      regel voor elk opsommingspunt dat geen licentie is, met de regels die eronder inspringen. Gewone tekst (geen
      opsommingspunt) en een kop sluiten het blok af, zoals voorheen. */
   const LIC_PUNT = /^\s*(?:[-*+]|\d+[.)])\s+/;
+  // v282: een opsommingspunt met een afvinkvakje is een taak van de gebruiker, nooit een licentie: het wordt overgeslagen,
+  // ook direct onder de kop ("- [ ] Contract tekenen: 31-12-2026" was tot v280 de licentie "[ ] Contract tekenen").
+  const LIC_TAAK = /^\s*(?:[-*+]|\d+[.)])\s+\[[ xX]\]\s/;
   function licZeker(m) {
     if (!LIC_REST.test(m[1])) return false;
     const d = licDelen(m[1]);
@@ -17072,12 +17261,11 @@ WIB.kern.notities = (function () {
     while (j < r.length && !/^#{1,6}\s/.test(r[j])) {
       if (LIC_GEEN.test(r[j]) && !gezien) { geen = true; geenPlek = j; eind = j + 1; inPunt = false; j++; continue; }
       if (!r[j].trim()) { naLeeg = true; inPunt = false; j++; continue; }
+      if (inPunt && /^\s/.test(r[j])) { over.push(j); j++; continue; }                                             // springt in onder een overgeslagen punt
+      if (LIC_TAAK.test(r[j])) { over.push(j); inPunt = true; j++; continue; }                                    // v282: een taak, waar ze ook staat
       const m = licSplits(r[j]);
-      if (naLeeg) {
-        if (inPunt && /^\s/.test(r[j])) { over.push(j); j++; continue; }                               // springt in onder een overgeslagen punt
-        if (LIC_PUNT.test(r[j]) && !(m && licZeker(m))) { over.push(j); inPunt = true; j++; continue; }   // een punt van de gebruiker: overslaan
-        inPunt = false;
-      }
+      if (naLeeg && LIC_PUNT.test(r[j]) && !(m && licZeker(m))) { over.push(j); inPunt = true; j++; continue; }   // een punt van de gebruiker: overslaan
+      inPunt = false;
       if (m) { gezien = true; const d = licDelen(m[1]); lijst.push({ naam: licNaamUitMd(m[0]), start: d.start, datum: d.datum, link: d.link }); plekken.push(j); eind = j + 1; j++; continue; }
       if (gezien || geen) break;         // gewone tekst na de licenties (v272: of na "Geen licenties."): het blok is af
       overig.push(r[j]); eind = j + 1; j++;
@@ -17166,7 +17354,9 @@ WIB.kern.notities = (function () {
   // geen (v257): true legt "Geen licenties." vast, false haalt het weg; niet opgegeven: zoals het in de tekst staat.
   // Staan er licenties, dan vervalt die regel.
   function licNaarTekst(t, lijst, geen) {
-    const crlf = /\r\n/.test(t), r = String(t).replace(/\r\n?/g, '\n').split('\n');
+    // v281: een BOM vooraan hoort niet bij de titel (anders kwam een nieuw blok bóven de titel, met de BOM midden in het bestand)
+    const bom = String(t).charAt(0) === '\uFEFF' ? '\uFEFF' : '';
+    const crlf = /\r\n/.test(t), r = String(t).slice(bom.length).replace(/\r\n?/g, '\n').split('\n');
     const b = licBlok(r);
     const regels = lijst.length ? lijst.map(licRegel) : (geen === undefined ? !!b && b.geen : geen) ? ['Geen licenties.'] : [];
     if (b && b.tussen) {
@@ -17175,7 +17365,10 @@ WIB.kern.notities = (function () {
       r.length = 0; Array.prototype.push.apply(r, op);
     } else if (b) {
       // andere tekst tussen de kop en de licenties blijft staan, op dezelfde plek
-      const blok = regels.length || b.overig.length ? ['## Geldigheid licenties'].concat(b.overig, regels, ['']) : [];
+      // v282: de lege regel na het blok komt er alleen als hij er stond (of als het blok het eind van de notitie is). Een
+      // taak of andere tekst die direct onder de licenties staat, blijft daar dus staan, zonder lege regel erboven.
+      const metLeeg = b.eind >= r.length || !r[b.eind - 1].trim();
+      const blok = regels.length || b.overig.length ? ['## Geldigheid licenties'].concat(b.overig, regels, metLeeg ? [''] : []) : [];
       r.splice.apply(r, [b.begin, b.eind - b.begin].concat(blok));
     } else if (regels.length) {
       // v272: het blok komt onder de titel en de regels die daar direct onder staan (zonder lege regel ertussen, zoals
@@ -17196,7 +17389,7 @@ WIB.kern.notities = (function () {
       r.splice.apply(r, [k, 0].concat(nieuw));
     }
     const uit = r.join('\n');
-    return crlf ? uit.replace(/\n/g, '\r\n') : uit;
+    return bom + (crlf ? uit.replace(/\n/g, '\r\n') : uit);
   }
 
   // "Bestaat niet" is iets anders dan "kan niet lezen" (v110). Alleen een ontbrekend bestand of map telt als leeg;
@@ -17292,7 +17485,7 @@ WIB.kern.notities = (function () {
       if (sleutel(c) === sl) regels.push({ regel: r.regel, tekst: notitieTitel(c + r.rest, c, r.vorm === 'kop'), vorm: r.vorm, pad: r.pad });   // v275: de leesregel van de rekenkern
     });
     const notitie = String(bronnen.notitie || '').replace(/\r\n?/g, '\n');
-    let titel = (/^#\s+(.*)$/m.exec(notitie) || [])[1] || '';
+    let titel = (/^\uFEFF?#\s+(.*)$/m.exec(notitie) || [])[1] || '';   // v281: ook met een BOM vooraan het bestand
     titel = platteTekst(titel).replace(new RegExp('^' + escRe(code) + '\\s*[·:\\-–]?\\s*', 'i'), '');
     if (!titel && regels.length) titel = regels[0].tekst;
     let open = (notitie.match(/^\s*[-*+]\s+\[ \]\s+/gm) || []).length;
@@ -17416,7 +17609,7 @@ WIB.kern.notities = (function () {
     (notities || []).forEach(function (n) {
       const x = van(n.code), tekst = String(n.tekst || '').replace(/\r\n?/g, '\n');
       x.bekend = true;
-      const titel = platteTekst((/^#\s+(.*)$/m.exec(tekst) || [])[1] || '').replace(new RegExp('^' + escRe(x.code) + '\\s*[·:\\-–]?\\s*', 'i'), '');
+      const titel = platteTekst((/^\uFEFF?#\s+(.*)$/m.exec(tekst) || [])[1] || '').replace(new RegExp('^' + escRe(x.code) + '\\s*[·:\\-–]?\\s*', 'i'), '');
       if (titel) x.titel = titel;
       const k = koppelingUitTekst(tekst, codeRe);
       if (k.geen) { x.project = true; x.geen = true; }
@@ -17464,7 +17657,7 @@ WIB.kern.notities = (function () {
   function zoekRegels(tekst, woorden) {
     const uit = [];
     let kop = '';
-    String(tekst || '').replace(/\r\n?/g, '\n').split('\n').forEach(function (l, i) {
+    String(tekst || '').replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n').split('\n').forEach(function (l, i) {   // v281: zonder de BOM vooraan
       const k = /^#{1,6}\s+(.*)$/.exec(l);
       if (l.trim() && zoekPast(woorden, l)) uit.push({ regel: i, tekst: platteTekst(l.replace(/^\s*(?:#{1,6}\s+|[-*+]\s+(?:\[[ xX]\]\s+)?|\d+[.)]\s+|>\s*)/, '')) || l.trim(), kop: k ? '' : kop });
       if (k) kop = platteTekst(k[1]);
@@ -17484,7 +17677,7 @@ WIB.kern.notities = (function () {
     const notities = [], fouten = [];
     (b.notities || []).forEach(function (n) {
       if (n.fout) { fouten.push(n); return; }
-      const titel = (/^#\s+(.*)$/m.exec(n.tekst || '') || [])[1] || '';
+      const titel = (/^\uFEFF?#\s+(.*)$/m.exec(n.tekst || '') || [])[1] || '';
       zoekRegels(n.tekst, w).forEach(function (r) { notities.push(Object.assign({ code: n.code, titel: platteTekst(titel) }, r)); });
     });
     const daginvoer = [];
@@ -17667,6 +17860,17 @@ WIB.kern.notities = (function () {
       .then(function (h) { return WIB.hulp.schrijf(h, tekst, { achteraan: !!achteraan, voorvoegsel: '\n' }); })
       .then(function (f) { return f.lastModified; });
   }
+  /* v282: opslagacties op hetzelfde notitiebestand gaan om de beurt (een wachtrij per code, zoals schrijfRij voor de andere
+     bestanden): opslaan in het notitievenster, afvinken in het Totaaloverzicht en Code omzetten. Elke actie leest de
+     notitie binnen haar beurt opnieuw van schijf. Zonder beurt lazen twee acties kort na elkaar allebei de oude tekst en
+     schreef de tweede over de eerste heen; de historie noemde dan beide wijzigingen en het bestand had er één. */
+  const notitieRij = WIB.kern.document.maakWachtrij();
+  let beurten = 0;   // v283: hoeveel opslagacties op notities nog lopen of wachten (de pagina waarschuwt dan bij sluiten)
+  function opBeurt(nr, taak) {
+    const klaar = notitieRij(nr, taak), af = function () { beurten--; };
+    beurten++; klaar.then(af, af);
+    return klaar;
+  }
   function bewaar(nr, tekst, oud) {
     const versie = { stempel: stempel(new Date()), tekst: tekst };
     let klaar;
@@ -17755,6 +17959,8 @@ WIB.kern.notities = (function () {
     // altijd de genormaliseerde code (v151): met kleine letters zag Code omzetten "2026-abc" en "2026-ABC" als twee codes,
     // voegde de notities met zichzelf samen en ruimde daarna het (ene) bestand op, waardoor de notities verdwenen
     nr = sleutel(nr);
+    // v283: loopt het opslaan nog, dan eerst wachten; mislukt het (of komt er een vraag), dan blijft het venster zoals het is
+    if (opslaanLoopt && isOpen()) return wachtOpOpslaan().then(function (door) { return door ? open(nr, titel) : false; });
     return (isOpen() && vuil() && huidig.nr !== nr ? WIB.vraag({ tekst: 'De notities bij ' + huidig.nr + ' zijn nog niet opgeslagen. Weggooien en ' + nr + ' openen?', titel: 'Niet-opgeslagen notities', ja: 'Weggooien en openen', gevaarlijk: true }) : Promise.resolve(true)).then(function (ok) {
       if (!ok) return false;
       return lees(nr).then(function (r) {
@@ -17780,8 +17986,34 @@ WIB.kern.notities = (function () {
       });
     });
   }
+  /* v283: sluiten (kruisje, Esc, klik naast het venster, Dossier, een andere notitie openen) terwijl het opslaan nog loopt:
+     het venster wacht tot het opslaan klaar is en sluit dan zonder vraag. Tot v282 kwam de vraag "nog niet opgeslagen,
+     weggooien?", terwijl de tekst wel werd opgeslagen. Mislukt het opslaan, of komt de vraag over een wijziging van
+     buitenaf, dan blijft het venster open. Heb je na het opslaan nog getypt, dan komt daarna de gewone vraag. */
+  let opslaanLoopt = null;   // de belofte van het opslaan dat nu loopt: 'opgeslagen', 'niets', 'mislukt' of 'vraag'
+  let wachtend = null;       // de belofte van het wachten: true = ga door met sluiten, false = het venster blijft open
+  function wachtOpOpslaan() {
+    if (!opslaanLoopt) return Promise.resolve(true);
+    if (!wachtend) {
+      const kader = vlak.querySelector('.hulp-vlak'), volgende = function (uitkomst) {
+        if (uitkomst === 'mislukt' || uitkomst === 'vraag') return false;
+        return opslaanLoopt ? opslaanLoopt.then(volgende) : true;
+      };
+      // zolang het venster wacht, is het niet te bedienen: er kan geen actie beginnen die het opslaan tegenspreekt
+      kader.inert = true; vlak.classList.add('nt-wacht');
+      zetStatus('Opslaan… het venster sluit daarna');
+      wachtend = opslaanLoopt.then(volgende).then(function (door) {
+        kader.inert = false; vlak.classList.remove('nt-wacht'); wachtend = null;
+        if (!door && isOpen()) focusVeld().focus();
+        return door;
+      });
+    }
+    return wachtend;
+  }
   function sluit() {
+    if (!isOpen()) return Promise.resolve(true);
     editorBij();
+    if (opslaanLoopt) return wachtOpOpslaan().then(function (door) { return door ? sluit() : false; });
     return (vuil() ? WIB.vraag({ tekst: 'De notities bij ' + huidig.nr + ' zijn nog niet opgeslagen. Weggooien?', titel: 'Niet-opgeslagen notities', ja: 'Weggooien', gevaarlijk: true }) : Promise.resolve(true)).then(function (ok) {
       if (!ok) return false;
       vlak.hidden = true;
@@ -17798,17 +18030,28 @@ WIB.kern.notities = (function () {
   function opslaan() {
     if (!huidig) return Promise.resolve();
     editorBij();
-    const nr = huidig.nr, tekst = ta.value;
+    const nr = huidig.nr, tekst = ta.value, basis0 = huidig.basis, lm0 = huidig.lm;
     if (tekst === huidig.basis) { zetStatus('Geen wijzigingen'); return Promise.resolve(); }
+    // v282: op de beurt van dit notitiebestand. hier(): staat het venster nog open op deze code? (Het kan intussen zijn
+    // gesloten; wat je vroeg op te slaan, wordt dan toch opgeslagen.) Staat deze tekst er door een eerdere beurt al
+    // (twee keer Ctrl+S), dan gebeurt er niets meer: geen tweede versie en geen tweede vermelding in de historie.
+    const hier = function () { return huidig && huidig.nr === nr ? huidig : null; };
+    let uitkomst = 'niets', gevraagd = false;   // v283: voor wie op dit opslaan wacht (sluiten)
+    const klaar = opBeurt(nr, function () {
+    if (hier() && tekst === hier().basis) return;
+    const basis = hier() ? hier().basis : basis0, lm1 = hier() ? hier().lm : lm0;
     const check = map ? lees(nr) : Promise.resolve(null);
     return check.then(function (r) {
-      const anders = r && r.lm && r.lm !== huidig.lm && r.tekst !== huidig.basis;
+      const anders = r && r.lm && r.lm !== lm1 && r.tekst !== basis;
+      if (anders) gevraagd = true;
       return (anders ? WIB.vraag({ titel: 'Notities buiten de pagina gewijzigd', tekst: 'notities/' + naamVoor(nr) + ' is buiten de pagina gewijzigd sinds je het opende. Toch opslaan? De andere versie komt dan bij de versies, zodat je hem kunt bekijken en terugzetten.', ja: 'Toch opslaan', gevaarlijk: true }) : Promise.resolve(true)).then(function (ok) {
-        if (!ok) return;
-        return (anders ? bewaarExtern(nr, r) : Promise.resolve()).then(function () { return bewaar(nr, tekst, huidig.basis); }).then(function (lm) {
+        if (!ok) { if (hier()) statusBijwerken(); return; }
+        return (anders ? bewaarExtern(nr, r) : Promise.resolve()).then(function () { return bewaar(nr, tekst, basis); }).then(function (lm) {
           const versieFout = bewaar.versieFout;
-          huidig.basis = tekst; huidig.lm = lm;
+          uitkomst = 'opgeslagen';
           gevuld[nr] = !!tekst.trim(); licStatusZet(nr, tekst); werkLabelsBij();
+          if (!hier()) { if (WIB.document.tab() === 'dossier') toonDossier(); return; }   // het venster is intussen gesloten: opgeslagen, maar er is geen venster meer om bij te werken
+          huidig.basis = tekst; huidig.lm = lm;
           if (WIB.document.tab() === 'licenties') toonLicenties();
           if (WIB.document.tab() === 'overgang') toonOvergang();   // v261
           if (WIB.document.tab() === 'dossier') toonDossier();   // v218
@@ -17820,7 +18063,11 @@ WIB.kern.notities = (function () {
           if (editor && wysiwyg()) editor.toonVorm();   // v191: na opslaan de echte vorm (zie Document, v187)
         });
       });
-    }).catch(function (e) { zetStatus('Opslaan mislukt: ' + (e && e.message ? e.message : e), true); });
+    });
+    }).catch(function (e) { uitkomst = 'mislukt'; if (hier()) zetStatus('Opslaan mislukt: ' + (e && e.message ? e.message : e), true); else meld('De notities bij ' + nr + ' konden niet worden opgeslagen: ' + (e && e.message ? e.message : e)); })
+      .then(function () { if (opslaanLoopt === klaar) opslaanLoopt = null; return gevraagd ? 'vraag' : uitkomst; });
+    opslaanLoopt = klaar;
+    return klaar;
   }
   // v206: vóór "Toch opslaan" de versie van buitenaf bij de versies zetten (met de wijzigingstijd van het bestand), tenzij
   // die tekst daar al staat. Tot v205 was die versie na het overschrijven nergens meer. Lukt dit niet, dan wordt er ook
@@ -18379,7 +18626,7 @@ WIB.kern.notities = (function () {
           gedaan.anderen.push({ code: a.code, oud: a.tekst, nieuw: nieuwTekst, reden: reden });
           return;
         }
-        return m.haal().then(function (d) {
+        return opBeurt(a.code, function () { return m.haal(); }).then(function (d) {   // v282: na een opslagactie op dat bestand die nog loopt
           return Promise.all([leesOfNull(d, naamVoor(a.code)), leesOfNull(d, naamVoor(a.code, true))]).then(function (f) {
             if (f[0] !== a.tekst) throw new Error('de notities van ' + a.code + ' zijn sinds de controle gewijzigd');
             vorige = { oudTekst: a.tekst, oudVersies: f[1] };
@@ -18482,7 +18729,9 @@ WIB.kern.notities = (function () {
     const vastleggen = { naam: 'werkdruk.md opslaan', doe: function () { return inhoud.mdWijzigt ? WIB.document.vervangTekst(inhoud.nieuwMd) : true; } };
     const opruimen = plan.notesMee && map ? opruimStappen(plan, m) : [];
     if (plan.bijlagenMee) opruimen.push(bijlagenOpruimStap(plan, m));
-    transactie(stappen, vastleggen, opruimen).then(function (r) {
+    // v282: op de beurt van de notitiebestanden van de oude en de nieuwe code (na een opslagactie die nog loopt)
+    const omBeurt = function () { return plan.nieuw === plan.oud ? transactie(stappen, vastleggen, opruimen) : opBeurt(plan.nieuw, function () { return transactie(stappen, vastleggen, opruimen); }); };
+    opBeurt(plan.oud, omBeurt).then(function (r) {
       if (!r.ok) toonOmzetMislukt(r, el, rapport);
       else rondOmzetAf(plan, inhoud, r, gedaan);
     });
@@ -18686,7 +18935,7 @@ WIB.kern.notities = (function () {
   // tabblad Licenties: alle licenties van alle projecten
   function verzamelLicenties() {
     function uit(code, tekst) {
-      let titel = (/^#\s+(.*)$/m.exec(tekst || '') || [])[1] || '';
+      let titel = (/^\uFEFF?#\s+(.*)$/m.exec(tekst || '') || [])[1] || '';   // v281: ook met een BOM vooraan het bestand
       titel = titel.replace(new RegExp('^' + escRe(code) + '\\s*[·:\\-–]?\\s*', 'i'), '');
       return licUitTekst(tekst).map(function (l) { const s = licStaat(l.datum); return { code: code, titel: titel, naam: l.naam, datum: l.datum, staat: s.staat, dagen: s.dagen, tekst: s.tekst }; });
     }
@@ -19062,7 +19311,8 @@ WIB.kern.notities = (function () {
   document.querySelectorAll('[data-ntweergave]').forEach(function (b) {
     b.addEventListener('click', function () { if (b.getAttribute('data-ntweergave') === 'opmaak') bekeken = null; zetWeergave(b.getAttribute('data-ntweergave')); });
   });
-  window.addEventListener('beforeunload', function (e) { if (isOpen()) editorBij(); if (isOpen() && vuil()) { e.preventDefault(); e.returnValue = ''; } });
+  // v283: ook waarschuwen zolang er een opslagactie op een notitie loopt (bijvoorbeeld een vinkje uit het Totaaloverzicht)
+  window.addEventListener('beforeunload', function (e) { if (isOpen()) editorBij(); if (beurten > 0 || (isOpen() && vuil())) { e.preventDefault(); e.returnValue = ''; } });
 
   WIB.bewaking.voegToe(controleer);
 
@@ -19218,6 +19468,7 @@ WIB.kern.notities = (function () {
     // wijzigingen die nog niet zijn opgeslagen. Slaat op zoals het notitievenster: notities, versie en historie.
     vinkAf: function (nr, oud, nieuw) {
       nr = sleutel(nr);
+      return opBeurt(nr, function () {   // v282: op de beurt van dit notitiebestand; de notitie wordt binnen de beurt opnieuw gelezen
       if (huidig && huidig.nr === nr && isOpen()) editorBij();
       if (huidig && huidig.nr === nr && isOpen() && vuil()) return Promise.reject(new Error('De notities van ' + nr + ' staan open in het notitievenster, met wijzigingen die nog niet zijn opgeslagen. Sla die eerst op of sluit het venster, en vink daarna af.'));
       return lees(nr).then(function (r) {
@@ -19232,6 +19483,7 @@ WIB.kern.notities = (function () {
           }
           return { versieFout: versieFout };
         });
+      });
       });
     },
     isOpen: isOpen,
