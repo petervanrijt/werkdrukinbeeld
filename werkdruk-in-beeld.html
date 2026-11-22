@@ -22,6 +22,7 @@
   Dit bestand is sinds v102 de broncode: er is geen bouwketen of ander bronbestand meer.
   Wijzigingen maak je rechtstreeks in dit bestand. Elk script heeft een kenmerk data-deel; de tests vinden de delen daaraan:
   - gedeeld          : WIB.hulp (hulpfuncties), WIB.venster (vensters) en WIB.bewaking (controle op wijzigingen van buitenaf);
+  - gegevens-kern    : de gegevenslaag (sinds v284): de vaste weg waarlangs een bestand wordt gewijzigd (WIB.gegevens; geen DOM);
   - rekenkern        : deel 1, takenlijst lezen en werkdruk berekenen (geen DOM);
   - document-kern    : DOM-vrije logica van deel 2: markdown naar HTML, regels, historie en daginvoer (WIB.kern.document);
   - document         : deel 2: markdown tonen, bewerken, opslaan, historie, daginvoer (WIB.document);
@@ -2531,6 +2532,25 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v286</span> Een notitie met Windows-regeleinden staat niet meer meteen als "Niet opgeslagen" <span class="datum">22 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Opende je een notitie die met Windows-regeleinden is opgeslagen (bijvoorbeeld na bewerken in Kladblok), dan stond er meteen <i>Niet opgeslagen</i> en waarschuwde de pagina bij sluiten, terwijl je niets had gedaan. De pagina vergelijkt de tekst nu zoals het notitieveld hem teruggeeft, zodat alleen een echte wijziging telt. Het bestand zelf wordt niet aangeraakt zolang je niets wijzigt.</li>
+      <li><span class="soort herstel">herstel</span>Door dezelfde fout ging er bij zo'n notitie meer mis, en dat is nu ook goed: <b>Code omzetten</b> opende niet (<i>Sla eerst je notities op</i>); een wijziging van buitenaf werd niet overgenomen (<i>nog niet overgenomen</i>); en bij het toevoegen van een bijlage of bij Opslaan zonder wijziging werd de notitie toch opnieuw geschreven, met een extra versie zonder verschil.</li>
+      <li>Tests: de bekende fout F-crlf1 uit stap 0 van de gegevenslaag is nu een gewone test in een echte browser (in beide weergaven van het notitieveld), plus een test zonder browser. Het vastgelegde gedrag van de gegevensacties is bewust opnieuw vastgelegd: zeven situaties met Windows-regeleinden zijn veranderd, elk nagelopen (Code omzetten, een bijlage toevoegen, een schrijffout bij een bijlage, een notitie die buiten de pagina is gewijzigd, en downloaden van notities); alle andere situaties zijn gelijk gebleven. Hulp niet geraakt.</li>
+      <li>Handmatige actie: geen. Heb je door de oude fout een notitie opgeslagen zonder iets te wijzigen, dan staat er bij <i>Versies</i> een versie zonder verschil; die mag blijven staan.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v285</span> De historie noemt de eerste kop ook bij een bestand met een BOM <span class="datum">22 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Begon <code>werkdruk.md</code>, <code>instellingen.md</code> of een notitie met een BOM (een onzichtbaar teken dat sommige Windows-programma's vooraan een bestand zetten), dan zag de pagina de eerste regel niet als kop. In een nieuwe vermelding in de historie ontbrak die kop daardoor in de regel <i>Onder:</i>: er stond <i>Onder: Overig</i> in plaats van <i>Onder: Werk › Overig</i>, en bij een wijziging direct onder de eerste kop <i>(begin van het bestand)</i>. Nu staat de eerste kop erbij. Vermeldingen die er al stonden, veranderen niet, en het bestand zelf houdt zijn BOM.</li>
+      <li>Tests: de bekende fout F-bom1 uit stap 0 van de gegevenslaag is nu een gewone test, met een tweede test voor het herkennen van koppen. Het vastgelegde gedrag van de gegevensacties is bewust opnieuw vastgelegd: in 29 situaties met een BOM is alleen de regel <i>Onder:</i> veranderd (met een script nagelopen); alle andere situaties zijn gelijk gebleven. Hulp niet geraakt.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v284</span> Daginvoer loopt via één vaste weg voor bestanden (gegevenslaag, stap 1) <span class="datum">22 nov 2026</span></h2><ul>
+      <li><span class="soort nieuw">nieuw</span>De pagina schrijft <code>daginvoer.md</code> nu via één vaste weg, die straks elk bestand gebruikt: om de beurt, eerst het bestand opnieuw lezen, een wijziging van buitenaf samenvoegen, controleren dat er niet meer verandert dan de bedoeling is, en na het schrijven teruglezen en vergelijken. Aan wat je ziet verandert niets: toevoegen, verwijderen, laden, archiveren, Code omzetten en alle meldingen zijn gelijk gebleven.</li>
+      <li><span class="soort nieuw">nieuw</span>Staat er na het schrijven iets anders in <code>daginvoer.md</code> dan bedoeld (bijvoorbeeld maar een deel, door een haperende netwerkschijf), dan probeert de pagina het meteen één keer opnieuw. Lukt het dan nog niet, dan zet ze de vorige inhoud van het bestand terug en zie je de melding <i>na het schrijven stond er iets anders in daginvoer.md; de vorige inhoud is teruggezet</i>. Je invoer blijft in de pagina staan, de pagina probeert het om de paar seconden opnieuw en waarschuwt als je haar sluit. Tot en met v283 merkte de pagina dit niet: het halve bestand bleef staan en werd later ingelezen als wijziging van buitenaf, waardoor invoeren verdwenen.</li>
+      <li><span class="soort nieuw">nieuw</span>Mislukt het schrijven van een <code>daginvoer.md</code> dat nog niet bestond, dan blijft er geen leeg bestand achter.</li>
+      <li>Onder de motorkap: een nieuw onderdeel <code>gegevens-kern</code> (de gegevenslaag) met alle algemene bewerkingen; in deze versie gebruikt alleen <code>daginvoer.md</code> het. De andere bestanden volgen per versie.</li>
+      <li>Tests: 26 nieuwe zonder browser (elke garantie van de gegevenslaag op een nagebootste map en in het geheugen, 200 willekeurige reeksen handelingen, en de daginvoertests nog eens zonder browser), 2 nieuwe structuurtests en 1 nieuwe in een echte browser (teruglezen en terugzetten). Het vastgelegde gedrag van alle 56 gegevensacties en van Code omzetten is exact gelijk gebleven. Hulp bijgewerkt (Daginvoer).</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
     <div class="release"><h2><span class="versie">v283</span> Het notitievenster wacht met sluiten tot het opslaan klaar is <span class="datum">22 nov 2026</span></h2><ul>
       <li><span class="soort herstel">herstel</span>Sloot je het notitievenster terwijl het opslaan nog liep (dat merk je alleen op een trage schijf), dan vroeg de pagina of je de niet-opgeslagen notities wilde weggooien, terwijl ze wel werden opgeslagen. Nu wacht het venster tot het opslaan klaar is en sluit het daarna vanzelf, zonder vraag; zolang het wacht, staat er <i>Opslaan… het venster sluit daarna</i>. Dat geldt voor het kruisje, Esc, een klik naast het venster, de knop Dossier en het openen van een andere notitie.</li>
       <li><span class="soort herstel">herstel</span>Mislukt het opslaan, dan blijft het venster open met de melding en kun je het opnieuw proberen. Heb je na het opslaan nog iets getypt, dan komt na het wachten de gewone vraag over niet-opgeslagen notities.</li>
@@ -4503,7 +4523,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h3>Daginvoer</h3>
     <p>Met <b>+ Nieuwe invoer</b> in het tabblad Daginvoer of <b>+ Daginvoer voor deze dag</b> in de dagweergave leg je vrije tekst vast voor een dag (standaard vandaag; markdown mag, <kbd>Ctrl</kbd>+<kbd>Enter</kbd> voegt toe). Per dag kun je zo vaak invoeren als je wilt; elke invoer heeft een tijdstip en kan worden verwijderd. Het tabblad Daginvoer toont de laatste vier weken per dag uitgeklapt en oudere invoer per maand ingeklapt. Staan er werkdruktaken in werkdruk.md, dan staat bij elke dag de link <i>Bekijk dag</i> naar de dagweergave, en bij een dag in het bekeken jaar ook wat de werkdrukberekening over die dag zegt (verlof, feestdag of geplande uren).</p>
     <p>In het jaar- en maandoverzicht heeft een dag met daginvoer een stip. De dagweergave toont de daginvoer van die dag, met een knop om er iets aan toe te voegen. De tekst staat in <code>daginvoer.md</code> in de gekozen map. Pas je daginvoer.md buiten de pagina aan (of heb je de pagina in twee tabbladen open), dan neemt de pagina dat over, en bij een nieuwe of verwijderde invoer worden beide wijzigingen samengevoegd: er wordt niets overschreven. Een invoer begint in het bestand met een kop als <code>## 2026-11-20 09:15:00</code> (datum en tijd). Tekst die je zelf boven de eerste invoer zet, zoals een titel, een aantekening of een kop zonder tijdstip, staat niet in het tabblad maar blijft bovenaan in het bestand staan. Zonder map blijft de daginvoer in het geheugen en gebruik je Downloaden en Laden. <i>Archiveren</i> zet alle invoeren weg als <code>daginvoer-JJJJ-MM.md</code> en maakt daginvoer.md leeg; je eigen tekst bovenaan blijft staan. Lukt het leegmaken niet, dan zegt de melding dat, gaan de invoeren weer uit het archief en is er niets gewijzigd.</p>
-    <p>Kan de pagina daginvoer.md niet schrijven (bijvoorbeeld omdat een ander programma het bestand bezet houdt), dan zie je een melding en staat je invoer alleen in de pagina. De pagina probeert het om de paar seconden opnieuw en waarschuwt als je de pagina sluit voordat het gelukt is.</p>
+    <p>Kan de pagina daginvoer.md niet schrijven (bijvoorbeeld omdat een ander programma het bestand bezet houdt), dan zie je een melding en staat je invoer alleen in de pagina. De pagina probeert het om de paar seconden opnieuw en waarschuwt als je de pagina sluit voordat het gelukt is. Staat er na het schrijven iets anders in het bestand dan bedoeld, dan probeert de pagina het meteen één keer opnieuw en zet ze daarna de vorige inhoud terug; ook dan zie je een melding en blijft je invoer in de pagina staan tot het schrijven lukt.</p>
   </section>
 
   <section id="h-hist">
@@ -4871,6 +4891,611 @@ WIB.bewaking = (function () {
   document.addEventListener('visibilitychange', function () { if (!document.hidden) alles(); });
   plan();
   return { voegToe: function (f) { controles.push(f); }, bewaak: bewaak, nu: alles, doorBrowser: function () { return !!observer; } };
+})();
+</script>
+<script data-deel="gegevens-kern">
+'use strict';
+/* ==========================================================================
+   De gegevenslaag (v284; plan in DOCS_PVR/plan-gegevenslaag.md). Elke wijziging van een bestand loopt via één vaste
+   weg (bewerk): om de beurt per bestand, opnieuw lezen, een wijziging van buitenaf samenvoegen of weigeren, de
+   wijziging controleren (belofte, eigen tekst, leegrem), alleen schrijven als er iets verandert, teruglezen en
+   vergelijken (wijkt het af: één nieuwe poging, daarna de oude inhoud terug), en een vaste vorm van de uitkomst.
+   Zonder scherm en zonder klok (de tijd wordt aangereikt), zodat alles in Node te testen is (tests/gegevens.test.js).
+   Gebruikt alleen WIB.hulp. Naar buiten: WIB.gegevens; de delen roepen het aan als WIB.gegevens.naam(…).
+   Een opslag is een map (maakMapOpslag) of het geheugen (maakGeheugenOpslag); zetOpslag kiest de actieve.
+   Een pad loopt vanaf de map, met '/': 'daginvoer.md', 'notities/ONB-001.md'.
+   ========================================================================== */
+WIB.gegevens = (function () {
+  'use strict';
+  const hulp = WIB.hulp;
+
+  /* ---------- om de beurt ---------- */
+  // Taken per sleutel (bijvoorbeeld een bestandsnaam) na elkaar uitvoeren (v112; sinds v284 hier, was document-kern). Een
+  // volgende taak voor hetzelfde bestand begint pas als de vorige klaar is, ook als die mislukte; taken voor verschillende
+  // bestanden lopen naast elkaar. Zo kunnen twee schrijfacties naar hetzelfde bestand elkaar niet overschrijven.
+  function maakWachtrij() {
+    const rijen = {};
+    return function (sleutel, taak) {
+      const deze = (rijen[sleutel] || Promise.resolve()).then(taak);
+      rijen[sleutel] = deze.catch(function () { /* de fout gaat via "deze" naar wie de taak gaf; de rij zelf gaat door */ });
+      return deze;
+    };
+  }
+  // de wachtrij van de laag: één per pad, voor elke opslag samen (twee keer dezelfde map openen schrijft niet naast elkaar)
+  const rij = maakWachtrij();
+  // Tekst achteraan een bestand toevoegen (File System Access API; sinds v284 hier, was document-kern). De grootte wordt
+  // gelezen op het moment van schrijven; voorvoegsel (bijvoorbeeld een lege regel) komt er alleen voor als het bestand niet leeg is.
+  function voegToeAanBestand(h, tekst, voorvoegsel) {
+    return hulp.schrijf(h, tekst, { achteraan: true, voorvoegsel: voorvoegsel });
+  }
+
+  /* ---------- een reeks stappen als één geheel (v109; sinds v284 hier als samen, was transactie in notities-kern) ----------
+     - stappen: [{ naam, doe, herstel }] worden na elkaar uitgevoerd. Gaat er een mis, dan worden alle stappen die zijn
+       begonnen (ook de mislukte, die halverwege kan zijn) in omgekeerde volgorde teruggedraaid met herstel. Elke herstelstap
+       wordt geprobeerd, ook als een eerdere mislukt; wat niet lukt, staat in herstelFouten.
+     - vastleggen: { naam, doe } is het punt zonder terugweg (bij Code omzetten: werkdruk.md opslaan). Mislukt die, dan wordt
+       ook alles teruggedraaid. doe mag false teruggeven: dat telt als mislukt.
+     - opruimen: [{ naam, doe }] gebeurt pas na het vastleggen en wordt nooit teruggedraaid. Mislukt een opruimstap, dan gaan
+       de andere toch door en staat hij in opruimFouten; het geheel is dan wel gelukt.
+     Uitkomst: { ok, soort ('geschreven' of 'teruggezet'), fout, mislukteStap, herstelFouten: [{ naam, fout }], opruimFouten: [{ naam, fout }] } */
+  async function samen(stappen, vastleggen, opruimen) {
+    const begonnen = [], uit = { ok: false, soort: 'teruggezet', fout: null, mislukteStap: null, herstelFouten: [], opruimFouten: [] };
+    try {
+      for (const st of stappen || []) {
+        begonnen.push(st);
+        uit.mislukteStap = st.naam;
+        await st.doe();
+      }
+      if (vastleggen) {
+        uit.mislukteStap = vastleggen.naam;
+        if ((await vastleggen.doe()) === false) throw new Error(vastleggen.naam + ' is niet gelukt');
+      }
+      uit.mislukteStap = null;
+    } catch (e) {
+      uit.fout = e;
+      for (let i = begonnen.length - 1; i >= 0; i--) {
+        if (!begonnen[i].herstel) continue;
+        try { await begonnen[i].herstel(); } catch (h) { uit.herstelFouten.push({ naam: begonnen[i].naam, fout: h }); }
+      }
+      return uit;
+    }
+    uit.ok = true; uit.soort = 'geschreven';
+    for (const st of opruimen || []) {
+      try { await st.doe(); } catch (e) { uit.opruimFouten.push({ naam: st.naam, fout: e }); }
+    }
+    return uit;
+  }
+
+  /* ---------- opslag: een map of het geheugen, met hetzelfde contract ----------
+     soort ('map' of 'geheugen'), naam, handvat (het maphandvat of null), schrijfbaar(pad),
+     lees(pad, { bytes, alsAnders }) -> { tekst | bytes, kenmerk, gewijzigdOp, grootte } of null (bestaat niet; elke andere
+       fout gaat door). alsAnders: een kenmerk; is het bestand nog zo, dan { ongewijzigd: true, kenmerk } zonder de inhoud te lezen.
+     schrijf(pad, inhoud, { achteraan, voorvoegsel }) -> { kenmerk, gewijzigdOp, grootte }; maakt ontbrekende mappen aan.
+     verwijder(pad, { metInhoud }), lijst(mapPad) -> [{ naam, soort: 'bestand' | 'map' }], maakMap(pad).
+     Kenmerk: op de map de wijzigingstijd, in het geheugen een teller; alleen op gelijkheid vergelijken. */
+  function padDelen(pad) { return String(pad || '').split('/').filter(Boolean); }
+  async function submap(dir, delen, maak) {
+    let d = dir;
+    for (const m of delen) d = await d.getDirectoryHandle(m, maak ? { create: true } : undefined);
+    return d;
+  }
+  function benoemd(naam, tekst) { const e = new Error(tekst); e.name = naam; return e; }
+  async function bytesVan(x) {
+    if (ArrayBuffer.isView(x)) return new Uint8Array(x.buffer, x.byteOffset, x.byteLength);
+    if (x && typeof x.arrayBuffer === 'function') return new Uint8Array(await x.arrayBuffer());
+    return new Uint8Array(x);
+  }
+  // een bestand (File) lezen als opslag.lees: met kenmerk, eventueel zonder de inhoud als het kenmerk gelijk is
+  async function leesFile(f, o) {
+    const uit = { kenmerk: f.lastModified, gewijzigdOp: f.lastModified, grootte: f.size };
+    if (o && 'alsAnders' in o && f.lastModified === o.alsAnders) { uit.ongewijzigd = true; return uit; }
+    if (o && o.bytes) uit.bytes = new Uint8Array(await f.arrayBuffer()); else uit.tekst = await hulp.tekstVan(f);
+    return uit;
+  }
+  function maakMapOpslag(dir) {
+    // toestemming op één plek: vóór de eerste schrijfactie na het kiezen (gelukt = onthouden, mislukt = de volgende keer opnieuw)
+    let toestemming = null;
+    function magSchrijven() {
+      if (!toestemming) {
+        toestemming = Promise.resolve(typeof dir.queryPermission === 'function' ? dir.queryPermission({ mode: 'readwrite' }) : 'granted')
+          .then(function (s) { return s === 'granted' || typeof dir.requestPermission !== 'function' ? s : dir.requestPermission({ mode: 'readwrite' }); })
+          .then(function (s) { if (s !== 'granted') throw benoemd('NotAllowedError', 'geen toestemming om te schrijven'); });
+        toestemming.catch(function () { toestemming = null; });
+      }
+      return toestemming;
+    }
+    async function lees(pad, o) {
+      const delen = padDelen(pad), naam = delen.pop();
+      try {
+        const d = await submap(dir, delen);
+        if (!o || (!o.bytes && !('alsAnders' in o))) {
+          const r = await hulp.leesBestand(d, naam);
+          return r && { tekst: r.tekst, kenmerk: r.lm, gewijzigdOp: r.lm, grootte: r.tekst.length };
+        }
+        return await leesFile(await (await d.getFileHandle(naam)).getFile(), o);
+      } catch (e) { if (hulp.nietGevonden(e)) return null; throw e; }
+    }
+    async function schrijf(pad, inhoud, o) {
+      await magSchrijven();
+      const delen = padDelen(pad), naam = delen.pop();
+      const d = await submap(dir, delen, true);
+      const f = await hulp.schrijf(await d.getFileHandle(naam, { create: true }), inhoud, o);
+      return { kenmerk: f.lastModified, gewijzigdOp: f.lastModified, grootte: f.size };
+    }
+    async function verwijder(pad, o) {
+      await magSchrijven();
+      const delen = padDelen(pad), naam = delen.pop();
+      await (await submap(dir, delen)).removeEntry(naam, o && o.metInhoud ? { recursive: true } : undefined);
+    }
+    async function lijst(mapPad) {
+      const it = (await submap(dir, padDelen(mapPad))).entries(), uit = [];
+      for (;;) {
+        const x = await it.next();
+        if (x.done) return uit;
+        uit.push({ naam: x.value[0], soort: x.value[1].kind === 'directory' ? 'map' : 'bestand' });
+      }
+    }
+    async function maakMap(pad) { await magSchrijven(); await submap(dir, padDelen(pad), true); }
+    return { soort: 'map', naam: dir.name || '', handvat: dir, schrijfbaar: function () { return true; }, lees: lees, schrijf: schrijf, verwijder: verwijder, lijst: lijst, maakMap: maakMap };
+  }
+  // Het geheugen: geen map, een alleen-lezen-map, een los bestand, het voorbeeld. opties.bestanden: { pad: tekst } om mee te
+  // beginnen; opties.los: { pad, handvat }: één bestand dat wel rechtstreeks beschreven kan worden (een los werkdruk.md dat
+  // met de bestandskiezer is geopend). Wat in het geheugen wordt geschreven, komt in teDownloaden (in volgorde, één keer).
+  function maakGeheugenOpslag(opties) {
+    opties = opties || {};
+    const inhoud = {}, mappen = {}, teDownloaden = [], los = opties.los || null;
+    let teller = 0;
+    Object.keys(opties.bestanden || {}).forEach(function (p) { inhoud[p] = { tekst: opties.bestanden[p], kenmerk: ++teller }; });
+    const isLos = function (pad) { return !!los && pad === los.pad; };
+    const onder = function (mapPad) { const m = padDelen(mapPad).join('/'); return m ? m + '/' : ''; };
+    async function lees(pad, o) {
+      if (isLos(pad)) {
+        try { return await leesFile(await los.handvat.getFile(), o || {}); } catch (e) { if (hulp.nietGevonden(e)) return null; throw e; }
+      }
+      const b = inhoud[pad];
+      if (!b) return null;
+      const uit = { kenmerk: b.kenmerk, gewijzigdOp: null, grootte: b.bytes ? b.bytes.length : b.tekst.length };
+      if (o && 'alsAnders' in o && o.alsAnders === b.kenmerk) { uit.ongewijzigd = true; return uit; }
+      if (o && o.bytes) uit.bytes = b.bytes ? b.bytes.slice() : new TextEncoder().encode(b.tekst);
+      else uit.tekst = b.bytes ? new TextDecoder('utf-8').decode(b.bytes) : b.tekst;
+      return uit;
+    }
+    async function schrijf(pad, nieuw, o) {
+      if (isLos(pad)) { const f = await hulp.schrijf(los.handvat, nieuw, o); return { kenmerk: f.lastModified, gewijzigdOp: f.lastModified, grootte: f.size }; }
+      const oud = inhoud[pad];
+      let b;
+      if (o && o.achteraan) { const t = oud ? oud.tekst || '' : ''; b = { tekst: t + (t ? o.voorvoegsel || '' : '') + nieuw }; }
+      else b = typeof nieuw === 'string' ? { tekst: nieuw } : { bytes: (await bytesVan(nieuw)).slice() };
+      b.kenmerk = ++teller;
+      inhoud[pad] = b;
+      if (teDownloaden.indexOf(pad) < 0) teDownloaden.push(pad);
+      return { kenmerk: b.kenmerk, gewijzigdOp: null, grootte: b.bytes ? b.bytes.length : b.tekst.length };
+    }
+    async function verwijder(pad, o) {
+      const p = padDelen(pad).join('/'), binnen = Object.keys(inhoud).filter(function (k) { return k.indexOf(p + '/') === 0; });
+      if (inhoud[p]) { delete inhoud[p]; return; }
+      if (!mappen[p] && !binnen.length) throw benoemd('NotFoundError', pad + ' bestaat niet');
+      if (binnen.length && !(o && o.metInhoud)) throw benoemd('InvalidModificationError', 'de map ' + pad + ' is niet leeg');
+      binnen.forEach(function (k) { delete inhoud[k]; });
+      Object.keys(mappen).forEach(function (k) { if (k === p || k.indexOf(p + '/') === 0) delete mappen[k]; });
+    }
+    async function lijst(mapPad) {
+      const voor = onder(mapPad), uit = [], gezien = {};
+      if (voor && !mappen[voor.slice(0, -1)] && !Object.keys(inhoud).some(function (k) { return k.indexOf(voor) === 0; })) throw benoemd('NotFoundError', mapPad + ' bestaat niet');
+      Object.keys(inhoud).concat(Object.keys(mappen).map(function (k) { return k + '/'; })).forEach(function (k) {
+        if (k.indexOf(voor) !== 0 || k === voor) return;
+        const rest = k.slice(voor.length), i = rest.indexOf('/'), naam = i < 0 ? rest : rest.slice(0, i);
+        if (gezien[naam]) return;
+        gezien[naam] = true; uit.push({ naam: naam, soort: i < 0 ? 'bestand' : 'map' });
+      });
+      return uit;
+    }
+    async function maakMap(pad) { const d = padDelen(pad); d.forEach(function (x, i) { mappen[d.slice(0, i + 1).join('/')] = true; }); }
+    return { soort: 'geheugen', naam: '', handvat: null, schrijfbaar: isLos, lees: lees, schrijf: schrijf, verwijder: verwijder, lijst: lijst, maakMap: maakMap, teDownloaden: teDownloaden };
+  }
+
+  /* ---------- bestandssoorten ----------
+     Een kern meldt bij het laden zijn soorten aan: meldSoort(naam, { past(pad), lees(tekst) -> model,
+     schrijf(model, vorigeTekst) -> tekst, vreemd(tekst) -> [stukken die de pagina niet gebruikt, in volgorde],
+     eenheden(tekst) -> [eenheden voor de belofte], voegSamen(basis, mijn, schijf) (optioneel; elk { tekst, model } ->
+     de samengevoegde tekst of { tekst, model }) }. Zonder soort geldt 'tekst': model = de tekst, eenheid = regel. */
+  const TEKST = {
+    past: function () { return true; }, lees: function (t) { return t; }, schrijf: function (m) { return String(m); },
+    vreemd: function () { return []; }, eenheden: function (t) { return String(t).split('\n'); }
+  };
+  const soorten = [];
+  function meldSoort(naam, soort) {
+    for (let i = soorten.length - 1; i >= 0; i--) if (soorten[i].naam === naam) soorten.splice(i, 1);
+    soorten.push({ naam: naam, soort: soort });
+  }
+  function soortVan(pad) { const s = soorten.find(function (x) { return x.soort.past(pad); }); return s ? s.soort : TEKST; }
+
+  /* ---------- de controles (de garanties 1, 3, 4 en 5 van het plan) ----------
+     Tot stap 11 van het plan vergelijken de controles op kaal: zonder BOM en met elke CRLF als LF, omdat de pagina nu zelf
+     regeleinden omzet. */
+  function kaal(t) { return String(t || '').replace(/^﻿/, '').replace(/\r\n/g, '\n'); }
+  function inhoudsregels(t) { return kaal(t).split('\n').filter(function (l) { return /\S/.test(l); }).length; }
+  // (bijna) leeg: van ten minste één inhoudsregel naar geen; of meer dan 20 inhoudsregels weg en minder dan 20% over
+  function bijnaLeeg(oud, nieuw) {
+    const o = inhoudsregels(oud), n = inhoudsregels(nieuw);
+    return (o >= 1 && n === 0) || (o - n > 20 && n < 0.2 * o);
+  }
+  function gelijk(a, b) {
+    if (a === b) return true;
+    if (!a || !b || typeof a !== 'object' || typeof b !== 'object' || Array.isArray(a) !== Array.isArray(b)) return false;
+    const ka = Object.keys(a), kb = Object.keys(b);
+    return ka.length === kb.length && ka.every(function (k) { return Object.prototype.hasOwnProperty.call(b, k) && gelijk(a[k], b[k]); });
+  }
+  function gelijkeBytes(a, b) {
+    if (!a || !b || a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+    return true;
+  }
+  // De belofte (garantie 4): 'toevoegen' (alle oude eenheden staan er nog, ongewijzigd en in dezelfde volgorde),
+  // 'een' of { soort: 'een', regels: [nummers, vanaf 0] } (even veel eenheden, hoogstens één anders, of alleen de opgegeven),
+  // { soort: 'blok', blok: [eenheden] } (alles buiten deze eenheden blijft gelijk en in volgorde), 'vrij' (alles mag).
+  function binnenBelofte(belofte, soort, oud, nieuw) {
+    const b = typeof belofte === 'string' ? { soort: belofte } : belofte || {};
+    if (b.soort === 'vrij') return true;
+    const o = soort.eenheden(kaal(oud)), n = soort.eenheden(kaal(nieuw));
+    if (b.soort === 'toevoegen') { let i = 0; n.forEach(function (x) { if (i < o.length && x === o[i]) i++; }); return i === o.length; }
+    if (b.soort === 'een') {
+      if (o.length !== n.length) return false;
+      const anders = o.map(function (x, i) { return x === n[i] ? -1 : i; }).filter(function (i) { return i >= 0; });
+      return b.regels ? anders.every(function (i) { return b.regels.indexOf(i) >= 0; }) : anders.length <= 1;
+    }
+    if (b.soort === 'blok') {
+      const blok = new Set(b.blok || []), buiten = function (l) { return l.filter(function (x) { return !blok.has(x); }); };
+      return gelijk(buiten(o), buiten(n));
+    }
+    return false;   // een onbekende belofte laat niets door
+  }
+  // wat wijzig teruggaf -> { tekst, model }, { niets } (null: niets doen) of { rondreis } (garantie 5, eerste helft: een
+  // model dat na schrijven en opnieuw lezen niet hetzelfde is)
+  function vorm(soort, w, nu) {
+    if (w === null || w === undefined) return { niets: true };
+    if (typeof w.tekst === 'string') return { tekst: w.tekst, model: w.model !== undefined ? w.model : soort.lees(w.tekst) };
+    const tekst = soort.schrijf(w.model, nu.tekst);
+    return gelijk(soort.lees(tekst), w.model) ? { tekst: tekst, model: w.model } : { rondreis: true };
+  }
+
+  /* ---------- de uitkomst: één vaste vorm ----------
+     { ok, soort, pad, tekst, model, kenmerk, gewijzigdOp, reden, fout, volg, herstelFouten }, met soort: geschreven,
+     ongewijzigd, samengevoegd, geheugen (ok) of conflict, geweigerd, teruggezet, schrijffout, leesfout (niet ok).
+     Bij een uitkomst die niet ok is, staan tekst, model en kenmerk voor wat er op schijf staat; bedoeld = { tekst, model }
+     is wat geschreven had moeten worden. samengevoegd: true als er een wijziging van buitenaf in verwerkt is (ook bij
+     ongewijzigd en bij een fout). De belofte wordt niet afgewezen bij een verwachte fout. */
+  const GOED = ['geschreven', 'ongewijzigd', 'samengevoegd', 'geheugen'];
+  function uitkomst(soort, pad, extra) {
+    return Object.assign({ ok: GOED.indexOf(soort) >= 0, soort: soort, pad: pad, tekst: undefined, model: undefined, kenmerk: undefined,
+      gewijzigdOp: undefined, reden: '', fout: null, volg: [], herstelFouten: [] }, extra || {});
+  }
+  function leesfout(pad, e) { return uitkomst('leesfout', pad, { fout: e, reden: hulp.reden(e) }); }
+  const REDENEN = { belofte: 'de wijziging raakte meer dan de bedoeling was', vreemd: 'tekst in het bestand die de pagina niet kent, zou verdwijnen of verschuiven',
+    'bijna-leeg': 'het bestand zou (bijna) leeg worden', rondreis: 'opnieuw inlezen zou iets anders geven dan bedoeld',
+    'bestaat-al': 'het bestand bestaat al', 'bestaat-niet': 'het bestand bestaat niet', 'niet-leeg': 'de map is niet leeg' };
+  // een uitkomst die niet ok is, in gewone woorden (voor een melding; zonder punt aan het eind, zoals WIB.hulp.reden)
+  function uitleg(u) {
+    if (!u || u.ok) return '';
+    if (u.soort === 'conflict') return u.pad + ' is buiten de pagina gewijzigd';
+    if (u.soort === 'teruggezet') return 'na het schrijven stond er iets anders in ' + u.pad + (u.herstelFouten.length ? ', en de vorige inhoud kon niet worden teruggezet' : '; de vorige inhoud is teruggezet');
+    if (u.soort === 'geweigerd') return 'de pagina hield de wijziging tegen: ' + (REDENEN[u.reden] || u.reden);
+    return u.reden || hulp.reden(u.fout);
+  }
+
+  /* ---------- toestand per opslag ----------
+     gezien: { pad: { tekst, kenmerk } } zoals de laag het bestand het laatst las of schreef; kenmerk: wat de bewaking het
+     laatst heeft doorgegeven (of de pagina zelf schreef); open: wat niet op schijf kwam (met een nieuwe poging); wacht:
+     het aantal bewerkingen in de wachtrij per pad; controle: een lopende controle per pad. */
+  let actief = maakGeheugenOpslag();
+  const staten = new WeakMap();
+  function staat(o) {
+    let s = staten.get(o);
+    if (!s) { s = { gezien: {}, kenmerk: {}, open: {}, wacht: {}, controle: {} }; staten.set(o, s); }
+    return s;
+  }
+  // de actieve opslag kiezen (het documentdeel doet dat waar de map wordt gezet of losgelaten); een bewerking hoort bij de
+  // opslag van het moment van aanroepen
+  function zetOpslag(o) { actief = o || maakGeheugenOpslag(); }
+  const OPEN = ['schrijffout', 'teruggezet', 'leesfout'];
+  // een bewerking in de wachtrij van zijn pad; daarna bijhouden wat nog niet op schijf staat (opties.onthoud false: niet,
+  // bijvoorbeeld als stap van samen, dat zelf terugzet)
+  function inRij(o, pad, opties, taak, opnieuw) {
+    const st = staat(o);
+    st.wacht[pad] = (st.wacht[pad] || 0) + 1;
+    const klaar = function () { if (!--st.wacht[pad]) delete st.wacht[pad]; };
+    return rij(pad, taak).then(function (u) {
+      klaar();
+      if (u.ok) delete st.open[pad];
+      else if (OPEN.indexOf(u.soort) >= 0 && opties.onthoud !== false) st.open[pad] = { uitkomst: u, opnieuw: opnieuw };
+      return u;
+    }, function (e) { klaar(); throw e; });
+  }
+  // Schrijven met teruglezen (garantie 5, tweede helft; keuze 2): teken voor teken (bytes: byte voor byte) vergelijken met
+  // wat bedoeld was; wijkt het af, dan één nieuwe poging, en daarna de oude inhoud terug (oud: { tekst } of { bytes }, of
+  // null: het bestand bestond niet en gaat weer weg). eerste: de eerste schrijfactie, als die anders is (achteraan toevoegen).
+  // Geeft { goed: wat er teruggelezen is }, { fout } (het schrijven zelf lukte niet) of { teruggezet: true, herstelFouten }.
+  async function klopt(o, pad, bedoeld) {
+    let r = null;
+    try { r = await o.lees(pad, typeof bedoeld === 'string' ? undefined : { bytes: true }); } catch (e) { r = null; }
+    if (!r) return false;
+    if (typeof bedoeld === 'string') return r.tekst === bedoeld || r.tekst === bedoeld.replace(/\r(?!\n)/g, '\n') ? r : false;
+    return gelijkeBytes(r.bytes, bedoeld) ? r : false;
+  }
+  async function schrijfZeker(o, pad, inhoud, oud, eerste) {
+    const bedoeld = typeof inhoud === 'string' ? inhoud : await bytesVan(inhoud);
+    try { await (eerste ? eerste() : o.schrijf(pad, inhoud)); } catch (e) {
+      // bestond het bestand niet, dan kan het (leeg) zijn aangemaakt voordat het schrijven mislukte: weer weghalen
+      if (!oud) { try { await o.verwijder(pad); } catch (x) { /* bestaat niet, of mag niet: er staat dan niets nieuws */ } }
+      return { fout: e };
+    }
+    let r = await klopt(o, pad, bedoeld);
+    if (!r) { try { await o.schrijf(pad, inhoud); r = await klopt(o, pad, bedoeld); } catch (e) { r = false; } }
+    if (r) return { goed: r };
+    const herstelFouten = [];
+    try {
+      if (oud) {
+        const terug = oud.tekst !== undefined ? oud.tekst : oud.bytes;
+        await o.schrijf(pad, terug);
+        if (!(await klopt(o, pad, terug))) throw new Error(pad + ' kon niet worden teruggezet');
+      } else await o.verwijder(pad);
+    } catch (e) { herstelFouten.push({ naam: pad, fout: e }); }
+    return { teruggezet: true, herstelFouten: herstelFouten };
+  }
+
+  /* ---------- de bewerkingen ---------- */
+  // lees(pad, { bytes, opslag }) -> { ok: true, bestaat, pad, tekst (of bytes), model, kenmerk, gewijzigdOp } of een uitkomst
+  // leesfout. "Bestaat niet" is bestaat: false; een leesfout is nooit leeg. Onthoudt wat er gezien is.
+  async function lees(pad, opties) {
+    opties = opties || {};
+    const o = opties.opslag || actief, soort = soortVan(pad);
+    let r;
+    try { r = await o.lees(pad, opties.bytes ? { bytes: true } : undefined); } catch (e) { return leesfout(pad, e); }
+    if (!r) { staat(o).gezien[pad] = { tekst: '', kenmerk: null }; return { ok: true, bestaat: false, pad: pad, tekst: '', model: soort.lees(''), kenmerk: null, gewijzigdOp: null }; }
+    if (opties.bytes) return { ok: true, bestaat: true, pad: pad, bytes: r.bytes, kenmerk: r.kenmerk, gewijzigdOp: r.gewijzigdOp };
+    staat(o).gezien[pad] = { tekst: r.tekst, kenmerk: r.kenmerk };
+    return { ok: true, bestaat: true, pad: pad, tekst: r.tekst, model: soort.lees(r.tekst), kenmerk: r.kenmerk, gewijzigdOp: r.gewijzigdOp };
+  }
+  // gezien(pad) -> { tekst, kenmerk } zoals de laag het bestand het laatst las of schreef, of null
+  function gezien(pad, opties) {
+    const g = staat((opties && opties.opslag) || actief).gezien[pad];
+    return g ? { tekst: g.tekst, kenmerk: g.kenmerk } : null;
+  }
+  // bewerk(pad, belofte, wijzig, opties): de enige weg om een bestaand bestand te wijzigen.
+  // - belofte: zie binnenBelofte; ook een functie (nu) -> belofte, die in de wachtrij wordt opgevraagd.
+  // - wijzig(nu): zonder bijwerkingen; nu = { bestaat, tekst, model, kenmerk } zoals het nu op schijf staat. Geeft { tekst },
+  //   { model }, { tekst, model } of null (niets doen).
+  // - opties.basis: { tekst } of { kenmerk } van wat de pagina zag toen de gebruiker begon, null (niet controleren) of een
+  //   functie die dat in de wachtrij geeft; zonder basis geldt gezien(pad).
+  // - opties.bijAnders (de schijf wijkt af van de basis): 'weiger' (standaard; uitkomst conflict), 'samenvoegen' (met
+  //   voegSamen van de soort; mijn = wijzig op de basis), of een functie (schijf, basis) -> belofte op 'door', 'stop' of
+  //   { tekst }; die is de vraag aan de gebruiker en loopt binnen de beurt van het bestand.
+  // - opties.leegrem: 'aan' (standaard) of 'bevestigd'; opties.maak: het bestand mag worden aangemaakt; opties.onthoud: false =
+  //   een fout komt niet in openstaand(); opties.volg: [{ pad, tekst(oud, nieuw, tijd), voorvoegsel }], na het schrijven
+  //   achteraan bijgeschreven (mislukt dat, dan blijft het hoofdbestand staan en staat de fout in volg); opties.tijd: een
+  //   Date voor volg; opties.opslag: een andere dan de actieve.
+  function bewerk(pad, belofte, wijzig, opties) {
+    opties = opties || {};
+    const o = opties.opslag || actief;
+    return inRij(o, pad, opties, function () { return bewerkNu(o, pad, belofte, wijzig, opties); },
+      function () { return bewerk(pad, belofte, wijzig, Object.assign({}, opties, { opslag: o })); });
+  }
+  async function bewerkNu(o, pad, belofte, wijzig, opties) {
+    const st = staat(o), soort = soortVan(pad);
+    // opnieuw lezen van de opslag
+    let r;
+    try { r = await o.lees(pad); } catch (e) { return leesfout(pad, e); }
+    const nu = r ? { bestaat: true, tekst: r.tekst, model: soort.lees(r.tekst), kenmerk: r.kenmerk } : { bestaat: false, tekst: '', model: soort.lees(''), kenmerk: null };
+    const zoals = { tekst: nu.tekst, model: nu.model, kenmerk: nu.kenmerk };
+    if (!nu.bestaat && !opties.maak) return uitkomst('geweigerd', pad, Object.assign({ reden: 'bestaat-niet' }, zoals));
+    // buiten de pagina gewijzigd?
+    let basis = typeof opties.basis === 'function' ? opties.basis() : opties.basis;
+    if (basis === undefined) basis = st.gezien[pad] || null;
+    let nieuw = null, samengevoegd = false;
+    if (basis && (basis.tekst !== undefined ? basis.tekst !== nu.tekst : basis.kenmerk !== nu.kenmerk)) {
+      const ba = opties.bijAnders || 'weiger';
+      if (ba === 'samenvoegen' && typeof soort.voegSamen === 'function' && basis.tekst !== undefined) {
+        const b = { bestaat: true, tekst: basis.tekst, model: soort.lees(basis.tekst), kenmerk: basis.kenmerk };
+        const mijn = vorm(soort, wijzig(b), b);
+        if (mijn.rondreis) return uitkomst('geweigerd', pad, Object.assign({ reden: 'rondreis' }, zoals));
+        if (mijn.niets) return uitkomst('ongewijzigd', pad, Object.assign({ niets: true }, zoals));
+        const s = soort.voegSamen({ tekst: b.tekst, model: b.model }, mijn, { tekst: nu.tekst, model: nu.model });
+        nieuw = typeof s === 'string' ? { tekst: s, model: soort.lees(s) } : { tekst: s.tekst, model: s.model !== undefined ? s.model : soort.lees(s.tekst) };
+        samengevoegd = true;
+      } else if (typeof ba === 'function') {
+        const a = await ba(zoals, basis);
+        if (a && typeof a === 'object' && typeof a.tekst === 'string') { nieuw = { tekst: a.tekst, model: soort.lees(a.tekst) }; samengevoegd = true; }
+        else if (a !== 'door') return uitkomst('conflict', pad, zoals);
+      } else return uitkomst('conflict', pad, zoals);
+    }
+    // de wijziging toepassen
+    if (!nieuw) {
+      const w = vorm(soort, wijzig(nu), nu);
+      if (w.rondreis) return uitkomst('geweigerd', pad, Object.assign({ reden: 'rondreis' }, zoals));
+      if (w.niets) return uitkomst('ongewijzigd', pad, Object.assign({ niets: true }, zoals));
+      nieuw = w;
+    }
+    const bedoeld = { tekst: nieuw.tekst, model: nieuw.model };
+    // klopt de wijziging? de belofte, de eigen tekst, niet (bijna) leeg
+    if (nu.bestaat) {
+      const bel = typeof belofte === 'function' ? belofte(zoals) : belofte;
+      const vrij = bel === 'vrij' || (!!bel && bel.soort === 'vrij');
+      let reden = '';
+      if (!vrij && !binnenBelofte(bel, soort, nu.tekst, nieuw.tekst)) reden = 'belofte';
+      else if (!vrij && !gelijk(soort.vreemd(kaal(nu.tekst)), soort.vreemd(kaal(nieuw.tekst)))) reden = 'vreemd';
+      else if (opties.leegrem !== 'bevestigd' && bijnaLeeg(nu.tekst, nieuw.tekst)) reden = 'bijna-leeg';
+      if (reden) return uitkomst('geweigerd', pad, Object.assign({ reden: reden, bedoeld: bedoeld, samengevoegd: samengevoegd }, zoals));
+    }
+    // is er iets veranderd? zo niet, dan niet schrijven (garantie 2)
+    if (nu.bestaat && nieuw.tekst === nu.tekst) {
+      st.gezien[pad] = { tekst: nu.tekst, kenmerk: nu.kenmerk }; st.kenmerk[pad] = nu.kenmerk;
+      return uitkomst('ongewijzigd', pad, { tekst: nu.tekst, model: nieuw.model, kenmerk: nu.kenmerk, samengevoegd: samengevoegd });
+    }
+    // schrijven, teruglezen en vergelijken
+    if (!o.schrijfbaar(pad)) {
+      const g = await o.schrijf(pad, nieuw.tekst);
+      st.gezien[pad] = { tekst: nieuw.tekst, kenmerk: g.kenmerk };
+      return uitkomst('geheugen', pad, { tekst: nieuw.tekst, model: nieuw.model, kenmerk: g.kenmerk, samengevoegd: samengevoegd });
+    }
+    const z = await schrijfZeker(o, pad, nieuw.tekst, nu.bestaat ? { tekst: nu.tekst } : null);
+    if (z.fout) return uitkomst('schrijffout', pad, Object.assign({ fout: z.fout, reden: hulp.reden(z.fout), bedoeld: bedoeld, samengevoegd: samengevoegd }, zoals));
+    if (z.teruggezet) return uitkomst('teruggezet', pad, Object.assign({ reden: 'teruglezen', herstelFouten: z.herstelFouten, bedoeld: bedoeld, samengevoegd: samengevoegd }, zoals));
+    // de uitkomst is wat er teruggelezen is (een losse CR leest als LF, v209)
+    if (z.goed.tekst !== nieuw.tekst) nieuw = { tekst: z.goed.tekst, model: soort.lees(z.goed.tekst) };
+    st.gezien[pad] = { tekst: nieuw.tekst, kenmerk: z.goed.kenmerk }; st.kenmerk[pad] = z.goed.kenmerk;
+    // versie en historie bijschrijven; het hoofdbestand gaat voor
+    const volg = [];
+    for (const v of opties.volg || []) volg.push(await voegToe(v.pad, v.tekst(nu.tekst, nieuw.tekst, opties.tijd), { voorvoegsel: v.voorvoegsel, opslag: o }));
+    return uitkomst(samengevoegd ? 'samengevoegd' : 'geschreven', pad, { tekst: nieuw.tekst, model: nieuw.model, kenmerk: z.goed.kenmerk,
+      gewijzigdOp: z.goed.gewijzigdOp, volg: volg, samengevoegd: samengevoegd });
+  }
+  // voegToe(pad, tekst, { voorvoegsel, opslag }): tekst achteraan; wat er stond, blijft staan; maakt het bestand aan als het
+  // ontbreekt. Het voorvoegsel komt er alleen voor als het bestand niet leeg is. Teruglezen zoals bij bewerk.
+  function voegToe(pad, tekst, opties) {
+    opties = opties || {};
+    const o = opties.opslag || actief;
+    return inRij(o, pad, opties, async function () {
+      let r;
+      try { r = await o.lees(pad); } catch (e) { return leesfout(pad, e); }
+      const oud = r ? r.tekst : '', nieuw = oud + (oud ? opties.voorvoegsel || '' : '') + tekst, st = staat(o);
+      const achteraan = function () { return o.schrijf(pad, tekst, { achteraan: true, voorvoegsel: opties.voorvoegsel }); };
+      if (!o.schrijfbaar(pad)) { const g = await achteraan(); st.gezien[pad] = { tekst: nieuw, kenmerk: g.kenmerk }; return uitkomst('geheugen', pad, { tekst: nieuw, kenmerk: g.kenmerk }); }
+      const z = await schrijfZeker(o, pad, nieuw, r ? { tekst: oud } : null, achteraan);
+      const zoals = { tekst: oud, kenmerk: r ? r.kenmerk : null };
+      if (z.fout) return uitkomst('schrijffout', pad, Object.assign({ fout: z.fout, reden: hulp.reden(z.fout), bedoeld: { tekst: nieuw } }, zoals));
+      if (z.teruggezet) return uitkomst('teruggezet', pad, Object.assign({ reden: 'teruglezen', herstelFouten: z.herstelFouten, bedoeld: { tekst: nieuw } }, zoals));
+      st.gezien[pad] = { tekst: z.goed.tekst, kenmerk: z.goed.kenmerk };
+      return uitkomst('geschreven', pad, { tekst: z.goed.tekst, kenmerk: z.goed.kenmerk, gewijzigdOp: z.goed.gewijzigdOp });
+    }, function () { return voegToe(pad, tekst, Object.assign({}, opties, { opslag: o })); });
+  }
+  // maakNieuw(pad, inhoud, { vrijeNaam, opslag }): een bestand dat nog niet bestaat (inhoud: tekst of bytes). Bestaat het al:
+  // geweigerd met bestaat-al, of met vrijeNaam(n) (n = 2, 3, …) het eerste vrije pad. De uitkomst noemt het pad dat het werd.
+  function maakNieuw(pad, inhoud, opties) {
+    opties = opties || {};
+    const o = opties.opslag || actief;
+    return inRij(o, pad, opties, async function () {
+      let doel = pad;
+      for (let n = 2; ; n++) {
+        let r;
+        try { r = await o.lees(doel, { bytes: true }); } catch (e) { return leesfout(doel, e); }
+        if (!r) break;
+        if (typeof opties.vrijeNaam !== 'function' || n > 1000) return uitkomst('geweigerd', doel, { reden: 'bestaat-al' });
+        doel = opties.vrijeNaam(n);
+      }
+      const tekst = typeof inhoud === 'string' ? inhoud : undefined;
+      if (!o.schrijfbaar(doel)) { const g = await o.schrijf(doel, inhoud); return uitkomst('geheugen', doel, { tekst: tekst, kenmerk: g.kenmerk }); }
+      const z = await schrijfZeker(o, doel, inhoud, null);
+      if (z.fout) return uitkomst('schrijffout', doel, { fout: z.fout, reden: hulp.reden(z.fout) });
+      if (z.teruggezet) return uitkomst('teruggezet', doel, { reden: 'teruglezen', herstelFouten: z.herstelFouten });
+      if (tekst !== undefined) staat(o).gezien[doel] = { tekst: tekst, kenmerk: z.goed.kenmerk };
+      return uitkomst('geschreven', doel, { tekst: tekst, kenmerk: z.goed.kenmerk, gewijzigdOp: z.goed.gewijzigdOp });
+    }, function () { return maakNieuw(pad, inhoud, Object.assign({}, opties, { opslag: o })); });
+  }
+  // verwijder(pad, { alsBestaat, map, alleenLeeg, opslag }): een bestand weghalen, of met map een map (met inhoud, tenzij
+  // alleenLeeg). Bestaat het niet: geweigerd (bestaat-niet), of met alsBestaat ongewijzigd.
+  function verwijder(pad, opties) {
+    opties = opties || {};
+    const o = opties.opslag || actief;
+    return inRij(o, pad, opties, async function () {
+      try { await o.verwijder(pad, { metInhoud: !!opties.map && !opties.alleenLeeg }); } catch (e) {
+        if (hulp.nietGevonden(e)) return opties.alsBestaat ? uitkomst('ongewijzigd', pad) : uitkomst('geweigerd', pad, { reden: 'bestaat-niet' });
+        if (e && e.name === 'InvalidModificationError') return uitkomst('geweigerd', pad, { reden: 'niet-leeg', fout: e });
+        return uitkomst('schrijffout', pad, { fout: e, reden: hulp.reden(e) });
+      }
+      const st = staat(o);
+      delete st.gezien[pad]; delete st.kenmerk[pad];
+      return uitkomst(o.schrijfbaar(pad) ? 'geschreven' : 'geheugen', pad);
+    }, function () { return verwijder(pad, Object.assign({}, opties, { opslag: o })); });
+  }
+  // kopieer(van, naar, { bytes, opslag }): zonder te overschrijven (bestaat naar al: geweigerd, bestaat-al); de kopie wordt
+  // teken voor teken (bytes: byte voor byte) vergeleken met het origineel.
+  function kopieer(van, naar, opties) {
+    opties = opties || {};
+    const o = opties.opslag || actief;
+    return inRij(o, naar, opties, async function () {
+      let r, d;
+      try { r = await o.lees(van, opties.bytes ? { bytes: true } : undefined); } catch (e) { return leesfout(van, e); }
+      if (!r) return uitkomst('geweigerd', van, { reden: 'bestaat-niet' });
+      try { d = await o.lees(naar, { bytes: true }); } catch (e) { return leesfout(naar, e); }
+      if (d) return uitkomst('geweigerd', naar, { reden: 'bestaat-al' });
+      const inhoud = opties.bytes ? r.bytes : r.tekst;
+      if (!o.schrijfbaar(naar)) { const g = await o.schrijf(naar, inhoud); return uitkomst('geheugen', naar, { tekst: r.tekst, kenmerk: g.kenmerk }); }
+      const z = await schrijfZeker(o, naar, inhoud, null);
+      if (z.fout) return uitkomst('schrijffout', naar, { fout: z.fout, reden: hulp.reden(z.fout) });
+      if (z.teruggezet) return uitkomst('teruggezet', naar, { reden: 'teruglezen', herstelFouten: z.herstelFouten });
+      return uitkomst('geschreven', naar, { tekst: r.tekst, kenmerk: z.goed.kenmerk, gewijzigdOp: z.goed.gewijzigdOp });
+    }, function () { return kopieer(van, naar, Object.assign({}, opties, { opslag: o })); });
+  }
+  // lijst(mapPad, { opslag }) -> { ok: true, bestaat, lijst: [{ naam, soort }] } of een uitkomst leesfout (één doorloop)
+  async function lijst(mapPad, opties) {
+    const o = (opties && opties.opslag) || actief;
+    try { return { ok: true, bestaat: true, pad: mapPad, lijst: await o.lijst(mapPad) }; } catch (e) {
+      if (hulp.nietGevonden(e)) return { ok: true, bestaat: false, pad: mapPad, lijst: [] };
+      return leesfout(mapPad, e);
+    }
+  }
+  // leesAlle(mapPad, kies, { opslag }): als lijst, met de bestanden waarvoor kies(naam) waar is gelezen
+  // (bestanden: [{ naam, pad, tekst, model, kenmerk, gewijzigdOp }]); een leesfout gaat door: dan de uitkomst leesfout.
+  async function leesAlle(mapPad, kies, opties) {
+    const l = await lijst(mapPad, opties);
+    if (!l.ok) return l;
+    l.bestanden = [];
+    for (const x of l.lijst) {
+      if (x.soort !== 'bestand' || (kies && !kies(x.naam))) continue;
+      const r = await lees(padDelen(mapPad).concat([x.naam]).join('/'), opties);
+      if (!r.ok) return r;
+      if (r.bestaat) l.bestanden.push({ naam: x.naam, pad: r.pad, tekst: r.tekst, model: r.model, kenmerk: r.kenmerk, gewijzigdOp: r.gewijzigdOp });
+    }
+    return l;
+  }
+
+  /* ---------- bewaken ---------- */
+  // bewaak(pad, bijWijziging): controleer(pad) kijkt of het kenmerk van het bestand in de actieve opslag is veranderd sinds de
+  // bewaking het laatst iets doorgaf (of de pagina het zelf schreef), en roept dan, binnen de wachtrij van dat pad,
+  // bijWijziging({ ok: true, bestaat: true, tekst, model, kenmerk, gewijzigdOp }) aan; bij een leesfout bijWijziging(uitkomst
+  // leesfout), één keer per kenmerk als de fout er een heeft (geen UTF-8). Een bestand dat er niet (meer) is, wordt niet
+  // doorgegeven. Een controle die al loopt, wordt niet nog eens gestart; is intussen een andere opslag gekozen, dan niets.
+  const bewaakt = {};
+  function bewaak(pad, bijWijziging) { bewaakt[pad] = bijWijziging; }
+  function controleer(pad) {
+    return Promise.all((pad ? [pad] : Object.keys(bewaakt)).map(controleerEen)).then(function (r) { return pad ? r[0] : r; });
+  }
+  function controleerEen(pad) {
+    const o = actief, st = staat(o), bij = bewaakt[pad];
+    if (!bij || (o.soort === 'geheugen' && !o.schrijfbaar(pad))) return Promise.resolve(false);
+    if (st.controle[pad]) return st.controle[pad];
+    const p = rij(pad, async function () {
+      let r;
+      try { r = await o.lees(pad, { alsAnders: st.kenmerk[pad] }); } catch (e) {
+        if (e && typeof e.lm === 'number') st.kenmerk[pad] = e.lm;
+        if (o !== actief) return false;
+        await bij(leesfout(pad, e));
+        return true;
+      }
+      if (!r || r.ongewijzigd || o !== actief) return false;
+      st.kenmerk[pad] = r.kenmerk; st.gezien[pad] = { tekst: r.tekst, kenmerk: r.kenmerk };
+      await bij({ ok: true, bestaat: true, pad: pad, tekst: r.tekst, model: soortVan(pad).lees(r.tekst), kenmerk: r.kenmerk, gewijzigdOp: r.gewijzigdOp });
+      return true;
+    }).then(function (x) { delete st.controle[pad]; return x; }, function (e) { delete st.controle[pad]; hulp.waarschuw(pad + ' controleren', e); return false; });
+    st.controle[pad] = p;
+    return p;
+  }
+
+  /* ---------- wat nog niet op schijf staat (keuze 7) ---------- */
+  // openstaand({ opslag }) -> [{ pad, soort, reden, wacht }]: mislukt (schrijffout, teruggezet, leesfout) of nog in de wachtrij
+  function openstaand(opties) {
+    const st = staat((opties && opties.opslag) || actief);
+    const uit = Object.keys(st.open).map(function (p) { return { pad: p, soort: st.open[p].uitkomst.soort, reden: st.open[p].uitkomst.reden, wacht: !!st.wacht[p] }; });
+    Object.keys(st.wacht).forEach(function (p) { if (!st.open[p]) uit.push({ pad: p, soort: 'wacht', reden: '', wacht: true }); });
+    return uit;
+  }
+  // probeerOpnieuw({ opslag }): de mislukte bewerkingen opnieuw, elk zoals ze waren gegeven; geeft hun uitkomsten
+  function probeerOpnieuw(opties) {
+    const st = staat((opties && opties.opslag) || actief);
+    return Promise.all(Object.keys(st.open).map(function (p) { return st.open[p].opnieuw(); }));
+  }
+
+  return { maakWachtrij, voegToeAanBestand, samen, maakMapOpslag, maakGeheugenOpslag, zetOpslag, meldSoort, lees, gezien, bewerk, voegToe, maakNieuw, verwijder, kopieer, lijst, leesAlle, bewaak, controleer, openstaand, probeerOpnieuw, uitleg };
 })();
 </script>
 <script data-deel="rekenkern">
@@ -6478,14 +7103,17 @@ WIB.kern.document = (function () {
   const reTaakRegel = /^(?:\s*>)*\s{0,15}(?:[-*+]|\d{1,9}[.)])\s+\[[ xX]\]\s/;
   function scanRegels(tekst) {
     let lijnen = tekst.split(/\r?\n/), taken = [], koppen = [], hek = null;
-    lijnen.forEach(function (l, i) {
+    // v285: een BOM vooraan het bestand hoort niet bij de eerste regel; lijnen zelf blijft zoals het bestand is
+    const zonderBom = function (r, i) { return i === 0 ? r.replace(/^\uFEFF/, '') : r; };
+    lijnen.forEach(function (ruw, i) {
+      const l = zonderBom(ruw, i);
       const m = l.match(/^ {0,3}(```+|~~~+)/);
       if (hek) { if (m && m[1].charAt(0) === hek.charAt(0) && m[1].length >= hek.length) hek = null; return; }
       if (m) { hek = m[1]; return; }
       if (reTaakRegel.test(l)) taken.push(i);
       if (/^ {0,3}#{1,6}\s/.test(l)) koppen.push(i);
       else if (i > 0 && /^ {0,3}(=+|-+)\s*$/.test(l)) {
-        const v = lijnen[i - 1];
+        const v = zonderBom(lijnen[i - 1], i - 1);
         if (v.trim() && !/^ {0,3}#{1,6}\s/.test(v) && !reLijst.test(v) && !/^ {0,3}>/.test(v) && !reHr.test(v) && koppen.indexOf(i - 1) < 0) koppen.push(i - 1);
       }
     });
@@ -7220,7 +7848,7 @@ WIB.kern.document = (function () {
   function kopPadBij(lijnen, koppenIdx, regel) {
     const stapel = [];
     for (let k = 0; k < koppenIdx.length && koppenIdx[k] <= regel; k++) {
-      let l = lijnen[koppenIdx[k]], m = l.match(/^ {0,3}(#{1,6})\s+(.*?)\s*#*\s*$/), niveau, titel;
+      let l = lijnen[koppenIdx[k]].replace(/^\uFEFF/, ''), m = l.match(/^ {0,3}(#{1,6})\s+(.*?)\s*#*\s*$/), niveau, titel;   // v285: zonder de BOM vooraan het bestand
       if (m) { niveau = m[1].length; titel = m[2]; }
       else { niveau = /^ {0,3}=+\s*$/.test(lijnen[koppenIdx[k] + 1] || '') ? 1 : 2; titel = l.trim(); }
       titel = titel.replace(reKenmerk, '').replace(/<!--[\s\S]*?-->/g, '').replace(/!!/g, '').trim();
@@ -7355,22 +7983,9 @@ WIB.kern.document = (function () {
     scan.lijnen[r] = scan.lijnen[r].replace(/\[[ xX]\]/, aan ? '[x]' : '[ ]');
     return scan.lijnen.join(scan.eol);
   }
-  // Taken per sleutel (bijvoorbeeld een bestandsnaam) na elkaar uitvoeren (v112). Een volgende taak voor hetzelfde
-  // bestand begint pas als de vorige klaar is, ook als die mislukte; taken voor verschillende bestanden lopen naast elkaar.
-  // Zo kunnen twee schrijfacties naar hetzelfde bestand elkaar niet overschrijven.
-  function maakWachtrij() {
-    const rijen = {};
-    return function (sleutel, taak) {
-      const deze = (rijen[sleutel] || Promise.resolve()).then(taak);
-      rijen[sleutel] = deze.catch(function () { /* de fout gaat via "deze" naar wie de taak gaf; de rij zelf gaat door */ });
-      return deze;
-    };
-  }
-  // Tekst achteraan een bestand toevoegen (File System Access API). De grootte wordt gelezen op het moment van schrijven;
-  // voorvoegsel (bijvoorbeeld een lege regel) komt er alleen voor als het bestand niet leeg is.
-  function voegToeAanBestand(h, tekst, voorvoegsel) {
-    return WIB.hulp.schrijf(h, tekst, { achteraan: true, voorvoegsel: voorvoegsel });
-  }
+  // Taken per sleutel na elkaar uitvoeren (v112) en tekst achteraan een bestand toevoegen: sinds v284 in de gegevenslaag
+  // (WIB.gegevens); de oude namen blijven hier als verwijzing (stap 10 van het plan stelt voor ze weg te halen).
+  const maakWachtrij = WIB.gegevens.maakWachtrij, voegToeAanBestand = WIB.gegevens.voegToeAanBestand;
   // Eén vermelding uit een historielijst halen, op inhoud (datum, tijd, bestand en verschillen); de eerste die gelijk is (v139)
   function zonderVermelding(lijst, v) {
     const doel = serialiseerHistorie([v]);
@@ -7421,6 +8036,62 @@ WIB.kern.document = (function () {
     const alIn = new Set(uit.map(sleutel));
     lokaal.forEach(function (v) { if (!inBasis.has(sleutel(v)) && !alIn.has(sleutel(v))) { uit.push(v); alIn.add(sleutel(v)); } });
     return uit;
+  }
+  /* ---------- v284: daginvoer.md als bestandssoort van de gegevenslaag (WIB.gegevens) ----------
+     Model: { bom, voorloop, items }. Eenheid voor de belofte: een invoer (datum, tijd en tekst), in de volgorde van datum en
+     tijd, want zo schrijft de pagina het bestand (serialiseerDaginvoer sorteert): een andere volgorde in het bestand is geen
+     wijziging van een invoer. Wat de pagina niet gebruikt: de tekst boven de eerste invoer (v268). */
+  function dagEenheid(v) { return v.datum + ' ' + v.tijd + '\n' + v.body; }
+  function dagEenheden(t) { return parseDaginvoer(t).sort(function (a, b) { return (a.datum + a.tijd).localeCompare(b.datum + b.tijd); }).map(dagEenheid); }
+  const DAGINVOER = {
+    past: function (pad) { return pad === 'daginvoer.md'; },
+    lees: function (t) { return { bom: bomVan(t), voorloop: daginvoerVoorloop(t), items: parseDaginvoer(t) }; },
+    schrijf: function (m) { return (m.bom || '') + serialiseerDaginvoer(m.items, m.voorloop); },
+    vreemd: function (t) { const v = daginvoerVoorloop(t); return v ? [v] : []; },
+    eenheden: dagEenheden,
+    // zoals tot en met v283: de schijf, plus wat de pagina sinds de basis toevoegde, min wat ze verwijderde; de voorloop
+    // en de BOM zoals ze nu op schijf staan
+    voegSamen: function (basis, mijn, schijf) {
+      const items = voegDaginvoerSamen(parseDaginvoer(basis.tekst), mijn.model ? mijn.model.items : parseDaginvoer(mijn.tekst), parseDaginvoer(schijf.tekst));
+      const m = { bom: bomVan(schijf.tekst), voorloop: daginvoerVoorloop(schijf.tekst), items: items };
+      return { tekst: DAGINVOER.schrijf(m), model: m };
+    }
+  };
+  WIB.gegevens.meldSoort('daginvoer', DAGINVOER);
+  // De dunne bewerkingen op daginvoer.md. stand() geeft wat de pagina toont ({ bom, voorloop, items }), basis() de tekst die
+  // de pagina het laatst van schijf kende (undefined: nog niets gelezen, dan wordt er niet samengevoegd). Beide worden pas in
+  // de wachtrij van het bestand opgevraagd, zodat een schrijfactie die moest wachten de stand van dat moment schrijft (zoals
+  // tot en met v283). Was het bestand intussen buiten de pagina gewijzigd, dan voegt de laag samen (voegSamen hierboven).
+  // Belofte: alleen de invoeren die tussen basis en stand verschillen, mogen veranderen; de rest blijft zoals hij op schijf staat.
+  // opties.leegrem: 'bevestigd' (standaard; de gebruiker bevestigde verwijderen, Laden of archiveren) of 'aan';
+  // opties.onthoud: false = een fout komt niet in WIB.gegevens.openstaand() (archiveren zet zelf terug).
+  // opties.belofte: een andere belofte (toevoegen).
+  function daginvoerOpslaan(stand, basis, opties) {
+    opties = opties || {};
+    const tekstVan = function (s) { return DAGINVOER.schrijf(s); };
+    return WIB.gegevens.bewerk('daginvoer.md', opties.belofte ||
+      function () {
+        const b = basis();
+        if (b === undefined) return 'vrij';
+        const voor = dagEenheden(b), na = dagEenheden(tekstVan(stand()));
+        return { soort: 'blok', blok: voor.filter(function (x) { return na.indexOf(x) < 0; }).concat(na.filter(function (x) { return voor.indexOf(x) < 0; })) };
+      },
+      function () { const s = stand(); return { tekst: tekstVan(s), model: s }; },
+      { basis: function () { const b = basis(); return b === undefined ? null : { tekst: b }; }, bijAnders: 'samenvoegen', maak: true,
+        leegrem: opties.leegrem || 'bevestigd', onthoud: opties.onthoud });
+  }
+  // een invoer toevoegen: elke invoer die op schijf staat, blijft ongewijzigd staan (belofte toevoegen), en de leegrem staat
+  // aan. Alleen als er in de pagina verder niets wacht om geschreven te worden (dat beslist het documentdeel).
+  function daginvoerToevoegen(stand, basis) { return daginvoerOpslaan(stand, basis, { belofte: 'toevoegen', leegrem: 'aan' }); }
+  // archiveren: leegmaken na bevestiging, als stap van WIB.gegevens.samen (die zet bij een fout zelf terug)
+  function daginvoerArchiveren(stand, basis) { return daginvoerOpslaan(stand, basis, { onthoud: false }); }
+  // De hele daginvoer bewust vervangen door tekst (een tekst, of een functie die hem in de wachtrij geeft). weiger: was
+  // daginvoer.md buiten de pagina gewijzigd sinds basis(), dan niet (uitkomst conflict; Code omzetten); anders zonder
+  // controle op wijzigingen van buitenaf (Laden, na bevestiging).
+  function daginvoerVervangen(tekst, basis, weiger) {
+    return WIB.gegevens.bewerk('daginvoer.md', 'vrij', function () { return { tekst: typeof tekst === 'function' ? tekst() : tekst }; },
+      { basis: function () { const b = weiger ? basis() : undefined; return b === undefined ? null : { tekst: b }; }, bijAnders: 'weiger', maak: true,
+        leegrem: weiger ? 'aan' : 'bevestigd' });
   }
   // aantal afvinkbare taken in de laatst omgezette tekst (markdownNaarHtml)
   function laatsteTaakAantal() { return taakTeller; }
@@ -7716,7 +8387,7 @@ WIB.kern.document = (function () {
     key = String(key || '');
     return /^[A-Za-z]$/.test(key) && key !== 'n' && key !== 'N' ? key.toLowerCase() : key;
   }
-  return { lint, linkMd, linkUitMd, inlineMd, sneltoetsLetter, mmStanden, mmAfwijkingen, inline, reKenmerk, wisselUrgent, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, historieOpbouw, historieSamen, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, regelsBoven, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, takDikte };
+  return { lint, linkMd, linkUitMd, inlineMd, sneltoetsLetter, mmStanden, mmAfwijkingen, inline, reKenmerk, wisselUrgent, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, historieOpbouw, historieSamen, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, daginvoerOpslaan, daginvoerToevoegen, daginvoerArchiveren, daginvoerVervangen, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, regelsBoven, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, takDikte };
 })();
 </script>
 <script data-deel="document">
@@ -7732,7 +8403,7 @@ WIB.kern.document = (function () {
 
   const escapeHtml = WIB.hulp.esc;
   // de DOM-vrije logica (markdown, regels, historie, daginvoer) staat sinds v108 in WIB.kern.document
-  const { lint, linkMd, linkUitMd, inlineMd, inline, reKenmerk, wisselUrgent, losMarkdown, regelsOnder, regelsBoven, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, historieOpbouw, historieSamen, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte, mmStanden, mmAfwijkingen, sneltoetsLetter } = WIB.kern.document;
+  const { lint, linkMd, linkUitMd, inlineMd, inline, reKenmerk, wisselUrgent, losMarkdown, regelsOnder, regelsBoven, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, historieOpbouw, historieSamen, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, daginvoerOpslaan, daginvoerToevoegen, daginvoerArchiveren, daginvoerVervangen, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte, mmStanden, mmAfwijkingen, sneltoetsLetter } = WIB.kern.document;
 
   /* ---------- Interface ---------- */
 
@@ -9450,6 +10121,7 @@ WIB.kern.document = (function () {
         verder('Instellingen, historie en daginvoer verwerken…');
         const r = o.r;
         hist.map = dir;
+        WIB.gegevens.zetOpslag(WIB.gegevens.maakMapOpslag(dir));   // v284: de gegevenslaag schrijft voortaan in deze map
         vergeetMislukt();   // v281: alles is opnieuw van schijf gelezen
         if (window.WIB.werkdruk) WIB.werkdruk.zetMap({ name: dir.name, setHandle: o.setH, setLM: o.setLM, readonly: false, tekst: r[3] });
         zetHistorieTekst('werkdruk', r[0] || '');
@@ -9504,7 +10176,7 @@ WIB.kern.document = (function () {
     let gelezen = 0;
     Promise.all(namen.map(function (n) { const f = pak(n); return (f ? WIB.hulp.tekstVan(f) : Promise.resolve(null)).then(function (t) { verder('Bestanden lezen (' + (++gelezen) + ' van ' + namen.length + ')…'); return t; }); })).then(function (r) {
       verder('Het document opbouwen…');
-      if (hist.map) { hist.map = null; tabMapGewijzigd(); }
+      if (hist.map) { hist.map = null; WIB.gegevens.zetOpslag(WIB.gegevens.maakGeheugenOpslag()); tabMapGewijzigd(); }   // v284: niet meer in de map schrijven
       vergeetMislukt();   // v281
       if (window.WIB.werkdruk) WIB.werkdruk.zetMap({ name: mapNaam, setHandle: null, readonly: true, tekst: r[1] });
       zetHistorieTekst('werkdruk', r[2] || ''); zetHistorieTekst('instellingen', r[3] || ''); zetHistorieTekst('notities', r[5] || ''); zetDaginvoerTekst(r[4] || '');
@@ -9711,20 +10383,16 @@ WIB.kern.document = (function () {
   // intussen buiten de pagina gewijzigd, dan gebeurt dit niet: de belofte wordt afgewezen, zodat Code omzetten alles terugzet (v138).
   function vervangDaginvoer(t) {
     if (!hist.map) { zetDaginvoerTekst(t); return schrijfDaginvoer(t); }
-    // v212: mislukt het vóórdat de tekst in de pagina is vervangen (lezen of de wijziging van buitenaf), dan krijgt de fout
-    // nietsGewijzigd, zodat Code omzetten bij het terugzetten niets hoeft te herstellen
-    let vervangen = false;
-    return schrijfRij('daginvoer.md', function () {
-      return WIB.hulp.leesBestand(hist.map, 'daginvoer.md').then(function (r) {
-        const schijf = r ? r.tekst : '';
-        if (dagInvoer.basis !== undefined && schijf !== dagInvoer.basis) throw new Error('daginvoer.md is buiten de pagina gewijzigd');
-        zetDaginvoerTekst(t); vervangen = true;
-        return hist.map.getFileHandle('daginvoer.md', { create: true }).then(function (h) { return WIB.hulp.schrijf(h, t); })
-          .then(function () { dagInvoer.basis = t; dagStatusBijwerken(); });
-      });
-    }).catch(function (e) {
-      if (!vervangen && e && typeof e === 'object') e.nietsGewijzigd = true;
-      throw e;
+    // v212: mislukt het, dan krijgt de fout nietsGewijzigd, zodat Code omzetten bij het terugzetten niets hoeft te herstellen.
+    // v284: via de gegevenslaag; de pagina toont de nieuwe tekst pas als die op schijf staat, dus bij een fout is er in de
+    // pagina en in het bestand niets veranderd (behalve als de laag de oude inhoud niet kon terugzetten: herstelFouten)
+    return daginvoerVervangen(t, function () { return dagInvoer.basis; }, true).then(function (u) {
+      if (!u.ok) {
+        const e = u.soort === 'conflict' ? new Error('daginvoer.md is buiten de pagina gewijzigd') : u.fout || new Error(WIB.gegevens.uitleg(u));
+        if (e && typeof e === 'object' && !u.herstelFouten.length) e.nietsGewijzigd = true;
+        throw e;
+      }
+      zetDaginvoerTekst(t, true); dagStatusBijwerken();
     });
   }
   // De daginvoer opslaan. ruw: een tekst die de daginvoer bewust vervangt (Laden); anders de invoer in de pagina.
@@ -9732,64 +10400,59 @@ WIB.kern.document = (function () {
   // wijzigingen samengevoegd in plaats van dat de andere wordt overschreven (v138). Alles via de wachtrij van het bestand.
   // v281: schrijfDag wijst de belofte af als het schrijven niet lukt (Archiveren moet dat weten); schrijfDaginvoer meldt
   // de fout, onthoudt dat de wijziging nog niet op schijf staat (waarschuwing bij sluiten, nieuwe poging) en geeft dan false.
-  function schrijfDag(ruw, opnieuw) {
+  // v284: via de gegevenslaag (WIB.gegevens, met de dunne bewerkingen uit document-kern). Die leest opnieuw, voegt samen, leest
+  // na het schrijven terug (wijkt dat af: één nieuwe poging, daarna de oude inhoud terug) en schrijft niet als er niets
+  // verandert. actie: 'toevoegen' (dan staat de leegrem aan), 'archiveren' (een stap van samen), of niets (verwijderen, Laden,
+  // een nieuwe poging: de gebruiker heeft bevestigd).
+  function schrijfDag(ruw, opnieuw, actie) {
     dagInvoer.tekst = typeof ruw === 'string' ? ruw : dagInvoer.bom + serialiseerDaginvoer(dagInvoer.items, dagInvoer.voorloop);
     if (!opnieuw && window.WIB.werkdruk) WIB.werkdruk.daginvoerGewijzigd();   // een nieuwe poging verandert niets aan wat je ziet
     if (!hist.map) {
       if (alleenDownload()) WIB.hulp.nietInMap('daginvoer.md', dagInvoer.tekst);   // v141
       dagStatusBijwerken(); toonOpgeslagen('Bijgewerkt (alleen in geheugen)'); return Promise.resolve();
     }
-    const map = hist.map;
-    return schrijfRij('daginvoer.md', function () {
-      return WIB.hulp.leesBestand(map, 'daginvoer.md').then(function (r) {
-        const schijf = r ? r.tekst : '';
-        let samengevoegd = false;
-        if (typeof ruw !== 'string' && dagInvoer.basis !== undefined && schijf !== dagInvoer.basis) {
-          dagInvoer.items = voegDaginvoerSamen(parseDaginvoer(dagInvoer.basis), dagInvoer.items, parseDaginvoer(schijf));
-          dagInvoer.voorloop = daginvoerVoorloop(schijf);   // v268: ook de eigen tekst bovenaan zoals die nu op schijf staat
-          dagInvoer.bom = bomVan(schijf);
-          dagInvoer.tekst = dagInvoer.bom + serialiseerDaginvoer(dagInvoer.items, dagInvoer.voorloop);
-          samengevoegd = true;
-        }
-        const tekst = dagInvoer.tekst;
-        return map.getFileHandle('daginvoer.md', { create: true }).then(function (h) { return WIB.hulp.schrijf(h, tekst); })
-          .then(function () {
-            dagInvoer.basis = tekst;
-            schrijfGelukt('daginvoer.md');
-            if (samengevoegd) { toonDaginvoer(); if (window.WIB.werkdruk) WIB.werkdruk.daginvoerGewijzigd(); meld('daginvoer.md was buiten de pagina gewijzigd; die wijzigingen en de jouwe zijn samengevoegd.'); }
-            dagStatusBijwerken(); toonOpgeslagen('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL'));
-          });
-      });
+    // stand en basis pas in de wachtrij: zo schrijft een schrijfactie die moest wachten wat de pagina dan toont
+    const stand = function () { return { bom: dagInvoer.bom, voorloop: dagInvoer.voorloop, items: dagInvoer.items.slice() }; };
+    const basis = function () { return dagInvoer.basis; };
+    const bezig = typeof ruw === 'string' ? daginvoerVervangen(function () { return dagInvoer.tekst; }, basis, false)   // bewust vervangen: niet samenvoegen
+      : actie === 'toevoegen' && !nietGeschreven['daginvoer.md'] ? daginvoerToevoegen(stand, basis)
+      : actie === 'archiveren' ? daginvoerArchiveren(stand, basis) : daginvoerOpslaan(stand, basis);
+    return bezig.then(function (u) {
+      const m = u.ok ? u : u.bedoeld;
+      if (u.samengevoegd && m) {   // v268: ook de eigen tekst bovenaan en de BOM zoals die nu op schijf staan
+        dagInvoer.items = m.model.items; dagInvoer.voorloop = m.model.voorloop; dagInvoer.bom = m.model.bom; dagInvoer.tekst = m.tekst;
+      }
+      if (!u.ok) throw u.fout || new Error(WIB.gegevens.uitleg(u));
+      dagInvoer.basis = u.tekst;
+      schrijfGelukt('daginvoer.md');
+      if (u.samengevoegd) { toonDaginvoer(); if (window.WIB.werkdruk) WIB.werkdruk.daginvoerGewijzigd(); meld('daginvoer.md was buiten de pagina gewijzigd; die wijzigingen en de jouwe zijn samengevoegd.'); }
+      dagStatusBijwerken(); toonOpgeslagen('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL'));
     });
   }
-  function schrijfDaginvoer(ruw, opnieuw) {
-    return schrijfDag(ruw, opnieuw).then(function () { return true; }, function (e) {
+  function schrijfDaginvoer(ruw, opnieuw, actie) {
+    return schrijfDag(ruw, opnieuw, actie).then(function () { return true; }, function (e) {
       const reden = schrijfMislukt('daginvoer.md', e, function () { schrijfDaginvoer(undefined, true); });
       dagStatusBijwerken('daginvoer.md kon niet worden geschreven: ' + reden + '. De wijziging staat alleen in de pagina.');
       return false;
     });
   }
   // Wijzigingen van buitenaf in daginvoer.md overnemen (v138), net als bij werkdruk.md en instellingen.md.
-  let dagLm = 0, dagBezig = false;
+  // v284: de gegevenslaag kijkt of het bestand is veranderd sinds het laatst gezien (in de wachtrij van het bestand, één
+  // controle tegelijk, niet meer na het wisselen van map) en geeft het dan hier door
+  WIB.gegevens.bewaak('daginvoer.md', function (u) {
+    if (!u.ok) {
+      const e = u.fout;
+      if (e && e.name === 'CoderingFout') { if (WIB.hulp.eens(e.message + '|' + e.lm)) dagStatusBijwerken(e.message + '.'); return; }
+      WIB.hulp.waarschuw('daginvoer.md controleren', e); return;
+    }
+    if (u.tekst === dagInvoer.basis) return;
+    zetDaginvoerTekst(u.tekst, true);
+    dagStatusBijwerken('daginvoer.md is buiten de pagina gewijzigd en opnieuw ingelezen.');
+  });
   function controleerDaginvoer() {
     // v281: staat er een wijziging van de pagina nog niet op schijf, dan eerst die (de nieuwe poging voegt samen met het bestand)
-    if (!hist.map || dagBezig || document.hidden || nietGeschreven['daginvoer.md']) return;
-    dagBezig = true;
-    const map = hist.map;
-    schrijfRij('daginvoer.md', function () {
-      return map.getFileHandle('daginvoer.md').then(function (h) { return h.getFile(); }).then(function (f) {
-        if (f.lastModified === dagLm) return;
-        dagLm = f.lastModified;
-        return WIB.hulp.tekstVan(f).then(function (t) {
-          if (t === dagInvoer.basis || map !== hist.map) return;
-          zetDaginvoerTekst(t, true);
-          dagStatusBijwerken('daginvoer.md is buiten de pagina gewijzigd en opnieuw ingelezen.');
-        });
-      }).catch(function (e) {
-        if (e && e.name === 'CoderingFout') { if (WIB.hulp.eens(e.message + '|' + e.lm)) dagStatusBijwerken(e.message + '.'); return; }
-        if (!WIB.hulp.nietGevonden(e)) WIB.hulp.waarschuw('daginvoer.md controleren', e);
-      });
-    }).then(function () { dagBezig = false; }, function () { dagBezig = false; });
+    if (!hist.map || document.hidden || nietGeschreven['daginvoer.md']) return;
+    WIB.gegevens.controleer('daginvoer.md');
   }
   WIB.bewaking.voegToe(controleerDaginvoer);
 
@@ -9901,7 +10564,7 @@ WIB.kern.document = (function () {
       if (!ok) { dagDatum.focus(); return; }
       const nu = new Date();
       dagInvoer.items.push({ datum: datum, tijd: pad2(nu.getHours()) + ':' + pad2(nu.getMinutes()) + ':' + pad2(nu.getSeconds()), body: body });
-      schrijfDaginvoer();
+      schrijfDaginvoer(undefined, false, 'toevoegen');
       sluitDagDialoog();
       if (!isWdTab(tabActief)) toonTab('daginvoer');
       toonDaginvoer();
@@ -9944,7 +10607,7 @@ WIB.kern.document = (function () {
         // v281: als één geheel (transactie). Tot en met v280 stond er "Gearchiveerd", ook als daginvoer.md niet kon worden
         // leeggemaakt: de invoeren stonden dan in het archief én nog in daginvoer.md, en na een nieuwe poging dubbel.
         const eerder = dagInvoer.items;
-        WIB.kern.notities.transactie([archiefStap(hist.map, naam, oud)], { naam: 'daginvoer.md leegmaken', doe: function () { dagInvoer.items = []; return schrijfDag(); } }, [])
+        WIB.gegevens.samen([archiefStap(hist.map, naam, oud)], { naam: 'daginvoer.md leegmaken', doe: function () { dagInvoer.items = []; return schrijfDag(undefined, false, 'archiveren'); } }, [])
           .then(function (u) {
             if (u.ok) { toonDaginvoer(); dagStatusBijwerken('Gearchiveerd als ' + naam); return; }
             // niet gelukt: de invoeren staan nog in daginvoer.md, dus ook weer in de pagina
@@ -12570,6 +13233,7 @@ WIB.kern.document = (function () {
   function ontkoppelMap() {
     const naam = hist.map.name;
     hist.map = null;
+    WIB.gegevens.zetOpslag(WIB.gegevens.maakGeheugenOpslag());   // v284: de gegevenslaag schrijft niet meer in de map
     tabMapGewijzigd();
     if (window.WIB.werkdruk) WIB.werkdruk.zetMap(null);
     if (window.WIB.notities) WIB.notities.zetMap(null);
@@ -16993,6 +17657,10 @@ WIB.kern.notities = (function () {
   }
 
   /* ---------- versiebestand: elke versie volledig, in een codeblok ---------- */
+  // v286: een tekstvak geeft elke regelovergang terug als \n. Zo ziet de tekst van een bestand eruit zodra hij in het
+  // notitieveld staat; daarmee vergelijkt de pagina om te zien of je iets hebt gewijzigd (een notitie met Windows-regeleinden
+  // leek anders meteen na het openen gewijzigd).
+  function zoalsInVak(tekst) { return String(tekst == null ? '' : tekst).replace(/\r\n?/g, '\n'); }
   function versiesNaarTekst(lijst) {
     return lijst.map(function (v) {
       let hek = '````'; while (v.tekst.indexOf(hek) >= 0) hek += '`';
@@ -17397,42 +18065,9 @@ WIB.kern.notities = (function () {
   // sinds v133 gedeeld met de andere delen (WIB.hulp)
   const nietGevonden = WIB.hulp.nietGevonden, leesBestand = WIB.hulp.leesBestand;
 
-  // Een reeks stappen als één geheel (v109), gebruikt door Code omzetten.
-  // - stappen: [{ naam, doe, herstel }] worden na elkaar uitgevoerd. Gaat er een mis, dan worden alle stappen die zijn
-  //   begonnen (ook de mislukte, die halverwege kan zijn) in omgekeerde volgorde teruggedraaid met herstel. Elke herstelstap
-  //   wordt geprobeerd, ook als een eerdere mislukt; wat niet lukt, staat in herstelFouten.
-  // - vastleggen: { naam, doe } is het punt zonder terugweg (bij Code omzetten: werkdruk.md opslaan). Mislukt die, dan wordt
-  //   ook alles teruggedraaid. doe mag false teruggeven: dat telt als mislukt.
-  // - opruimen: [{ naam, doe }] gebeurt pas na het vastleggen en wordt nooit teruggedraaid. Mislukt een opruimstap, dan gaan
-  //   de andere toch door en staat hij in opruimFouten; het geheel is dan wel gelukt.
-  // Uitkomst: { ok, fout, mislukteStap, herstelFouten: [{ naam, fout }], opruimFouten: [{ naam, fout }] }
-  async function transactie(stappen, vastleggen, opruimen) {
-    const begonnen = [], uit = { ok: false, fout: null, mislukteStap: null, herstelFouten: [], opruimFouten: [] };
-    try {
-      for (const st of stappen || []) {
-        begonnen.push(st);
-        uit.mislukteStap = st.naam;
-        await st.doe();
-      }
-      if (vastleggen) {
-        uit.mislukteStap = vastleggen.naam;
-        if ((await vastleggen.doe()) === false) throw new Error(vastleggen.naam + ' is niet gelukt');
-      }
-      uit.mislukteStap = null;
-    } catch (e) {
-      uit.fout = e;
-      for (let i = begonnen.length - 1; i >= 0; i--) {
-        if (!begonnen[i].herstel) continue;
-        try { await begonnen[i].herstel(); } catch (h) { uit.herstelFouten.push({ naam: begonnen[i].naam, fout: h }); }
-      }
-      return uit;
-    }
-    uit.ok = true;
-    for (const st of opruimen || []) {
-      try { await st.doe(); } catch (e) { uit.opruimFouten.push({ naam: st.naam, fout: e }); }
-    }
-    return uit;
-  }
+  // Een reeks stappen als één geheel (v109), gebruikt door Code omzetten. Sinds v284 in de gegevenslaag als
+  // WIB.gegevens.samen (met dezelfde uitkomst, aangevuld met soort); de oude naam blijft hier als verwijzing.
+  const transactie = WIB.gegevens.samen;
 
   /* ---------- Dossier (v218): alles over één code bij elkaar ---------- */
   // De regels van een markdowntekst met hun kop- of lijstvorm. Codeblokken tellen niet mee.
@@ -17693,7 +18328,7 @@ WIB.kern.notities = (function () {
     });
     return { woorden: w, acties: groep(acties), werkdruk: groep(werkdruk), notities: groep(notities), daginvoer: groep(daginvoer), historie: groep(historie), fouten: fouten };
   }
-  return { zoekAlles, versiesNaarTekst, versiesUitTekst, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licMetRuw, licNaarTekst, licVerplaats, licVerborgen, licGeen, licLinkHref, licControle, koppelingUitTekst, overgangen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging };
+  return { zoekAlles, zoalsInVak, versiesNaarTekst, versiesUitTekst, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licMetRuw, licNaarTekst, licVerplaats, licVerborgen, licGeen, licLinkHref, licControle, koppelingUitTekst, overgangen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging };
 })();
 </script>
 <script data-deel="notities">
@@ -17710,7 +18345,7 @@ WIB.kern.notities = (function () {
 (function () {
   'use strict';
   // de DOM-vrije logica (versies, vermeldingen, licenties) staat sinds v108 in WIB.kern.notities
-  const { versiesNaarTekst, versiesUitTekst, telIn, analyseer, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licMetRuw, licNaarTekst, licVerplaats, licVerborgen, licGeen, licLinkHref, licControle, overgangen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, codesIn, dossierVan, dossierLogboek, zoekAlles, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging } = WIB.kern.notities;
+  const { zoalsInVak, versiesNaarTekst, versiesUitTekst, telIn, analyseer, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licMetRuw, licNaarTekst, licVerplaats, licVerborgen, licGeen, licLinkHref, licControle, overgangen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, codesIn, dossierVan, dossierLogboek, zoekAlles, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging } = WIB.kern.notities;
   const vlak = document.getElementById('notitievenster');
   const bijlageKnop = document.getElementById('nt-bijlage');
   const titelEl = document.getElementById('nt-titel');
@@ -17926,7 +18561,7 @@ WIB.kern.notities = (function () {
 
   /* ---------- het venster ---------- */
   function isOpen() { return !vlak.hidden; }
-  function vuil() { return !!huidig && ta.value !== (huidig.basis || huidig.sjabloon); }
+  function vuil() { return !!huidig && ta.value !== zoalsInVak(huidig.basis || huidig.sjabloon); }   // v286: zoals het veld de tekst teruggeeft
   function focusVeld() { return wysiwyg() && !editorEl.hidden ? editorEl : ta; }
   // v183: "Niet opgeslagen" ziet eruit en werkt als het label in de balk: een gekleurd label waarmee je opslaat
   function zetStatus(t, isVuil, alsKnop) {
@@ -18031,14 +18666,14 @@ WIB.kern.notities = (function () {
     if (!huidig) return Promise.resolve();
     editorBij();
     const nr = huidig.nr, tekst = ta.value, basis0 = huidig.basis, lm0 = huidig.lm;
-    if (tekst === huidig.basis) { zetStatus('Geen wijzigingen'); return Promise.resolve(); }
+    if (typeof huidig.basis === 'string' && tekst === zoalsInVak(huidig.basis)) { zetStatus('Geen wijzigingen'); return Promise.resolve(); }   // v286
     // v282: op de beurt van dit notitiebestand. hier(): staat het venster nog open op deze code? (Het kan intussen zijn
     // gesloten; wat je vroeg op te slaan, wordt dan toch opgeslagen.) Staat deze tekst er door een eerdere beurt al
     // (twee keer Ctrl+S), dan gebeurt er niets meer: geen tweede versie en geen tweede vermelding in de historie.
     const hier = function () { return huidig && huidig.nr === nr ? huidig : null; };
     let uitkomst = 'niets', gevraagd = false;   // v283: voor wie op dit opslaan wacht (sluiten)
     const klaar = opBeurt(nr, function () {
-    if (hier() && tekst === hier().basis) return;
+    if (hier() && typeof hier().basis === 'string' && tekst === zoalsInVak(hier().basis)) return;
     const basis = hier() ? hier().basis : basis0, lm1 = hier() ? hier().lm : lm0;
     const check = map ? lees(nr) : Promise.resolve(null);
     return check.then(function (r) {
