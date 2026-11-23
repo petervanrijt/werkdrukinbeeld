@@ -2536,6 +2536,16 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v300</span> De statusregel van het notitievenster zegt Niet opgeslagen als je tijdens het opslaan verder typte <span class="datum">23 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Wijzigde de tekst in het notitievenster terwijl het opslaan nog liep (je typte door, of je voegde een bijlage toe en de link kwam erbij), dan zei de statusregel daarna <i>Opgeslagen</i>, terwijl er meer in het venster stond dan in het bestand. Alleen de waarschuwing bij sluiten klopte. Nu zegt de statusregel in dat geval <i>Niet opgeslagen · opslaan</i>; wat je opsloeg, staat wel in het bestand (bekende fout F-status1).</li>
+      <li>Tests: de bekende fout F-status1 is een gewone test geworden (hij faalt op v299), en twee tests rond bijlagen controleren de statusregel nu ook in dit geval. Hulp niet geraakt.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v299</span> Opgeruimd: oude wegen naast de gegevenslaag <span class="datum">23 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Je ziet niets veranderen. Nu elke bestandsactie via de gegevenslaag loopt, zijn de oude namen en restanten ernaast verwijderd, na akkoord per groep: de oude wachtrij voor werkdruk.md (<code>schrijfRij</code>) en de verwijzingen <code>maakWachtrij</code>, <code>voegToeAanBestand</code>, <code>transactie</code>, <code>nietGevonden</code> en <code>leesBestand</code> in de kernen; <code>WIB.hulp.nietInMap</code> en <code>WIB.hulp.inMap</code> en de velden <code>teDownloaden</code> en <code>naam</code> van een opslag; de ongebruikte variabele <code>tabTotaal</code> en de uitvoer <code>WIB.notities.zoekInAlles</code>. Samen 24 regels en een naam of veld op tien andere regels.</li>
+      <li>Tests: een nieuwe structuurtest bewaakt per onderdeel dat het niet terugkomt (hij faalt op v298 en op negen kopieën waarin telkens één onderdeel is teruggezet). Zestien bestaande tests gebruiken nu de echte namen in plaats van de oude; geen enkele test van de werking is weggehaald. Het vastgelegde gedrag van alle gegevensacties en van Code omzetten is exact gelijk gebleven. Hulp niet geraakt.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
     <div class="release"><h2><span class="versie">v298</span> De pagina kijkt bij het openen van een map alle bestanden na (stap 12) <span class="datum">23 nov 2026</span></h2><ul>
       <li><span class="soort nieuw">nieuw</span>Kies je een map (en bij <i>Opnieuw inladen</i>), dan kijkt de pagina stil elk bestand na: werkdruk.md, instellingen.md, daginvoer.md, de drie historiebestanden en alle notities met hun versiebestanden. Ze schrijft daarbij niets en je kunt meteen verder werken; bij 200 notities duurt het enkele honderdsten van een seconde. Bij een gezonde map merk je er niets van.</li>
       <li><span class="soort nieuw">nieuw</span>Alleen iets ernstigs geeft een melding: een bestand dat halverwege lijkt afgebroken, een bestand waaruit de pagina bij je eerste wijziging tekst zou laten vallen, of een versiebestand dat niet te lezen is. Je krijgt dan één melding, en zolang het zo is staat onder Bron in de zijbalk hoeveel bestanden het zijn en staat het bovenaan het tabblad <b>Tekstcontrole</b>, met per bestand de regel en wat je kunt doen. De pagina verandert zo'n bestand niet vanzelf.</li>
@@ -4810,8 +4820,6 @@ WIB.hulp = {
   // en bij het opnieuw inlezen van de map wordt vergeleken (gelijk = in orde). v296: de gegevenslaag houdt dit object bij
   // (WIB.gegevens.nogNaarMap, teDownloaden, download, inMapGezet).
   onbewaard: {},
-  nietInMap: function (pad, tekst) { WIB.hulp.onbewaard[pad] = tekst; },
-  inMap: function (pad) { delete WIB.hulp.onbewaard[pad]; },
   // v296: een download na wacht ms (twee downloads achter elkaar krijgen 400 ms ertussen, anders houdt een browser er één
   // tegen; de gegevenslaag geeft de wachttijd, want die heeft zelf geen klok); zonder wacht meteen
   downloadNa: function (tekst, naam, wacht) {
@@ -5022,11 +5030,6 @@ WIB.gegevens = (function () {
   }
   // de wachtrij van de laag: één per pad, voor elke opslag samen (twee keer dezelfde map openen schrijft niet naast elkaar)
   const rij = maakWachtrij();
-  // Tekst achteraan een bestand toevoegen (File System Access API; sinds v284 hier, was document-kern). De grootte wordt
-  // gelezen op het moment van schrijven; voorvoegsel (bijvoorbeeld een lege regel) komt er alleen voor als het bestand niet leeg is.
-  function voegToeAanBestand(h, tekst, voorvoegsel) {
-    return hulp.schrijf(h, tekst, { achteraan: true, voorvoegsel: voorvoegsel });
-  }
 
   /* ---------- een reeks stappen als één geheel (v109; sinds v284 hier als samen, was transactie in notities-kern) ----------
      - stappen: [{ naam, doe, herstel }] worden na elkaar uitgevoerd. Gaat er een mis, dan worden alle stappen die zijn
@@ -5080,7 +5083,7 @@ WIB.gegevens = (function () {
   }
 
   /* ---------- opslag: een map of het geheugen, met hetzelfde contract ----------
-     soort ('map' of 'geheugen'), naam, handvat (het maphandvat of null), schrijfbaar(pad),
+     soort ('map' of 'geheugen'), handvat (het maphandvat of null), schrijfbaar(pad),
      lees(pad, { bytes, alsAnders, grootte }) -> { tekst | bytes, kenmerk, gewijzigdOp, grootte } of null (bestaat niet; elke
        andere fout gaat door). alsAnders: een kenmerk; is het bestand nog zo, dan { ongewijzigd: true, kenmerk } zonder de inhoud
        te lezen. grootte (v289): alleen kenmerk, gewijzigdOp en grootte, zonder de inhoud te lezen. v297: tekst heeft een losse
@@ -5158,14 +5161,14 @@ WIB.gegevens = (function () {
       }
     }
     async function maakMap(pad) { await magSchrijven(); await submap(dir, padDelen(pad), true); }
-    return { soort: 'map', naam: dir.name || '', handvat: dir, schrijfbaar: function () { return true; }, toestemming: toestemming, lees: lees, schrijf: schrijf, verwijder: verwijder, lijst: lijst, maakMap: maakMap };
+    return { soort: 'map', handvat: dir, schrijfbaar: function () { return true; }, toestemming: toestemming, lees: lees, schrijf: schrijf, verwijder: verwijder, lijst: lijst, maakMap: maakMap };
   }
   // Het geheugen: geen map, een alleen-lezen-map, een los bestand, het voorbeeld. opties.bestanden: { pad: tekst } om mee te
   // beginnen; opties.los: { pad, handvat }: één bestand dat wel rechtstreeks beschreven kan worden (een los werkdruk.md dat
-  // met de bestandskiezer is geopend). Wat in het geheugen wordt geschreven, komt in teDownloaden (in volgorde, één keer).
+  // met de bestandskiezer is geopend).
   function maakGeheugenOpslag(opties) {
     opties = opties || {};
-    const inhoud = {}, mappen = {}, teDownloaden = [], los = opties.los || null;
+    const inhoud = {}, mappen = {}, los = opties.los || null;
     let teller = 0;
     Object.keys(opties.bestanden || {}).forEach(function (p) { inhoud[p] = { tekst: opties.bestanden[p], kenmerk: ++teller }; });
     const isLos = function (pad) { return !!los && pad === los.pad; };
@@ -5201,7 +5204,6 @@ WIB.gegevens = (function () {
       else b = typeof nieuw === 'string' ? { tekst: nieuw } : { bytes: (await bytesVan(nieuw)).slice() };
       b.kenmerk = ++teller;
       inhoud[pad] = b;
-      if (teDownloaden.indexOf(pad) < 0) teDownloaden.push(pad);
       return { kenmerk: b.kenmerk, gewijzigdOp: null, grootte: b.bytes ? b.bytes.length : b.tekst.length };
     }
     async function verwijder(pad, o) {
@@ -5224,7 +5226,7 @@ WIB.gegevens = (function () {
       return uit;
     }
     async function maakMap(pad) { const d = padDelen(pad); d.forEach(function (x, i) { mappen[d.slice(0, i + 1).join('/')] = true; }); }
-    return { soort: 'geheugen', naam: '', handvat: null, schrijfbaar: isLos, lees: lees, schrijf: schrijf, verwijder: verwijder, lijst: lijst, maakMap: maakMap, teDownloaden: teDownloaden };
+    return { soort: 'geheugen', handvat: null, schrijfbaar: isLos, lees: lees, schrijf: schrijf, verwijder: verwijder, lijst: lijst, maakMap: maakMap };
   }
 
   /* ---------- bestandssoorten ----------
@@ -6250,7 +6252,7 @@ WIB.gegevens = (function () {
     })).then(function (r) { return r.filter(Boolean); });
   }
 
-  return { maakWachtrij, voegToeAanBestand, samen, maakMapOpslag, maakGeheugenOpslag, zetOpslag, actieveOpslag, meldSoort, lees, gezien, bewerk, voegToe, maakNieuw, verwijder, kopieer, lijst, leesAlle, openMap, openAlleenLezen, controleerTekst, controleerMap, bewaak, controleer, beurt, openstaand, probeerOpnieuw, uitleg, zetDownload, nogNaarMap, teDownloaden, download, inMapGezet };
+  return { maakWachtrij, samen, maakMapOpslag, maakGeheugenOpslag, zetOpslag, actieveOpslag, meldSoort, lees, gezien, bewerk, voegToe, maakNieuw, verwijder, kopieer, lijst, leesAlle, openMap, openAlleenLezen, controleerTekst, controleerMap, bewaak, controleer, beurt, openstaand, probeerOpnieuw, uitleg, zetDownload, nogNaarMap, teDownloaden, download, inMapGezet };
 })();
 </script>
 <script data-deel="rekenkern">
@@ -8752,9 +8754,6 @@ WIB.kern.document = (function () {
     scan.lijnen[r] = scan.lijnen[r].replace(/\[[ xX]\]/, aan ? '[x]' : '[ ]');
     return scan.lijnen.join(scan.eol);
   }
-  // Taken per sleutel na elkaar uitvoeren (v112) en tekst achteraan een bestand toevoegen: sinds v284 in de gegevenslaag
-  // (WIB.gegevens); de oude namen blijven hier als verwijzing (stap 10 van het plan stelt voor ze weg te halen).
-  const maakWachtrij = WIB.gegevens.maakWachtrij, voegToeAanBestand = WIB.gegevens.voegToeAanBestand;
   // Eén vermelding uit een historielijst halen, op inhoud (datum, tijd, bestand en verschillen); de eerste die gelijk is (v139)
   function zonderVermelding(lijst, v) {
     const doel = serialiseerHistorie([v]);
@@ -9283,7 +9282,7 @@ WIB.kern.document = (function () {
     key = String(key || '');
     return /^[A-Za-z]$/.test(key) && key !== 'n' && key !== 'N' ? key.toLowerCase() : key;
   }
-  return { lint, linkMd, linkUitMd, inlineMd, sneltoetsLetter, mmStanden, mmAfwijkingen, inline, reKenmerk, wisselUrgent, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, historieOpbouw, historieSamen, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, daginvoerOpslaan, daginvoerToevoegen, daginvoerArchiveren, daginvoerVervangen, historieBijschrijven, historieHerschrijven, historieVervangen, historieLeegmaken, archiefBijschrijven, jaarovergangOpslaan, samenMetVorige, laatsteTaakAantal, maakWachtrij, voegToeAanBestand, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, regelsBoven, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, takDikte };
+  return { lint, linkMd, linkUitMd, inlineMd, sneltoetsLetter, mmStanden, mmAfwijkingen, inline, reKenmerk, wisselUrgent, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, historieOpbouw, historieSamen, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, daginvoerOpslaan, daginvoerToevoegen, daginvoerArchiveren, daginvoerVervangen, historieBijschrijven, historieHerschrijven, historieVervangen, historieLeegmaken, archiefBijschrijven, jaarovergangOpslaan, samenMetVorige, laatsteTaakAantal, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, regelsBoven, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, takDikte };
 })();
 </script>
 <script data-deel="document">
@@ -9299,7 +9298,7 @@ WIB.kern.document = (function () {
 
   const escapeHtml = WIB.hulp.esc;
   // de DOM-vrije logica (markdown, regels, historie, daginvoer) staat sinds v108 in WIB.kern.document
-  const { lint, linkMd, linkUitMd, inlineMd, inline, reKenmerk, wisselUrgent, losMarkdown, regelsOnder, regelsBoven, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, daginvoerOpslaan, daginvoerToevoegen, daginvoerArchiveren, daginvoerVervangen, historieBijschrijven, historieHerschrijven, historieVervangen, historieLeegmaken, archiefBijschrijven, jaarovergangOpslaan, samenMetVorige, laatsteTaakAantal, maakWachtrij, vinkAf, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte, mmStanden, mmAfwijkingen, sneltoetsLetter } = WIB.kern.document;
+  const { lint, linkMd, linkUitMd, inlineMd, inline, reKenmerk, wisselUrgent, losMarkdown, regelsOnder, regelsBoven, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, daginvoerOpslaan, daginvoerToevoegen, daginvoerArchiveren, daginvoerVervangen, historieBijschrijven, historieHerschrijven, historieVervangen, historieLeegmaken, archiefBijschrijven, jaarovergangOpslaan, samenMetVorige, laatsteTaakAantal, vinkAf, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte, mmStanden, mmAfwijkingen, sneltoetsLetter } = WIB.kern.document;
 
   /* ---------- Interface ---------- */
 
@@ -10037,7 +10036,7 @@ WIB.kern.document = (function () {
   const dagVlak = document.getElementById('daginvoer');
   const mindmapVlak = document.getElementById('mindmap');
   const bewerkVlak = document.getElementById('bewerken');
-  const totaalVlak = document.getElementById('totaal'), totaalDoc = document.getElementById('totaal-doc'), tabTotaal = document.getElementById('tab-totaal');
+  const totaalVlak = document.getElementById('totaal'), totaalDoc = document.getElementById('totaal-doc');
   const wdVlak = document.getElementById('wd-vlak');
   const wdExtra = document.getElementById('wd-tabextra');
   const WD_TABS = ['jaar', 'maand', 'week', 'dag', 'taken'];
@@ -10647,9 +10646,6 @@ WIB.kern.document = (function () {
     }
   };
   const HIST_LOGS = ['werkdruk', 'instellingen', 'notities'];
-  // opslagacties van werkdruk.md na elkaar (v112). De historiebestanden lopen sinds v289 via de wachtrij van de gegevenslaag,
-  // werkdruk.md sinds v295 ook (stap 8b): schrijfRij wordt niet meer gebruikt.
-  const schrijfRij = maakWachtrij();
   function histExtern() { return !!(window.WIB.werkdruk && WIB.werkdruk.instelling('histExtern')); }
   let opgeslagenTekst = null; // laatst bekende inhoud van werkdruk.md op schijf; de basis voor het volgende verschil
   const histLijst = document.getElementById('hist-lijst');
@@ -19475,15 +19471,6 @@ WIB.kern.notities = (function () {
     return bom + (crlf ? uit.replace(/\n/g, '\r\n') : uit);
   }
 
-  // "Bestaat niet" is iets anders dan "kan niet lezen" (v110). Alleen een ontbrekend bestand of map telt als leeg;
-  // elke andere fout (geen toestemming, bestand bezet, …) gaat door, zodat er nooit iets over een onleesbaar bestand heen wordt geschreven.
-  // sinds v133 gedeeld met de andere delen (WIB.hulp)
-  const nietGevonden = WIB.hulp.nietGevonden, leesBestand = WIB.hulp.leesBestand;
-
-  // Een reeks stappen als één geheel (v109). Sinds v284 in de gegevenslaag als WIB.gegevens.samen (met dezelfde uitkomst,
-  // aangevuld met soort); de oude naam blijft hier als verwijzing (sinds v292 roept Code omzetten samen zelf aan).
-  const transactie = WIB.gegevens.samen;
-
   /* ---------- Dossier (v218): alles over één code bij elkaar ---------- */
   // De regels van een markdowntekst met hun kop- of lijstvorm. Codeblokken tellen niet mee.
   function codeRegels(md, codeRe, per) {
@@ -19856,7 +19843,7 @@ WIB.kern.notities = (function () {
       volg: notitieVolg(versiePad, nieuw, o, function () { return oud; }), na: notitieNa(o)
     });
   }
-  return { notitieOpslaan, notitieAfvinken, zoekAlles, zoalsInVak, versiesNaarTekst, versiesUitTekst, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licMetRuw, licNaarTekst, licVerplaats, licVerborgen, licGeen, licLinkHref, licControle, koppelingUitTekst, overgangen, transactie, nietGevonden, leesBestand, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging, bijlagenLijst, bijlagenToevoegen, leesTeksten, omzetStappen, versiesZonderNotitie };
+  return { notitieOpslaan, notitieAfvinken, zoekAlles, zoalsInVak, versiesNaarTekst, versiesUitTekst, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, licUitTekst, licMetRuw, licNaarTekst, licVerplaats, licVerborgen, licGeen, licLinkHref, licControle, koppelingUitTekst, overgangen, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging, bijlagenLijst, bijlagenToevoegen, leesTeksten, omzetStappen, versiesZonderNotitie };
 })();
 </script>
 <script data-deel="notities">
@@ -20193,7 +20180,12 @@ WIB.kern.notities = (function () {
       if (WIB.document.tab() === 'overgang') toonOvergang();   // v261
       if (WIB.document.tab() === 'dossier') toonDossier();   // v218
       const tijd = new Date().toLocaleTimeString('nl-NL');
+      // v300 (F-status1): is de tekst in het venster tijdens het opslaan gewijzigd (doorgetypt, of de link van een bijlage
+      // kwam erbij), dan staat er meer in het venster dan in het bestand: de statusregel zegt dan Niet opgeslagen in plaats
+      // van Opgeslagen (tot v299 stond er Opgeslagen; alleen de waarschuwing bij sluiten klopte)
+      editorBij();
       if (versieFout) zetStatus('Opgeslagen ' + tijd + ', maar de versie kon niet in ' + naamVoor(nr, true) + ' worden bewaard (' + (versieFout.message || versieFout) + '). Je notities zelf staan wel op schijf.', true);
+      else if (vuil()) statusBijwerken();
       else zetStatus(map ? 'Opgeslagen ' + tijd : 'Bewaard in het geheugen ' + tijd + ' (gebruik Downloaden)');
       if (window.WIB.document) WIB.document.toonOpgeslagen(map ? 'Opgeslagen ' + tijd : 'Bijgewerkt (alleen in geheugen)');
       if (weergave === 'versies') toonVersies();
@@ -21438,7 +21430,6 @@ WIB.kern.notities = (function () {
   }
 
   window.WIB.notities = {
-    zoekInAlles: zoekInAlles,
     open: open,
     // de tekst van de notities bij een code: { tekst, lm }; met een map van schijf, anders uit het geheugen (v161)
     lees: function (nr) { return lees(sleutel(nr)); },
