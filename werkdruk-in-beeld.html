@@ -2532,6 +2532,20 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v288</span> Bij de vraag over een buiten de pagina gewijzigd bestand staat de focus op Annuleren <span class="datum">23 nov 2026</span></h2><ul>
+      <li><span class="soort nieuw">nieuw</span>Sla je <code>werkdruk.md</code> op met Ctrl+S terwijl een ander programma het bestand intussen heeft gewijzigd, dan staat de focus in de vraag nu op <i>Annuleren</i>, net als bij de vraag voor <code>daginvoer.md</code> en <code>instellingen.md</code> uit v287. Een Enter uit gewoonte overschrijft de versie van het andere programma dus niet meer; tot v287 stond de focus op <i>Mijn tekst opslaan</i>. De twee vragen die de pagina uit zichzelf stelt (een ander programma heeft het bestand gewijzigd of leeg gemaakt terwijl je niet-opgeslagen wijzigingen hebt) hebben geen knop Annuleren; daar blijft de focus op de eerste knop, die niets op schijf verandert.</li>
+      <li>Tests: één nieuwe in een echte browser (de focus, en dat Enter niets schrijft). Hulp niet geraakt.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v287</span> De pagina vraagt het als daginvoer.md of instellingen.md buiten de pagina is gewijzigd (gegevenslaag, stap 2) <span class="datum">23 nov 2026</span></h2><ul>
+      <li><span class="soort nieuw">nieuw</span>Is <code>daginvoer.md</code> of <code>instellingen.md</code> buiten de pagina gewijzigd terwijl je zelf een invoer toevoegt of verwijdert of een instelling aanpast, dan vraagt de pagina nu wat je wilt, met dezelfde drie keuzes als bij <code>werkdruk.md</code>: <i>Mijn tekst opslaan</i> (jouw versie gaat over die van buiten heen), <i>… van schijf laden</i> (de pagina neemt het bestand over; je eigen wijziging vervalt) of <i>Annuleren</i>. Tot nu toe voegde de pagina de twee versies stil samen. De focus staat op Annuleren, zodat Enter niets overschrijft. Eén ding blijft ook bij <i>Mijn tekst opslaan</i> van de versie van buiten: de teller van het volgnummer loopt nooit terug, zodat een nummer dat een andere sessie al uitgaf niet nog eens wordt uitgegeven.</li>
+      <li><span class="soort nieuw">nieuw</span>Kies je Annuleren, dan blijft je wijziging in de pagina staan en waarschuwt de pagina als je haar sluit; ze probeert het niet vanzelf opnieuw. Bij je volgende wijziging van dat bestand vraagt ze het weer. Ook de nieuwe poging na een mislukte schrijfactie vraagt het als het bestand intussen buiten de pagina is gewijzigd. Laden en Archiveren in Daginvoer, Code omzetten, afvinken in het Totaaloverzicht en de historie werken zoals voorheen.</li>
+      <li><span class="soort nieuw">nieuw</span><code>instellingen.md</code> loopt nu via dezelfde vaste weg als <code>daginvoer.md</code>: om de beurt, eerst opnieuw lezen, controleren dat je eigen regels en koppen blijven staan, alleen schrijven als er iets verandert, en teruglezen. <b>+ Volgnummer</b> is daarin één stap (lezen, ophogen, schrijven): twee nummers die tegelijk worden uitgegeven, worden nooit hetzelfde, een teller die een andere sessie heeft verhoogd telt mee, en hier vraagt de pagina niets.</li>
+      <li><span class="soort nieuw">nieuw</span>Ontbreekt <code>instellingen.md</code> in een map die je opent, dan komen er geen eigen aantekeningen uit een vorige map meer in het nieuwe bestand. Is <code>instellingen.md</code> buiten de pagina verwijderd, dan maakt de pagina het bij je volgende aanpassing opnieuw aan; is het leeg gemaakt, dan schrijft ze je instellingen er zonder vraag weer in.</li>
+      <li><span class="soort herstel">herstel</span>Paste je een instelling aan en liep in de kwart seconde daarna net de controle op wijzigingen van buitenaf, terwijl <code>instellingen.md</code> intussen buiten de pagina was gewijzigd, dan nam de pagina die versie over en was je aanpassing zonder vraag weg (met de melding <i>opnieuw ingelezen</i>). Nu wacht die controle tot je aanpassing is verwerkt, en krijg je de vraag.</li>
+      <li>Tests: de vraag per keuze bij daginvoer en instellingen in een echte browser (wat er op schijf staat, wat de pagina toont, de statusregel, de waarschuwing bij sluiten, en dat er na Annuleren niets vanzelf gebeurt, ook niet als de controle op de achtergrond loopt terwijl de vraag openstaat), een leeg gemaakt bestand, het volgnummer en de soort instellingen zonder browser. Tien bestaande tests die het stille samenvoegen controleerden, gaan nu over de vraag. Het vastgelegde gedrag van de gegevensacties is bewust opnieuw vastgelegd: de twee situaties met samenvoegen zijn vervangen door zes, één per keuze per bestand; alle andere situaties zijn gelijk gebleven. Hulp bijgewerkt (Daginvoer, Je gegevens, Notities per code).</li>
+      <li>Handmatige actie: geen. Let op de nieuwe werking als je de pagina in twee tabbladen of naast een ander programma gebruikt: wijzigingen worden niet meer vanzelf samengevoegd; je kiest zelf.</li>
+    </ul></div>
     <div class="release"><h2><span class="versie">v286</span> Een notitie met Windows-regeleinden staat niet meer meteen als "Niet opgeslagen" <span class="datum">22 nov 2026</span></h2><ul>
       <li><span class="soort herstel">herstel</span>Opende je een notitie die met Windows-regeleinden is opgeslagen (bijvoorbeeld na bewerken in Kladblok), dan stond er meteen <i>Niet opgeslagen</i> en waarschuwde de pagina bij sluiten, terwijl je niets had gedaan. De pagina vergelijkt de tekst nu zoals het notitieveld hem teruggeeft, zodat alleen een echte wijziging telt. Het bestand zelf wordt niet aangeraakt zolang je niets wijzigt.</li>
       <li><span class="soort herstel">herstel</span>Door dezelfde fout ging er bij zo'n notitie meer mis, en dat is nu ook goed: <b>Code omzetten</b> opende niet (<i>Sla eerst je notities op</i>); een wijziging van buitenaf werd niet overgenomen (<i>nog niet overgenomen</i>); en bij het toevoegen van een bijlage of bij Opslaan zonder wijziging werd de notitie toch opnieuw geschreven, met een extra versie zonder verschil.</li>
@@ -4438,7 +4452,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <p>De licenties staan als gewone tekst in het notitiebestand, onder de kop <code>## Geldigheid licenties</code>, bijvoorbeeld <code>- CRM systeem: 01-01-2026 t/m 31-12-2026 [schijf](G:\Licenties\contract.pdf)</code>. Een regel met alleen een einddatum, zoals <code>- CRM systeem: 31-12-2026</code>, blijft geldig. Een naam van meerdere regels staat in het bestand op één regel, met <code>&lt;br&gt;</code> tussen de regels. Dat een dienst geen licenties heeft, staat er als de regel <code>Geen licenties.</code> In de opgemaakte weergave zie je die kop en de licenties eronder niet, want ze staan al in het onderdeel erboven; daar wijzig je ze. In het bestand blijven ze gewoon staan. Bewerk je notities als markdown (Instellingen), dan kun je ze ook in de tekst zelf wijzigen; het onderdeel erboven volgt. Staat er onder de kop ook andere tekst dan licenties, dan zie je het hele blok wel, zodat die tekst niet onder een verkeerde kop lijkt te staan. Het blok bestaat uit de kop en de regels met licenties (of de regel <code>Geen licenties.</code>) eronder; gewone tekst die daarna volgt, hoort er niet meer bij en blijft altijd staan, ook als je alle licenties weghaalt. De pagina zet het blok onder de titel en de regels die daar direct onder staan, zoals <code>Voortgekomen uit: 482828</code>. Typ je licenties zelf in de tekst, zet ze dan direct onder de kop, zonder lege regel ertussen: daar telt elk opsommingspunt met een dubbele punt. Na een lege regel telt een punt alleen nog als licentie als er achter de dubbele punt niets staat, of een datum (dd-mm-jjjj), <code>start t/m eind</code> of een link. Een ander punt, zoals <code>- Belangrijk: de leverancier bellen</code>, is gewone tekst van jou: de pagina slaat het over en leest verder, zodat een licentie eronder gewoon meetelt. Het blijft staan waar het staat, ook als je een licentie bewerkt, toevoegt, weghaalt of versleept. Gewone tekst die geen opsommingspunt is, of een kop, sluit het blok af. Let op: een eigen punt met een datum achter de dubbele punt (<code>- Deadline: 31-12-2026</code>) telt daar als licentie. Een taak, dus een punt met een afvinkvakje zoals <code>- [ ] Contract tekenen: 31-12-2026</code>, is nooit een licentie, ook niet direct onder de kop: ze blijft in de tekst staan en je vinkt haar daar af. Staat er een eigen punt tussen je licenties, dan zie je in de opgemaakte tekst het hele blok: de kop, de licenties en je eigen punt. Wat je in het kader niet wijzigt, blijft in het bestand staan zoals het er stond: een licentie die je niet aanraakt teken voor teken, en van een licentie die je wel bewerkt elk veld dat je laat zoals het is, ook als daar iets anders staat dan een datum (<code>- Panelbestand: nog opvragen</code>). Ze gaan mee in de versies, de historie en bij code omzetten. Sla op zoals altijd met <kbd>Ctrl</kbd>+<kbd>S</kbd>.</p>
     <p>Het tabblad <b>Licenties</b> (in de zijbalk onder <i>Projecten</i>) toont alle licenties van alle projecten, de eerst verlopende bovenaan, in de groepen <i>Verlopen</i>, <i>Binnen 90 dagen</i>, <i>Later</i> en <i>Zonder datum</i>. Klik op een regel om de notities van dat project te openen. Daarnaast waarschuwt de pagina op twee manieren: het label van de code in Document en Taken krijgt een rode rand (verlopen) of oranje rand (binnen 90 dagen), en bij het openen van een map verschijnt een melding met de knop <i>Bekijk licenties</i>.</p>
     <h4>Volgnummer</h4>
-    <p>De knop <b>+ Volgnummer</b> in Document (en in Bewerken, als dat aan staat) voegt het eerstvolgende vrije nummer in volgens <b>Instellingen → Volgnummer</b> (standaard <code>ONB-999</code>): eerst <code>ONB-001</code>, dan <code>ONB-002</code>, enzovoort. Vrij betekent: hoger dan elk nummer dat al in werkdruk.md staat of al notities heeft. Staat de cursor op een opsommingspunt, dan komt het nummer vooraan dat punt; op een kopregel komt het direct na de #; op een lege regel begint de knop een nieuw punt; begint de regel al met een code, dan gebeurt er niets. Je geeft één volgnummer op. Typ of plak je er meer (met een komma, puntkomma of spatie ertussen), dan blijft alleen het eerste staan; staan er in <code>instellingen.md</code> toch meerdere, dan gebruikt de pagina het eerste en meldt ze dat. In het volgnummer staat precies één reeks negens, zonder <code>?</code> of <code>*</code>. Laat je het leeg of voldoet het daar niet aan (zoals <code>9999-999</code>, met twee reeksen), dan verdwijnt de knop. Een nummer dat ooit is gebruikt komt niet terug: instellingen.md houdt een teller bij (<code>Laatste volgnummer</code>). Bij elk nummer haalt de knop eerst de nieuwste teller van schijf, legt het nieuwe nummer vast in instellingen.md, en voegt het pas daarna in; lukt het vastleggen niet, dan wordt er niets ingevoegd. De knop kijkt bovendien in daginvoer.md, in de versiebestanden en in notities_historie.md.</p>
+    <p>De knop <b>+ Volgnummer</b> in Document (en in Bewerken, als dat aan staat) voegt het eerstvolgende vrije nummer in volgens <b>Instellingen → Volgnummer</b> (standaard <code>ONB-999</code>): eerst <code>ONB-001</code>, dan <code>ONB-002</code>, enzovoort. Vrij betekent: hoger dan elk nummer dat al in werkdruk.md staat of al notities heeft. Staat de cursor op een opsommingspunt, dan komt het nummer vooraan dat punt; op een kopregel komt het direct na de #; op een lege regel begint de knop een nieuw punt; begint de regel al met een code, dan gebeurt er niets. Je geeft één volgnummer op. Typ of plak je er meer (met een komma, puntkomma of spatie ertussen), dan blijft alleen het eerste staan; staan er in <code>instellingen.md</code> toch meerdere, dan gebruikt de pagina het eerste en meldt ze dat. In het volgnummer staat precies één reeks negens, zonder <code>?</code> of <code>*</code>. Laat je het leeg of voldoet het daar niet aan (zoals <code>9999-999</code>, met twee reeksen), dan verdwijnt de knop. Een nummer dat ooit is gebruikt komt niet terug: instellingen.md houdt een teller bij (<code>Laatste volgnummer</code>). Bij elk nummer leest de knop instellingen.md opnieuw, neemt de hoogste teller van schijf en pagina, legt het nieuwe nummer in één keer vast in instellingen.md en voegt het pas daarna in; lukt het vastleggen niet, dan wordt er niets ingevoegd. Zo krijgen twee nummers die tegelijk worden uitgegeven (bijvoorbeeld in twee tabbladen) nooit hetzelfde nummer. Is instellingen.md intussen buiten de pagina gewijzigd, dan vraagt de knop niets: hij verhoogt alleen de teller en de pagina neemt de rest van het bestand over. De knop kijkt bovendien in daginvoer.md, in de versiebestanden en in notities_historie.md.</p>
     <h4>Code omzetten</h4>
     <p>Met <i>Code omzetten…</i> in het notitievenster zet je een code om naar een andere, bijvoorbeeld <code>ONB-002</code> naar <code>482828</code>. Vul de nieuwe code in en klik op <b>Controleren</b>; er verandert dan nog niets. De controle laat zien:</p>
     <ul>
@@ -4522,8 +4536,8 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   <section id="h-dag">
     <h3>Daginvoer</h3>
     <p>Met <b>+ Nieuwe invoer</b> in het tabblad Daginvoer of <b>+ Daginvoer voor deze dag</b> in de dagweergave leg je vrije tekst vast voor een dag (standaard vandaag; markdown mag, <kbd>Ctrl</kbd>+<kbd>Enter</kbd> voegt toe). Per dag kun je zo vaak invoeren als je wilt; elke invoer heeft een tijdstip en kan worden verwijderd. Het tabblad Daginvoer toont de laatste vier weken per dag uitgeklapt en oudere invoer per maand ingeklapt. Staan er werkdruktaken in werkdruk.md, dan staat bij elke dag de link <i>Bekijk dag</i> naar de dagweergave, en bij een dag in het bekeken jaar ook wat de werkdrukberekening over die dag zegt (verlof, feestdag of geplande uren).</p>
-    <p>In het jaar- en maandoverzicht heeft een dag met daginvoer een stip. De dagweergave toont de daginvoer van die dag, met een knop om er iets aan toe te voegen. De tekst staat in <code>daginvoer.md</code> in de gekozen map. Pas je daginvoer.md buiten de pagina aan (of heb je de pagina in twee tabbladen open), dan neemt de pagina dat over, en bij een nieuwe of verwijderde invoer worden beide wijzigingen samengevoegd: er wordt niets overschreven. Een invoer begint in het bestand met een kop als <code>## 2026-11-20 09:15:00</code> (datum en tijd). Tekst die je zelf boven de eerste invoer zet, zoals een titel, een aantekening of een kop zonder tijdstip, staat niet in het tabblad maar blijft bovenaan in het bestand staan. Zonder map blijft de daginvoer in het geheugen en gebruik je Downloaden en Laden. <i>Archiveren</i> zet alle invoeren weg als <code>daginvoer-JJJJ-MM.md</code> en maakt daginvoer.md leeg; je eigen tekst bovenaan blijft staan. Lukt het leegmaken niet, dan zegt de melding dat, gaan de invoeren weer uit het archief en is er niets gewijzigd.</p>
-    <p>Kan de pagina daginvoer.md niet schrijven (bijvoorbeeld omdat een ander programma het bestand bezet houdt), dan zie je een melding en staat je invoer alleen in de pagina. De pagina probeert het om de paar seconden opnieuw en waarschuwt als je de pagina sluit voordat het gelukt is. Staat er na het schrijven iets anders in het bestand dan bedoeld, dan probeert de pagina het meteen één keer opnieuw en zet ze daarna de vorige inhoud terug; ook dan zie je een melding en blijft je invoer in de pagina staan tot het schrijven lukt.</p>
+    <p>In het jaar- en maandoverzicht heeft een dag met daginvoer een stip. De dagweergave toont de daginvoer van die dag, met een knop om er iets aan toe te voegen. De tekst staat in <code>daginvoer.md</code> in de gekozen map. Pas je daginvoer.md buiten de pagina aan (of heb je de pagina in twee tabbladen open), dan neemt de pagina dat over. Voeg je een invoer toe of verwijder je er een terwijl het bestand intussen buiten de pagina is gewijzigd, dan vraagt de pagina wat je wilt, net als bij werkdruk.md: <i>Mijn tekst opslaan</i> (de daginvoer zoals de pagina hem toont, over de versie van buiten heen), <i>daginvoer.md van schijf laden</i> (de pagina neemt het bestand over en je eigen wijziging vervalt) of <i>Annuleren</i> (er wordt niets geschreven; je wijziging blijft in de pagina staan, de pagina waarschuwt als je haar sluit en vraagt het opnieuw bij je volgende wijziging). Bij Laden en Archiveren vraagt de pagina dit niet: daar heb je al bevestigd. Een invoer begint in het bestand met een kop als <code>## 2026-11-20 09:15:00</code> (datum en tijd). Tekst die je zelf boven de eerste invoer zet, zoals een titel, een aantekening of een kop zonder tijdstip, staat niet in het tabblad maar blijft bovenaan in het bestand staan. Zonder map blijft de daginvoer in het geheugen en gebruik je Downloaden en Laden. <i>Archiveren</i> zet alle invoeren weg als <code>daginvoer-JJJJ-MM.md</code> en maakt daginvoer.md leeg; je eigen tekst bovenaan blijft staan. Lukt het leegmaken niet, dan zegt de melding dat, gaan de invoeren weer uit het archief en is er niets gewijzigd.</p>
+    <p>Kan de pagina daginvoer.md niet schrijven (bijvoorbeeld omdat een ander programma het bestand bezet houdt), dan zie je een melding en staat je invoer alleen in de pagina. De pagina probeert het om de paar seconden opnieuw en waarschuwt als je de pagina sluit voordat het gelukt is. Staat er na het schrijven iets anders in het bestand dan bedoeld, dan probeert de pagina het meteen één keer opnieuw en zet ze daarna de vorige inhoud terug; ook dan zie je een melding en blijft je invoer in de pagina staan tot het schrijven lukt. Is daginvoer.md intussen buiten de pagina gewijzigd, dan vraagt de pagina bij die nieuwe poging eerst wat je wilt (zie hierboven).</p>
   </section>
 
   <section id="h-hist">
@@ -4606,7 +4620,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <p>De pagina werkt volledig op je eigen computer: ze maakt geen enkele netwerkverbinding en bewaart niets in de browser. Tabbladen van dezelfde browser laten elkaar alleen weten welke map ze open hebben, om te waarschuwen als dat dezelfde is. Alles staat in de map die je kiest:</p>
     <ul>
       <li><code>werkdruk.md</code>: je takenlijst en werkoverzicht. De pagina schrijft erin als je opslaat of in het document een taak afvinkt.</li>
-      <li><code>instellingen.md</code>: je uren per werkdag, parttimedag, verlof, geboorteverlof, feestdagen, verlofplanning, thema, stijl, starttabblad, de zijbalk (in- of uitgeklapt), de weergave van herkende tijd in taken, het vastleggen van externe wijzigingen, en de codes voor notities met het volgnummer. De pagina schrijft erin zodra je iets wijzigt. Lukt dat niet, dan zie je een melding, probeert de pagina het om de paar seconden opnieuw en waarschuwt ze als je de pagina sluit voordat het gelukt is. Het is gewone tekst; pas je het met de hand aan, dan neemt de pagina dat meteen of binnen enkele seconden over. Je kunt er ook eigen aantekeningen in zetten: een regel die de pagina niet gebruikt, blijft bij het opslaan onder dezelfde kop staan, en een eigen kop met tekst komt onderaan. Regels die de pagina wel gebruikt (zoals <code>- Uren per werkdag: 9</code>) schrijft ze zelf opnieuw, met de waarde uit Instellingen.</li>
+      <li><code>instellingen.md</code>: je uren per werkdag, parttimedag, verlof, geboorteverlof, feestdagen, verlofplanning, thema, stijl, starttabblad, de zijbalk (in- of uitgeklapt), de weergave van herkende tijd in taken, het vastleggen van externe wijzigingen, en de codes voor notities met het volgnummer. De pagina schrijft erin zodra je iets wijzigt. Lukt dat niet, dan zie je een melding, probeert de pagina het om de paar seconden opnieuw en waarschuwt ze als je de pagina sluit voordat het gelukt is. Het is gewone tekst; pas je het met de hand aan, dan neemt de pagina dat meteen of binnen enkele seconden over. Pas je in Instellingen iets aan terwijl het bestand intussen buiten de pagina is gewijzigd, dan vraagt de pagina wat je wilt: <i>Mijn tekst opslaan</i> (je instellingen zoals ze in de pagina staan, met de eigen aantekeningen zoals de pagina ze het laatst las), <i>instellingen.md van schijf laden</i> (je aanpassing vervalt) of <i>Annuleren</i> (er wordt niets geschreven; je aanpassing blijft in de pagina, bovenaan het venster Instellingen staat dat ze nog niet in instellingen.md staat, de pagina waarschuwt als je haar sluit en vraagt het opnieuw bij je volgende aanpassing). Is het bestand buiten de pagina leeg gemaakt, dan schrijft de pagina je instellingen er zonder vraag weer in. Je kunt er ook eigen aantekeningen in zetten: een regel die de pagina niet gebruikt, blijft bij het opslaan onder dezelfde kop staan, en een eigen kop met tekst komt onderaan. Regels die de pagina wel gebruikt (zoals <code>- Uren per werkdag: 9</code>) schrijft ze zelf opnieuw, met de waarde uit Instellingen.</li>
       <li><code>werkdruk_historie.md</code>, <code>instellingen_historie.md</code> en <code>daginvoer.md</code>: zie Historie en Daginvoer. Lukt het schrijven niet, dan gaat het zoals bij instellingen.md: een melding, om de paar seconden een nieuwe poging, en een waarschuwing als je de pagina sluit voordat het gelukt is.</li>
       <li>De map <code>notities</code> met per code <code>123456.md</code> (de notities) en <code>123456_versies.md</code> (alle opgeslagen versies), en <code>notities_historie.md</code> met de verschillen: zie Notities per code.</li>
     </ul>
@@ -5206,8 +5220,10 @@ WIB.gegevens = (function () {
     const klaar = function () { if (!--st.wacht[pad]) delete st.wacht[pad]; };
     return rij(pad, taak).then(function (u) {
       klaar();
-      if (u.ok) delete st.open[pad];
-      else if (OPEN.indexOf(u.soort) >= 0 && opties.onthoud !== false) st.open[pad] = { uitkomst: u, opnieuw: opnieuw };
+      // v287: een geannuleerde vraag blijft open; na "van schijf laden" is er niets meer open
+      const geannuleerd = u.soort === 'conflict' && u.reden === 'geannuleerd';
+      if (u.ok || (u.soort === 'conflict' && u.reden === 'van-schijf')) delete st.open[pad];
+      else if ((OPEN.indexOf(u.soort) >= 0 || geannuleerd) && opties.onthoud !== false) st.open[pad] = { uitkomst: u, opnieuw: opnieuw };
       return u;
     }, function (e) { klaar(); throw e; });
   }
@@ -5268,8 +5284,11 @@ WIB.gegevens = (function () {
   // - opties.basis: { tekst } of { kenmerk } van wat de pagina zag toen de gebruiker begon, null (niet controleren) of een
   //   functie die dat in de wachtrij geeft; zonder basis geldt gezien(pad).
   // - opties.bijAnders (de schijf wijkt af van de basis): 'weiger' (standaard; uitkomst conflict), 'samenvoegen' (met
-  //   voegSamen van de soort; mijn = wijzig op de basis), of een functie (schijf, basis) -> belofte op 'door', 'stop' of
-  //   { tekst }; die is de vraag aan de gebruiker en loopt binnen de beurt van het bestand.
+  //   voegSamen van de soort; mijn = wijzig op de basis), of een functie (schijf, basis) -> belofte op 'door', 'stop',
+  //   { tekst }, of (v287) 'vervang', 'laden' of 'annuleer'; die is de vraag aan de gebruiker en loopt binnen de beurt van
+  //   het bestand. vervang: wijzig(nu) wordt geschreven zonder controle op belofte, eigen tekst en leegrem (de gebruiker
+  //   koos zijn eigen versie); laden: conflict met reden van-schijf, en de schijf geldt als gezien; annuleer: conflict met
+  //   reden geannuleerd, dat in openstaand() blijft staan maar door probeerOpnieuw() wordt overgeslagen.
   // - opties.leegrem: 'aan' (standaard) of 'bevestigd'; opties.maak: het bestand mag worden aangemaakt; opties.onthoud: false =
   //   een fout komt niet in openstaand(); opties.volg: [{ pad, tekst(oud, nieuw, tijd), voorvoegsel }], na het schrijven
   //   achteraan bijgeschreven (mislukt dat, dan blijft het hoofdbestand staan en staat de fout in volg); opties.tijd: een
@@ -5291,7 +5310,7 @@ WIB.gegevens = (function () {
     // buiten de pagina gewijzigd?
     let basis = typeof opties.basis === 'function' ? opties.basis() : opties.basis;
     if (basis === undefined) basis = st.gezien[pad] || null;
-    let nieuw = null, samengevoegd = false;
+    let nieuw = null, samengevoegd = false, vervang = false;
     if (basis && (basis.tekst !== undefined ? basis.tekst !== nu.tekst : basis.kenmerk !== nu.kenmerk)) {
       const ba = opties.bijAnders || 'weiger';
       if (ba === 'samenvoegen' && typeof soort.voegSamen === 'function' && basis.tekst !== undefined) {
@@ -5305,6 +5324,14 @@ WIB.gegevens = (function () {
       } else if (typeof ba === 'function') {
         const a = await ba(zoals, basis);
         if (a && typeof a === 'object' && typeof a.tekst === 'string') { nieuw = { tekst: a.tekst, model: soort.lees(a.tekst) }; samengevoegd = true; }
+        // v287 (keuze 8): de antwoorden op de vraag. vervang = de stand van de pagina bewust over de versie van buiten
+        // (geen controle op belofte, eigen tekst en leegrem); laden = de pagina neemt de schijf over (die geldt dan als
+        // gezien); annuleer = niets schrijven, de wijziging blijft open zonder vanzelf opnieuw te proberen
+        else if (a === 'vervang') vervang = true;
+        else if (a === 'laden') {
+          st.gezien[pad] = { tekst: nu.tekst, kenmerk: nu.kenmerk }; st.kenmerk[pad] = nu.kenmerk;
+          return uitkomst('conflict', pad, Object.assign({ reden: 'van-schijf' }, zoals));
+        } else if (a === 'annuleer') return uitkomst('conflict', pad, Object.assign({ reden: 'geannuleerd' }, zoals));
         else if (a !== 'door') return uitkomst('conflict', pad, zoals);
       } else return uitkomst('conflict', pad, zoals);
     }
@@ -5317,7 +5344,7 @@ WIB.gegevens = (function () {
     }
     const bedoeld = { tekst: nieuw.tekst, model: nieuw.model };
     // klopt de wijziging? de belofte, de eigen tekst, niet (bijna) leeg
-    if (nu.bestaat) {
+    if (nu.bestaat && !vervang) {
       const bel = typeof belofte === 'function' ? belofte(zoals) : belofte;
       const vrij = bel === 'vrij' || (!!bel && bel.soort === 'vrij');
       let reden = '';
@@ -5455,6 +5482,7 @@ WIB.gegevens = (function () {
   // bijWijziging({ ok: true, bestaat: true, tekst, model, kenmerk, gewijzigdOp }) aan; bij een leesfout bijWijziging(uitkomst
   // leesfout), één keer per kenmerk als de fout er een heeft (geen UTF-8). Een bestand dat er niet (meer) is, wordt niet
   // doorgegeven. Een controle die al loopt, wordt niet nog eens gestart; is intussen een andere opslag gekozen, dan niets.
+  // Loopt of wacht er een bewerking van het bestand, dan gebeurt er ook niets (v287).
   const bewaakt = {};
   function bewaak(pad, bijWijziging) { bewaakt[pad] = bijWijziging; }
   function controleer(pad) {
@@ -5464,6 +5492,10 @@ WIB.gegevens = (function () {
     const o = actief, st = staat(o), bij = bewaakt[pad];
     if (!bij || (o.soort === 'geheugen' && !o.schrijfbaar(pad))) return Promise.resolve(false);
     if (st.controle[pad]) return st.controle[pad];
+    // v287: loopt of wacht er een bewerking van dit bestand (ze kan op de vraag aan de gebruiker wachten), dan nu niet: die
+    // bewerking leest het bestand zelf. Een controle die erachter in de wachtrij kwam, gaf na Annuleren de versie van buiten
+    // alsnog aan de pagina door, en dan was de eigen wijziging weg.
+    if (st.wacht[pad]) return Promise.resolve(false);
     const p = rij(pad, async function () {
       let r;
       try { r = await o.lees(pad, { alsAnders: st.kenmerk[pad] }); } catch (e) {
@@ -5489,10 +5521,11 @@ WIB.gegevens = (function () {
     Object.keys(st.wacht).forEach(function (p) { if (!st.open[p]) uit.push({ pad: p, soort: 'wacht', reden: '', wacht: true }); });
     return uit;
   }
-  // probeerOpnieuw({ opslag }): de mislukte bewerkingen opnieuw, elk zoals ze waren gegeven; geeft hun uitkomsten
+  // probeerOpnieuw({ opslag }): de mislukte bewerkingen opnieuw, elk zoals ze waren gegeven; geeft hun uitkomsten. Een
+  // geannuleerde vraag (v287) niet: die komt pas terug bij een nieuwe wijziging door de gebruiker.
   function probeerOpnieuw(opties) {
     const st = staat((opties && opties.opslag) || actief);
-    return Promise.all(Object.keys(st.open).map(function (p) { return st.open[p].opnieuw(); }));
+    return Promise.all(Object.keys(st.open).filter(function (p) { return st.open[p].uitkomst.reden !== 'geannuleerd'; }).map(function (p) { return st.open[p].opnieuw(); }));
   }
 
   return { maakWachtrij, voegToeAanBestand, samen, maakMapOpslag, maakGeheugenOpslag, zetOpslag, meldSoort, lees, gezien, bewerk, voegToe, maakNieuw, verwijder, kopieer, lijst, leesAlle, bewaak, controleer, openstaand, probeerOpnieuw, uitleg };
@@ -8066,6 +8099,8 @@ WIB.kern.document = (function () {
   // opties.leegrem: 'bevestigd' (standaard; de gebruiker bevestigde verwijderen, Laden of archiveren) of 'aan';
   // opties.onthoud: false = een fout komt niet in WIB.gegevens.openstaand() (archiveren zet zelf terug).
   // opties.belofte: een andere belofte (toevoegen).
+  // opties.bijAnders (v287, keuze 8): de vraag aan de gebruiker (zie WIB.gegevens.bewerk) in plaats van samenvoegen;
+  // archiveren voegt nog wel samen (de gebruiker bevestigde daar al).
   function daginvoerOpslaan(stand, basis, opties) {
     opties = opties || {};
     const tekstVan = function (s) { return DAGINVOER.schrijf(s); };
@@ -8077,12 +8112,12 @@ WIB.kern.document = (function () {
         return { soort: 'blok', blok: voor.filter(function (x) { return na.indexOf(x) < 0; }).concat(na.filter(function (x) { return voor.indexOf(x) < 0; })) };
       },
       function () { const s = stand(); return { tekst: tekstVan(s), model: s }; },
-      { basis: function () { const b = basis(); return b === undefined ? null : { tekst: b }; }, bijAnders: 'samenvoegen', maak: true,
+      { basis: function () { const b = basis(); return b === undefined ? null : { tekst: b }; }, bijAnders: opties.bijAnders || 'samenvoegen', maak: true,
         leegrem: opties.leegrem || 'bevestigd', onthoud: opties.onthoud });
   }
   // een invoer toevoegen: elke invoer die op schijf staat, blijft ongewijzigd staan (belofte toevoegen), en de leegrem staat
   // aan. Alleen als er in de pagina verder niets wacht om geschreven te worden (dat beslist het documentdeel).
-  function daginvoerToevoegen(stand, basis) { return daginvoerOpslaan(stand, basis, { belofte: 'toevoegen', leegrem: 'aan' }); }
+  function daginvoerToevoegen(stand, basis, bijAnders) { return daginvoerOpslaan(stand, basis, { belofte: 'toevoegen', leegrem: 'aan', bijAnders: bijAnders }); }
   // archiveren: leegmaken na bevestiging, als stap van WIB.gegevens.samen (die zet bij een fout zelf terug)
   function daginvoerArchiveren(stand, basis) { return daginvoerOpslaan(stand, basis, { onthoud: false }); }
   // De hele daginvoer bewust vervangen door tekst (een tekst, of een functie die hem in de wachtrij geeft). weiger: was
@@ -9342,9 +9377,12 @@ WIB.kern.document = (function () {
   // Conflict: het bestand is op schijf gewijzigd terwijl hier werd bewerkt
   const conflict = document.getElementById('conflict');
   function bronNaam() { return bron && bron.naam ? bron.naam : 'het bestand'; }
+  // opties.naam (v287): een ander bestand dan de bron (daginvoer.md, instellingen.md).
+  // v288: de focus staat op Annuleren, zodat Enter niets overschrijft; is er geen knop Annuleren (de vragen van de bewaking),
+  // dan op de eerste knop, die niets op schijf verandert (net als Escape).
   function vraagConflict(opties) {
     opties = opties || {};
-    const naam = bronNaam();
+    const naam = opties.naam || bronNaam();
     document.getElementById('conflict-titel').textContent = 'De bron ' + naam + ' is ondertussen gewijzigd';
     document.getElementById('conflict-tekst').textContent = opties.tekst || ('Een ander programma heeft ' + naam + ' opgeslagen nadat je hier begon te bewerken. Welke versie wil je houden?');
     function zetKeuze(id, k, standaard) {
@@ -9363,8 +9401,17 @@ WIB.kern.document = (function () {
       document.getElementById('conflict-schijf').onclick = function () { sluit('schijf'); };
       document.getElementById('conflict-annuleer').onclick = function () { sluit('annuleer'); };
       // Escape = annuleren; is er geen knop Annuleren, dan = mijn wijzigingen behouden (de veilige keuze)
-      WIB.venster.open(conflict, { sluit: function () { sluit(opties.zonderAnnuleren ? 'mijn' : 'annuleer'); }, focus: '#conflict-mijn' });
+      WIB.venster.open(conflict, { sluit: function () { sluit(opties.zonderAnnuleren ? 'mijn' : 'annuleer'); }, focus: opties.zonderAnnuleren ? '#conflict-mijn' : '#conflict-annuleer' });
     });
+  }
+  // v287 (keuze 8): wil de pagina daginvoer.md of instellingen.md schrijven en staat er op schijf iets anders dan ze het laatst
+  // kende, dan vraagt ze het, met dezelfde drie keuzes als bij werkdruk.md na Ctrl+S (Esc = Annuleren).
+  // Geeft 'mijn', 'schijf' of 'annuleer'. Eén vraag tegelijk: een tweede wacht tot de eerste is beantwoord.
+  let bestandVraag = Promise.resolve();
+  function vraagBestand(naam) {
+    const deze = bestandVraag.then(function () { return vraagConflict({ naam: naam }); });
+    bestandVraag = deze.catch(function () { /* de volgende vraag gaat gewoon door */ });
+    return deze;
   }
   function slaOp(tekst) {
     if (!kanSchrijven()) {
@@ -9729,22 +9776,28 @@ WIB.kern.document = (function () {
      ze het opnieuw: bij de volgende wijziging en bij elke controle op de achtergrond (zoals bij instellingen.md, v207). */
   const nietGeschreven = {};   // bestandsnaam -> { melding, opnieuw }
   function schrijfMislukt(naam, e, opnieuw) {
-    const reden = WIB.hulp.reden(e), eerder = nietGeschreven[naam];
+    const reden = WIB.hulp.reden(e), eerder = nietGeschreven[naam] && !nietGeschreven[naam].geannuleerd ? nietGeschreven[naam] : null;
     nietGeschreven[naam] = { melding: eerder ? eerder.melding : naam + ' kon niet worden bijgewerkt: ' + reden + '. De wijziging staat alleen in de pagina; de pagina probeert het opnieuw en waarschuwt als je de pagina sluit.', opnieuw: opnieuw };
     if (!eerder) meld(nietGeschreven[naam].melding);
     return reden;
   }
+  // v287: de vraag bij een wijziging van buitenaf is met Annuleren beantwoord. De wijziging staat alleen in de pagina (de
+  // pagina waarschuwt bij sluiten), maar de nieuwe poging hieronder slaat het bestand over tot je het zelf weer wijzigt.
+  // nr: de wijziging door de gebruiker waarbij is geannuleerd.
+  function schrijfGeannuleerd(naam, nr, opnieuw) { nietGeschreven[naam] = { melding: '', opnieuw: opnieuw, geannuleerd: nr }; }
   function schrijfGelukt(naam, stil) {
     const eerder = nietGeschreven[naam];
     if (!eerder) return;
     delete nietGeschreven[naam];
-    if (window.WIB.werkdruk) WIB.werkdruk.meldingWeg(eerder.melding);
+    if (window.WIB.werkdruk && eerder.melding) WIB.werkdruk.meldingWeg(eerder.melding);
     if (!stil) meld(naam + ' is alsnog bijgewerkt.', true);
   }
   function vergeetMislukt() { Object.keys(nietGeschreven).forEach(function (n) { schrijfGelukt(n, true); }); }
   WIB.bewaking.voegToe(function () {
     if (!hist.map || document.hidden) return;
-    Object.keys(nietGeschreven).forEach(function (n) { nietGeschreven[n].opnieuw(); });
+    // v287: niet na Annuleren, en niet zolang er voor dat bestand nog een schrijfactie loopt of wacht (die kan op de vraag wachten)
+    const wacht = WIB.gegevens.openstaand().filter(function (x) { return x.wacht; }).map(function (x) { return x.pad; });
+    Object.keys(nietGeschreven).forEach(function (n) { if (!nietGeschreven[n].geannuleerd && wacht.indexOf(n) < 0) nietGeschreven[n].opnieuw(); });
   });
   // De tekst van een historiebestand op schijf plus de vermeldingen die nog niet geschreven konden worden (log.wacht)
   function metWacht(schijf, log) { return log.wacht ? schijf + (schijf && !/\n$/.test(schijf) ? '\n' : '') + log.wacht : schijf; }
@@ -10110,11 +10163,11 @@ WIB.kern.document = (function () {
           stap = schrijfNieuw(dir, 'werkdruk.md', NIEUW_MD)
             .then(function () { aangemaakt.push('werkdruk.md'); });
         }
+        // v287: instellingen.md loopt via de gegevenslaag; het werkdrukdeel krijgt alleen de tekst die nu op schijf staat
         return stap.then(function () {
-          if (r[3] !== null) return dir.getFileHandle('instellingen.md');
-          return schrijfNieuw(dir, 'instellingen.md', window.WIB.werkdruk ? WIB.werkdruk.instellingenTekst() : '').then(function (h) { aangemaakt.push('instellingen.md'); return h; });
-        }).then(function (setH) {
-          return setH.getFile().then(function (f) { return { setH: setH, setLM: f.lastModified, r: r }; });
+          if (r[3] !== null) return { schijf: r[3], r: r };
+          const t = window.WIB.werkdruk ? WIB.werkdruk.nieuweInstellingenTekst() : '';
+          return schrijfNieuw(dir, 'instellingen.md', t).then(function () { aangemaakt.push('instellingen.md'); return { schijf: t, r: r }; });
         });
       })
       .then(function (o) {
@@ -10123,7 +10176,7 @@ WIB.kern.document = (function () {
         hist.map = dir;
         WIB.gegevens.zetOpslag(WIB.gegevens.maakMapOpslag(dir));   // v284: de gegevenslaag schrijft voortaan in deze map
         vergeetMislukt();   // v281: alles is opnieuw van schijf gelezen
-        if (window.WIB.werkdruk) WIB.werkdruk.zetMap({ name: dir.name, setHandle: o.setH, setLM: o.setLM, readonly: false, tekst: r[3] });
+        if (window.WIB.werkdruk) WIB.werkdruk.zetMap({ name: dir.name, inMap: true, readonly: false, tekst: r[3], schijf: o.schijf });
         zetHistorieTekst('werkdruk', r[0] || '');
         zetHistorieTekst('instellingen', r[1] || '');
         zetHistorieTekst('notities', r[5] || '');
@@ -10178,7 +10231,7 @@ WIB.kern.document = (function () {
       verder('Het document opbouwen…');
       if (hist.map) { hist.map = null; WIB.gegevens.zetOpslag(WIB.gegevens.maakGeheugenOpslag()); tabMapGewijzigd(); }   // v284: niet meer in de map schrijven
       vergeetMislukt();   // v281
-      if (window.WIB.werkdruk) WIB.werkdruk.zetMap({ name: mapNaam, setHandle: null, readonly: true, tekst: r[1] });
+      if (window.WIB.werkdruk) WIB.werkdruk.zetMap({ name: mapNaam, inMap: false, readonly: true, tekst: r[1] });
       zetHistorieTekst('werkdruk', r[2] || ''); zetHistorieTekst('instellingen', r[3] || ''); zetHistorieTekst('notities', r[5] || ''); zetDaginvoerTekst(r[4] || '');
       if (window.WIB.notities) WIB.notities.zetBestanden(files);
       histStatusBijwerken(); dagStatusBijwerken();
@@ -10404,8 +10457,22 @@ WIB.kern.document = (function () {
   // na het schrijven terug (wijkt dat af: één nieuwe poging, daarna de oude inhoud terug) en schrijft niet als er niets
   // verandert. actie: 'toevoegen' (dan staat de leegrem aan), 'archiveren' (een stap van samen), of niets (verwijderen, Laden,
   // een nieuwe poging: de gebruiker heeft bevestigd).
+  // v287 (keuze 8): is daginvoer.md buiten de pagina gewijzigd terwijl je een invoer toevoegt of verwijdert (of bij de nieuwe
+  // poging na een schrijffout), dan voegt de pagina niet meer stil samen maar vraagt ze het (vraagBestand). Na Annuleren
+  // vraagt ze het niet vanzelf opnieuw: een schrijfactie die van vóór het annuleren stamt (nr), annuleert stil mee; de vraag
+  // komt terug bij je volgende wijziging.
+  let dagWijzigNr = 0;
+  function dagVraag(nr) {
+    return function () {
+      const open = nietGeschreven['daginvoer.md'];
+      if (open && open.geannuleerd && nr <= open.geannuleerd) return Promise.resolve('annuleer');
+      return vraagBestand('daginvoer.md').then(function (k) { return k === 'mijn' ? 'vervang' : k === 'schijf' ? 'laden' : 'annuleer'; });
+    };
+  }
   function schrijfDag(ruw, opnieuw, actie) {
     dagInvoer.tekst = typeof ruw === 'string' ? ruw : dagInvoer.bom + serialiseerDaginvoer(dagInvoer.items, dagInvoer.voorloop);
+    if (!opnieuw) dagWijzigNr++;
+    const nr = dagWijzigNr, vraag = dagVraag(nr);
     if (!opnieuw && window.WIB.werkdruk) WIB.werkdruk.daginvoerGewijzigd();   // een nieuwe poging verandert niets aan wat je ziet
     if (!hist.map) {
       if (alleenDownload()) WIB.hulp.nietInMap('daginvoer.md', dagInvoer.tekst);   // v141
@@ -10415,9 +10482,15 @@ WIB.kern.document = (function () {
     const stand = function () { return { bom: dagInvoer.bom, voorloop: dagInvoer.voorloop, items: dagInvoer.items.slice() }; };
     const basis = function () { return dagInvoer.basis; };
     const bezig = typeof ruw === 'string' ? daginvoerVervangen(function () { return dagInvoer.tekst; }, basis, false)   // bewust vervangen: niet samenvoegen
-      : actie === 'toevoegen' && !nietGeschreven['daginvoer.md'] ? daginvoerToevoegen(stand, basis)
-      : actie === 'archiveren' ? daginvoerArchiveren(stand, basis) : daginvoerOpslaan(stand, basis);
+      : actie === 'toevoegen' && !nietGeschreven['daginvoer.md'] ? daginvoerToevoegen(stand, basis, vraag)
+      : actie === 'archiveren' ? daginvoerArchiveren(stand, basis) : daginvoerOpslaan(stand, basis, { bijAnders: vraag });
     return bezig.then(function (u) {
+      if (u.soort === 'conflict' && u.reden === 'van-schijf') {   // v287: van schijf laden; je wijziging hier vervalt
+        zetDaginvoerTekst(u.tekst, true); schrijfGelukt('daginvoer.md', true);
+        dagStatusBijwerken('daginvoer.md is van schijf geladen; je wijziging hier is vervallen.');
+        return;
+      }
+      if (u.soort === 'conflict' && u.reden === 'geannuleerd') { const e = new Error('daginvoer.md is buiten de pagina gewijzigd'); e.geannuleerd = true; e.nr = nr; throw e; }
       const m = u.ok ? u : u.bedoeld;
       if (u.samengevoegd && m) {   // v268: ook de eigen tekst bovenaan en de BOM zoals die nu op schijf staan
         dagInvoer.items = m.model.items; dagInvoer.voorloop = m.model.voorloop; dagInvoer.bom = m.model.bom; dagInvoer.tekst = m.tekst;
@@ -10431,6 +10504,11 @@ WIB.kern.document = (function () {
   }
   function schrijfDaginvoer(ruw, opnieuw, actie) {
     return schrijfDag(ruw, opnieuw, actie).then(function () { return true; }, function (e) {
+      if (e && e.geannuleerd) {   // v287: Annuleren gekozen
+        schrijfGeannuleerd('daginvoer.md', e.nr, function () { schrijfDaginvoer(undefined, true); });
+        dagStatusBijwerken('daginvoer.md is buiten de pagina gewijzigd; je wijziging is niet opgeslagen en staat alleen in de pagina. Bij je volgende wijziging vraagt de pagina het opnieuw.');
+        return false;
+      }
       const reden = schrijfMislukt('daginvoer.md', e, function () { schrijfDaginvoer(undefined, true); });
       dagStatusBijwerken('daginvoer.md kon niet worden geschreven: ' + reden + '. De wijziging staat alleen in de pagina.');
       return false;
@@ -13633,6 +13711,7 @@ WIB.kern.document = (function () {
     labelPlekken: function () { return docEd.regelBlokken(); },
     gooiConceptWeg: gooiConceptWeg,
     legInstellingenVast: legInstellingenVast,
+    vraagBestand: vraagBestand,   // v287
     herlabel: function () { if (bron && laatsteTekst !== null && laatsteTekst !== undefined) toon(bron.naam, laatsteTekst, true); },
     legNotitieVast: function (oud, nieuw, nr, naam) { planTotaal(); return voegHistorieToe('notities', maakVermelding(oud || '', nieuw || '', naam || 'notities/' + nr + '.md', false)); },
     tekst: function () { return laatsteTekst || ''; },
@@ -14278,7 +14357,86 @@ WIB.kern.werkdruk = (function () {
     return !!String(concept || '').trim() || !String(bron || '').trim() || !!gewijzigd;
   }
 
-  return { conceptBruikbaar, MENU_KEUZE, MENU_NAAM, tabUit, STIJLEN, STIJL_LABEL, TAB_NAMEN, DEFAULT_SETTINGS, jaarovergangPlan, jaarovergangToepassen, DEFAULT_SOORTEN, soortenUitTekst, soortenAlsTekst, grensUitTekst, grensAlsTekst, soortTeVeel, soortTeWeinig, focusPastNiet, deriveSettings, normalizeVerlof, normalizeSettings, fmtNum, serializeSettings, parseSettingsText, codeSleutel, codeRegex, volgDelen, volgendeCode, volgPlek, dagStatus, geboorteWeken, niceStep, grafiekAs, wanneerNietHerkend, stukkenOpScherm, TIJD_KEUZE, TIJD_LABEL, taakDelenRuw, eenVolgnummer };
+  /* ---------- v287: instellingen.md als bestandssoort van de gegevenslaag (WIB.gegevens) ----------
+     Model: { settings, verlof } (parseSettingsText). Eenheid voor de belofte: één instelling (naam en waarde, na het
+     normaliseren) of één ingeplande verlofdag; zo maakt de vorm van een regel ("Uren per werkdag: 8" of "- Uren per werkdag: 8")
+     geen verschil. Wat de pagina niet gebruikt: de eigen regels en koppen (v111). eigenRegelsTerug zet eigen regels terug
+     onder dezelfde kop, maar in de volgorde van de koppen van de pagina; daarom telt per kop de volgorde van de eigen regels,
+     en niet de volgorde van de koppen onderling. Koppen en uitlegregels die de pagina zelf schrijft, zijn geen eigen tekst. */
+  const INST_PAD = 'instellingen.md';
+  const KOP_RE = /^\s{0,3}#{1,6}\s+(.*?)\s*#*\s*$/;
+  let skelet = null;
+  // de koppen en uitlegregels die de pagina zelf schrijft (kleine letters, zonder witruimte eromheen)
+  function instSkelet() {
+    if (skelet) return skelet;
+    const t = serializeSettings(normalizeSettings({}), {}, ''), p = parseSettingsText(t);
+    skelet = { regels: new Set(), koppen: new Set() };
+    t.split('\n').forEach(function (r, i) {
+      const m = KOP_RE.exec(r);
+      if (m) skelet.koppen.add(m[1].trim().toLowerCase());
+      else if (r.trim() && !p.gebruikt.has(i)) skelet.regels.add(r.trim().toLowerCase());
+    });
+    return skelet;
+  }
+  function instVreemd(t) {
+    const p = parseSettingsText(t), sk = instSkelet(), per = {};
+    let kop = '';
+    const zet = function (r) { (per[kop] = per[kop] || []).push(r.trim()); };
+    String(t).replace(/^﻿/, '').split(/\r?\n/).forEach(function (r, i) {
+      const m = KOP_RE.exec(r);
+      if (m) { kop = m[1].trim().toLowerCase(); if (!sk.koppen.has(kop)) zet(r); return; }
+      if (r.trim() && !p.gebruikt.has(i) && !sk.regels.has(r.trim().toLowerCase())) zet(r);
+    });
+    return Object.keys(per).sort().map(function (k) { return k + '\n' + per[k].join('\n'); });
+  }
+  function instEenheden(t) {
+    const p = parseSettingsText(t), uit = [];
+    Object.keys(p.settings).sort().forEach(function (k) { uit.push(k + ': ' + JSON.stringify(p.settings[k])); });
+    Object.keys(p.verlof).sort().forEach(function (y) { Object.keys(p.verlof[y]).sort().forEach(function (d) { uit.push('verlof ' + d + ': ' + p.verlof[y][d]); }); });
+    return uit;
+  }
+  const INSTELLINGEN = {
+    past: function (pad) { return pad === INST_PAD; },
+    lees: function (t) { const p = parseSettingsText(t); return { settings: p.settings, verlof: p.verlof }; },
+    schrijf: function (m, vorige) { return serializeSettings(m.settings, m.verlof, vorige); },
+    vreemd: instVreemd,
+    eenheden: instEenheden
+  };
+  WIB.gegevens.meldSoort('instellingen', INSTELLINGEN);
+  // De instellingen van de pagina opslaan. tekst() geeft de tekst zoals de pagina hem nu zou schrijven (serializeSettings,
+  // pas in de wachtrij opgebouwd: een reeks snelle wijzigingen eindigt dan in ongewijzigd); basis() wat de pagina het laatst
+  // van schijf kende ({ tekst }, of null: niet controleren); bijAnders: de vraag aan de gebruiker (zie WIB.gegevens.bewerk).
+  // Belofte: alleen de instellingen die tussen basis en de nieuwe tekst verschillen, mogen veranderen.
+  function instellingenOpslaan(tekst, basis, bijAnders) {
+    let nieuw = '';
+    return WIB.gegevens.bewerk(INST_PAD,
+      function (schijf) {
+        const b = basis() || schijf, voor = instEenheden(b.tekst), na = instEenheden(nieuw);
+        return { soort: 'blok', blok: voor.filter(function (x) { return na.indexOf(x) < 0; }).concat(na.filter(function (x) { return voor.indexOf(x) < 0; })) };
+      },
+      function () { nieuw = tekst(); return { tekst: nieuw }; },
+      { basis: basis, bijAnders: bijAnders, maak: true, leegrem: 'aan' });
+  }
+  // Een volgnummer uitgeven als één bewerking (lezen, ophogen, schrijven) op instellingen.md zoals het nu op schijf staat,
+  // zonder vraag: de teller wordt het maximum van schijf en pagina, volgendeCode bepaalt het nummer (bronnen: alle teksten
+  // waarin een nummer kan staan), en alleen de teller verandert (belofte een). Geeft de uitkomst van de laag, met uitgifte
+  // ({ code, nummer }, alleen als het op schijf of in het geheugen staat; anders null) en voor (de tekst vóór het ophogen).
+  function volgnummerUitgeven(bronnen, volgnummer, paginaTeller) {
+    let uitgifte = null, voor = null;
+    return WIB.gegevens.bewerk(INST_PAD, 'een', function (nu) {
+      voor = nu.tekst;
+      const p = parseSettingsText(nu.tekst);
+      uitgifte = volgendeCode(bronnen, volgnummer, Math.max(+p.settings.volgTeller || 0, +paginaTeller || 0));
+      if (!uitgifte) return null;
+      return { tekst: serializeSettings(Object.assign({}, p.settings, { volgTeller: uitgifte.nummer }), p.verlof, nu.tekst) };
+    }, { basis: null, leegrem: 'aan' }).then(function (u) {
+      u.uitgifte = u.ok && !u.niets ? uitgifte : null;
+      u.voor = voor;
+      return u;
+    });
+  }
+
+  return { conceptBruikbaar, instellingenOpslaan, volgnummerUitgeven, MENU_KEUZE, MENU_NAAM, tabUit, STIJLEN, STIJL_LABEL, TAB_NAMEN, DEFAULT_SETTINGS, jaarovergangPlan, jaarovergangToepassen, DEFAULT_SOORTEN, soortenUitTekst, soortenAlsTekst, grensUitTekst, grensAlsTekst, soortTeVeel, soortTeWeinig, focusPastNiet, deriveSettings, normalizeVerlof, normalizeSettings, fmtNum, serializeSettings, parseSettingsText, codeSleutel, codeRegex, volgDelen, volgendeCode, volgPlek, dagStatus, geboorteWeken, niceStep, grafiekAs, wanneerNietHerkend, stukkenOpScherm, TIJD_KEUZE, TIJD_LABEL, taakDelenRuw, eenVolgnummer };
 })();
 </script>
 <script data-deel="werkdruk">
@@ -14570,22 +14728,14 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
   let saveTimer = null;
   function flushSave() { if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; writeNow(); } }
   function save() {
+    setWijzigNr++;   // v287: een wijziging door de gebruiker; na Annuleren vraagt de pagina het dan opnieuw
     clearTimeout(saveTimer);
     saveTimer = setTimeout(() => { saveTimer = null; writeNow(); }, 250);
-  }
-  // Instellingen nu meteen wegschrijven en wachten tot het klaar is (true = staat in instellingen.md of, zonder map, in het geheugen)
-  async function bewaarDirect() {
-    clearTimeout(saveTimer); saveTimer = null;
-    if (!FOLDER.setHandle) { writeNow(); return true; }
-    while (setWriting) await new Promise((r) => setTimeout(r, 30));
-    const txt = serializeSettings();
-    if (txt === FOLDER.lastSettingsText) return true;
-    return writeSettingsFile(txt);
   }
   function writeNow() {
     const txt = serializeSettings();
     if (txt === FOLDER.lastSettingsText) return;
-    if (FOLDER.setHandle) { writeSettingsFile(txt); return; }
+    if (FOLDER.inMap) { schrijfInstellingen(); return; }
     // zonder map (of in een browser die alleen kan lezen): alleen in het geheugen, wel in de historie
     const oud = FOLDER.lastSettingsText;
     FOLDER.lastSettingsText = txt;
@@ -14597,9 +14747,11 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
      Map met werkdruk.md en instellingen.md
      ====================================================================== */
   const SET_NAME = 'instellingen.md';
-  // De gekozen map, voor zover dit deel die nodig heeft: de naam, het bestand instellingen.md (setHandle, met zijn laatste wijzigingstijd setLM
-  // en de laatst geschreven of gelezen tekst) en of de map alleen gelezen kan worden (Firefox/Safari). De map zelf beheert het documentdeel.
-  let FOLDER = { name: '', setHandle: null, setLM: 0, lastSettingsText: '', readonly: false };
+  // De gekozen map, voor zover dit deel die nodig heeft: de naam, of de pagina er instellingen.md in schrijft (inMap; sinds v287
+  // via de gegevenslaag, die de map van het documentdeel krijgt), de laatst geschreven of gelezen tekst (lastSettingsText, de
+  // basis voor eigen aantekeningen), wat de pagina bij het openen op schijf aantrof (schijf; daarna houdt de laag dat bij)
+  // en of de map alleen gelezen kan worden (Firefox/Safari). De map zelf beheert het documentdeel.
+  let FOLDER = { name: '', inMap: false, schijf: null, lastSettingsText: '', readonly: false };
   // instellingen.md opbouwen uit de huidige staat (de opbouw zelf staat in WIB.kern.werkdruk)
   // basis: de tekst waarvan eigen aantekeningen worden overgenomen (standaard wat nu in instellingen.md staat; v111)
   function serializeSettings(basis) { return K.serializeSettings(S.settings, S.verlof, basis === undefined ? FOLDER.lastSettingsText : basis); }
@@ -14618,101 +14770,117 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
     applyTheme();
     if (window.WIB.document && WIB.document.weergaveUitInstellingen) WIB.document.weergaveUitInstellingen();   // v244
   }
-  // v198: instellingen.md is buiten de pagina gewijzigd terwijl je hier iets aanpaste. Wat je hier hebt veranderd (ten
-  // opzichte van de laatst gelezen versie) gaat voor; al het andere, ook eigen aantekeningen, komt uit de nieuwe versie.
-  function voegSamenMetExtern(t) {
-    const basis = parseSettingsText(FOLDER.lastSettingsText || ''), ext = parseSettingsText(t);
-    const zelfde = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-    const s = Object.assign({}, ext.settings);
-    Object.keys(S.settings).forEach(k => { if (!zelfde(S.settings[k], basis.settings[k])) s[k] = S.settings[k]; });
-    s.volgTeller = Math.max(+S.settings.volgTeller || 0, +ext.settings.volgTeller || 0);   // een uitgegeven nummer nooit terug
-    const v = Object.assign({}, ext.verlof);
-    new Set(Object.keys(S.verlof).concat(Object.keys(basis.verlof))).forEach(y => {
-      if (zelfde(S.verlof[y] || {}, basis.verlof[y] || {})) return;
-      if (S.verlof[y] && Object.keys(S.verlof[y]).length) v[y] = S.verlof[y]; else delete v[y];
-    });
-    const oud = FOLDER.lastSettingsText;
-    S.settings = normalizeSettings(s); S.verlof = v;
-    FOLDER.lastSettingsText = t;   // de basis voor eigen aantekeningen
-    if (window.WIB.document && S.settings.histExtern) WIB.document.legInstellingenVast(oud, t, true);
-    applyTheme(); rebuildTasks(); recompute(); renderAll(); herbouwInstellingen();
-    toast(SET_NAME + ' was intussen buiten de pagina gewijzigd. Die wijziging is overgenomen, met jouw aanpassing erbij.');
-    return serializeSettings(t);
+  // v287: instellingen.md schrijven via de gegevenslaag (WIB.gegevens, met de dunne bewerking instellingenOpslaan uit
+  // WIB.kern.werkdruk). De laag schrijft om de beurt (de wachtrij van het bestand; tot v286 een eigen slot), leest opnieuw,
+  // controleert de wijziging, leest terug en schrijft niet als er niets verandert. Staat er op schijf iets anders dan de
+  // pagina het laatst kende (keuze 8), dan vraagt de pagina het, met dezelfde drie keuzes als bij werkdruk.md na Ctrl+S; tot
+  // v286 voegde ze stil samen (v198). Een instellingen.md dat buiten de pagina leeg is gemaakt, wordt zonder vraag
+  // overschreven, zoals tot nu toe.
+  // setOpen: een aanpassing staat nog niet in instellingen.md (tot v286 FOLDER.setFout): { reden } na een fout (de bewaking
+  // probeert het opnieuw, v207), of { reden: 'geannuleerd', nr } na Annuleren (niet vanzelf opnieuw; de vraag komt terug bij
+  // je volgende aanpassing, setWijzigNr). De pagina waarschuwt dan bij sluiten.
+  let setOpen = null, setWijzigNr = 0;
+  // Heeft de laag het bestand het laatst leeg gezien (buiten de pagina leeg gemaakt; de bewaking neemt dat niet over), dan
+  // geldt wat de pagina zelf het laatst van schijf kende: het lege bestand telt zo als wijziging van buitenaf en wordt zonder
+  // vraag overschreven (zie de vraag in schrijfInstellingen), ook als de bewaking het al heeft gezien.
+  function setBasis() {
+    const g = WIB.gegevens.gezien(SET_NAME);
+    return g && g.tekst.trim() ? g : (FOLDER.schijf !== null ? { tekst: FOLDER.schijf } : g);
   }
-  let setWriting = false, setPending = null;
-  // stil: een nieuwe poging na een mislukte (v207); dan geen melding als het weer mislukt
-  async function writeSettingsFile(txt, stil) {
-    if (!FOLDER.setHandle) return;
-    if (setWriting) { setPending = txt; return; }
-    setWriting = true;
-    const h = FOLDER.setHandle;
-    try {
-      if (typeof h.queryPermission === 'function' && (await h.queryPermission({ mode: 'readwrite' })) !== 'granted') {
-        if ((await h.requestPermission({ mode: 'readwrite' })) !== 'granted') throw new Error('geen toestemming');
+  // stil: een nieuwe poging na een mislukte (v207); dan geen melding als het weer mislukt. Geeft true als het op schijf staat.
+  function schrijfInstellingen(stil) {
+    const nr = setWijzigNr;
+    const vraag = function (schijf) {
+      if (!schijf.tekst.trim()) return Promise.resolve('vervang');   // buiten de pagina leeg gemaakt: overschrijven
+      if (schijf.tekst === FOLDER.lastSettingsText) return Promise.resolve('door');
+      if (setOpen && setOpen.reden === 'geannuleerd' && nr <= setOpen.nr) return Promise.resolve('annuleer');   // stamt van vóór het annuleren
+      if (!window.WIB.document) return Promise.resolve('annuleer');
+      return WIB.document.vraagBestand(SET_NAME).then(function (k) {
+        if (k !== 'mijn') return k === 'schijf' ? 'laden' : 'annuleer';
+        // Mijn tekst opslaan: je instellingen gaan over de versie van buiten heen, op één ding na: een uitgegeven volgnummer
+        // gaat nooit terug (v198), dus de hoogste teller van schijf en pagina blijft staan
+        const t = +(schijf.model && schijf.model.settings && schijf.model.settings.volgTeller) || 0;
+        if (t > (+S.settings.volgTeller || 0)) S.settings.volgTeller = t;
+        return 'vervang';
+      });
+    };
+    return K.instellingenOpslaan(function () { return serializeSettings(); }, setBasis, vraag).then(function (u) {
+      if (u.soort === 'conflict' && u.reden === 'van-schijf') {
+        setOpen = null; neemSchijfOver(u.tekst);
+        toast(SET_NAME + ' is van schijf geladen; je aanpassing hier is vervallen.');
+        return false;
       }
-      // v198: is instellingen.md intussen buiten de pagina gewijzigd, dan die versie als basis, met alleen jouw aanpassing erbij
-      const f = await h.getFile();
-      if (f.lastModified !== FOLDER.setLM) {
-        const t = await WIB.hulp.tekstVan(f);
-        if (t.trim() && t !== FOLDER.lastSettingsText) txt = voegSamenMetExtern(t);
+      if (u.soort === 'conflict' && u.reden === 'geannuleerd') {
+        if (!(setOpen && setOpen.reden === 'geannuleerd' && nr <= setOpen.nr)) toast(SET_NAME + ' is buiten de pagina gewijzigd; je aanpassing is niet opgeslagen en staat alleen in de pagina. Bij je volgende aanpassing vraagt de pagina het opnieuw.');
+        setOpen = { reden: 'geannuleerd', nr: nr }; toonSetWaar();
+        return false;
+      }
+      if (!u.ok) {
+        // v207: de aanpassing staat dan alleen in de pagina; de bewaking probeert het opnieuw
+        const eerder = !!setOpen && setOpen.reden !== 'geannuleerd';
+        setOpen = { reden: WIB.gegevens.uitleg(u) };
+        if (!stil || !eerder) toast(SET_NAME + ' kon niet worden opgeslagen: ' + setOpen.reden + '. Je aanpassing staat alleen in de pagina; de pagina probeert het over een paar seconden opnieuw.');
+        return false;
       }
       const oud = FOLDER.lastSettingsText;
-      FOLDER.setLM = await writeHandle(h, txt);
-      FOLDER.lastSettingsText = txt;
-      if (window.WIB.document) { WIB.document.legInstellingenVast(oud, txt, false); WIB.document.toonOpgeslagen('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL')); }
-      if (FOLDER.setFout) { FOLDER.setFout = ''; toast(SET_NAME + ' is alsnog opgeslagen.'); }
-      return true;
-    } catch (e) {
-      // v207: de aanpassing staat dan alleen in de pagina; de bewaking probeert het opnieuw (tot v206 gebeurde dat pas
-      // bij je volgende aanpassing, en ging hij bij sluiten van de pagina verloren)
-      const eerder = !!FOLDER.setFout;
-      FOLDER.setFout = WIB.hulp.reden(e);
-      if (!stil || !eerder) toast(SET_NAME + ' kon niet worden opgeslagen: ' + FOLDER.setFout + '. Je aanpassing staat alleen in de pagina; de pagina probeert het over een paar seconden opnieuw.');
-      return false;
-    } finally {
-      setWriting = false;
-      if (setPending !== null) { const t = setPending; setPending = null; if (t !== FOLDER.lastSettingsText) writeSettingsFile(t); }
-    }
-  }
-  // instellingen.md: een wijziging van buitenaf (bijvoorbeeld met de hand) binnen anderhalve seconde overnemen
-  let setBezig = false;
-  async function controleerInstellingen() {
-    const h = FOLDER.setHandle;
-    if (!h || setBezig || setWriting || document.hidden) return;
-    if (FOLDER.setFout) {   // v207: eerder mislukt: opnieuw proberen (een wijziging van buitenaf wordt daarbij samengevoegd, v198)
-      const txt = serializeSettings();
-      if (txt === FOLDER.lastSettingsText) FOLDER.setFout = ''; else { await writeSettingsFile(txt, true); return; }
-    }
-    setBezig = true;
-    try {
-      const f = await h.getFile();
-      if (f.lastModified !== FOLDER.setLM) {
-        // v208: de wijzigingstijd pas vastleggen als het lezen gelukt is. Daarvoor stond hij al vast als het lezen mislukte;
-        // de wijziging van buitenaf werd dan niet meer gezien en bij je volgende aanpassing zonder samenvoegen overschreven.
-        const t = await WIB.hulp.tekstVan(f);
-        FOLDER.setLM = f.lastModified;
-        if (t.trim() && t !== FOLDER.lastSettingsText) {
-          const oud = FOLDER.lastSettingsText;
-          applySettingsText(t);
-          FOLDER.lastSettingsText = t;
-          if (window.WIB.document && S.settings.histExtern) WIB.document.legInstellingenVast(oud, t, true);
-          rebuildTasks(); recompute(); renderAll();
-          herbouwInstellingen();
-          toast(SET_NAME + ' is buiten de pagina gewijzigd en opnieuw ingelezen.');
-        }
+      if (u.soort !== 'ongewijzigd' || u.tekst !== oud) {
+        FOLDER.lastSettingsText = u.tekst; FOLDER.schijf = u.tekst;
+        if (window.WIB.document) { WIB.document.legInstellingenVast(oud, u.tekst, false); WIB.document.toonOpgeslagen('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL')); }
       }
-    } catch (e) {
-      // v203: niet als UTF-8 opgeslagen: één keer melden; anders tijdelijk niet leesbaar: volgende ronde opnieuw
+      if (setOpen) { const g = setOpen.reden === 'geannuleerd'; setOpen = null; toast(SET_NAME + ' is alsnog opgeslagen.'); if (g) toonSetWaar(); }
+      return true;
+    });
+  }
+  // de versie van instellingen.md op schijf overnemen (de bewaking, en "van schijf laden" bij de vraag)
+  function neemSchijfOver(t) {
+    const oud = FOLDER.lastSettingsText;
+    applySettingsText(t);
+    FOLDER.lastSettingsText = t; FOLDER.schijf = t;
+    if (window.WIB.document && S.settings.histExtern) WIB.document.legInstellingenVast(oud, t, true);
+    rebuildTasks(); recompute(); renderAll();
+    herbouwInstellingen();
+  }
+  // instellingen.md: een wijziging van buitenaf (bijvoorbeeld met de hand) binnen anderhalve seconde overnemen. v287: de laag
+  // kijkt of het bestand is veranderd sinds het laatst gezien (in de wachtrij van het bestand, één controle tegelijk) en geeft
+  // het dan hier door. Een leeg bestand wordt niet overgenomen.
+  WIB.gegevens.bewaak(SET_NAME, function (u) {
+    if (!u.ok) {
+      // v203: niet als UTF-8 opgeslagen: één keer melden; anders tijdelijk niet leesbaar: volgende ronde opnieuw (v208)
+      const e = u.fout;
       if (e && e.name === 'CoderingFout' && WIB.hulp.eens(e.message + '|' + e.lm)) toast(e.message + '.');
+      return;
     }
-    setBezig = false;
+    if (!u.tekst.trim() || u.tekst === FOLDER.lastSettingsText) return;
+    neemSchijfOver(u.tekst);
+    toast(SET_NAME + ' is buiten de pagina gewijzigd en opnieuw ingelezen.');
+  });
+  async function controleerInstellingen() {
+    if (!FOLDER.inMap || document.hidden) return;
+    // v287: wacht een aanpassing van jou nog op haar kwart seconde (save), dan nu niet: de schrijfactie die volgt, leest het
+    // bestand zelf en vraagt het als het buiten de pagina is gewijzigd. Tot v286 nam de bewaking in dat moment de versie van
+    // buiten over en was je aanpassing zonder vraag weg.
+    if (saveTimer) return;
+    if (setOpen) {
+      // na Annuleren niet vanzelf opnieuw, en de versie van buiten ook niet overnemen (dan zou je aanpassing verdwijnen)
+      if (setOpen.reden === 'geannuleerd') return;
+      if (WIB.gegevens.openstaand().some(function (x) { return x.pad === SET_NAME && x.wacht; })) return;   // er loopt al een poging
+      // v207: eerder mislukt: opnieuw proberen
+      if (serializeSettings() === FOLDER.lastSettingsText) setOpen = null; else { await schrijfInstellingen(true); return; }
+    }
+    await WIB.gegevens.controleer(SET_NAME);
   }
   WIB.bewaking.voegToe(controleerInstellingen);
   // v207: staat een aanpassing nog alleen in de pagina, dan waarschuwen bij sluiten
-  window.addEventListener('beforeunload', function (e) { if (FOLDER.setFout) { e.preventDefault(); e.returnValue = ''; } });
+  window.addEventListener('beforeunload', function (e) { if (setOpen) { e.preventDefault(); e.returnValue = ''; } });
 
   // Het instellingenvenster opnieuw opbouwen na een wijziging van buitenaf, maar niet terwijl je in een veld typt
   let setHerbouwWacht = false;
+  // v287: alleen de regel bovenaan het venster Instellingen bijwerken (waar je instellingen staan, en of de laatste aanpassing
+  // nog niet in instellingen.md staat); ook terwijl je in een veld typt
+  function toonSetWaar() {
+    const w = $('#modalRoot .setwhere');
+    if (w) w.outerHTML = settingsWaarHtml();
+  }
   function herbouwInstellingen() {
     if (!$('#modalRoot .setmodal')) return;
     const act = document.activeElement;
@@ -14756,21 +14924,27 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
     clearTimeout(_diVangnet); _diVangnet = setTimeout(function () { if (!vensterOpen && document.hasFocus()) weg(); }, 1000);
     dirInput().click();
   }
-  // m = null: geen map meer; anders { name, setHandle, setLM, readonly, tekst (inhoud van instellingen.md of null) }
+  // m = null: geen map meer; anders { name, inMap (de pagina schrijft instellingen.md via de gegevenslaag in deze map), readonly,
+  // tekst (inhoud van instellingen.md, of null als het er niet was), schijf (wat er nu op schijf staat; ook als de map het net
+  // heeft aangemaakt) }. v287: geen handvat en wijzigingstijd meer; die houdt de gegevenslaag bij.
   function zetMap(m) {
+    setOpen = null;
     if (!m) {
-      FOLDER = { name: '', setHandle: null, setLM: 0, lastSettingsText: FOLDER.lastSettingsText, readonly: false };
+      FOLDER = { name: '', inMap: false, schijf: null, lastSettingsText: FOLDER.lastSettingsText, readonly: false };
       renderAll();
       return;
     }
     let last;
     if (m.tekst !== null && m.tekst !== undefined) { applySettingsText(m.tekst); last = m.tekst; }
     else last = serializeSettings('');   // nieuwe map zonder instellingen.md: geen aantekeningen uit een vorige map meenemen
-    FOLDER = { name: m.name || '', setHandle: m.setHandle || null, setLM: m.setLM || 0, lastSettingsText: last, readonly: !!m.readonly };
+    FOLDER = { name: m.name || '', inMap: !!m.inMap, schijf: typeof m.schijf === 'string' ? m.schijf : null, lastSettingsText: last, readonly: !!m.readonly };
     rebuildTasks(); recompute(); renderAll();
   }
+  // nieuw instellingen.md voor een map waarin het ontbreekt: zonder eigen aantekeningen uit een vorige map (v287; tot v286
+  // kwamen die er bij het aanmaken wel in, en verdwenen ze bij de eerste aanpassing weer)
+  function nieuweInstellingenTekst() { return serializeSettings(serializeSettings('')); }
   function instellingenToepassen(t) { applySettingsText(t); rebuildTasks(); recompute(); renderAll(); save(); }
-  function herlaadInstellingen() { FOLDER.setLM = -1; controleerInstellingen(); }
+  function herlaadInstellingen() { controleerInstellingen(); }
   function downloadSettings() { downloadText(serializeSettings(), SET_NAME); }
 
   /* ======================================================================
@@ -15556,8 +15730,26 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
     if (!volgDelen()) { toast('Stel eerst in Instellingen een volgnummer in, bijvoorbeeld ONB-999.'); return; }
     // v272: begint de regel al met een code, dan gebeurt er niets: ook de teller blijft staan (die ging tot v271 toch omhoog)
     if (!K.volgPlek(ta.value, ta.selectionStart, CODE_RE)) { toast('Deze regel begint al met een code.'); return; }
-    // eerst de nieuwste teller van schijf halen (een andere sessie kan intussen een nummer hebben uitgegeven)
-    FOLDER.setLM = -1; await controleerInstellingen();
+    if (FOLDER.inMap) {
+      // v287: eerst een eigen aanpassing die nog niet in instellingen.md staat (ook als die nog op de vertraging van save()
+      // wacht); dat telt als jouw aanpassing, dus na een eerdere Annuleren vraagt de pagina het hier opnieuw. Lukt dat niet,
+      // dan geen nummer: de pagina zou anders straks de versie van schijf overnemen en je aanpassing verliezen.
+      clearTimeout(saveTimer); saveTimer = null;
+      if (setOpen || serializeSettings() !== FOLDER.lastSettingsText) {
+        setWijzigNr++;
+        await schrijfInstellingen();
+        if (setOpen) { toast('Het volgnummer kon niet in ' + SET_NAME + ' worden vastgelegd; er is niets ingevoegd.'); return; }
+      }
+      // de nieuwste versie van schijf overnemen, zoals de bewaking doet (een andere sessie kan intussen iets hebben gewijzigd)
+      await WIB.gegevens.controleer(SET_NAME);
+      // is instellingen.md buiten de pagina leeg gemaakt, dan eerst je instellingen terug in het bestand (zonder vraag, zoals bij
+      // een aanpassing); anders kwam de teller in een bestand zonder je instellingen
+      const opSchijf = WIB.gegevens.gezien(SET_NAME);
+      if (opSchijf && !opSchijf.tekst.trim()) {
+        setWijzigNr++;
+        if (!(await schrijfInstellingen())) { toast('Het volgnummer kon niet in ' + SET_NAME + ' worden vastgelegd; er is niets ingevoegd.'); return; }
+      }
+    }
     // alles waarin ooit een nummer is gebruikt telt mee: de tekst, de notities met hun versies, de historie van de notities en de daginvoer
     const bronnen = [ta.value, S.md].concat(window.WIB.notities ? WIB.notities.bekend() : []);
     if (window.WIB.notities) {
@@ -15565,11 +15757,26 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
       catch (e) { toast('De notities konden niet worden gelezen (' + (e && e.message ? e.message : e) + '); er is geen volgnummer ingevoegd, om te voorkomen dat een nummer dubbel wordt uitgegeven.'); return; }
     }
     if (window.WIB.document) { bronnen.push(WIB.document.daginvoerTekst()); bronnen.push(WIB.document.historieTekst('notities')); }
-    const uitgifte = volgendeCode(bronnen), code = uitgifte.code;
-    // het nummer pas invoegen als de teller in instellingen.md staat; lukt dat niet, dan wordt er niets ingevoegd
-    const vorigeTeller = S.settings.volgTeller;
-    S.settings.volgTeller = uitgifte.nummer;
-    if (!(await bewaarDirect())) { S.settings.volgTeller = vorigeTeller; toast('Het volgnummer kon niet in ' + SET_NAME + ' worden vastgelegd; er is niets ingevoegd.'); return; }
+    // het nummer pas invoegen als de teller in instellingen.md staat; lukt dat niet, dan wordt er niets ingevoegd.
+    // v287: in een map is dat één bewerking van de gegevenslaag (volgnummerUitgeven): lezen, de teller ophogen (het maximum van
+    // schijf en pagina) en schrijven, zonder vraag. Twee uitgiften tegelijk krijgen zo twee verschillende nummers. Was het
+    // bestand verder buiten de pagina gewijzigd, dan neemt de pagina die versie over, zoals de bewaking doet.
+    let code;
+    if (FOLDER.inMap) {
+      const u = await K.volgnummerUitgeven(bronnen, S.settings.volgnummer, S.settings.volgTeller);
+      if (!u.uitgifte) { toast('Het volgnummer kon niet in ' + SET_NAME + ' worden vastgelegd; er is niets ingevoegd.'); return; }
+      if (u.voor !== FOLDER.lastSettingsText) neemSchijfOver(u.voor);
+      S.settings.volgTeller = u.uitgifte.nummer;
+      FOLDER.lastSettingsText = u.tekst; FOLDER.schijf = u.tekst;
+      if (window.WIB.document) { WIB.document.legInstellingenVast(u.voor, u.tekst, false); WIB.document.toonOpgeslagen('Opgeslagen ' + new Date().toLocaleTimeString('nl-NL')); }
+      code = u.uitgifte.code;
+    } else {
+      // zonder map (of in een browser die alleen kan lezen): alleen in het geheugen
+      const uitgifte = volgendeCode(bronnen);
+      code = uitgifte.code;
+      S.settings.volgTeller = uitgifte.nummer;
+      clearTimeout(saveTimer); saveTimer = null; writeNow();
+    }
     // de plek opnieuw bepalen: tijdens het vastleggen kan de tekst zijn gewijzigd
     const plek = K.volgPlek(ta.value, ta.selectionStart, CODE_RE);
     if (!plek) { toast('Deze regel begint al met een code.'); return; }
@@ -15752,7 +15959,7 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
     const af = per('af'), vraag = per('vraag'), rest = [['loopt', 'Lopen door in ' + nieuw], ['later', 'Pas in een later jaar'], ['mee', 'Gaan ongewijzigd mee']];
     let body = '<p>Wat gebeurt er met je taken als ' + nieuw + ' begint? Taken zonder jaar komen elk jaar terug en gaan gewoon mee. Afgeronde eenmalige taken gaan naar <code>## Afgerond ' + oud + '</code> onderaan werkdruk.md, waar ze niet meer meetellen. ' +
       // v270: een kopie kan alleen in een map waarin de pagina schrijft; anders stond hier een belofte die niet werd waargemaakt
-      (FOLDER.setHandle ? 'Eerst wordt een kopie van werkdruk.md bewaard als <code>werkdruk-' + oud + '.md</code>.'
+      (FOLDER.inMap ? 'Eerst wordt een kopie van werkdruk.md bewaard als <code>werkdruk-' + oud + '.md</code>.'
         : 'De pagina kan hier niet in een map schrijven: er komt geen kopie van werkdruk.md, en de nieuwe lijst sla je daarna zelf op met Downloaden. Bewaar je oude werkdruk.md eerst onder een andere naam als je die wilt houden.') + '</p>';
     body += '<h3 class="jo-kop">Afgerond in ' + oud + ' (' + af.length + ')</h3>';
     body += af.length ? '<ul class="jo-lijst">' + af.map(t => rij(t, t.verplaatsbaar
@@ -16662,10 +16869,6 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
     syncCaret();
   }
   const downloadText = WIB.hulp.download;
-  async function writeHandle(h, text) {
-    const f = await WIB.hulp.schrijf(h, text);
-    return f.lastModified;
-  }
   function renderPreview(text) {
     const el = $('#mdPreview');
     if (!el) return;
@@ -16806,9 +17009,11 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
     return true;
   }
   // Instellingen: waar ze worden bewaard (bovenaan het venster)
+  // v287: na Annuleren bij de vraag staat er ook dat je laatste aanpassing nog niet in instellingen.md staat
   function settingsWaarHtml() {
-    return FOLDER.setHandle
-      ? '<div class="privacy setwhere"><span>Je instellingen en verlofplanning worden direct opgeslagen in <b>' + SET_NAME + '</b> in map «' + esc(FOLDER.name) + '».</span></div>'
+    return FOLDER.inMap
+      ? '<div class="privacy setwhere"><span>Je instellingen en verlofplanning worden direct opgeslagen in <b>' + SET_NAME + '</b> in map «' + esc(FOLDER.name) + '».' +
+        (setOpen && setOpen.reden === 'geannuleerd' ? ' Je laatste aanpassing staat nog niet in ' + SET_NAME + ': het bestand is buiten de pagina gewijzigd en je koos Annuleren. Bij je volgende aanpassing vraagt de pagina het opnieuw.' : '') + '</span></div>'
       : FOLDER.readonly
         ? '<div class="privacy setwhere"><span>Je instellingen staan alleen in het geheugen van dit tabblad, omdat deze browser niet in de map «' + esc(FOLDER.name) + '» kan schrijven. Download ' + SET_NAME + ' om ze in de map te zetten.</span><button type="button" class="btn small" data-act="download-settings">' + SET_NAME + ' downloaden</button></div>'
         : '<div class="privacy setwhere"><span>Er is nog geen map gekozen: je instellingen staan alleen in het geheugen van dit tabblad. Kies een map om ze in ' + SET_NAME + ' op te slaan, of download ze.</span><button type="button" class="btn small" data-act="download-settings">' + SET_NAME + ' downloaden</button></div>';
@@ -17602,7 +17807,7 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
 
   window.WIB.werkdruk = {
     ontvangTekst, conceptGewijzigd, zetWeergave: zetView, editorBijgewerkt, openHulp: () => openHelp(), melding: toast, meldingWeg: toastWeg, zetMap,
-    instellingenTekst: () => serializeSettings(), instellingenToepassen, herlaadInstellingen,
+    instellingenTekst: () => serializeSettings(), nieuweInstellingenTekst, instellingenToepassen, herlaadInstellingen,
     kiesMapAlleenLezen: kiesMapAlleenLezen, voorbeeld: () => SAMPLE_MD,
     zoekTaken, daginvoerGewijzigd, dagInfo, gaNaarDag, wisselThema, zetInstelling, takenOpRegels, nieuweTaakMet,
     instelling: (k) => S.settings[k],
