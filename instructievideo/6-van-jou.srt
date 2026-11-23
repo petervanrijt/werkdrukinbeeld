@@ -13,17 +13,17 @@ Het zoekveld in de balk zoekt
 in het tabblad dat je ziet.
 
 4
-00:00:17,839 --> 00:00:23,186
+00:00:17,843 --> 00:00:23,190
 En met Ctrl+K, of het vergrootglas,
 zoek je in alles tegelijk: je taken,
 
 5
-00:00:23,186 --> 00:00:26,629
+00:00:23,190 --> 00:00:26,633
 alle notities, de
 daginvoer en de historie.
 
 6
-00:00:27,640 --> 00:00:32,186
+00:00:27,643 --> 00:00:32,189
 Typ een paar woorden, kies met de pijltjes,
 en Enter brengt je naar de juiste regel.
 
@@ -33,122 +33,122 @@ In Daginvoer leg je per dag vast
 wat er speelde, in vrije tekst.
 
 8
-00:00:49,997 --> 00:00:52,311
+00:00:49,996 --> 00:00:52,310
 In de kalender krijgt zo'n dag een stip.
 
 9
-00:00:54,790 --> 00:00:56,419
+00:00:54,788 --> 00:00:56,417
 Historie doet dat vanzelf.
 
 10
-00:00:57,599 --> 00:01:02,171
+00:00:57,598 --> 00:01:02,170
 Bij elke opslag legt de pagina vast
 wat er veranderde, regel voor regel:
 
 11
-00:01:02,171 --> 00:01:05,659
+00:01:02,170 --> 00:01:05,658
 voor je takenlijst, je
 instellingen en je notities.
 
 12
-00:01:08,344 --> 00:01:11,701
+00:01:08,343 --> 00:01:11,700
 Zo zie je altijd terug wat
 er wanneer is gewijzigd.
 
 13
-00:01:13,288 --> 00:01:15,137
+00:01:13,287 --> 00:01:15,136
 En dan je gegevens zelf.
 
 14
-00:01:16,204 --> 00:01:19,873
+00:01:16,202 --> 00:01:19,871
 Alles staat in de map die je
 koos, als gewone tekstbestanden.
 
 15
-00:01:20,613 --> 00:01:23,466
+00:01:20,611 --> 00:01:23,464
 Je kunt je takenlijst ook
 gewoon in Kladblok openen.
 
 16
-00:01:24,747 --> 00:01:28,940
+00:01:24,745 --> 00:01:28,938
 Wijzigt een ander programma het bestand,
 dan ververst de pagina vanzelf.
 
 17
-00:01:32,489 --> 00:01:36,475
+00:01:32,488 --> 00:01:36,474
 En heb je zelf nog iets openstaan,
 dan kies jij welke versie blijft.
 
 18
-00:01:41,272 --> 00:01:44,225
+00:01:41,274 --> 00:01:44,227
 De pagina maakt geen enkele
 verbinding met internet.
 
 19
-00:01:44,576 --> 00:01:47,922
+00:01:44,578 --> 00:01:47,924
 Er wordt niets verstuurd, en er
 blijft niets achter in de browser.
 
 20
-00:01:49,505 --> 00:01:52,903
+00:01:49,507 --> 00:01:52,905
 In Edge en Chrome schrijft
 de pagina direct in je map.
 
 21
-00:01:53,444 --> 00:01:56,691
+00:01:53,446 --> 00:01:56,693
 In Firefox en Safari gaat
 opslaan via een download:
 
 22
-00:01:56,691 --> 00:01:59,107
+00:01:56,693 --> 00:01:59,109
 dat bestand zet je zelf in de map.
 
 23
-00:02:00,858 --> 00:02:03,190
+00:02:00,860 --> 00:02:03,192
 Tot slot zet je de pagina naar je hand.
 
 24
-00:02:03,780 --> 00:02:09,496
+00:02:03,782 --> 00:02:09,498
 Met Stijl kies je uit zes stijlen, van
 rustig tot compact, elk in licht en donker.
 
 25
-00:02:14,662 --> 00:02:17,975
+00:02:14,664 --> 00:02:17,977
 In Instellingen verberg je de
 tabbladen die je niet gebruikt,
 
 26
-00:02:17,975 --> 00:02:20,235
+00:02:17,977 --> 00:02:20,237
 en kies je met welk tabblad je start.
 
 27
-00:02:25,612 --> 00:02:28,356
+00:02:25,615 --> 00:02:28,359
 De zijbalk klap je in
 tot een smalle strook.
 
 28
-00:02:31,724 --> 00:02:35,236
+00:02:31,729 --> 00:02:35,241
 Bijna alles heeft een sneltoets:
 de cijfers voor de tabbladen,
 
 29
-00:02:35,236 --> 00:02:37,242
+00:02:35,241 --> 00:02:37,247
 de schuine streep om te zoeken.
 
 30
-00:02:39,913 --> 00:02:42,259
+00:02:39,918 --> 00:02:42,264
 Het vraagteken rechtsboven opent de hulp,
 
 31
-00:02:42,259 --> 00:02:45,084
+00:02:42,264 --> 00:02:45,089
 waarin alles uit deze
 video's nog eens staat.
 
 32
-00:02:49,364 --> 00:02:52,894
+00:02:49,372 --> 00:02:52,902
 En wat er per versie verandert,
 lees je in Release notes.
 
 33
-00:02:54,969 --> 00:02:57,372
+00:02:54,977 --> 00:02:57,380
 In de laatste video vat ik alles samen.

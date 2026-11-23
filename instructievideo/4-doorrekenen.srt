@@ -13,54 +13,54 @@ hebt: je werkdagen, zonder je parttimedag,
 feestdagen en verlof.
 
 4
-00:00:17,616 --> 00:00:20,948
+00:00:17,615 --> 00:00:20,947
 Het tabblad Jaar toont het
 hele jaar als kalender.
 
 5
-00:00:21,907 --> 00:00:24,198
+00:00:21,906 --> 00:00:24,197
 De kleur zegt hoe vol een dag is.
 
 6
-00:00:24,909 --> 00:00:26,273
+00:00:24,908 --> 00:00:26,272
 Groen is ruimte.
 
 7
-00:00:26,940 --> 00:00:28,243
+00:00:26,939 --> 00:00:28,242
 Geel is krap.
 
 8
-00:00:28,870 --> 00:00:30,128
+00:00:28,869 --> 00:00:30,127
 Oranje is vol.
 
 9
-00:00:30,745 --> 00:00:32,486
+00:00:30,744 --> 00:00:32,485
 En rood is overvol.
 
 10
-00:00:33,559 --> 00:00:36,031
+00:00:33,558 --> 00:00:36,030
 Bovenaan staat de
 samenvatting van je jaar.
 
 11
-00:00:37,281 --> 00:00:42,614
+00:00:37,280 --> 00:00:42,613
 Daaronder staan grafieken per maand en per
 week, de rustigste en de drukste weken,
 
 12
-00:00:42,614 --> 00:00:45,465
+00:00:42,613 --> 00:00:45,464
 en je tijd per categorie of per locatie.
 
 13
-00:00:47,013 --> 00:00:48,385
+00:00:47,012 --> 00:00:48,384
 Zie je een rode week?
 
 14
-00:00:48,715 --> 00:00:50,818
+00:00:48,714 --> 00:00:50,817
 Klik erop, en je ziet waar het aan ligt.
 
 15
-00:00:52,716 --> 00:00:55,912
+00:00:52,715 --> 00:00:55,911
 Maand, Week en Dag
 zoomen steeds verder in.
 
@@ -106,159 +106,159 @@ Schrijf je erbij: eerste week, dinsdag,
 of oktober, dan valt hij op dat moment.
 
 25
-00:01:37,953 --> 00:01:39,617
+00:01:37,937 --> 00:01:39,601
 Zo zie je de echte pieken.
 
 26
-00:01:41,774 --> 00:01:46,870
+00:01:41,758 --> 00:01:46,854
 Het tabblad Taken zet alles in één
 tabel: de frequentie, de uren per keer,
 
 27
-00:01:46,870 --> 00:01:50,082
+00:01:46,854 --> 00:01:50,066
 de uren per jaar en het
 aandeel in je tijd.
 
 28
-00:01:50,886 --> 00:01:52,941
+00:01:50,870 --> 00:01:52,925
 Klik op een kolomkop om te sorteren.
 
 29
-00:01:55,239 --> 00:01:59,004
+00:01:55,223 --> 00:01:58,988
 Met het filter Onvolledig zie je
 welke taken nog niet meetellen,
 
 30
-00:01:59,004 --> 00:02:01,666
+00:01:58,988 --> 00:02:01,650
 omdat de frequentie of de uren ontbreken.
 
 31
-00:02:04,782 --> 00:02:07,368
+00:02:04,767 --> 00:02:07,353
 Hier probeer je ook uit
 wat er gebeurt als.
 
 32
-00:02:07,991 --> 00:02:12,788
+00:02:07,976 --> 00:02:12,773
 Vink een taak uit, of verander de
 uren, en alle overzichten rekenen mee.
 
 33
-00:02:14,409 --> 00:02:19,561
+00:02:14,394 --> 00:02:19,546
 Dat is tijdelijk: er verandert niets in je
 bestand, en met Herstel zet je het terug.
 
 34
-00:02:23,520 --> 00:02:25,906
+00:02:23,507 --> 00:02:25,893
 Verlof plan je in dezelfde kalender.
 
 35
-00:02:26,685 --> 00:02:29,443
+00:02:26,672 --> 00:02:29,430
 Klik op Verlof plannen,
 en klik op een dag.
 
 36
-00:02:30,026 --> 00:02:33,483
+00:02:30,013 --> 00:02:33,470
 Eén klik is een hele dag, een
 tweede klik een halve dag,
 
 37
-00:02:33,483 --> 00:02:35,708
+00:02:33,470 --> 00:02:35,695
 en een derde haalt het weer weg.
 
 38
-00:02:36,968 --> 00:02:39,224
+00:02:36,955 --> 00:02:39,211
 Klik op een weeknummer voor een hele week.
 
 39
-00:02:40,235 --> 00:02:43,657
+00:02:40,222 --> 00:02:43,644
 De balk erboven telt mee hoeveel
 verlofdagen je nog hebt.
 
 40
-00:02:44,441 --> 00:02:48,844
+00:02:44,428 --> 00:02:48,831
 In dezelfde balk kies je geboorteverlof,
 dat je per hele week plant,
 
 41
-00:02:48,844 --> 00:02:51,814
+00:02:48,831 --> 00:02:51,801
 of een eigen vrije dag, zoals een brugdag.
 
 42
-00:02:53,356 --> 00:02:56,326
+00:02:53,343 --> 00:02:56,313
 En wat gebeurt er met een
 taak die in je verlof valt?
 
 43
-00:02:57,776 --> 00:02:59,574
+00:02:57,764 --> 00:02:59,562
 Dat kies je in Instellingen.
 
 44
-00:03:00,255 --> 00:03:05,042
+00:03:00,243 --> 00:03:05,030
 Inhalen na je verlof: dan schuift
 het werk door naar de dagen erna.
 
 45
-00:03:05,511 --> 00:03:08,595
+00:03:05,499 --> 00:03:08,583
 Of Vervalt: dan gebeurt
 de taak die keer niet.
 
 46
-00:03:09,578 --> 00:03:11,401
+00:03:09,566 --> 00:03:11,389
 Uren zeggen niet alles.
 
 47
-00:03:11,837 --> 00:03:15,346
+00:03:11,825 --> 00:03:15,334
 Twee uur schrijven is iets
 anders dan twee uur overleg.
 
 48
-00:03:16,297 --> 00:03:18,858
+00:03:16,285 --> 00:03:18,846
 Zet in Instellingen Soort werk aan,
 
 49
-00:03:18,858 --> 00:03:24,891
+00:03:18,846 --> 00:03:24,879
 en Dag en Week laten zien hoeveel van je
 tijd diep werk, overleg en routine is.
 
 50
-00:03:26,660 --> 00:03:30,233
+00:03:26,648 --> 00:03:30,221
 De pagina waarschuwt als een
 dag vooral uit overleg bestaat,
 
 51
-00:03:30,233 --> 00:03:32,985
+00:03:30,221 --> 00:03:32,973
 of als een week te weinig diep werk heeft.
 
 52
-00:03:39,713 --> 00:03:41,415
+00:03:39,703 --> 00:03:41,405
 De grenzen stel je zelf in.
 
 53
-00:03:47,661 --> 00:03:51,058
+00:03:47,654 --> 00:03:51,051
 En met het label #focus
 houd je een blok vrij.
 
 54
-00:03:53,453 --> 00:03:57,661
+00:03:53,448 --> 00:03:57,656
 Aan het eind van het jaar klik je in
 Jaar op de knop naar het volgende jaar.
 
 55
-00:03:59,817 --> 00:04:02,860
+00:03:59,813 --> 00:04:02,856
 De pagina zet afgeronde,
 eenmalige taken apart,
 
 56
-00:04:02,860 --> 00:04:07,448
+00:04:02,856 --> 00:04:07,444
 bewaart eerst een kopie van je
 lijst, en toont dan het nieuwe jaar.
 
 57
-00:04:09,019 --> 00:04:11,996
+00:04:09,015 --> 00:04:11,992
 Taken zonder jaartal komen
 gewoon elk jaar terug.
 
 58
-00:04:15,002 --> 00:04:18,514
+00:04:14,998 --> 00:04:18,510
 In de volgende video: per
 project alles bij elkaar.
