@@ -2550,6 +2550,12 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v317</span> Typen in een punt met een vervolgalinea komt in het bestand <span class="datum">24 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Had een opsommingspunt of taak een vervolg eronder na een lege regel (een ingesprongen alinea of een sublijst), en typte je in Document of het notitievenster iets in de eerste regel van dat punt, dan stond je tekst op het scherm maar kwam hij niet in het bestand: na opslaan was hij weg, zonder melding. Je tekst komt nu in het bestand, en de rest van het punt blijft teken voor teken gelijk. Typen in het vervolg zelf ging al goed.</li>
+      <li>Hoe het zat: de pagina zag de eerste regel van zo'n punt als een alinea binnen het punt, en nam bij een wijziging daarin de regels van het punt ongewijzigd uit het bestand over. De fout is gevonden met de proef met ingebouwde fouten.</li>
+      <li>Tests: drie nieuwe (één in Node met negen vormen: gewoon punt, taak, genummerd, genest, twee vervolgalinea's, een sublijst, in een citaat, zonder regeleinde aan het eind en met Windows-regeleinden; twee in de browser, voor Document en het notitievenster, tot en met opslaan); ze falen op v316. Hulp niet geraakt.</li>
+      <li>Handmatige actie: heb je op een eerdere versie in zo'n punt getypt en mis je die tekst, dan is hij niet in het bestand gekomen en ook niet terug te halen; typ hem opnieuw.</li>
+    </ul></div>
     <div class="release"><h2><span class="versie">v316</span> Nadruk met _ blijft _ in het bestand <span class="datum">24 nov 2026</span></h2><ul>
       <li><span class="soort herstel">herstel</span>Schuin of vet dat met lage streepjes is geschreven (<code>_schuin_</code>, <code>__vet__</code>) werd <code>*schuin*</code> en <code>**vet**</code> zodra je in Document of het notitievenster ergens in dezelfde alinea of hetzelfde punt typte. De betekenis bleef gelijk, maar de tekens in het bestand veranderden. Ze blijven nu staan zoals ze waren, ook als je in het schuine of vette stuk zelf typt. Typ je daar een <code>_</code>, dan wordt het <code>*…*</code>, omdat de nadruk met <code>_</code> dan niet meer zou werken.</li>
       <li>Tests: vijf nieuwe (drie in Node, twee in de browser); ze falen op v315. De vastgelegde weergave van Document is exact gelijk gebleven. Hulp niet geraakt.</li>
@@ -8370,7 +8376,11 @@ WIB.kern.document = (function () {
     const eersteBlok = kinderen.findIndex(isBlok);
     let eigenKnopen = kinderen.slice(0, eersteBlok < 0 ? kinderen.length : eersteBlok), rest = eersteBlok < 0 ? [] : kinderen.slice(eersteBlok).filter(function (k) { return k.nodeType === 1 && !isExtra(k); });
     let eigenUrgent = heeftKlasse(li, 'heeft-urgent');
+    // in een los punt (een lege regel binnen het punt) is de eigen tekst de eerste alinea; die onthouden we, want een
+    // wijziging daarin is een wijziging van het punt zelf (v317)
+    let eigenBlok = null;
     if (!inlineMd(eigenKnopen).trim() && rest.length && tagVan(rest[0]) === 'p') {
+      eigenBlok = rest[0];
       eigenKnopen = knopen(rest[0]); eigenUrgent = eigenUrgent || heeftKlasse(rest[0], 'urgent'); rest = rest.slice(1);
     }
     // In een urgent punt staat de eigen tekst in <span class="urgent">; dat is <!-- urgent -->, geen !!. Die omhulling is
@@ -8381,9 +8391,10 @@ WIB.kern.document = (function () {
         return uit.concat(k.nodeType === 1 && tagVan(k) === 'span' && heeftKlasse(k, 'urgent') && !heeftKlasse(k, 'kop-urgent') ? knopen(k) : [k]);
       }, []);
     }
-    // het punt zelf is niet gewijzigd (alleen iets erin): de eigen regels letterlijk uit het bestand
+    // het punt zelf is niet gewijzigd (alleen iets erin): de eigen regels letterlijk uit het bestand. Is de eerste alinea
+    // van een los punt gewijzigd, dan is het punt zelf gewijzigd (v317: tot v316 ging wat je daar typte stil verloren)
     const eersteMetBereik = rest.length ? ctx.bereik(rest[0]) : null;
-    if (r && !ctx.vuil(li) && eersteMetBereik && eersteMetBereik.van > r.van) {
+    if (r && !ctx.vuil(li) && !(eigenBlok && ctx.vuil(eigenBlok)) && eersteMetBereik && eersteMetBereik.van > r.van) {
       let e = eersteMetBereik.van - 1;
       while (e > r.van && /^[\s>]*$/.test(ctx.bron[e])) e--;
       return ctx.bron.slice(r.van, e + 1).concat(tussenregels(ctx.bron, e + 1, eersteMetBereik.van), containerMd(rest, vervolg, ctx));
