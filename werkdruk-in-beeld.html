@@ -2550,6 +2550,28 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v321</span> Een nieuw instellingen.md eindigt zonder lege regel <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Hield de pagina de instellingen alleen in het geheugen (zonder map) en had je geen verlof gepland, dan eindigde de tekst met een extra lege regel. Bij de volgende aanpassing verdween die weer, en dat stond dan als extra wijziging (bij Verlofplanning) in de historie. De tekst eindigt nu met precies één regeleinde. Een bestaand <code>instellingen.md</code> verandert hierdoor niet.</li>
+      <li>Tests: één nieuwe in Node; hij faalt op v320. Het vastgelegde gedrag van de gegevensacties is bewust opnieuw vastgelegd: van de 62 acties verandert er één situatie (een instelling wijzigen zonder map), waarin de vermelding in de historie het overbodige blok over de lege regel niet meer heeft; alle bestanden in de map zijn in alle situaties gelijk gebleven. Twee momentopnames van de instellingen in de tests zijn ook opnieuw vastgelegd; de verschillen zijn nagelopen en zijn alleen dat ene regeleinde. Hulp niet geraakt.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v320</span> Schuin in vet blijft na opslaan schuin en vet <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Stond er in Document of het notitievenster schuin in een vet stuk met hetzelfde teken, dan was het na opslaan en opnieuw openen geen opmaak meer: je zag dan de tekens zelf (<code>__a _b___</code> of <code>**a *b* c**</code>). Dat gebeurde na plakken of verplaatsen van schuin met <code>_</code> in vet met <code>__</code>, en ook als je in een vet stuk Ctrl+I gebruikte. Nu krijgt het schuine of het vette deel het andere teken (<code>*</code> in plaats van <code>_</code> of andersom), zodat de opmaak blijft; de pagina kiest de kant waarbij de minste tekens veranderen. Wat je niet plakt of verplaatst, zoals <code>___beide___</code> of <code>**_x_**</code>, blijft teken voor teken staan.</li>
+      <li>Tests: drie nieuwe (twee in Node, waarvan één met 368 combinaties van vet en schuin, en één in de browser); ze falen op v319. De vastgelegde weergave van Document is exact gelijk gebleven. Hulp niet geraakt.</li>
+      <li>Nog bekend: schuin dat direct tegen een letter of cijfer staat (bijvoorbeeld na plakken midden in een woord) leest niet terug als opmaak; en vet met een los <code>*</code> erin, zoals <code>2*3</code>, kan met tekens alleen niet goed worden geschreven.</li>
+      <li>Handmatige actie: geen verplichte. Heb je eerder in een vet stuk Ctrl+I gebruikt of schuin in vet geplakt, dan kunnen er regels met losse tekens in je bestanden staan; die blijven zoals ze zijn. Zet de opmaak daar in Document opnieuw.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v319</span> In een citaat blijft de lege regel bij een punt staan <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Stond in een citaat (regels met <code>&gt;</code>) een punt of taak met een lege regel <code>&gt;</code> tussen het punt en zijn subpunt (of een codeblok of citaat eronder), en typte je in Document of het notitievenster in dat punt, dan verdween die regel bij opslaan. Die regel blijft nu staan, ook in een genest citaat en met Windows-regeleinden.</li>
+      <li>Tests: drie nieuwe (één in Node met elf vormen, twee in de browser, voor Document en het notitievenster, tot en met opslaan); ze falen op v318. Hulp niet geraakt.</li>
+      <li>Nog bekend (F-citaat1, als test vastgelegd): typ je ergens in een citaat, dan wordt een regel <code>&gt; </code> met een spatie erachter <code>&gt;</code> zonder spatie.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v318</span> 'één uur' telt mee <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Schreef je de uren of de frequentie met <i>één</i> met accenten (<code>één uur</code>, <code>Eén uur</code>, <code>één dag</code>, <code>één keer in 2026</code>), dan herkende de pagina dat niet: de taak kreeg geen uren en telde niet mee in de werkdruk (ze stond onder <i>Onvolledig</i>, en Tekstcontrole meldde het). <code>een uur</code> werkte wel. Nu telt elke schrijfwijze: <i>een</i>, <i>één</i>, <i>Eén</i>, <i>Één</i>, <i>éen</i> en <i>eén</i>, bij uren, dagen, dagdelen, kwartieren, een half uur, eenmalig met een jaar en <i>2 keer één week</i>. De fout is gevonden met de proef met ingebouwde fouten.</li>
+      <li>Tests: twee nieuwe in Node; ze falen op v317. De vastgelegde uitkomsten van de werkdrukberekening en van Wanneer zijn exact gelijk gebleven. Hulp bijgewerkt: <i>Uren</i>.</li>
+      <li>Handmatige actie: geen. Taken met <i>één uur</i> tellen na het openen vanzelf mee; kijk eventueel in het tabblad Taken of de werkdruk klopt.</li>
+    </ul></div>
     <div class="release"><h2><span class="versie">v317</span> Typen in een punt met een vervolgalinea komt in het bestand <span class="datum">24 nov 2026</span></h2><ul>
       <li><span class="soort herstel">herstel</span>Had een opsommingspunt of taak een vervolg eronder na een lege regel (een ingesprongen alinea of een sublijst), en typte je in Document of het notitievenster iets in de eerste regel van dat punt, dan stond je tekst op het scherm maar kwam hij niet in het bestand: na opslaan was hij weg, zonder melding. Je tekst komt nu in het bestand, en de rest van het punt blijft teken voor teken gelijk. Typen in het vervolg zelf ging al goed.</li>
       <li>Hoe het zat: de pagina zag de eerste regel van zo'n punt als een alinea binnen het punt, en nam bij een wijziging daarin de regels van het punt ongewijzigd uit het bestand over. De fout is gevonden met de proef met ingebouwde fouten.</li>
@@ -4453,6 +4475,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <p>Geef de tijd <b>per keer</b> op dat de taak voorkomt. Een wekelijkse taak van 2 uur kost dus 2 uur per week.</p>
     <ul>
       <li>Uren: <code>2 uur</code>, <code>1,5 uur</code>, <code>1.5u</code>, <code>2h</code>, <code>1u30</code>, <code>anderhalf uur</code></li>
+      <li>In woorden: <code>een uur</code>, <code>één uur</code>, <code>twee uur</code> … <code>twaalf uur</code>, ook met dagen en dagdelen (<code>één dag</code>).</li>
       <li>Minuten: <code>45 min</code>, <code>30 minuten</code>, <code>een kwartier</code>, <code>half uur</code></li>
       <li>Dagen: <code>1 dag</code>, <code>2 dagen</code>, <code>een halve dag</code>, <code>1 dagdeel</code> (4 uur). Een dag telt als jouw uren per werkdag (standaard 9).</li>
       <li>Een bandbreedte zoals <code>3-5 uur</code> wordt als gemiddelde gerekend (4 uur).</li>
@@ -6455,7 +6478,7 @@ function num(s) { return parseFloat(String(s).replace(',', '.')); }
 
 /* ---------- frequentie herkennen ---------- */
 const UNIT_WORD = '(werkdag|dag|week|maand|kwartaal|terti?aal|half\\s*jaar|jaar)';
-const RE_NPER = new RegExp('\\b(\\d+)\\s*(?:(?:x|×|keer|maal)\\s*(?:per\\s+|in\\s+de\\s+|in\\s+het\\s+|p\\/?\\s*|\\/\\s*|een\\s+)?|per\\s+)' + UNIT_WORD + '\\b', 'i');
+const RE_NPER = new RegExp('\\b(\\d+)\\s*(?:(?:x|×|keer|maal)\\s*(?:per\\s+|in\\s+de\\s+|in\\s+het\\s+|p\\/?\\s*|\\/\\s*|[eé]\\u0301?[eé]\\u0301?n\\s+)?|per\\s+)' + UNIT_WORD + '\\b', 'i');
 const FREQ_STRICT = [
   ['2week', /\b(twee-?wekelijks|2-?wekelijks|om\s+de\s+(?:twee\s+|2\s+)?(?:weken|week)|(?:elke|iedere|per)\s+(?:twee|2)\s+weken|bi-?weekly)\b/i],
   ['week', /\b(wekelijks|(?:elke|iedere|per)\s+week|weekly)\b/i],
@@ -6495,7 +6518,7 @@ function unitToFreq(u, n) {
 /* Zoekt een frequentie in tekst. mode: 'strict' (alleen duidelijke woorden),
    'liberal' (ook kale woorden als 'kwartaal'), 'heading' (ook 'Wekelijkse taken'). */
 // Eenmalig, met jaar: 'eenmalig 2026', 'eenmalig in 2026', 'eenmalig (2026)', '1x in 2026'
-const RE_EENMALIG = /\b(?:eenmalig|eenmalige|(?:1|een|één)\s*(?:x|×|keer|maal)\s+in)\b(?:\s*(?:in\s+|\(|,|:|-)?\s*(20\d{2}|19\d{2})\)?)?/i;
+const RE_EENMALIG = /(?<!\w)(?:eenmalig|eenmalige|(?:1|[eé]\u0301?[eé]\u0301?n)\s*(?:x|×|keer|maal)\s+in)\b(?:\s*(?:in\s+|\(|,|:|-)?\s*(20\d{2}|19\d{2})\)?)?/i;
 function parseFreq(text, mode) {
   const s = String(text);
   let m = RE_EENMALIG.exec(s);
@@ -6529,7 +6552,9 @@ function parseFreq(text, mode) {
 
 /* ---------- uren herkennen ---------- */
 const H_UNIT = '(uren|uur|u|hours?|hrs?|h|minuten|minuut|mins?|min|m|dagdelen|dagdeel|werkdagen|werkdag|dagen|dag)';
-const NUMWORDS = { een: 1, 'één': 1, twee: 2, drie: 3, vier: 4, vijf: 5, zes: 6, zeven: 7, acht: 8, negen: 9, tien: 10, twaalf: 12 };
+const NUMWORDS = { een: 1, twee: 2, drie: 3, vier: 4, vijf: 5, zes: 6, zeven: 7, acht: 8, negen: 9, tien: 10, twaalf: 12 };
+// v318: 'een' in elke schrijfwijze (één, Eén, éen, eén, ook met een los accentteken) telt als een
+function telwoord(w) { return NUMWORDS[w.toLowerCase().normalize('NFD').replace(/\u0301/g, '')]; }
 function unitConv(v, unit) {
   const u = unit.toLowerCase();
   if (/^(uren|uur|u|hours?|hrs?|h)$/.test(u)) return { v, u: 'h' };
@@ -6547,15 +6572,15 @@ function parseHours(text, allowPlain) {
   if ((m = new RegExp('(\\d+(?:[.,]\\d+)?)\\s*(?:-|–|tot|à)\\s*(\\d+(?:[.,]\\d+)?)\\s*' + H_UNIT + '\\b', 'i').exec(s)))
     return res(unitConv((num(m[1]) + num(m[2])) / 2, m[3]), m);
   if ((m = /\banderhalf\s+uur\b/i.exec(s))) return res({ v: 1.5, u: 'h' }, m);
-  if ((m = /\b(?:een\s+|één\s+)?half\s*uur\b/i.exec(s))) return res({ v: 0.5, u: 'h' }, m);
+  if ((m = /(?:(?<!\w)[eé]\u0301?[eé]\u0301?n\s+|\b)half\s*uur\b/i.exec(s))) return res({ v: 0.5, u: 'h' }, m);
   if ((m = /\bhalve\s+(?:werk)?dag(?:en)?\b/i.exec(s))) return res({ v: 0.5, u: 'd' }, m);
   if ((m = /\bhele\s+(?:werk)?dag\b/i.exec(s))) return res({ v: 1, u: 'd' }, m);
-  if ((m = /(?:\b(\d+)\s*|\b(een|één|twee|drie|vier)\s+)?\bkwartier\b/i.exec(s))) {
-    const n = m[1] ? +m[1] : (m[2] ? NUMWORDS[m[2].toLowerCase()] : 1);
+  if ((m = /(?:\b(\d+)\s*|(?<!\w)([eé]\u0301?[eé]\u0301?n|twee|drie|vier)\s+)?\bkwartier\b/i.exec(s))) {
+    const n = m[1] ? +m[1] : (m[2] ? telwoord(m[2]) : 1);
     return res({ v: n * 0.25, u: 'h' }, m);
   }
-  if ((m = /\b(een|één|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twaalf)\s+(uren|uur|dagdelen|dagdeel|werkdagen|werkdag|dagen|dag)\b/i.exec(s)))
-    return res(unitConv(NUMWORDS[m[1].toLowerCase()], m[2]), m);
+  if ((m = /(?<!\w)([eé]\u0301?[eé]\u0301?n|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twaalf)\s+(uren|uur|dagdelen|dagdeel|werkdagen|werkdag|dagen|dag)\b/i.exec(s)))
+    return res(unitConv(telwoord(m[1]), m[2]), m);
   if ((m = new RegExp('(\\d+(?:[.,]\\d+)?)\\s*' + H_UNIT + '\\b', 'i').exec(s))) return res(unitConv(num(m[1]), m[2]), m);
   if (allowPlain && (m = /^\s*[~±≈]?\s*(?:ca\.?\s*)?(\d+(?:[.,]\d+)?)\s*$/i.exec(s))) return res({ v: num(m[1]), u: 'h' }, m);
   return null;
@@ -8082,16 +8107,46 @@ WIB.kern.document = (function () {
   function codeSpan(t) { return t.indexOf('`') < 0 ? '`' + t + '`' : '`` ' + t + ' ``'; }
   // v316: het nadrukteken uit het bestand (_ of __, in data-md) blijft staan; anders, of als er nu een _ in de tekst staat
   // (dan zou _ geen nadruk meer geven), * of **. Code, links en afbeeldingen tellen niet mee: die worden eerst apart gelezen.
+  function nadrukLos(x) {
+    return knopen(x).map(function (k) {
+      if (k.nodeType === 3) return String(k.nodeValue);
+      if (k.nodeType !== 1 || isExtra(k) || /^(code|a|img)$/.test(tagVan(k))) return '';
+      return kenmerk(k, 'data-md') !== null && !/^(em|strong)$/.test(tagVan(k)) ? '' : nadrukLos(k);
+    }).join('');
+  }
   function nadrukTeken(n, eigen, standaard) {
     if (kenmerk(n, 'data-md') !== eigen) return standaard;
-    const los = function (x) {
-      return knopen(x).map(function (k) {
-        if (k.nodeType === 3) return String(k.nodeValue);
-        if (k.nodeType !== 1 || isExtra(k) || /^(code|a|img)$/.test(tagVan(k))) return '';
-        return kenmerk(k, 'data-md') !== null && !/^(em|strong)$/.test(tagVan(k)) ? '' : los(k);
-      }).join('');
-    };
-    return los(n).indexOf('_') < 0 ? eigen : standaard;
+    return nadrukLos(n).indexOf('_') < 0 ? eigen : standaard;
+  }
+  // v320: vet met ** kan geen * in zich hebben en vet met __ geen _ (zo leest de weergave de markdown), behalve schuin om
+  // de hele vette tekst (***x***, ___x___). Staat er schuin met hetzelfde teken in vet (na plakken of verplaatsen, of
+  // Ctrl+I in vet), dan krijgt het binnenste of het buitenste deel het andere teken: wat de minste tekens verandert
+  // (een schuin deel 2, het vette deel 4; bij gelijk het schuine deel), en alleen als dat teken niet al in die tekst staat.
+  // Geeft het teken voor het vette deel en een Map met het teken voor elk schuin deel dat anders wordt (of null). In schuin
+  // (al.i) wordt schuin binnen het vette deel niet geschreven, dus botst er niets.
+  function vetTekens(n, teken, inSchuin) {
+    const schuin = [];
+    if (inSchuin) return { teken: teken, schuin: null };
+    (function zoek(x) {
+      knopen(x).forEach(function (k) {
+        if (k.nodeType !== 1 || isExtra(k) || /^(code|a|img)$/.test(tagVan(k))) return;
+        const t = tagVan(k);
+        if (kenmerk(k, 'data-md') !== null && !/^(em|strong)$/.test(t)) return;
+        if (t === 'em' || t === 'i') schuin.push({ n: k, teken: nadrukTeken(k, '_', '*') }); else zoek(k);
+      });
+    })(n);
+    const botst = schuin.filter(function (s) { return s.teken.charAt(0) === teken.charAt(0); });
+    if (!botst.length) return { teken: teken, schuin: null };
+    // schuin om de hele vette tekst: ***x*** en ___x___ lezen wel terug
+    const rest = knopen(n).filter(function (k) { return !(k.nodeType === 3 && !String(k.nodeValue).trim()) && !isExtra(k); });
+    if (schuin.length === 1 && rest.length === 1 && rest[0] === schuin[0].n) return { teken: teken, schuin: null };
+    const ander = function (t) { return t.charAt(0) === '_' ? t.replace(/_/g, '*') : t.replace(/\*/g, '_'); };
+    const vrij = function (x, t) { return nadrukLos(x).indexOf(t.charAt(0)) < 0; };
+    const binnen = botst.every(function (s) { return vrij(s.n, ander(s.teken)); });
+    const buiten = botst.length === schuin.length && vrij(n, ander(teken));
+    if (buiten && (!binnen || 2 * botst.length > 4)) return { teken: ander(teken), schuin: null };
+    if (!binnen) return { teken: teken, schuin: null };
+    return { teken: teken, schuin: new Map(botst.map(function (s) { return [s.n, ander(s.teken)]; })) };
   }
 
   // inline-opmaak terug naar markdown
@@ -8120,10 +8175,11 @@ WIB.kern.document = (function () {
       if (t === 'code') { s += codeSpan(tekstVan(n)); return; }
       if (t === 'br') { s += '\\\n'; return; }
       if (t === 'img') { s += '![' + (kenmerk(n, 'alt') || '') + '](' + (kenmerk(n, 'src') || '') + ')'; return; }
-      const binnen = inlineMd(knopen(n), soort ? Object.assign({}, al, { [soort]: true }) : al);
+      const vet = soort === 'b' && !al.b ? vetTekens(n, nadrukTeken(n, '__', '**'), al.i) : null;
+      const binnen = inlineMd(knopen(n), soort ? Object.assign({}, al, { [soort]: true }, vet && vet.schuin ? { schuin: vet.schuin } : {}) : al);
       if (soort && al[soort]) s += binnen;
-      else if (soort === 'b') s += omhul(nadrukTeken(n, '__', '**'), binnen);
-      else if (soort === 'i') s += omhul(nadrukTeken(n, '_', '*'), binnen);
+      else if (soort === 'b') s += omhul(vet.teken, binnen);
+      else if (soort === 'i') s += omhul((al.schuin && al.schuin.get(n)) || nadrukTeken(n, '_', '*'), binnen);
       else if (soort === 's') s += omhul('~~', binnen);
       else if (t === 'span' && heeftKlasse(n, 'kop-urgent')) s += binnen;   // v182: komt uit <!-- urgent --> in data-staart, geen !!
       else if (t === 'span' && heeftKlasse(n, 'urgent')) s += omhul('!!', binnen);
@@ -8413,7 +8469,7 @@ WIB.kern.document = (function () {
       const voorLeeg = uit.length;
       if (r && eerste && eerste.van > r.van) {
         let e = eerste.van - 1;
-        while (e > r.van && ctx.bron[e].trim() === '') e--;
+        while (e > r.van && /^[\s>]*$/.test(ctx.bron[e])) e--;   // v319: in een citaat is de lege regel '>'
         tussenregels(ctx.bron, e + 1, eerste.van).forEach(function (x) { uit.push(x); });
       }
       // v195: een alinea in het punt heeft een lege regel ervoor nodig, anders hoort hij bij de tekst van het punt
@@ -15176,7 +15232,8 @@ WIB.kern.werkdruk = (function () {
     }
     L.push('', '## Verlofplanning', 'Ingeplande verlofdagen: datum: hele dag of halve dag.', '');
     for (const y of Object.keys(verlofPlan).sort()) for (const k of Object.keys(verlofPlan[y]).sort()) L.push('- ' + k + ': ' + (verlofPlan[y][k] === 0.5 ? 'halve dag' : 'hele dag'));
-    return eigenRegelsTerug(L.join('\n') + '\n', basis);
+    // v321: precies één regeleinde aan het eind, ook zonder verlofplanning (tot v320 kwam er dan een lege regel achter)
+    return eigenRegelsTerug(L.join('\n').replace(/\n+$/, '') + '\n', basis);
   }
   // Eigen aantekeningen in instellingen.md bewaren (v111). basis is de tekst zoals die nu in het bestand staat.
   // Regels die de pagina niet gebruikt en die niet al in de nieuwe tekst staan, komen terug onder dezelfde kop,
