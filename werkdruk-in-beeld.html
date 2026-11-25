@@ -2551,6 +2551,12 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v326</span> Een link met haakjes in het adres wordt als geheel herkend <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Stond er in een taak een link met haakjes in het adres, zoals <code>[plan](docs/plan(1).pdf)</code>, dan hield de pagina het adres voor afgelopen bij het eerste haakje sluiten. De rest (<code>.pdf)</code>) kwam dan als tekst in de naam of bij wanneer van de taak terecht, en <b>Taak bewerken</b> zette maar een halve link terug. Nu mag het adres van een link of afbeelding één paar haakjes bevatten, net als in Document: de link wordt als geheel herkend, er komt geen stuk adres in de taak, en Taak bewerken laat de hele link staan.</li>
+      <li>Goed om te weten: de bijlagen die de pagina zelf maakt, hadden hier geen last van; daarin staan haakjes gecodeerd in het adres. Een haakje dat niet sluit (<code>[x](a(1.pdf)</code>) is geen link; zo toont Document het ook, en de tekst blijft dan letterlijk in de taak staan.</li>
+      <li>Tests: drie nieuwe (twee in Node, één in de browser voor Taak bewerken); ze falen op v325. De vastgelegde uitkomsten van de werkdrukberekening zijn exact gelijk gebleven. Hulp niet geraakt.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
     <div class="release"><h2><span class="versie">v325</span> Een bestand naar Document slepen bewaart het in hoofdmap/ <span class="datum">25 nov 2026</span></h2><ul>
       <li><span class="soort nieuw">nieuw</span>Sleep je een of meer bestanden naar het tabblad <b>Document</b>, dan zet de pagina een kopie in de map <code>hoofdmap</code> (naast <code>werkdruk.md</code>) en zet ze een link naar het bestand in je document, met de bestandsnaam als tekst. Laat je het los op een punt of taak, dan komt de link achter de tekst van dat punt, op dezelfde regel (vóór een verborgen code als <code>&lt;!-- urgent --&gt;</code>); er komt dus geen punt bij en de taak blijft dezelfde taak. Laat je het los op een kop, alinea, tabel of codeblok, dan komt de link als losse regel eronder; die telt niet als taak. Naast de tekst losgelaten: bij het blok van de cursor, en zonder cursor als losse regel onderaan. Meer bestanden tegelijk komen achter elkaar op die regel. Tijdens het slepen staat er wat er gaat gebeuren. De link staat in je niet-opgeslagen tekst: sla het document op om hem te bewaren; <i>Ongedaan maken</i> haalt hem weer weg (het bestand blijft staan). Een klik op de link opent het bestand, zoals een bijlage van een project. De map <code>hoofdmap</code> komt er pas als er een bestand in komt. In het tabblad <b>Bewerken</b> werkt het ook, bij de regel van de cursor.</li>
       <li><span class="soort nieuw">nieuw</span>Er wordt nooit een bestand overschreven, met dezelfde regels als bij de bijlagen van een project: dezelfde naam en dezelfde inhoud geeft alleen een link, een andere inhoud een volgnummer (<code>offerte (2).pdf</code>). Elke kopie wordt teruggelezen en vergeleken; lukt het kopiëren niet, dan blijft er geen half bestand, geen link en geen lege map achter, en lees je per bestand waarom. Een map kan geen bijlage zijn.</li>
@@ -6503,11 +6509,13 @@ function holidayEnabled(h, settings) {
 }
 
 /* ---------- tekst opschonen ---------- */
+// v326: het adres van een link mag één paar haakjes bevatten, zoals offerte(1).pdf (net als in Document, zie inline);
+// tot v325 hield het adres op bij het eerste haakje sluiten en bleef de rest (.pdf)) als tekst in de taak staan
 function cleanInline(s) {
   return String(s)
     .replace(/<[^>]+>/g, ' ')
-    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
-    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/!\[([^\]]*)\]\((?:[^()]|\([^()]*\))*\)/g, '$1')
+    .replace(/\[([^\]]*)\]\((?:[^()]|\([^()]*\))*\)/g, '$1')
     .replace(/!!/g, '')
     .replace(/\*\*|__|`|~~/g, '')
     .replace(/(^|[\s(])\*(\S(?:[^*]*\S)?)\*(?=[\s).,;:!?]|$)/g, '$1$2')
@@ -6541,7 +6549,7 @@ function maskeerLinks(text) {
     return teken.repeat(c.length);
   };
   const m = s.replace(/<[^>]+>/g, ' ')
-    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, function (_, t) { return masker(t); })
+    .replace(/!?\[([^\]]*)\]\((?:[^()]|\([^()]*\))*\)/g, function (_, t) { return masker(t); })
     .replace(/\b(?:https?:\/\/|www\.)[^\s<>()]*[^\s<>().,;:!?]/gi, function (u) { return masker(u); });
   const tekst = cleanInline(m);
   return { tekst: tekst, gelijk: tekst.length === gewoon.length };
@@ -15727,7 +15735,7 @@ WIB.kern.werkdruk = (function () {
      - regelLinksTerug(regel, links): elke link die niet meer letterlijk in de nieuwe regel staat, komt achteraan, in de
        oorspronkelijke volgorde, elk met één spatie ervoor (de verborgen codes zet het venster daarna zelf achter de regel). */
   function regelLinks(body) {
-    const uit = [], re = /!?\[([^\]]*)\]\([^)]*\)/g;
+    const uit = [], re = /!?\[([^\]]*)\]\((?:[^()]|\([^()]*\))*\)/g;   // v326: met één paar haakjes in het adres, zoals cleanInline
     let m;
     const kaal = String(body || '').replace(/<!--[\s\S]*?-->/g, function (c) { return ' '.repeat(c.length); });
     while ((m = re.exec(kaal))) uit.push({ md: m[0], tekst: cleanInline(m[1]) });
