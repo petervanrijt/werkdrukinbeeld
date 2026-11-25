@@ -1691,7 +1691,8 @@ body {
 .za-tip { font-size: var(--fs-xs); color: var(--muted); margin: 8px 2px 0; }   /* zwaarder dan .hulp, die (sinds v134 samengevoegd) later staat */
 #notitievenster .hulp-vlak { max-width: 1280px; width: 96vw; height: 90vh; max-height: 90vh; display: flex; flex-direction: column; padding: 0; overflow: hidden; position: relative; }
 /* v236: je sleept een bestand boven het notitievenster; de tekst staat in data-sleep. Sinds v325 ook boven Document (#hoofd):
-   daar staat het vlak vast in beeld, naast de zijbalk (de plek komt uit --sleep-plek, --sleep-rand en --sleep-laag van #hoofd) */
+   daar staat het vlak vast in beeld, naast de zijbalk (de plek komt uit --sleep-plek, --sleep-rand en --sleep-laag van #hoofd).
+   Sinds v338 begint het onder de balk en de werkbalk van het tabblad: de pagina meet dat tijdens het slepen (--sleep-boven) */
 #notitievenster .hulp-vlak[data-sleep]::after, #hoofd[data-sleep]::after { content: attr(data-sleep); position: var(--sleep-plek, absolute); inset: var(--sleep-rand, 8px); z-index: var(--sleep-laag, 3); display: flex; align-items: center; justify-content: center; padding: 16px; text-align: center; border: 2px dashed var(--accent); border-radius: var(--radius-l, 16px); background: var(--accent-soft); color: var(--ink); font-size: var(--fs-kop-3); font-weight: 600; pointer-events: none; }
 .nt-kop { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--line); }
 .nt-kop h2 { margin: 0; font-size: var(--fs-kop-2); font-family: var(--font-display); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -2162,7 +2163,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   margin: 0; padding: 20px 10px 16px; overflow-y: auto; overflow-x: hidden;
   background: var(--bg); border-right: 1px solid var(--line);
 }
-#hoofd { margin-left: var(--zijbalk); --sleep-plek: fixed; --sleep-rand: calc(var(--balkhoogte, 56px) + 12px) 12px 12px calc(var(--zijbalk) + 12px); --sleep-laag: 60; }
+#hoofd { margin-left: var(--zijbalk); --sleep-plek: fixed; --sleep-rand: var(--sleep-boven, calc(var(--balkhoogte, 56px) + 12px)) 12px 12px calc(var(--zijbalk) + 12px); --sleep-laag: 60; }
 .zijbalk .tabgroep { display: flex; flex-direction: column; align-items: stretch; gap: 1px; border: 0; background: transparent; padding: 0; border-radius: 0; }
 .zijbalk .gebiedsnaam { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding: 0 14px 4px; white-space: nowrap; }
 .zijbalk button[role="tab"] {
@@ -2551,6 +2552,75 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h1>Release notes</h1>
     <p>Elke versie is een opgeleverd bestand. Vanaf v82 zijn Werkdruk in beeld en EBS (Extern Brein Systeem) samengevoegd tot één pagina en loopt de nummering van EBS door. De geschiedenis van beide projecten staat ongewijzigd onder de nieuwe versies. Nieuwste bovenaan. Per punt: <span class="soort nieuw">nieuw</span> = nieuwe of gewijzigde functionaliteit, <span class="soort herstel">herstel</span> = reparatie.</p>
 
+    <div class="release"><h2><span class="versie">v339</span> Notities zonder map via de gegevenslaag <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Werk je zonder map (geen map gekozen, het voorbeeld, of een map die de browser alleen laat lezen), dan lopen je notities en hun versies nu via dezelfde vaste weg als met een map. Tot v338 hield het notitievenster daarvoor een eigen geheugen bij, met eigen stappen voor opslaan, afvinken en Code omzetten. Verder zie je geen verschil, op één randgeval na: een versie van een notitie die niet op een regeleinde eindigde, krijgt er nu een, net als met een map. Daardoor kan de telling bij Versies één regel anders zijn, en geeft Terugzetten één regeleinde extra.</li>
+      <li>Ook gelijkgetrokken met de werking met een map: het rapport van Code omzetten zegt bij een code die alleen een versiebestand heeft <i>bestaan al versies</i> in plaats van <i>notities (leeg)</i>.</li>
+      <li>Tests: vier tests leggen vooraf vast wat er zonder map gebeurt (volgorde, een versiebestand zonder notitie, Windows-regeleinden en BOM, licenties, Overgang, Dossier, Versies, downloaden, Zoeken, opslaan, afvinken, Code omzetten met andere projecten, het voorbeeld) en slagen vóór en na; drie nieuwe tests (de laag in Node, de bewaking dat het eigen geheugen niet terugkomt, en het randgeval van de versies) falen op v338. Het vastgelegde gedrag van alle gegevensacties en van Code omzetten is exact gelijk gebleven. Hulp niet geraakt.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v338</span> Het neerzetvlak laat de werkbalk vrij <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Sleep je een bestand over <b>Document</b> of <b>Bewerken</b>, dan lag het vlak met <i>Laat los om het bestand in hoofdmap/ te bewaren …</i> over de werkbalk, op een telefoon zelfs over een deel van de knoppen. Nu begint het vlak op elke breedte onder de balk en de werkbalk, ook als je de pagina hebt gescrold, en loopt het tot onderaan, naast de zijbalk. Het vlak in het notitievenster blijft zoals het was.</li>
+      <li>Tests: één nieuwe browsertest meet de plek van het vlak op 1400, 1000, 720, 600 en 400 px, in de stijlen papier, contrast en compact en na scrollen; hij faalt op v337. De rest van de opmaak is voor en na gemeten en gelijk gebleven. Hulp niet geraakt.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v337</span> De opzetregel wijst het goede veld aan, ook met een link in de taak <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Stond er in een taak een link, een afbeelding of een webadres met <code> - </code> in de tekst of het adres, dan telde de opzetregel boven de tekst (in <b>Document</b> en <b>Bewerken</b>) dat streepje als scheiding: hij markeerde dan het verkeerde veld (bijvoorbeeld <i>wanneer</i> terwijl je in de frequentie typte) en soms de verkeerde ontbrekende velden. De berekening deed dat sinds v323 al niet meer. Nu wijst de opzetregel hetzelfde veld aan als de berekening leest.</li>
+      <li>Tests: twee nieuwe (in Node het afdekken van links in een regel, in de browser de opzetregel in Document en Bewerken); ze falen op v336. De vastgelegde uitkomsten van de werkdrukberekening zijn exact gelijk gebleven. Hulp niet geraakt.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v336</span> Urgent in Bewerken werkt op het hele punt <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Stond <code>&lt;!-- urgent --&gt;</code> op een eigen regel onder een punt of aan het eind van een vervolgregel, dan zette de knop <i>Urgent</i> in het tabblad <b>Bewerken</b> er een tweede code bij in plaats van de bestaande weg te halen. Nu doet de knop hetzelfde als in Document: hij werkt op het punt, de alinea of de kop waar de cursor in staat, ook als de cursor op een vervolgregel of op de regel met alleen de code staat. De code gaat weg waar hij staat (een regel met alleen de code verdwijnt helemaal) en komt bij aanzetten achter de eerste regel. Met <kbd>Ctrl</kbd>+<kbd>Z</kbd> maak je het ongedaan; dat kon bij deze knop eerder niet. De cursor blijft nu op zijn plek in plaats van naar het eind van de regel te springen.</li>
+      <li>Tests: twee nieuwe (in Node welk blok bij de cursor hoort: punt, vervolgregel, genest punt, alinea, citaat, los punt, kop, codeblok; in de browser de knop met ongedaan maken); ze falen op v335. Hulp bijgewerkt: <i>Bewerken en opslaan</i>.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v335</span> Na Code omzetten gaat er geen getypte tekst meer verloren <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Na <i>Code omzetten</i> opent de pagina de notities onder de nieuwe code. Tot dat gebeurd is, staat het notitievenster op bezig (de status zegt <i>Notities openen onder …</i>) en kun je er niet in typen of op de knoppen klikken. Tot nu toe kon je in dat korte moment in het venster met de oude tekst typen, en ging die tekst daarna stil verloren. Zodra de notities open zijn, of het venster na een mislukt openen is gesloten, werkt alles weer gewoon.</li>
+      <li>Tests: één nieuwe browsertest met drie gevallen (de opmaakweergave, het tekstvak en een mislukt openen), waarin het lezen van de nieuwe notitie wordt vastgehouden; hij faalt op v334. Hulp bijgewerkt: <i>Notities per code</i>.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v334</span> De controle bij het openen ook in een map die alleen gelezen kan worden <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Open je een map die de pagina alleen kan lezen (Firefox, Safari, of een browser zonder mapkiezer), dan kijkt de pagina nu ook stil elk bestand na, net als in een map waarin ze kan schrijven: werkdruk.md, instellingen.md, daginvoer.md, de drie historiebestanden en alle notities met hun versiebestanden. Is een bestand halverwege afgebroken, of zou er bij je eerste wijziging tekst uit verdwijnen, dan krijg je één melding en staat het onder Bron in de zijbalk en in Tekstcontrole (soort <i>Bestand</i>). Tot nu toe liep die controle daar niet.</li>
+      <li><span class="soort herstel">herstel</span>Een los bestand wordt bij het openen ook nagekeken; wat de pagina vindt (bijvoorbeeld een BOM) staat in Tekstcontrole onder de soort <i>Bestand</i>.</li>
+      <li>Goed om te weten: in een map die alleen gelezen kan worden, kan <i>Opnieuw inladen</i> niet; kies de map opnieuw om de bestanden opnieuw te laten nakijken. Een los <code>instellingen.md</code> wordt niet nagekeken, alleen toegepast.</li>
+      <li>Tests: drie nieuwe (één in Node voor de opslag die alleen leest, twee in de browser: een map die alleen gelezen kan worden en een los bestand via beide kiezers); ze falen op v333. Hulp bijgewerkt: <i>Tekstcontrole</i>.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v333</span> Een los bestand dat niet te lezen is, laat je map niet meer los <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Kies je via <i>Bron</i> (of door neerzetten) een los bestand terwijl er een map open is, dan laat de pagina de map pas los als het nieuwe bestand goed is gelezen. Mislukt het lezen (het bestand is bezet, niet als UTF-8 opgeslagen of niet te lezen), dan blijft alles zoals het was: je document, je map, de bewaking en je niet-opgeslagen tekst; de melding zegt wat er mis is. Tot nu toe was de map dan toch losgelaten en werkte je ongemerkt niet meer in je map. Met een document open kreeg je bij de gewone bestandskiezer bovendien geen melding; die komt er nu.</li>
+      <li>Tests: één nieuwe browsertest met vijf wegen (de bestandskiezer met een bezet bestand, met een bestand in een andere codering en met niet-opgeslagen tekst; de gewone kiezer; neerzetten); hij faalt op v332. Hulp bijgewerkt: <i>De balk en de tabbladen</i>.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v332</span> Opmaak die niet terug te lezen is, geeft geen losse tekens meer in het bestand <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Stond er in Document of het notitievenster vet of schuin dat in markdown zo niet te schrijven is, dan kwamen er bij opslaan losse tekens in het bestand en zag je na opnieuw openen die tekens in plaats van de opmaak. Bijvoorbeeld schuin midden in een woord (<code>wo_schuin_ord</code>), schuin direct tegen een cijfer (<code>*x*2</code>), vet om <code>2*3</code> (<code>**2*3**</code>) en twee schuine stukken direct na elkaar. Nu controleert de pagina bij het schrijven of de tekst terugleest als wat je ziet. Kan het met het andere teken, dan krijgt het dat: vet om <code>2*3</code> wordt <code>__2*3__</code>, schuin om <code>2*3</code> wordt <code>_2*3_</code>. Kan het helemaal niet met tekens (schuin direct tegen een letter of cijfer, of vet of schuin met zowel een <code>*</code> als een <code>_</code> erin), dan bewaart de pagina de tekst zonder die opmaak: na opnieuw openen staat je tekst er precies zo, alleen niet schuin of vet. Wat al goed terugleest, blijft teken voor teken staan.</li>
+      <li>Tests: drie nieuwe (twee in Node, waarvan één met 1.776 combinaties van vet en schuin naast letters, cijfers en tekens, en één in de browser); ze falen op v331. Twee bestaande tests zijn aangepast: ze legden een uitvoer vast die niet terugleest. De vastgelegde weergave van Document is exact gelijk gebleven. Hulp bijgewerkt (Document en mindmap).</li>
+      <li>Handmatige actie: geen verplichte. Heb je eerder schuin midden in een woord gezet of vet om iets met een <code>*</code>, dan kunnen er losse tekens in je bestanden staan; die blijven staan zoals ze zijn. Haal ze in Document weg als je ze tegenkomt.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v331</span> Nadruk met spaties binnen de tekens blijft zoals hij was <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Stonden er in Document of het notitievenster spaties binnen de tekens van vet, schuin of doorgehaald, zoals <code>_ los _</code>, <code>* los *</code>, <code>** vet **</code> of <code>~~ weg ~~</code>, en typte je ergens in dezelfde alinea of hetzelfde punt, dan schreef de pagina het als <code>_los_</code> met de spaties erbuiten, en met een dubbele spatie ervoor en erna. Document toont zulke tekst gewoon als vet of schuin, maar in Taken telt alleen <code>_los_</code> als nadruk; een taak kon zo een andere naam krijgen. Wat je niet aanraakt, blijft nu teken voor teken staan. Typ je in het vette of schuine stuk zelf, dan blijven de spaties ook binnen de tekens. Nieuwe opmaak (<kbd>Ctrl</kbd>+<kbd>B</kbd> of <kbd>Ctrl</kbd>+<kbd>I</kbd>) krijgt de spaties nog altijd buiten de tekens.</li>
+      <li>Tests: vijf nieuwe (drie in Node, twee in de browser, voor Document en het notitievenster); ze falen op v330. De vastgelegde weergave van Document is exact gelijk gebleven. Hulp niet geraakt.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v330</span> Code met backticks of spaties blijft in het bestand zoals hij was <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Stond er in Document of het notitievenster code tussen backticks met een backtick of spaties erin, en typte je ergens in dezelfde alinea of hetzelfde punt, dan schreef de pagina die code anders terug: <code>``a`b``</code> werd <code>`` a`b ``</code> en <code>` a `</code> werd <code>`a`</code>. Soms veranderde ook de betekenis: lege code (<code>` `</code>) werd twee losse backticks, en <code>```x`` y```</code> werd code <i>x</i> met losse tekens erachter. Code die je niet aanraakt, blijft nu teken voor teken staan. Typ je in de code zelf, dan schrijft de pagina hem zo dat hij na opnieuw openen dezelfde code is.</li>
+      <li>Tests: vijf nieuwe (drie in Node, waarvan één met 1.074 schrijfwijzen van code, en twee in de browser, voor Document en het notitievenster); ze falen op v329. Twee bestaande tests zijn aangepast omdat code nu de schrijfwijze uit het bestand bij zich draagt. De vastgelegde weergave van Document is exact gelijk gebleven. Hulp niet geraakt.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v329</span> Eén in meer schrijfwijzen <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Bij de uren en de frequentie telt <i>een</i> nu ook met è of ë (<code>èèn uur</code>, <code>eën keer in 2026</code>) en met een los accentteken ´ of ` (<code>e´e´n uur</code>), overal waar <code>één</code> al telde. Een woord waar <i>een</i> alleen in zit, telt niet: <code>ééén uur</code> telde tot nu toe als een uur, en dat is nu niet meer zo.</li>
+      <li>Tests: drie nieuwe in Node (zestien schrijfwijzen die tellen, en 34 gewone woorden zoals <i>ideeën</i>, <i>zeeën</i> en <i>geen</i> die niet tellen); ze falen op v328. De vastgelegde uitkomsten van de werkdrukberekening en van Wanneer zijn exact gelijk gebleven. Hulp bijgewerkt: <i>Uren</i>.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v328</span> Tabelkoppen preciezer herkend <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Een kolom in een tabel telt alleen als frequentie, wanneer, categorie of opmerkingen als het woord los staat of in een samenstelling die hetzelfde betekent (<i>Uitvoeringsmoment</i>, <i>Jaarplanning</i>, <i>Subcategorie</i>, <i>Slotopmerking</i>). Een kolom als <i>Momentopname</i>, <i>Planningsstatus</i>, <i>Domeinnaam</i>, <i>Notitiecode</i> of <i>Frequentiecode</i> telt niet meer mee, zodat de taak wanneer, categorie en opmerkingen uit de juiste kolom haalt.</li>
+      <li>Tests: twee nieuwe in Node, met een lijst van ruim zeventig koppen (wat goed ging, blijft goed); ze falen op v327. De vastgelegde uitkomsten van de werkdrukberekening zijn exact gelijk gebleven. Hulp bijgewerkt: <i>Je takenlijst aanleveren</i> (bij de tabel).</li>
+      <li>Handmatige actie: geen, tenzij je een tabel hebt met een kolom als <i>Frequent</i> of <i>Planningstool</i> die je als frequentie of wanneer bedoelde; geef die kolom dan de kop <i>Frequentie</i> of <i>Wanneer</i>.</li>
+    </ul></div>
+    <div class="release"><h2><span class="versie">v327</span> Urgent op een eigen regel telt in alle tabbladen <span class="datum">25 nov 2026</span></h2><ul>
+      <li><span class="soort herstel">herstel</span>Zet je <code>&lt;!-- urgent --&gt;</code> op een eigen regel onder een taak, of aan het eind van een vervolgregel, dan is de taak nu ook urgent in Taken en bij <i>Alleen urgent</i> in Dag, Week en Jaar, net als in Document. Tot nu toe telde dat alleen als de code op de regel van de taak zelf stond. In een genest punt hoort de code bij het punt waar hij onder staat; na een lege regel telt hij niet. De code komt nooit als tekst in de taak en een regel met alleen de code wordt geen taak.</li>
+      <li>Tests: vier nieuwe (drie in Node, waarvan één de berekening vergelijkt met wat Document toont over 288 combinaties; één in de browser voor Taken en <i>Alleen urgent</i>); ze falen op v326. De vastgelegde uitkomsten van de werkdrukberekening zijn exact gelijk gebleven. Hulp bijgewerkt: <i>Opmaakcodes</i>.</li>
+      <li>Nog bekend: staat er direct onder een urgent punt, zonder lege regel, een regel die de berekening als eigen taak leest, dan toont Document die regel als vervolg van het urgente punt, maar is die taak in Taken niet urgent.</li>
+      <li>Handmatige actie: geen.</li>
+    </ul></div>
     <div class="release"><h2><span class="versie">v326</span> Een link met haakjes in het adres wordt als geheel herkend <span class="datum">25 nov 2026</span></h2><ul>
       <li><span class="soort herstel">herstel</span>Stond er in een taak een link met haakjes in het adres, zoals <code>[plan](docs/plan(1).pdf)</code>, dan hield de pagina het adres voor afgelopen bij het eerste haakje sluiten. De rest (<code>.pdf)</code>) kwam dan als tekst in de naam of bij wanneer van de taak terecht, en <b>Taak bewerken</b> zette maar een halve link terug. Nu mag het adres van een link of afbeelding één paar haakjes bevatten, net als in Document: de link wordt als geheel herkend, er komt geen stuk adres in de taak, en Taak bewerken laat de hele link staan.</li>
       <li>Goed om te weten: de bijlagen die de pagina zelf maakt, hadden hier geen last van; daarin staan haakjes gecodeerd in het adres. Een haakje dat niet sluit (<code>[x](a(1.pdf)</code>) is geen link; zo toont Document het ook, en de tekst blijft dan letterlijk in de taak staan.</li>
@@ -4418,7 +4488,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h3>De balk en de tabbladen</h3>
     <h4>De balk bovenaan</h4>
     <ul>
-      <li><b>Bron ▾</b>: <i>Map kiezen…</i> (een andere map), <i>Los bestand kiezen…</i> (alleen één werkdruk.md, zonder de andere bestanden uit de map; instellingen, historie en notities blijven dan in het geheugen), <i>Opnieuw inladen</i> (werkdruk.md en instellingen.md opnieuw van schijf lezen; uitgeschakeld zolang er nog niets of alleen het voorbeeld is ingeladen) en <i>Voorbeeld bekijken</i>.</li>
+      <li><b>Bron ▾</b>: <i>Map kiezen…</i> (een andere map), <i>Los bestand kiezen…</i> (alleen één werkdruk.md, zonder de andere bestanden uit de map; instellingen, historie en notities blijven dan in het geheugen; kan het bestand niet worden gelezen, dan blijft alles zoals het was, ook je map), <i>Opnieuw inladen</i> (werkdruk.md en instellingen.md opnieuw van schijf lezen; uitgeschakeld zolang er nog niets of alleen het voorbeeld is ingeladen) en <i>Voorbeeld bekijken</i>.</li>
       <li><b>Zoekveld</b>: zoekt in het tabblad dat je ziet (Document, Mindmap, Bewerken, Totaaloverzicht, Daginvoer, Historie, Taken, Release notes). In Tekstcontrole, Jaar, Maand, Week, Dag, Dossier, Licenties en Overgang is er geen zoekveld. Het zoekveld is overal even breed; in Document en Bewerken staan er de pijltjes ↑ en ↓ in om naar de vorige of volgende treffer te gaan. Op een telefoon staat het zoekveld achter <b>☰</b>, op een eigen regel over de volle breedte.</li>
       <li><b>Alleen urgent</b>: alleen de urgente items tonen, in Document, Mindmap, Bewerken (in de opgemaakte weergave rechts; de tekst links blijft volledig), Totaaloverzicht, Maand, Week en Dag (in de lijsten met taken; de kalender, de uren en de kleuren blijven gelden voor al je taken) en Taken. Een afgevinkte taak telt niet als urgent. In Tekstcontrole, Jaar, Dossier, Licenties, Overgang, Daginvoer, Historie en Release notes zijn geen urgente items: daar is de knop grijs, maar je ziet wel of het filter aan staat. De stand wordt bewaard in <code>instellingen.md</code>: open je de map opnieuw, dan staat de knop zoals je hem achterliet. Beschikbaar zodra er een bestand, map of het voorbeeld is geladen.</li>
       <li><b>n secties gewijzigd</b>: verschijnt als een ander programma werkdruk.md heeft gewijzigd; een klik springt naar de volgende gewijzigde sectie.</li>
@@ -4473,7 +4543,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <p>Koppen (<code>## …</code>) bepalen de categorie van de taken eronder. Gewone tekstregels zonder opsommingsteken worden genegeerd, dus je kunt er aantekeningen tussen zetten. Er zijn twee uitzonderingen. Een regel die begint met een eigenschap en een dubbele punt hoort bij de taak of kop erboven en verandert die: <code>Uren:</code>, <code>Wanneer:</code> en de andere eigenschappen onder <i>Ook goed: oudere schrijfwijzen</i>, maar ook verwante woorden zoals <code>Tijd:</code>, <code>Duur:</code>, <code>Planning:</code>, <code>Moment:</code>, <code>Periode:</code>, <code>Plaats:</code>, <code>Rol:</code>, <code>Onderwerp:</code> en <code>Toelichting:</code>. Begin een aantekening dus niet met zo'n woord en een dubbele punt. En een regel waarin zowel een frequentie als uren staan, telt zelf als taak (zie <i>Wat niet meetelt</i>). Wil je ook lijsten en to-do's die niet meetellen, zet ze dan onder een kop met <code>&lt;!-- geen werkdruk --&gt;</code>.</p>
 
     <h4>Ook goed: een tabel</h4>
-    <p>Een tabel wordt herkend aan de kolomkoppen. De volgorde van de kolommen maakt dan niet uit. De kolom met de uren herkent de pagina aan een kop als <i>Uren</i>, <i>Uur per keer</i>, <i>Tijd</i> of <i>Duur</i>; een kop als <i>Tijdstip</i> of <i>Uurtarief</i> telt niet als uren. Zo ook bij de andere kolommen: <i>Categorie</i>, <i>Rol</i> en <i>Domein</i> geven de categorie, <i>Locatie</i>, <i>Plaats</i> en <i>Waar</i> de locatie; een kop als <i>Controle</i>, <i>Waarde</i> of <i>Plaatsvervanger</i> telt daar niet als.</p>
+    <p>Een tabel wordt herkend aan de kolomkoppen. De volgorde van de kolommen maakt dan niet uit. De kolom met de uren herkent de pagina aan een kop als <i>Uren</i>, <i>Uur per keer</i>, <i>Tijd</i> of <i>Duur</i>; een kop als <i>Tijdstip</i> of <i>Uurtarief</i> telt niet als uren. Zo ook bij de andere kolommen: <i>Frequentie</i> en <i>Hoe vaak</i> geven de frequentie, <i>Wanneer</i>, <i>Moment</i> en <i>Planning</i> wanneer, <i>Categorie</i>, <i>Rol</i> en <i>Domein</i> de categorie, <i>Locatie</i>, <i>Plaats</i> en <i>Waar</i> de locatie, en <i>Opmerkingen</i>, <i>Toelichting</i> en <i>Notities</i> de opmerkingen, ook in een samenstelling die hetzelfde betekent (<i>Uitvoeringsmoment</i>, <i>Jaarplanning</i>, <i>Subcategorie</i>). Een kop als <i>Controle</i>, <i>Waarde</i>, <i>Plaatsvervanger</i>, <i>Momentopname</i>, <i>Planningsstatus</i>, <i>Domeinnaam</i> of <i>Notitiecode</i> telt daar niet als.</p>
 <pre><code>| Taak                   | Frequentie  | Uur per keer | Wanneer      | Locatie | Opmerkingen     |
 |------------------------|-------------|--------------|--------------|---------|-----------------|
 | Begroting voorbereiden | jaarlijks   | 60           | mei t/m juni | kantoor | met controller  |
@@ -4509,7 +4579,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <p>Geef de tijd <b>per keer</b> op dat de taak voorkomt. Een wekelijkse taak van 2 uur kost dus 2 uur per week.</p>
     <ul>
       <li>Uren: <code>2 uur</code>, <code>1,5 uur</code>, <code>1.5u</code>, <code>2h</code>, <code>1u30</code>, <code>anderhalf uur</code></li>
-      <li>In woorden: <code>een uur</code>, <code>één uur</code>, <code>twee uur</code> … <code>twaalf uur</code>, ook met dagen en dagdelen (<code>één dag</code>).</li>
+      <li>In woorden: <code>een uur</code>, <code>één uur</code>, <code>twee uur</code> … <code>twaalf uur</code>, ook met dagen en dagdelen (<code>één dag</code>). <i>Een</i> mag ook met andere accenten (<code>èèn</code>, <code>eën</code>, <code>e´e´n</code>).</li>
       <li>Minuten: <code>45 min</code>, <code>30 minuten</code>, <code>een kwartier</code>, <code>half uur</code></li>
       <li>Dagen: <code>1 dag</code>, <code>2 dagen</code>, <code>een halve dag</code>, <code>1 dagdeel</code> (4 uur). Een dag telt als jouw uren per werkdag (standaard 9).</li>
       <li>Een bandbreedte zoals <code>3-5 uur</code> wordt als gemiddelde gerekend (4 uur).</li>
@@ -4635,7 +4705,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
     <h3>Document en mindmap</h3>
     <p>Het tabblad <b>Document</b> toont <code>werkdruk.md</code> als opgemaakte tekst. Elke kop vormt met de inhoud eronder een sectie die je met een klik op het pijltje vóór de kop in- en uitklapt. Standaard staan <code>##</code>- en <code>###</code>-koppen ingeklapt; klap je een <code>###</code> open, dan klapt alles eronder volledig uit. Bovenaan staat een inklapbare index met alle koppen, met de knoppen <i>Alles inklappen</i> en <i>Alles uitklappen</i>; elke kop heeft een link <i>naar index</i>. In de index staat bij koppen met afvinkbare taken de voortgang, bijvoorbeeld 3/5. Die telt ook mee terwijl je typt of afvinkt in tekst die nog niet is opgeslagen. Achter een werkdruktaak staat een label met de frequentie, de uren per keer en de uren per jaar, bijvoorbeeld <i>wekelijks · 2,00 u · 104,00 u per jaar</i>; klik erop om de cursor in die taak te zetten (staat het tabblad Bewerken aan, dan opent de taak daar).</p>
     <p>In elke werkdruktaak zie je welke woorden de pagina <b>als tijd leest</b>: de frequentie (<code>maandelijks</code>, <code>2x per week</code>), de uren (<code>6 uur</code>, <code>1u30</code>) en bij wanneer alleen de woorden die zijn herkend. Standaard zijn ze onderstreept. Zo zie je meteen of de pagina leest wat jij bedoelt: in <code>na overleg met Jan</code> is alleen <i>Jan</i> gemarkeerd, want dat telt als januari. In de tekst van een link wordt niets gemarkeerd, want die telt niet mee. Is bij wanneer wel iets ingevuld maar niets herkend, dan staat er een golflijn in de waarschuwingskleur onder; de taak wordt dan gelijkmatig verdeeld. De markering staat ook onder een eigenschapregel (<code>Wanneer: maandag</code>), in een kop die zelf een taak is en in een kop die zijn frequentie doorgeeft (<i>Wekelijkse taken</i>); niet in tabellen en niet bij wat niet meetelt. Het is alleen beeld: aan je tekst verandert niets, en de markering loopt kort na het typen mee. In Instellingen kies je bij <i>Herkende tijd in taken</i> hoe het eruitziet: <i>Uit</i>, <i>Onderstreept</i>, <i>Stippellijn</i>, <i>Gekleurde tekst</i> of <i>Markeerstift</i>. Bij <i>Uit</i> verdwijnt ook de golflijn. De markering werkt in Chrome, Edge en Brave. In een andere of oudere browser zie je haar mogelijk niet, of alleen bij <i>Gekleurde tekst</i> en <i>Markeerstift</i>; verder werkt alles gewoon.</p>
-    <p>Je kunt direct in <b>Document</b> bewerken: klik in de tekst en typ. <kbd>Enter</kbd> in een opsommingspunt geeft een nieuw punt (in een taak een nieuwe taak; een nieuw punt wordt niet vanzelf urgent), <kbd>Enter</kbd> in een leeg punt springt een niveau terug of maakt er een alinea onder de lijst van, <kbd>Enter</kbd> aan het eind van een kop geeft een gewone alinea onder die kop (staat de kop ingeklapt, dan klapt hij open), <kbd>Enter</kbd> vooraan een afgevinkte taak zet een lege, open taak erboven (het vinkje blijft bij de tekst), <kbd>Backspace</kbd> vooraan een taak haalt het vinkje weg (ook met de cursor direct achter het vinkje), <kbd>Backspace</kbd> vooraan een punt met tekst haalt eerst het opsommingsteken weg (het punt wordt een alinea; een subpunt springt een niveau terug) en voegt pas bij de volgende <kbd>Backspace</kbd> samen met de regel erboven (een leeg punt gaat in één keer weg, en een punt met subpunten voegt meteen samen), <kbd>Delete</kbd> aan het eind van een regel haalt de tekst van het punt of de taak eronder naar die regel (zonder vinkje), voeg je twee punten samen (met <kbd>Backspace</kbd>, <kbd>Delete</kbd> of door een selectie over punten heen weg te halen, te knippen of te overschrijven), dan komen de subpunten van het laatste punt onder het samengevoegde punt, <kbd>Tab</kbd> en <kbd>Shift</kbd>+<kbd>Tab</kbd> laten een punt in- en uitspringen (heb je meer punten geselecteerd, dan allemaal; het eerste punt van een lijst kan niet inspringen), de pijltjes links en rechts slaan het vakje van een taak over, en <kbd>Ctrl</kbd>+<kbd>B</kbd> en <kbd>Ctrl</kbd>+<kbd>I</kbd> maken tekst vet of schuin. Plakken gaat als platte tekst. Knip of kopieer je in deze pagina een stuk van een regel met een link erin, dan komt de link (en vet of schuin in dat stuk) bij het plakken mee. Knippen, kopiëren en plakken werken zoals in een tekstverwerker. Selecteer je een stuk tekst binnen één regel, dan gaat alleen die tekst mee, met vet, schuin en links; plakken zet hem op de plek van de cursor. Selecteer je een heel punt of een hele taak (drie keer klikken, of vanaf het begin van de regel <kbd>Shift</kbd>+<kbd>pijl omlaag</kbd>) of meer dan één regel (punten, taken, alinea's), dan gaan ze als geheel mee: met hun vinkje, urgent en subpunten, maar zonder werkdruklabels of "naar index". Knip je hele punten, dan verdwijnen ze helemaal en blijft er geen leeg punt achter; subpunten die je niet hebt geselecteerd, blijven staan. Met <kbd>Delete</kbd> of <kbd>Backspace</kbd> gaat het net zo. Begint een punt of kop met een code, dan hoort die code bij het begin van de regel: hij gaat met zijn punt mee, en het punt eronder houdt zijn eigen code. Plak je ze met de cursor vooraan een regel, dan komen ze boven die regel; staat de cursor elders in de regel, dan komen ze onder het punt of de alinea. Staat de cursor nog niet in een regel (bijvoorbeeld in een notitie die je net hebt geopend), dan komen ze onder de laatste regel. Zo plak je punten uit Document ook in het notitievenster, met subpunten en links. Zo verplaats je taken met <kbd>Ctrl</kbd>+<kbd>X</kbd> en <kbd>Ctrl</kbd>+<kbd>V</kbd>. Plak je tekst met meer regels in een taak, dan wordt elke regel een taak. Een opsomming die je uit Word of Outlook plakt, wordt een echte opsomming. Andersom kun je wat je hier kopieert in Word, Outlook of een mail plakken: een opsomming blijft een opsomming, met vet, schuin en links, en een vinkje wordt ☐ of ☑. <kbd>Enter</kbd> in een codeblok geeft een nieuwe regel in de code; in een tabelcel kan dat niet, want een tabel in markdown heeft één regel per rij. Links, codelabels en werkdruklabels kun je niet doortypen, wel aanklikken. Een link met een geblokkeerd adres (zoals <code>javascript:</code>) staat er als gewone tekst: je kunt hem niet aanklikken en niet doortypen, maar hij blijft in het bestand staan. Bij een codelabel vooraan een regel zetten <kbd>Home</kbd>, een klik en de pijltjes omhoog en omlaag de cursor achter het label, vóór de tekst; <kbd>Enter</kbd> op die plek zet een lege regel boven de regel, en de code blijft bij haar tekst. Met <kbd>pijl links</kbd> stap je van daar vóór het label; <kbd>pijl rechts</kbd> zet de cursor weer erachter, en nog een keer <kbd>pijl links</kbd> gaat naar het eind van de regel erboven. Wat je vóór het label typt, komt vóór de code. Die staat dan niet meer vooraan en is geen label meer zodra je de regel verlaat. Vóór het label werken de toetsen zoals vooraan elke regel: <kbd>Enter</kbd> zet een lege regel erboven, <kbd>Backspace</kbd> haalt eerst het vinkje en dan het opsommingsteken weg en voegt daarna samen met de regel erboven (de code blijft staan, als tekst), <kbd>Delete</kbd> haalt de code weg, <kbd>Tab</kbd> en <kbd>Shift</kbd>+<kbd>Tab</kbd> laten het punt in- en uitspringen, en <kbd>Shift</kbd>+<kbd>pijl links</kbd> selecteert het regeleinde ervoor. Sta je achter het label, dan selecteert <kbd>Shift</kbd>+<kbd>pijl links</kbd> eerst het label zelf. Achter "naar index" bij een kop en achter het werkdruklabel van een taak kun je de cursor niet zetten, hij blijft aan het eind van de tekst (ook met <kbd>End</kbd>). De werkdruklabels rekenen mee terwijl je typt: wijzig je de uren of de frequentie van een taak, dan staat even later het nieuwe getal erachter, en een nieuwe taak krijgt een label zodra frequentie en uren er staan. De werkbalk bovenaan blijft onder de balk staan als je scrolt. Hij heeft dezelfde knoppen als Bewerken, die werken op de plek van de cursor: <i>+ Nieuwe taak</i> (de taak komt standaard bij de cursor, onder het punt, de kop of de alinea; in het invulvenster kun je bij <i>Onder kop</i> ook een andere plek kiezen), <i>+ Volgnummer</i> (het nummer komt vooraan het punt, de kop of de alinea, ook in een citaat), <i>✎ Taak bewerken</i> (<kbd>F2</kbd>), <i>Urgent</i> (het punt, de alinea of de kop; staat de code op een eigen regel onder het punt, dan haalt Urgent hem daar weg), <i>Taak</i> (een nieuwe taak onder het punt, met de cursor erin; in een genummerde lijst met het volgende nummer, in een citaat binnen het citaat), <i>Punt</i> (hetzelfde, maar dan een gewoon opsommingspunt zonder vinkje; ook onder een taak), <i>Taak ⇄ punt</i> (van het punt bij de cursor een taak met vinkje maken, of van een taak weer een gewoon punt; een alinea wordt een taak; met een selectie wissel je alle punten erin tegelijk, ook een punt met subpunten, en de selectie blijft staan; urgent, subpunten en de rest van de regel blijven; op een lege regel, zoals net na <kbd>Enter</kbd> achter een kop, maken <i>Taak</i> en <i>Taak ⇄ punt</i> van die regel een taak) en <i>In/uitgeklapt</i>: daarmee bepaal je hoe de kop bij de cursor opent als de pagina wordt geladen, met elke klik de volgende stand: <i>gesloten</i>, <i>geopend</i> of <i>standaard</i> (<code>##</code>- en <code>###</code>-koppen dicht, andere open); de sectie volgt meteen en een melding noemt de stand. Met de keuzelijst <i>Alinea / Kop 1–6</i> zet je de regel bij de cursor om naar een alinea of een kop van niveau 1 tot en met 6; de lijst laat zien wat er nu staat. Een opsommingspunt zonder subpunten kan ook een kop worden. Staat er geen lege regel boven de nieuwe kop, dan komt die erbij. Verder <b>B</b> en <i>I</i> voor vet en schuin, <i>Link</i> (de kettingschakel), de pijltjes <i>Ongedaan maken</i> en <i>Opnieuw</i> (<kbd>Ctrl</kbd>+<kbd>Z</kbd> en <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>), <i>Wijzigingen weggooien</i>, en de status: of er iets niet is opgeslagen. <i>Link</i> maakt een link of bewerkt er een. Selecteer je tekst, dan wordt die tekst de link; zonder selectie komt de link bij de cursor. Selecteer je een link (of een deel ervan), of staat de cursor er direct voor of achter, dan pas je de tekst en het adres aan of haal je de link weg; de tekst blijft dan staan. Een adres is een webadres (<code>https://…</code> of <code>www.…</code>), een mailadres of een pad naar een bestand; spaties en haakjes daarin worden <code>%20</code>, <code>%28</code> en <code>%29</code>. Laat je de tekst ongewijzigd, dan blijft opmaak als vet erin staan. Opslaan gaat zoals in Bewerken, met <kbd>Ctrl</kbd>+<kbd>S</kbd> of het label <i>Niet opgeslagen</i>. Lukt opslaan niet (bijvoorbeeld zonder toestemming, of omdat een ander programma het bestand bezet houdt), dan zie je dat met de reden in de status en in een melding; je tekst blijft staan en <kbd>Ctrl</kbd>+<kbd>S</kbd> probeert het opnieuw. Alleen wat je wijzigt, verandert in <code>werkdruk.md</code>: de rest van het bestand blijft teken voor teken gelijk, ook de tekens van je opsommingen en de verborgen codes. Zijn er niet-opgeslagen wijzigingen, dan hoort een vinkje daarbij en wordt het pas met de rest opgeslagen. Met <kbd>Esc</kbd> stop je met typen, zodat de sneltoetsen weer werken. Typ of plak je een code, zoals <code>- </code> of <code># </code> vooraan een regel, <code>*nadruk*</code>, <code>!!urgent!!</code> of <code>&lt;!-- urgent --&gt;</code>, dan staat die eerst letterlijk op het scherm. Zodra je de regel verlaat (met de pijltjes of door ergens anders te klikken), bij opslaan en als je terugkomt in Document, toont Document de echte vorm: een punt, een kop, nadruk of urgent. Wat je dan ziet, is wat er in <code>werkdruk.md</code> komt. Een project- of TPO-code die je vooraan een punt of kop typt, wordt op hetzelfde moment een label dat de notities opent. De index bovenaan volgt je koppen terwijl je typt. Onder de werkbalk staat, net als in Bewerken, de <i>opzet van een werkdruktaak</i>: staat de cursor in een taak, dan licht het deel op dat je bewerkt (taak, frequentie, uur per keer, wanneer, locatie of opmerkingen) en zijn ontbrekende delen gemarkeerd; met <i>Hoe schrijf ik een taak?</i> open je de uitleg.</p>
+    <p>Je kunt direct in <b>Document</b> bewerken: klik in de tekst en typ. <kbd>Enter</kbd> in een opsommingspunt geeft een nieuw punt (in een taak een nieuwe taak; een nieuw punt wordt niet vanzelf urgent), <kbd>Enter</kbd> in een leeg punt springt een niveau terug of maakt er een alinea onder de lijst van, <kbd>Enter</kbd> aan het eind van een kop geeft een gewone alinea onder die kop (staat de kop ingeklapt, dan klapt hij open), <kbd>Enter</kbd> vooraan een afgevinkte taak zet een lege, open taak erboven (het vinkje blijft bij de tekst), <kbd>Backspace</kbd> vooraan een taak haalt het vinkje weg (ook met de cursor direct achter het vinkje), <kbd>Backspace</kbd> vooraan een punt met tekst haalt eerst het opsommingsteken weg (het punt wordt een alinea; een subpunt springt een niveau terug) en voegt pas bij de volgende <kbd>Backspace</kbd> samen met de regel erboven (een leeg punt gaat in één keer weg, en een punt met subpunten voegt meteen samen), <kbd>Delete</kbd> aan het eind van een regel haalt de tekst van het punt of de taak eronder naar die regel (zonder vinkje), voeg je twee punten samen (met <kbd>Backspace</kbd>, <kbd>Delete</kbd> of door een selectie over punten heen weg te halen, te knippen of te overschrijven), dan komen de subpunten van het laatste punt onder het samengevoegde punt, <kbd>Tab</kbd> en <kbd>Shift</kbd>+<kbd>Tab</kbd> laten een punt in- en uitspringen (heb je meer punten geselecteerd, dan allemaal; het eerste punt van een lijst kan niet inspringen), de pijltjes links en rechts slaan het vakje van een taak over, en <kbd>Ctrl</kbd>+<kbd>B</kbd> en <kbd>Ctrl</kbd>+<kbd>I</kbd> maken tekst vet of schuin. Schuin direct tegen een letter of cijfer (midden in een woord), en vet of schuin met zowel een <code>*</code> als een <code>_</code> erin, kan in het bestand niet als opmaak worden bewaard: je ziet het tot je opslaat, en daarna staat alleen de tekst er, zonder losse tekens. Vet mag wel midden in een woord staan. Plakken gaat als platte tekst. Knip of kopieer je in deze pagina een stuk van een regel met een link erin, dan komt de link (en vet of schuin in dat stuk) bij het plakken mee. Knippen, kopiëren en plakken werken zoals in een tekstverwerker. Selecteer je een stuk tekst binnen één regel, dan gaat alleen die tekst mee, met vet, schuin en links; plakken zet hem op de plek van de cursor. Selecteer je een heel punt of een hele taak (drie keer klikken, of vanaf het begin van de regel <kbd>Shift</kbd>+<kbd>pijl omlaag</kbd>) of meer dan één regel (punten, taken, alinea's), dan gaan ze als geheel mee: met hun vinkje, urgent en subpunten, maar zonder werkdruklabels of "naar index". Knip je hele punten, dan verdwijnen ze helemaal en blijft er geen leeg punt achter; subpunten die je niet hebt geselecteerd, blijven staan. Met <kbd>Delete</kbd> of <kbd>Backspace</kbd> gaat het net zo. Begint een punt of kop met een code, dan hoort die code bij het begin van de regel: hij gaat met zijn punt mee, en het punt eronder houdt zijn eigen code. Plak je ze met de cursor vooraan een regel, dan komen ze boven die regel; staat de cursor elders in de regel, dan komen ze onder het punt of de alinea. Staat de cursor nog niet in een regel (bijvoorbeeld in een notitie die je net hebt geopend), dan komen ze onder de laatste regel. Zo plak je punten uit Document ook in het notitievenster, met subpunten en links. Zo verplaats je taken met <kbd>Ctrl</kbd>+<kbd>X</kbd> en <kbd>Ctrl</kbd>+<kbd>V</kbd>. Plak je tekst met meer regels in een taak, dan wordt elke regel een taak. Een opsomming die je uit Word of Outlook plakt, wordt een echte opsomming. Andersom kun je wat je hier kopieert in Word, Outlook of een mail plakken: een opsomming blijft een opsomming, met vet, schuin en links, en een vinkje wordt ☐ of ☑. <kbd>Enter</kbd> in een codeblok geeft een nieuwe regel in de code; in een tabelcel kan dat niet, want een tabel in markdown heeft één regel per rij. Links, codelabels en werkdruklabels kun je niet doortypen, wel aanklikken. Een link met een geblokkeerd adres (zoals <code>javascript:</code>) staat er als gewone tekst: je kunt hem niet aanklikken en niet doortypen, maar hij blijft in het bestand staan. Bij een codelabel vooraan een regel zetten <kbd>Home</kbd>, een klik en de pijltjes omhoog en omlaag de cursor achter het label, vóór de tekst; <kbd>Enter</kbd> op die plek zet een lege regel boven de regel, en de code blijft bij haar tekst. Met <kbd>pijl links</kbd> stap je van daar vóór het label; <kbd>pijl rechts</kbd> zet de cursor weer erachter, en nog een keer <kbd>pijl links</kbd> gaat naar het eind van de regel erboven. Wat je vóór het label typt, komt vóór de code. Die staat dan niet meer vooraan en is geen label meer zodra je de regel verlaat. Vóór het label werken de toetsen zoals vooraan elke regel: <kbd>Enter</kbd> zet een lege regel erboven, <kbd>Backspace</kbd> haalt eerst het vinkje en dan het opsommingsteken weg en voegt daarna samen met de regel erboven (de code blijft staan, als tekst), <kbd>Delete</kbd> haalt de code weg, <kbd>Tab</kbd> en <kbd>Shift</kbd>+<kbd>Tab</kbd> laten het punt in- en uitspringen, en <kbd>Shift</kbd>+<kbd>pijl links</kbd> selecteert het regeleinde ervoor. Sta je achter het label, dan selecteert <kbd>Shift</kbd>+<kbd>pijl links</kbd> eerst het label zelf. Achter "naar index" bij een kop en achter het werkdruklabel van een taak kun je de cursor niet zetten, hij blijft aan het eind van de tekst (ook met <kbd>End</kbd>). De werkdruklabels rekenen mee terwijl je typt: wijzig je de uren of de frequentie van een taak, dan staat even later het nieuwe getal erachter, en een nieuwe taak krijgt een label zodra frequentie en uren er staan. De werkbalk bovenaan blijft onder de balk staan als je scrolt. Hij heeft dezelfde knoppen als Bewerken, die werken op de plek van de cursor: <i>+ Nieuwe taak</i> (de taak komt standaard bij de cursor, onder het punt, de kop of de alinea; in het invulvenster kun je bij <i>Onder kop</i> ook een andere plek kiezen), <i>+ Volgnummer</i> (het nummer komt vooraan het punt, de kop of de alinea, ook in een citaat), <i>✎ Taak bewerken</i> (<kbd>F2</kbd>), <i>Urgent</i> (het punt, de alinea of de kop; staat de code op een eigen regel onder het punt, dan haalt Urgent hem daar weg), <i>Taak</i> (een nieuwe taak onder het punt, met de cursor erin; in een genummerde lijst met het volgende nummer, in een citaat binnen het citaat), <i>Punt</i> (hetzelfde, maar dan een gewoon opsommingspunt zonder vinkje; ook onder een taak), <i>Taak ⇄ punt</i> (van het punt bij de cursor een taak met vinkje maken, of van een taak weer een gewoon punt; een alinea wordt een taak; met een selectie wissel je alle punten erin tegelijk, ook een punt met subpunten, en de selectie blijft staan; urgent, subpunten en de rest van de regel blijven; op een lege regel, zoals net na <kbd>Enter</kbd> achter een kop, maken <i>Taak</i> en <i>Taak ⇄ punt</i> van die regel een taak) en <i>In/uitgeklapt</i>: daarmee bepaal je hoe de kop bij de cursor opent als de pagina wordt geladen, met elke klik de volgende stand: <i>gesloten</i>, <i>geopend</i> of <i>standaard</i> (<code>##</code>- en <code>###</code>-koppen dicht, andere open); de sectie volgt meteen en een melding noemt de stand. Met de keuzelijst <i>Alinea / Kop 1–6</i> zet je de regel bij de cursor om naar een alinea of een kop van niveau 1 tot en met 6; de lijst laat zien wat er nu staat. Een opsommingspunt zonder subpunten kan ook een kop worden. Staat er geen lege regel boven de nieuwe kop, dan komt die erbij. Verder <b>B</b> en <i>I</i> voor vet en schuin, <i>Link</i> (de kettingschakel), de pijltjes <i>Ongedaan maken</i> en <i>Opnieuw</i> (<kbd>Ctrl</kbd>+<kbd>Z</kbd> en <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd>), <i>Wijzigingen weggooien</i>, en de status: of er iets niet is opgeslagen. <i>Link</i> maakt een link of bewerkt er een. Selecteer je tekst, dan wordt die tekst de link; zonder selectie komt de link bij de cursor. Selecteer je een link (of een deel ervan), of staat de cursor er direct voor of achter, dan pas je de tekst en het adres aan of haal je de link weg; de tekst blijft dan staan. Een adres is een webadres (<code>https://…</code> of <code>www.…</code>), een mailadres of een pad naar een bestand; spaties en haakjes daarin worden <code>%20</code>, <code>%28</code> en <code>%29</code>. Laat je de tekst ongewijzigd, dan blijft opmaak als vet erin staan. Opslaan gaat zoals in Bewerken, met <kbd>Ctrl</kbd>+<kbd>S</kbd> of het label <i>Niet opgeslagen</i>. Lukt opslaan niet (bijvoorbeeld zonder toestemming, of omdat een ander programma het bestand bezet houdt), dan zie je dat met de reden in de status en in een melding; je tekst blijft staan en <kbd>Ctrl</kbd>+<kbd>S</kbd> probeert het opnieuw. Alleen wat je wijzigt, verandert in <code>werkdruk.md</code>: de rest van het bestand blijft teken voor teken gelijk, ook de tekens van je opsommingen en de verborgen codes. Zijn er niet-opgeslagen wijzigingen, dan hoort een vinkje daarbij en wordt het pas met de rest opgeslagen. Met <kbd>Esc</kbd> stop je met typen, zodat de sneltoetsen weer werken. Typ of plak je een code, zoals <code>- </code> of <code># </code> vooraan een regel, <code>*nadruk*</code>, <code>!!urgent!!</code> of <code>&lt;!-- urgent --&gt;</code>, dan staat die eerst letterlijk op het scherm. Zodra je de regel verlaat (met de pijltjes of door ergens anders te klikken), bij opslaan en als je terugkomt in Document, toont Document de echte vorm: een punt, een kop, nadruk of urgent. Wat je dan ziet, is wat er in <code>werkdruk.md</code> komt. Een project- of TPO-code die je vooraan een punt of kop typt, wordt op hetzelfde moment een label dat de notities opent. De index bovenaan volgt je koppen terwijl je typt. Onder de werkbalk staat, net als in Bewerken, de <i>opzet van een werkdruktaak</i>: staat de cursor in een taak, dan licht het deel op dat je bewerkt (taak, frequentie, uur per keer, wanneer, locatie of opmerkingen) en zijn ontbrekende delen gemarkeerd; met <i>Hoe schrijf ik een taak?</i> open je de uitleg.</p>
     <p><b>Een bestand bij je document bewaren.</b> Sleep een of meer bestanden vanuit de Verkenner (Mac: de Finder) naar het tabblad <b>Document</b>. Tijdens het slepen staat er <i>Laat los om het bestand in hoofdmap/ te bewaren en een link in het document te zetten</i>. De pagina zet een kopie in de map <code>hoofdmap</code>, naast <code>werkdruk.md</code> (de map komt er bij het eerste bestand), en zet een link naar het bestand in je document, met de bestandsnaam als tekst. Laat je het los op een punt of taak, dan komt de link achter de tekst van dat punt, op dezelfde regel (heeft het punt subpunten, dan achter de eerste regel; staat er <code>&lt;!-- urgent --&gt;</code> achteraan, dan ervoor). Er komt dus geen punt bij, en de taak blijft dezelfde taak: de tekst van een link telt nooit als frequentie, uren of wanneer. Laat je het los op een kop, alinea, tabel of codeblok, dan komt de link als losse regel eronder; zo'n regel is geen taak. Laat je het naast de tekst los, dan gaat het net zo bij het blok waar de cursor staat, en staat de cursor niet in het document, dan komt de link als losse regel onderaan. Meer bestanden tegelijk komen achter elkaar op die regel. Sla daarna het document op om de link te bewaren; met <i>Ongedaan maken</i> haal je de link weer weg (het bestand blijft in <code>hoofdmap</code> staan). Een klik op de link opent het bestand; dat werkt als <code>werkdruk-in-beeld.html</code> in je gegevensmap staat, net als bij de bijlagen van een project. Er wordt nooit een bestand overschreven: staat er al een bestand met die naam en dezelfde inhoud, dan komt er alleen een link bij; is de inhoud anders, dan krijgt het nieuwe bestand een volgnummer, zoals <code>offerte (2).pdf</code>. Lukt het kopiëren niet, dan blijft er geen half bestand en geen link achter en lees je per bestand waarom. Er wordt één keer tegelijk gekopieerd: wat je neerzet terwijl het kopiëren nog loopt, noemt de melding, en dat sleep je daarna opnieuw. Zolang er een map open is waarin de pagina kan schrijven, vervangt een bestand dat je neerzet nooit je document en blijft je map open. Zet je het in een ander tabblad neer (ook <code>instellingen.md</code>), dan zegt een melding dat je het in Document kunt neerzetten, of via <b>Bron</b> een ander bestand kunt openen; staat er een venster open, dan gebeurt er niets. Een map die je naar de pagina sleept, opent die map, zoals altijd. Geeft de browser geen bestand door (zo gaat dat vaak bij een bijlage uit een mailprogramma of vanaf een webpagina), dan zegt een melding dat; bewaar het bestand dan eerst in een map en sleep het van daaruit. Zonder zo'n map (geen map gekozen, een map die alleen gelezen kan worden, zoals in Firefox en Safari, een los bestand of het voorbeeld) opent een bestand dat je neerzet als document, zoals altijd.</p>
     <p>Wijzigt een ander programma (bijvoorbeeld Kladblok) het bestand, dan ververst de pagina: meteen als de browser wijzigingen zelf kan melden, anders binnen enkele seconden. Wijs het label <i>Ververst automatisch</i> onderaan de zijbalk aan om te zien welke van de twee. Gewijzigde secties lichten oranje op en krijgen een oranje stip; met de knop <i>n secties gewijzigd</i> of de toets <kbd>w</kbd> spring je erlangs.</p>
     <p>Het tabblad <b>Mindmap</b> toont de koppen als een boom rond de <code>#</code>-kop. Klik op een tak om hem uit te klappen (zijn er onder de tak nog punten verborgen, dan worden die meteen getoond); klik nogmaals om hem in te klappen. Dubbelklik om naar die plek in het document te gaan, sleep om te verplaatsen en scroll om te zoomen. Standaard zie je koppen 1 tot en met 3; een gestippeld bolletje geeft het aantal verborgen opsommingspunten (klik erop of druk op <kbd>p</kbd>). Een kop met de naam "Verwerkt" of met <code>&lt;!-- ingeklapt --&gt;</code> start dicht. De knoppen boven de mindmap: <i>Passend</i> (alles in beeld), <i>+</i> en <i>−</i> (zoomen), <i>Alles uitklappen</i>, <i>Alles inklappen</i>, <i>Standaard</i> (terug naar koppen 1 tot en met 3, zonder opsommingen), <i>Opsommingen: aan/uit</i> (de punten onder de koppen wel of niet tonen), <i>Taken: aan/uit</i> (bij elke kop het aantal afgevinkte taken en alle taken eronder, zoals 1/2; standaard uit), <i>Projectnummers: aan/uit</i> (de code vooraan een kop of punt, zoals 482828 of 2026-117, wel of niet tonen; welke codes dat zijn, stel je in bij Instellingen → Codes voor notities; standaard uit) en <i>Dikte naar uren: aan/uit</i> (de lijn naar een tak wordt dikker naarmate er meer uren per jaar aan werkdruktaken onder staan; standaard aan). Ook als de projectnummers uit staan, vind je een kop of punt met het zoekveld op zijn nummer, en zie je het volledige nummer als je de knoop aanwijst.</p>
@@ -4646,7 +4716,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
   <section id="h-bewerken">
     <h3>Bewerken en opslaan</h3>
     <p>Het tabblad <b>Bewerken</b> staat standaard uit, want je bewerkt je tekst in <b>Document</b>. Wil je ook de platte markdown zien en bewerken, zet dan in Instellingen de schakelaar <i>Tabblad Bewerken</i> aan; het tabblad staat dan in de zijbalk onder Mindmap. Staat het uit, dan openen <i>Takenlijst openen</i>, <i>+ Nieuwe taak in lijst</i> (in Taken), een klik op een werkdruklabel en de toets <kbd>e</kbd> op een kop het juiste stuk in Document. Sleep je in Bewerken een bestand naar de pagina, dan gaat het net als in Document naar <code>hoofdmap</code> (zie <i>Document en mindmap</i>): staat de cursor in een punt, dan komt de link achter die regel, anders als losse regel eronder; <kbd>Ctrl</kbd>+<kbd>Z</kbd> haalt hem weer weg.</p>
-    <p>In het tabblad <b>Bewerken</b> wijzig je de volledige tekst van <code>werkdruk.md</code>, met de opmaak ernaast. Je kunt ook direct in <b>Document</b> typen, met dezelfde knoppen in de werkbalk (zie <i>Document en mindmap</i>); beide werken op dezelfde niet-opgeslagen tekst. Beide kanten scrollen mee. De knoppen <i>Urgent</i>, <i>Taak</i> en <i>In/uitgeklapt</i> zetten de codes op de regel van de cursor; <i>+ Nieuwe taak</i> en <i>✎ Taak bewerken</i> (<kbd>F2</kbd>) openen het invulvenster voor een werkdruktaak; <i>+ Volgnummer</i> voegt het eerstvolgende vrije volgnummer in, zoals <code>ONB-001</code> (zie Notities per code).</p>
+    <p>In het tabblad <b>Bewerken</b> wijzig je de volledige tekst van <code>werkdruk.md</code>, met de opmaak ernaast. Je kunt ook direct in <b>Document</b> typen, met dezelfde knoppen in de werkbalk (zie <i>Document en mindmap</i>); beide werken op dezelfde niet-opgeslagen tekst. Beide kanten scrollen mee. <i>Urgent</i> werkt zoals in Document op het punt, de alinea of de kop waar je cursor in staat, ook vanaf een vervolgregel (staat de code op een eigen regel, dan gaat die regel weg); <i>Taak</i> en <i>In/uitgeklapt</i> zetten de codes op de regel van de cursor; <i>+ Nieuwe taak</i> en <i>✎ Taak bewerken</i> (<kbd>F2</kbd>) openen het invulvenster voor een werkdruktaak; <i>+ Volgnummer</i> voegt het eerstvolgende vrije volgnummer in, zoals <code>ONB-001</code> (zie Notities per code).</p>
     <p>Maak je werkdruk.md met je eigen opslag leeg of bijna leeg (er verdwijnen meer dan 20 regels met tekst en er blijft minder dan een vijfde over), dan vraagt de pagina eerst of je dat echt wilt opslaan; de knop Annuleren staat voorop. Met <i>Toch opslaan</i> sla je het op; wat er stond, vind je terug in het tabblad Historie. Met <i>Annuleren</i> (of <kbd>Esc</kbd>) wordt er niets opgeslagen en blijft je tekst in de pagina, met <i>Niet opgeslagen</i> in de balk; bij de volgende keer opslaan vraagt de pagina het opnieuw. Afvinken, Code omzetten en Naar een nieuw jaar vragen dit niet.</p>
     <p>Rechts kies je wat je naast de tekst ziet: <b>Opgemaakt</b> (de tekst zoals in het tabblad Document, met werkdruk- en notitielabels; het werkdruklabel toont hier de frequentie en de uren per keer, zonder de uren per jaar; een groene streep bij taken die meetellen en een oranje bij onvolledige; een werkdruklabel springt naar die regel in de tekst), <b>Controle</b> (de tabel "Zo wordt het gelezen" met frequentie, uren en uren per jaar per taak) of <b>Beide</b>. Boven de tekst staat de opzet van een werkdruktaak; staat je cursor op een taak, dan licht het onderdeel op waarin je typt, en kleuren ontbrekende onderdelen rood. Klik op een taak in de tabel of de opmaak om ernaartoe te springen; dubbelklik op een rij in de tabel om de taak te bewerken. Je keuze blijft staan tot je zelf een andere kiest. De link <i>Hoe schrijf ik een taak?</i> rechts boven de tekst opent het hulponderdeel over de opzet van een taak. Met <i>Wijzigingen weggooien</i> in de werkbalk zet je de tekst terug naar wat er in het bestand staat.</p>
     <p>Opslaan doe je met <kbd>Ctrl</kbd>+<kbd>S</kbd> of door op het oranje label <i>Niet opgeslagen</i> in de balk te klikken. In Edge en Chrome schrijft de pagina direct in het bestand; de browser vraagt één keer per sessie om toestemming. In Firefox en Safari downloadt diezelfde opslagactie het bestand: zet het gedownloade bestand dan zelf over het oude. Zolang er iets niet is opgeslagen, staat <i>Niet opgeslagen</i> in de balk en waarschuwt de browser bij het sluiten.</p>
@@ -4662,7 +4732,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <tbody>
         <tr><td><code>- [ ] taak</code>, <code>- [x] taak</code></td><td>Open of afgeronde taak. Afvinken kan in het document via het vakje (in de weergave van Bewerken ook met een dubbelklik op de tekst). Een afvinkbare taak zonder frequentie of uren telt niet mee voor de werkdruk; met frequentie en uren telt hij gewoon mee en zie je in het tabblad Taken of hij af is.</td></tr>
         <tr><td><code>!!tekst!!</code></td><td>Een stuk tekst binnen een zin urgent maken (rood gemarkeerd).</td></tr>
-        <tr><td><code>&lt;!-- urgent --&gt;</code></td><td>Aan het einde van een alinea, opsommingspunt of kop: dat geheel is urgent. Bij een kop staat de code vóór een inklapkenmerk, zoals <code>## Project &lt;!-- urgent --&gt; {.ingeklapt}</code>. Een afgevinkte taak telt niet meer als urgent.</td></tr>
+        <tr><td><code>&lt;!-- urgent --&gt;</code></td><td>Aan het einde van een alinea, opsommingspunt of kop: dat geheel is urgent. Bij een punt mag de code ook aan het eind van een regel eronder staan (tot een lege regel of een genest punt); dat telt in Document en in Taken, Dag, Week en Jaar hetzelfde. Bij een kop staat de code vóór een inklapkenmerk, zoals <code>## Project &lt;!-- urgent --&gt; {.ingeklapt}</code>. Een afgevinkte taak telt niet meer als urgent.</td></tr>
         <tr><td><code>## Kop &lt;!-- ingeklapt --&gt;</code></td><td>Deze kop opent ingeklapt (ook als <code>{.ingeklapt}</code>). <code>&lt;!-- uitgeklapt --&gt;</code> opent hem juist uitgeklapt.</td></tr>
         <tr><td><code>## Kop &lt;!-- geen werkdruk --&gt;</code></td><td>Alles onder deze kop (tot de volgende kop van hetzelfde of een hoger niveau) hoort bij het document, maar telt niet mee voor de werkdruk. Handig voor notities en losse to-do's.</td></tr>
         <tr><td><code>- 123456 …</code>, <code>- ONB-004 …</code></td><td>Een code vooraan een opsommingspunt die past bij je patronen, wordt een label dat de notities bij die code opent (zie Notities per code).</td></tr>
@@ -4722,7 +4792,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li>vermeldingen in daginvoer.md, met een vinkje per vermelding, en de notities van andere projecten waarin de code staat, met een vinkje per project. Standaard gaan ze allemaal mee. Wil je een daginvoer als tijdsbeeld laten staan, vink hem dan uit.</li>
     </ul>
     <p>Omzetten kan niet bij een lege code, spaties of tekens die niet in een bestandsnaam mogen (<code>/ \ : * ? " &lt; &gt; |</code>), bij dezelfde code, bij niet-opgeslagen wijzigingen, of als werkdruk.md of de notities op schijf zijn gewijzigd. Alleen hoofdletters wijzigen (<code>onb-002</code> naar <code>ONB-002</code>) kan wel: dan worden alleen de vermeldingen in werkdruk.md aangepast.</p>
-    <p>Bij <b>Omzetten</b> worden eerst de nieuwe notitiebestanden geschreven en teruggelezen, dan de bijlagen naar de nieuwe map gekopieerd en met het origineel vergeleken, dan de notities van andere projecten en de daginvoer aangepast, dan werkdruk.md opgeslagen, en pas daarna de oude bestanden verwijderd. Mislukt een stap vóór het opslaan van werkdruk.md, of kies je bij een conflict voor Annuleren of de versie op schijf, dan wordt alles teruggezet en verandert er niets. Lukt het terugzetten van een bestand niet, dan zegt de pagina welk bestand je zelf moet controleren. Is werkdruk.md eenmaal opgeslagen, dan blijft de omzetting staan: kan een oud bestand daarna niet worden verwijderd, dan zijn je nieuwe notities toch compleet en meldt de pagina welk oud bestand je zelf kunt verwijderen. Het hernoemde notitiebestand krijgt onder de titel de regel <code>Voorheen: 123456 (omgezet op …)</code>. Elke aangepaste notitie van een ander project krijgt een nieuwe versie; de verschillen, ook dat van daginvoer.md, staan in notities_historie.md met de reden erbij. De historie- en versiebestanden zelf worden nooit herschreven: daarin blijft de oude code staan, zodat je altijd kunt terugzien dat 123456 is omgezet naar 654321. Kan de pagina de notities onder de nieuwe code daarna niet openen (bijvoorbeeld omdat het bestand even bezet is), dan is de omzetting toch gelukt: het notitievenster sluit, de melding zegt het, en je opent de notities opnieuw via het label.</p>
+    <p>Bij <b>Omzetten</b> worden eerst de nieuwe notitiebestanden geschreven en teruggelezen, dan de bijlagen naar de nieuwe map gekopieerd en met het origineel vergeleken, dan de notities van andere projecten en de daginvoer aangepast, dan werkdruk.md opgeslagen, en pas daarna de oude bestanden verwijderd. Mislukt een stap vóór het opslaan van werkdruk.md, of kies je bij een conflict voor Annuleren of de versie op schijf, dan wordt alles teruggezet en verandert er niets. Lukt het terugzetten van een bestand niet, dan zegt de pagina welk bestand je zelf moet controleren. Is werkdruk.md eenmaal opgeslagen, dan blijft de omzetting staan: kan een oud bestand daarna niet worden verwijderd, dan zijn je nieuwe notities toch compleet en meldt de pagina welk oud bestand je zelf kunt verwijderen. Het hernoemde notitiebestand krijgt onder de titel de regel <code>Voorheen: 123456 (omgezet op …)</code>. Elke aangepaste notitie van een ander project krijgt een nieuwe versie; de verschillen, ook dat van daginvoer.md, staan in notities_historie.md met de reden erbij. De historie- en versiebestanden zelf worden nooit herschreven: daarin blijft de oude code staan, zodat je altijd kunt terugzien dat 123456 is omgezet naar 654321. Daarna opent de pagina de notities onder de nieuwe code; tot dat gebeurd is, staat het notitievenster op bezig en kun je er niet in typen. Kan de pagina de notities onder de nieuwe code daarna niet openen (bijvoorbeeld omdat het bestand even bezet is), dan is de omzetting toch gelukt: het notitievenster sluit, de melding zegt het, en je opent de notities opnieuw via het label.</p>
   </section>
 
   <section id="h-totaal">
@@ -4749,7 +4819,7 @@ html[data-zijbalk="ingeklapt"] { --zijbalk: 60px; }
       <li>werkdruk.md wordt gecontroleerd zoals hij nu in de pagina staat, dus met wijzigingen die je nog niet hebt opgeslagen. De controle draait opnieuw als je het tabblad opent, als werkdruk.md of een notitie verandert, en met <b>Opnieuw controleren</b>; die knop kijkt ook de bestanden in de map opnieuw na.</li>
       <li>Tekst in een codeblok (tussen <code>```</code>) en code tussen backticks wordt niet gecontroleerd. De soort <i>Taken</i> geldt alleen voor werkdruk.md, en volgt wat het tabblad Taken <i>Onvolledig</i> noemt.</li>
       <li>Niet elke bevinding is een fout van jou: een tip mag je laten staan. De controle kent geen spelling en geen grammatica.</li>
-      <li><b>Bestanden in de map.</b> Kies je een map (en bij <i>Opnieuw inladen</i>), dan kijkt de pagina stil elk bestand na: werkdruk.md, instellingen.md, daginvoer.md, de drie historiebestanden en alle notities met hun versiebestanden. Ze schrijft daarbij niets en je kunt meteen verder werken. Bevindingen staan hier onder de soort <i>Bestand</i>. Een <b>fout</b> is iets waarbij tekst verloren kan gaan: een bestand dat halverwege lijkt afgebroken (een blok aan het eind zonder afsluitende regel), een bestand waaruit de pagina bij je eerste wijziging tekst zou laten vallen of dat ze daarna anders zou lezen, of een versiebestand dat niet te lezen is. Daarvan krijg je bij het openen één melding, en zolang het zo is staat onder Bron in de zijbalk hoeveel bestanden het zijn en staat het ook bovenaan dit tabblad. Herstel zo'n bestand in een teksteditor, of haal de inhoud terug uit een versie, de historie of een back-up; klik daarna op <b>Opnieuw controleren</b>. Een <b>tip</b> is niet erg: twee soorten regeleinden door elkaar, geen regeleinde aan het eind, een BOM, een versiebestand zonder notitie, of een bestand dat bij je eerste wijziging de vorm van de pagina krijgt (bijvoorbeeld andere lege regels), zonder dat er iets verloren gaat. Dat instellingen.md bij een wijziging wordt aangevuld met alle instellingen, is geen bevinding. Een notitie die niet te lezen is en twee notitiebestanden die alleen in hoofdletters verschillen, meldt de pagina zoals altijd bij het openen. In een map die alleen gelezen kan worden (Firefox, Safari) en bij een los bestand loopt deze controle niet.</li>
+      <li><b>Bestanden in de map.</b> Kies je een map (en bij <i>Opnieuw inladen</i>), dan kijkt de pagina stil elk bestand na: werkdruk.md, instellingen.md, daginvoer.md, de drie historiebestanden en alle notities met hun versiebestanden. Ze schrijft daarbij niets en je kunt meteen verder werken. Bevindingen staan hier onder de soort <i>Bestand</i>. Een <b>fout</b> is iets waarbij tekst verloren kan gaan: een bestand dat halverwege lijkt afgebroken (een blok aan het eind zonder afsluitende regel), een bestand waaruit de pagina bij je eerste wijziging tekst zou laten vallen of dat ze daarna anders zou lezen, of een versiebestand dat niet te lezen is. Daarvan krijg je bij het openen één melding, en zolang het zo is staat onder Bron in de zijbalk hoeveel bestanden het zijn en staat het ook bovenaan dit tabblad. Herstel zo'n bestand in een teksteditor, of haal de inhoud terug uit een versie, de historie of een back-up; klik daarna op <b>Opnieuw controleren</b>. Een <b>tip</b> is niet erg: twee soorten regeleinden door elkaar, geen regeleinde aan het eind, een BOM, een versiebestand zonder notitie, of een bestand dat bij je eerste wijziging de vorm van de pagina krijgt (bijvoorbeeld andere lege regels), zonder dat er iets verloren gaat. Dat instellingen.md bij een wijziging wordt aangevuld met alle instellingen, is geen bevinding. Een notitie die niet te lezen is en twee notitiebestanden die alleen in hoofdletters verschillen, meldt de pagina zoals altijd bij het openen. In een map die alleen gelezen kan worden (Firefox, Safari) gebeurt hetzelfde met de bestanden die je bij het kiezen van de map gaf; <i>Opnieuw inladen</i> kan daar niet: kies de map opnieuw om ze opnieuw te laten nakijken. Bij een los bestand kijkt de pagina alleen dat bestand na.</li>
     </ul>
   </section>
   <section id="h-dossier">
@@ -5352,6 +5422,9 @@ WIB.gegevens = (function () {
   // Het geheugen: geen map, een alleen-lezen-map, een los bestand, het voorbeeld. opties.bestanden: { pad: tekst } om mee te
   // beginnen; opties.los: { pad, handvat }: één bestand dat wel rechtstreeks beschreven kan worden (een los werkdruk.md dat
   // met de bestandskiezer is geopend).
+  // v339 (B13; de notities zonder map): opties.zoalsGegeven: bewerk bewaart de tekst zoals hij werd gegeven, zonder de
+  // regeleinden en de BOM van wat er stond (zoals opties.zoalsGegeven van bewerk); paden(): de paden die er nu in staan, in de
+  // volgorde waarin ze erin kwamen (synchroon; alleen het geheugen).
   function maakGeheugenOpslag(opties) {
     opties = opties || {};
     const inhoud = {}, mappen = {}, los = opties.los || null;
@@ -5412,7 +5485,34 @@ WIB.gegevens = (function () {
       return uit;
     }
     async function maakMap(pad) { const d = padDelen(pad); d.forEach(function (x, i) { mappen[d.slice(0, i + 1).join('/')] = true; }); }
-    return { soort: 'geheugen', handvat: null, schrijfbaar: isLos, lees: lees, schrijf: schrijf, verwijder: verwijder, lijst: lijst, maakMap: maakMap };
+    const paden = function () { return Object.keys(inhoud); };
+    return { soort: 'geheugen', handvat: null, schrijfbaar: isLos, zoalsGegeven: !!opties.zoalsGegeven, paden: paden, lees: lees, schrijf: schrijf, verwijder: verwijder, lijst: lijst, maakMap: maakMap };
+  }
+  // v334: een opslag die alleen kan lezen, uit gekozen bestanden (File): een map die alleen gelezen kan worden (Firefox, Safari,
+  // of zonder mapkiezer) of één los bestand. bestanden: [[pad, File]], met het pad vanaf de map ('notities/123456.md'). Voor de
+  // controle bij het openen (controleerMap), die zo dezelfde bestanden leest als in een map waarin de pagina kan schrijven.
+  // Hoofdletters maken bij het zoeken niet uit, zoals bij het openen van zo'n map; schrijven, verwijderen en een map maken
+  // kunnen niet (NotAllowedError).
+  function maakLijstOpslag(bestanden) {
+    const bij = {};
+    (bestanden || []).forEach(function (x) { const p = padDelen(x[0]).join('/'); if (p && x[1] && !bij[p.toLowerCase()]) bij[p.toLowerCase()] = { pad: p, f: x[1] }; });
+    const kan = function () { return Promise.reject(benoemd('NotAllowedError', 'deze bestanden kunnen alleen worden gelezen')); };
+    async function lees(pad, o) {
+      const b = bij[padDelen(pad).join('/').toLowerCase()];
+      return b ? leesFile(b.f, o || {}) : null;
+    }
+    async function lijst(mapPad) {
+      const voor = padDelen(mapPad).join('/').toLowerCase(), uit = [], gezien = {};
+      Object.keys(bij).forEach(function (k) {
+        if (voor && k.indexOf(voor + '/') !== 0) return;
+        const rest = bij[k].pad.slice(voor ? voor.length + 1 : 0), i = rest.indexOf('/'), naam = i < 0 ? rest : rest.slice(0, i);
+        if (gezien[naam.toLowerCase()]) return;
+        gezien[naam.toLowerCase()] = true; uit.push({ naam: naam, soort: i < 0 ? 'bestand' : 'map' });
+      });
+      if (voor && !uit.length) throw benoemd('NotFoundError', mapPad + ' bestaat niet');
+      return uit;
+    }
+    return { soort: 'lijst', handvat: null, schrijfbaar: function () { return false; }, lees: lees, schrijf: kan, verwijder: kan, lijst: lijst, maakMap: kan };
   }
 
   /* ---------- bestandssoorten ----------
@@ -5886,7 +5986,8 @@ WIB.gegevens = (function () {
     // v297 (keuze 1): wat er geschreven wordt, in de vorm van het bestand (inVorm): de BOM en de regeleinden die het had; een
     // nieuw bestand LF zonder BOM, of de vorm van het bestand opties.vormVan. Een bestand dat niet als UTF-8 was opgeslagen,
     // krijgt de tekst van de pagina zoals hij is, en met opties.zoalsGegeven ook (Laden: het gekozen bestand zoals het is).
-    const uit = onleesbaar || opties.zoalsGegeven ? nieuw.tekst : inVorm(nieuw.tekst, nu.bestaat ? vormVanBestaand(st, pad, ruw) : vormVoorNieuw(o, opties));
+    // v339: ook in een geheugenopslag met zoalsGegeven (de notities zonder map: zoals tot v338 in hun eigen geheugen)
+    const uit = onleesbaar || opties.zoalsGegeven || o.zoalsGegeven ? nieuw.tekst : inVorm(nieuw.tekst, nu.bestaat ? vormVanBestaand(st, pad, ruw) : vormVoorNieuw(o, opties));
     // is er iets veranderd? zo niet, dan niet schrijven (garantie 2). Vergeleken met wat er op schijf staat: wacht er nog tekst
     // (v289), dan wordt die nu meegeschreven, of hij vervalt als de wijziging hem weghaalt. v295: met gewijzigdOp van het bestand.
     // v297: vergeleken teken voor teken, in de vorm van het bestand (een tekstvak met LF bij een bestand met CRLF is ongewijzigd)
@@ -5900,7 +6001,8 @@ WIB.gegevens = (function () {
       const g = await o.schrijf(pad, uit), t = zonderLosseCR(uit);
       bijGedaan(st, pad, wb, bt);
       st.gezien[pad] = { tekst: t, kenmerk: g.kenmerk }; onthoudVorm(st, pad, uit, g.kenmerk);
-      return uitkomst('geheugen', pad, { tekst: t, model: t === nieuw.tekst ? nieuw.model : soort.lees(t), kenmerk: g.kenmerk, samengevoegd: samengevoegd });
+      // v339: ook in het geheugen de versie en de historie erachter (de notities zonder map), zoals hieronder
+      return uitkomst('geheugen', pad, { tekst: t, model: t === nieuw.tekst ? nieuw.model : soort.lees(t), kenmerk: g.kenmerk, volg: await volgNa(o, opties, schijf, t), samengevoegd: samengevoegd });
     }
     const z = await schrijfZeker(o, pad, uit, onleesbaar ? { bytes: onleesbaar.bytes } : nu.bestaat ? { tekst: ruw } : null);
     if (z.fout) return uitkomst('schrijffout', pad, Object.assign({ fout: z.fout, reden: hulp.reden(z.fout), bedoeld: bedoeld, samengevoegd: samengevoegd }, zoals));
@@ -5909,16 +6011,19 @@ WIB.gegevens = (function () {
     if (z.goed.tekst !== nieuw.tekst) nieuw = { tekst: z.goed.tekst, model: soort.lees(z.goed.tekst) };
     st.gezien[pad] = { tekst: nieuw.tekst, kenmerk: z.goed.kenmerk }; st.kenmerk[pad] = z.goed.kenmerk; onthoudVorm(st, pad, uit, z.goed.kenmerk);
     bijGedaan(st, pad, wb, bt);
-    // versie en historie bijschrijven; het hoofdbestand gaat voor (keuze 6: mislukt het, dan blijft het wachten in de laag en
-    // gaat het mee met de volgende voegToe of probeerOpnieuw() van dat bestand)
+    return uitkomst(samengevoegd ? 'samengevoegd' : 'geschreven', pad, { tekst: nieuw.tekst, model: nieuw.model, kenmerk: z.goed.kenmerk,
+      gewijzigdOp: z.goed.gewijzigdOp, volg: await volgNa(o, opties, schijf, nieuw.tekst), samengevoegd: samengevoegd });
+  }
+  // versie en historie bijschrijven (opties.volg) na het hoofdbestand; het hoofdbestand gaat voor (keuze 6: mislukt het, dan
+  // blijft het wachten in de laag en gaat het mee met de volgende voegToe of probeerOpnieuw() van dat bestand)
+  async function volgNa(o, opties, schijf, nieuw) {
     const volg = [];
     for (const v of opties.volg || []) {
-      const t = v.tekst(schijf, nieuw.tekst, opties.tijd);
+      const t = v.tekst(schijf, nieuw, opties.tijd);
       volg.push(!t ? uitkomst('ongewijzigd', v.pad, { niets: true }) : await voegToe(v.pad, t, { voorvoegsel: typeof v.voorvoegsel === 'function' ? v.voorvoegsel() : v.voorvoegsel,
         controle: v.controle, onthoud: v.onthoud, opslag: v.opslag || o }));
     }
-    return uitkomst(samengevoegd ? 'samengevoegd' : 'geschreven', pad, { tekst: nieuw.tekst, model: nieuw.model, kenmerk: z.goed.kenmerk,
-      gewijzigdOp: z.goed.gewijzigdOp, volg: volg, samengevoegd: samengevoegd });
+    return volg;
   }
   // voegToe(pad, tekst, { voorvoegsel, opslag, controle, onthoud, vormVan }): tekst achteraan; wat er stond, blijft staan; maakt
   // het bestand aan als het ontbreekt. Het voorvoegsel komt er alleen voor als het bestand niet leeg is.
@@ -6362,8 +6467,7 @@ WIB.gegevens = (function () {
   /* ---------- een eigen taak op de beurt van een bestand (v290) ---------- */
   // beurt(pad, taak, { opslag }): taak() loopt in de wachtrij van pad, na wat daar al loopt of wacht, en de volgende
   // bewerking van dat bestand wacht erop; zolang telt het in openstaand() als wacht en slaat controleer() het bestand over.
-  // Voor wat (nog) niet via de laag schrijft: de notities zonder map (tot stap 9 van het plan); samen (v292) houdt er zijn
-  // paden mee vast. Geeft de belofte van taak (ook een afwijzing). Roep binnen taak geen bewerking van hetzelfde pad aan:
+  // samen (v292) houdt er zijn paden mee vast (tot v338 namen ook de notities zonder map er een eigen beurt mee). Geeft de belofte van taak (ook een afwijzing). Roep binnen taak geen bewerking van hetzelfde pad aan:
   // die wacht op deze beurt (behalve met opties.binnen van samen).
   function beurt(pad, taak, opties) {
     const st = staat((opties && opties.opslag) || actief);
@@ -6438,7 +6542,7 @@ WIB.gegevens = (function () {
     })).then(function (r) { return r.filter(Boolean); });
   }
 
-  return { maakWachtrij, samen, maakMapOpslag, maakGeheugenOpslag, zetOpslag, actieveOpslag, meldSoort, lees, gezien, bewerk, voegToe, maakNieuw, verwijder, kopieer, lijst, leesAlle, openMap, openAlleenLezen, controleerTekst, controleerMap, bewaak, controleer, beurt, openstaand, probeerOpnieuw, uitleg, zetDownload, nogNaarMap, teDownloaden, download, inMapGezet };
+  return { maakWachtrij, samen, maakMapOpslag, maakGeheugenOpslag, maakLijstOpslag, zetOpslag, actieveOpslag, meldSoort, lees, gezien, bewerk, voegToe, maakNieuw, verwijder, kopieer, lijst, leesAlle, openMap, openAlleenLezen, controleerTekst, controleerMap, bewaak, controleer, beurt, openstaand, probeerOpnieuw, uitleg, zetDownload, nogNaarMap, teDownloaden, download, inMapGezet };
 })();
 </script>
 <script data-deel="rekenkern">
@@ -6536,6 +6640,7 @@ function num(s) { return parseFloat(String(s).replace(',', '.')); }
    Een autolink <https://…> viel al weg (cleanInline haalt alles tussen < en > weg); het adres van een link werd al niet
    gelezen. Wat er verder een taak is, verandert niet. */
 const RE_LINKMASKER = /[\uE000-\uF8FF]/, RE_LINKMASKERS = /([\uE000-\uF8FF])\1*/g;
+const RE_LINK_MD = /!?\[([^\]]*)\]\((?:[^()]|\([^()]*\))*\)/g, RE_LOS_ADRES = /\b(?:https?:\/\/|www\.)[^\s<>()]*[^\s<>().,;:!?]/gi;   // de links die maskeerLinks en linksAfgedekt afdekken
 let linkTeksten = null;   // tijdens parseMarkdown: de teksten achter de maskertekens (index = teken - U+E000)
 // tekst -> { tekst: als cleanInline(tekst), maar met de linkteksten gemaskeerd; gelijk: even lang als cleanInline(tekst) }
 function maskeerLinks(text) {
@@ -6549,10 +6654,19 @@ function maskeerLinks(text) {
     return teken.repeat(c.length);
   };
   const m = s.replace(/<[^>]+>/g, ' ')
-    .replace(/!?\[([^\]]*)\]\((?:[^()]|\([^()]*\))*\)/g, function (_, t) { return masker(t); })
-    .replace(/\b(?:https?:\/\/|www\.)[^\s<>()]*[^\s<>().,;:!?]/gi, function (u) { return masker(u); });
+    .replace(RE_LINK_MD, function (_, t) { return masker(t); })
+    .replace(RE_LOS_ADRES, function (u) { return masker(u); });
   const tekst = cleanInline(m);
   return { tekst: tekst, gelijk: tekst.length === gewoon.length };
+}
+/* v337: dezelfde links in een ruwe regel (markdown, nog niet opgeschoond) afgedekt, met evenveel tekens, zodat elke plek in de
+   regel gelijk blijft. Voor de markering van het veld bij de cursor in de opzetregel (Bewerken en Document): een ' - ' in de
+   tekst of het adres van een link, een afbeelding of een los webadres scheidt geen velden, net als bij het lezen (maskeerLinks).
+   Een link wordt tekens uit het privégebied (zoals maskeerLinks), een link zonder zichtbare tekst spaties (maskeerLinks laat die weg). */
+function linksAfgedekt(regel) {
+  const s = String(regel);
+  const dek = function (stuk, t) { return (cleanInline(t) ? '\uE000' : ' ').repeat(stuk.length); };
+  return s.replace(RE_LINK_MD, function (stuk, t) { return dek(stuk, t); }).replace(RE_LOS_ADRES, function (u) { return dek(u, u); });
 }
 // maskertekens terug naar hun tekst (naam, opmerkingen)
 function linksTerug(s) { return String(s).replace(RE_LINKMASKERS, function (m, c) { const t = linkTeksten[c.charCodeAt(0) - 0xE000]; return t === undefined ? m : t; }); }
@@ -6570,7 +6684,7 @@ function linkTekstenTerug(n) {
 
 /* ---------- frequentie herkennen ---------- */
 const UNIT_WORD = '(werkdag|dag|week|maand|kwartaal|terti?aal|half\\s*jaar|jaar)';
-const RE_NPER = new RegExp('\\b(\\d+)\\s*(?:(?:x|×|keer|maal)\\s*(?:per\\s+|in\\s+de\\s+|in\\s+het\\s+|p\\/?\\s*|\\/\\s*|[eé]\\u0301?[eé]\\u0301?n\\s+)?|per\\s+)' + UNIT_WORD + '\\b', 'i');
+const RE_NPER = new RegExp('\\b(\\d+)\\s*(?:(?:x|×|keer|maal)\\s*(?:per\\s+|in\\s+de\\s+|in\\s+het\\s+|p\\/?\\s*|\\/\\s*|[eéèë][\\u0300\\u0301\\u0308\\u00B4`]?[eéèë][\\u0300\\u0301\\u0308\\u00B4`]?n\\s+)?|per\\s+)' + UNIT_WORD + '\\b', 'i');
 const FREQ_STRICT = [
   ['2week', /\b(twee-?wekelijks|2-?wekelijks|om\s+de\s+(?:twee\s+|2\s+)?(?:weken|week)|(?:elke|iedere|per)\s+(?:twee|2)\s+weken|bi-?weekly)\b/i],
   ['week', /\b(wekelijks|(?:elke|iedere|per)\s+week|weekly)\b/i],
@@ -6610,7 +6724,7 @@ function unitToFreq(u, n) {
 /* Zoekt een frequentie in tekst. mode: 'strict' (alleen duidelijke woorden),
    'liberal' (ook kale woorden als 'kwartaal'), 'heading' (ook 'Wekelijkse taken'). */
 // Eenmalig, met jaar: 'eenmalig 2026', 'eenmalig in 2026', 'eenmalig (2026)', '1x in 2026'
-const RE_EENMALIG = /(?<!\w)(?:eenmalig|eenmalige|(?:1|[eé]\u0301?[eé]\u0301?n)\s*(?:x|×|keer|maal)\s+in)\b(?:\s*(?:in\s+|\(|,|:|-)?\s*(20\d{2}|19\d{2})\)?)?/i;
+const RE_EENMALIG = /(?<![\wÀ-ÖØ-öø-ÿ\u0300\u0301\u0308])(?:eenmalig|eenmalige|(?:1|[eéèë][\u0300\u0301\u0308\u00B4`]?[eéèë][\u0300\u0301\u0308\u00B4`]?n)\s*(?:x|×|keer|maal)\s+in)\b(?:\s*(?:in\s+|\(|,|:|-)?\s*(20\d{2}|19\d{2})\)?)?/i;
 function parseFreq(text, mode) {
   const s = String(text);
   let m = RE_EENMALIG.exec(s);
@@ -6646,7 +6760,11 @@ function parseFreq(text, mode) {
 const H_UNIT = '(uren|uur|u|hours?|hrs?|h|minuten|minuut|mins?|min|m|dagdelen|dagdeel|werkdagen|werkdag|dagen|dag)';
 const NUMWORDS = { een: 1, twee: 2, drie: 3, vier: 4, vijf: 5, zes: 6, zeven: 7, acht: 8, negen: 9, tien: 10, twaalf: 12 };
 // v318: 'een' in elke schrijfwijze (één, Eén, éen, eén, ook met een los accentteken) telt als een
-function telwoord(w) { return NUMWORDS[w.toLowerCase().normalize('NFD').replace(/\u0301/g, '')]; }
+// v329: ook met è of ë (èèn, eën, éèn), als los teken achter de e (combinerend accent grave, accent aigu of trema) en met de
+// losse tekens ´ (U+00B4) en ` (U+0060): e´e´n. Alleen in 'een': de andere telwoorden staan zonder accent in de patronen.
+// Net als bij een: niet midden in een woord, ook niet na een letter met accent (èèèn, ééén) of een los accent.
+const TEL_TEKENS = /[\u0300\u0301\u0308\u00B4`]/g;
+function telwoord(w) { return NUMWORDS[w.toLowerCase().normalize('NFD').replace(TEL_TEKENS, '')]; }
 function unitConv(v, unit) {
   const u = unit.toLowerCase();
   if (/^(uren|uur|u|hours?|hrs?|h)$/.test(u)) return { v, u: 'h' };
@@ -6664,14 +6782,14 @@ function parseHours(text, allowPlain) {
   if ((m = new RegExp('(\\d+(?:[.,]\\d+)?)\\s*(?:-|–|tot|à)\\s*(\\d+(?:[.,]\\d+)?)\\s*' + H_UNIT + '\\b', 'i').exec(s)))
     return res(unitConv((num(m[1]) + num(m[2])) / 2, m[3]), m);
   if ((m = /\banderhalf\s+uur\b/i.exec(s))) return res({ v: 1.5, u: 'h' }, m);
-  if ((m = /(?:(?<!\w)[eé]\u0301?[eé]\u0301?n\s+|\b)half\s*uur\b/i.exec(s))) return res({ v: 0.5, u: 'h' }, m);
+  if ((m = /(?:(?<![\wÀ-ÖØ-öø-ÿ\u0300\u0301\u0308])[eéèë][\u0300\u0301\u0308\u00B4`]?[eéèë][\u0300\u0301\u0308\u00B4`]?n\s+|\b)half\s*uur\b/i.exec(s))) return res({ v: 0.5, u: 'h' }, m);
   if ((m = /\bhalve\s+(?:werk)?dag(?:en)?\b/i.exec(s))) return res({ v: 0.5, u: 'd' }, m);
   if ((m = /\bhele\s+(?:werk)?dag\b/i.exec(s))) return res({ v: 1, u: 'd' }, m);
-  if ((m = /(?:\b(\d+)\s*|(?<!\w)([eé]\u0301?[eé]\u0301?n|twee|drie|vier)\s+)?\bkwartier\b/i.exec(s))) {
+  if ((m = /(?:\b(\d+)\s*|(?<![\wÀ-ÖØ-öø-ÿ\u0300\u0301\u0308])([eéèë][\u0300\u0301\u0308\u00B4`]?[eéèë][\u0300\u0301\u0308\u00B4`]?n|twee|drie|vier)\s+)?\bkwartier\b/i.exec(s))) {
     const n = m[1] ? +m[1] : (m[2] ? telwoord(m[2]) : 1);
     return res({ v: n * 0.25, u: 'h' }, m);
   }
-  if ((m = /(?<!\w)([eé]\u0301?[eé]\u0301?n|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twaalf)\s+(uren|uur|dagdelen|dagdeel|werkdagen|werkdag|dagen|dag)\b/i.exec(s)))
+  if ((m = /(?<![\wÀ-ÖØ-öø-ÿ\u0300\u0301\u0308])([eéèë][\u0300\u0301\u0308\u00B4`]?[eéèë][\u0300\u0301\u0308\u00B4`]?n|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twaalf)\s+(uren|uur|dagdelen|dagdeel|werkdagen|werkdag|dagen|dag)\b/i.exec(s)))
     return res(unitConv(telwoord(m[1]), m[2]), m);
   if ((m = new RegExp('(\\d+(?:[.,]\\d+)?)\\s*' + H_UNIT + '\\b', 'i').exec(s))) return res(unitConv(num(m[1]), m[2]), m);
   if (allowPlain && (m = /^\s*[~±≈]?\s*(?:ca\.?\s*)?(\d+(?:[.,]\d+)?)\s*$/i.exec(s))) return res({ v: num(m[1]), u: 'h' }, m);
@@ -7079,18 +7197,21 @@ function tabelKolommen(kopcellen) {
   const map = {};
   kopcellen.map(h => h.toLowerCase()).forEach((h, i) => {
     const k = labelKind(h) || (/^(taken?|naam|activiteit|werkzaamhe(id|den)|omschrijving)$/.test(h) ? 'name' : null)
-      || (/(frequentie|hoe vaak|freq)/.test(h) ? 'freq' : null)
+      // v328: frequentie, wanneer, categorie en opmerkingen net als uren (v304) en locatie (v315): het woord los, of een samenstelling
+      // die op het woord eindigt en hetzelfde betekent (Uitvoerfrequentie, Uitvoeringsmoment, Jaarplanning, Subcategorie,
+      // Kennisdomein, Slotopmerking), en Opmerkingenveld en Notitieblok; niet als begin van een ander woord (Momentopname, Planningsstatus, Domeinnaam, Notitiecode)
+      || (/(?:^|[^a-zà-ÿ])([a-zà-ÿ]*frequenties?|freq|hoe\s*vaak)(?![a-zà-ÿ])/.test(h) ? 'freq' : null)
       // v304: uren, uur, tijd of duur als los woord (Uren per keer, Geschatte tijd), niet in een samengesteld woord (Tijdstip,
       // Uurtarief, Bestuur). Wel uren: een woord dat met uren begint (Urenbesteding, Urenraming) en de samenstellingen
       // Tijdsduur, Tijdsbesteding, Tijdsinvestering en Tijdsbelasting, ook met meer woorden erbij
       || (/(?:^|[^a-zà-ÿ])(uren[a-zà-ÿ]*|uur|tijd|duur|tijdsduur|tijdsbesteding|tijdsinvestering|tijdsbelasting)(?![a-zà-ÿ])/.test(h) ? 'hours' : null)
-      || (/(wanneer|moment|timing|planning)/.test(h) ? 'when' : null)
+      || (/(?:^|[^a-zà-ÿ])(wanneer|[a-zà-ÿ]*(?:momenten|moment|timing|planningen|planning))(?![a-zà-ÿ])/.test(h) ? 'when' : null)
       // v315: rol en waar alleen als los woord (niet in Controle, Zwaarte, Waarde of Waarom), met Rollen, Rolverdeling en Taakrol;
       // plaats als los woord of aan het eind van een woord (Werkplaats, Standplaats) en Plaatsnaam, niet Plaatsvervanger of
       // Plaatsing; locatie ook in een samenstelling (Werklocatie), maar niet in Allocatie
-      || (/(categorie|domein)|(?:^|[^a-zà-ÿ])(rol|rollen|rolverdeling|taakrol|taakrollen)(?![a-zà-ÿ])/.test(h) ? 'cat' : null)
+      || (/(?:^|[^a-zà-ÿ])([a-zà-ÿ]*(?:categorieën|categorie|domeinen|domein)|categorienaam|rol|rollen|rolverdeling|taakrol|taakrollen)(?![a-zà-ÿ])/.test(h) ? 'cat' : null)
       || (/(?<!al)lo[ck]atie|(?:^|[^a-zà-ÿ])(waar|[a-zà-ÿ]*plaats(en)?|plaatsnaam)(?![a-zà-ÿ])/.test(h) ? 'loc' : null)
-      || (/(opmerking|toelichting|notitie)/.test(h) ? 'note' : null);
+      || (/(?:^|[^a-zà-ÿ])([a-zà-ÿ]*(?:opmerkingen|opmerking|toelichtingen|toelichting|notities|notitie)|opmerkingen[a-zà-ÿ]*|notitieblok)(?![a-zà-ÿ])/.test(h) ? 'note' : null);
     if (k && map[k] === undefined) map[k] = i;
   });
   return map;
@@ -7218,6 +7339,55 @@ function taakUitNode(n, seen) {
   };
 }
 
+/* ---------- v327: urgent in de eigen tekst van een punt of alinea, zoals Document het leest ----------
+   Document (leesLijst en haalUrgent in de document-kern) maakt een punt urgent als <!-- urgent --> aan het eind van een
+   regel in de eigen tekst van het punt staat: de regel van het punt en de vervolgregels eronder, tot een lege regel of
+   een genest punt. Een alinea is urgent als dat in een van haar regels zo is. !!…!! in die tekst maakt het punt of de
+   alinea in Document ook urgent. Tot v326 keek de rekenkern alleen naar de regel van de taak zelf, zodat een
+   <!-- urgent --> op een eigen regel onder het punt in Taken en bij Alleen urgent niet meetelde. Wat er verder een taak is
+   en wat er in de naam of de opmerkingen staat, verandert niet: die vervolgregels worden alleen hierop bekeken. */
+const RE_URGENT_EIND = /\s*<!--\s*urgent\s*-->\s*$/i, RE_UITROEP_URGENT = /!!\S(?:.*?\S)?!!/;
+const RE_DOC_PUNT = /^(\s*)([-*+]|\d{1,9}[.)])\s+(.*)$/, RE_DOC_LEEG_PUNT = /^\s*(?:[-*+]|\d{1,9}[.)])$/;
+// waar in Document een nieuw blok begint (een kop, omheinde code, een citaat, een lijn of een onderstreping)
+const RE_DOC_BLOK = /^#{1,6}\s|^ {0,3}(?:```|~~~)|^ {0,3}>|^ {0,3}([-*_])(?: *\1){2,} *$|^ {0,3}(?:=+|-+)\s*$/;
+const RE_CITAAT_BEGIN = /^\s{0,3}(?:>\s?)+/;
+const regelUrgent = (r) => RE_URGENT_EIND.test(r) || RE_UITROEP_URGENT.test(r);
+// een regel zoals Document hem ziet (tabs als vier spaties), met het aantal > ervoor en de tekst zonder die >
+function docRegel(r) {
+  const t = String(r).replace(/\t/g, '    '), m = RE_CITAAT_BEGIN.exec(t);
+  return { citaat: m ? m[0].split('>').length - 1 : 0, tekst: m ? t.slice(m[0].length) : t };
+}
+// Het punt op regel i (0 = de eerste): staat er in een vervolgregel van zijn eigen tekst iets dat het urgent maakt?
+function puntVervolgUrgent(lines, i) {
+  const eigen = docRegel(lines[i]), m = RE_DOC_PUNT.exec(eigen.tekst);
+  if (!m) return false;
+  const basis = m[1].length, inhoud = basis + m[2].length + 1;
+  for (let j = i + 1; j < lines.length; j++) {
+    const d = docRegel(lines[j]), r = d.tekst;
+    if (d.citaat > eigen.citaat || !r.trim() || RE_DOC_PUNT.test(r)) return false;   // een nieuw citaat, een lege regel, een genest punt
+    if (/^(?:```|~~~)/.test(r.trim())) return false;   // code hoort niet bij de eigen tekst
+    const ins = r.search(/\S/);
+    if (ins < inhoud && ins <= basis && (RE_DOC_BLOK.test(r) || RE_DOC_LEEG_PUNT.test(r))) return false;   // geen vervolgregel meer
+    if (regelUrgent(r)) return true;
+  }
+  return false;
+}
+// De alinea rond regel i: staat er in een andere regel van die alinea iets dat haar urgent maakt? (Volgt de alinea zonder
+// lege regel op een punt, dan is ze in Document een vervolg van dat punt; of dat punt urgent is, telt hier bewust niet mee,
+// zodat de vaste uitkomsten van de rekenkern gelijk blijven.)
+function alineaUrgent(lines, i) {
+  const eigen = docRegel(lines[i]).citaat;
+  const hoort = (j) => {
+    const d = docRegel(lines[j]), r = d.tekst;
+    return d.citaat === eigen && !!r.trim() && !RE_DOC_PUNT.test(r) && !RE_DOC_LEEG_PUNT.test(r) && !RE_DOC_BLOK.test(r) && r.trim().charAt(0) !== '|';
+  };
+  let begin = i, eind = i;
+  while (begin > 0 && hoort(begin - 1)) begin--;
+  while (eind + 1 < lines.length && hoort(eind + 1)) eind++;
+  for (let j = begin; j <= eind; j++) if (j !== i && regelUrgent(docRegel(lines[j]).tekst)) return true;
+  return false;
+}
+
 // v276: spoor (optioneel, een leeg object) krijgt in spoor.regels per regelnummer wat daar als tijd gelezen is:
 // { tekst, stukken: [{ van, tot, soort }] }, zie tijdSpoor. De uitkomst zelf ({ tasks, lines }) is met en zonder spoor gelijk.
 function parseMarkdown(md, spoor) {
@@ -7242,7 +7412,8 @@ function leesTakenlijst(md, spoor) {
     const n = Object.assign({ kind, text, children: 0, hasProps: false, parent: null, line: extra.line }, parsed, extra);
     if (spoor) { n.sp = sp; regelTekst[extra.line] = cleanInline(text); }
     const raw = lines[extra.line - 1] || '';
-    n.urgent = /<!--\s*urgent\s*-->/i.test(raw) || /!!\S(?:.*?\S)?!!/.test(raw);
+    n.urgent = /<!--\s*urgent\s*-->/i.test(raw) || /!!\S(?:.*?\S)?!!/.test(raw)
+      || (kind === 'li' && puntVervolgUrgent(lines, extra.line - 1)) || (kind === 'p' && alineaUrgent(lines, extra.line - 1));   // v327
     if (n.parent) n.parent.children++;
     nodes.push(n);
     return n;
@@ -7790,20 +7961,23 @@ WIB.kern.document = (function () {
   // urgent, nadruk en doorhalen
   // Nadruk met _ of __ krijgt dat teken in data-md (v316), zodat hij bij terugzetten naar markdown niet *…* of **…** wordt.
   // Het kenmerk komt er pas aan het eind in (via \u0002 en \u0003): een _ in een kenmerk zou de regels voor _ hinderen.
+  // v331: staat er witruimte binnen de tekens (_ los _, ** vet **; dat is hier gewoon nadruk), dan krijgt het element
+  // data-rand (via \u0004), zodat die witruimte bij terugzetten binnen de tekens blijft (zie omhul).
   function nadruk(s) {
+    const rand = function (t) { return /^\s|\s$/.test(t) ? '\u0004' : ''; };
     s = s.replace(/!!(?=\S)([^\n]*?\S)!!/g, '<span class="urgent">$1</span>');
-    s = s.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>');
-    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    s = s.replace(/__([^_]+)__/g, '<strong\u0003>$1</strong>');
-    s = s.replace(/(^|[^*\w])\*([^*\n]+)\*(?!\w)/g, '$1<em>$2</em>');
-    s = s.replace(/(^|[^_\w])_([^_\n]+)_(?!\w)/g, '$1<em\u0002>$2</em>');
-    s = s.replace(/~~([^~]+)~~/g, '<del>$1</del>');
-    return s.replace(/\u0002/g, ' data-md="_"').replace(/\u0003/g, ' data-md="__"');
+    s = s.replace(/\*\*\*([^*]+)\*\*\*/g, function (_, t) { return '<strong><em' + rand(t) + '>' + t + '</em></strong>'; });
+    s = s.replace(/\*\*([^*]+)\*\*/g, function (_, t) { return '<strong' + rand(t) + '>' + t + '</strong>'; });
+    s = s.replace(/__([^_]+)__/g, function (_, t) { return '<strong\u0003' + rand(t) + '>' + t + '</strong>'; });
+    s = s.replace(/(^|[^*\w])\*([^*\n]+)\*(?!\w)/g, function (_, v, t) { return v + '<em' + rand(t) + '>' + t + '</em>'; });
+    s = s.replace(/(^|[^_\w])_([^_\n]+)_(?!\w)/g, function (_, v, t) { return v + '<em\u0002' + rand(t) + '>' + t + '</em>'; });
+    s = s.replace(/~~([^~]+)~~/g, function (_, t) { return '<del' + rand(t) + '>' + t + '</del>'; });
+    return s.replace(/\u0002/g, ' data-md="_"').replace(/\u0003/g, ' data-md="__"').replace(/\u0004/g, ' data-rand=""');
   }
   function inline(tekst) {
     const codes = [], stukken = [], codeBron = [], stukBron = [];
-    // de tekens die als plaatshouder dienen, mogen niet in de tekst zelf voorkomen (\u0002 en \u0003: nadruk, v316)
-    let s = escapeHtml(String(tekst).replace(/[\u0000-\u0003]/g, ''));
+    // de tekens die als plaatshouder dienen, mogen niet in de tekst zelf voorkomen (\u0002 en \u0003: nadruk, v316; \u0004: v331)
+    let s = escapeHtml(String(tekst).replace(/[\u0000-\u0004]/g, ''));
     // Gemaakte links en afbeeldingen worden apart gezet (v114), zodat de regels voor nadruk en losse webadressen
     // niet meer in een adres of een bestaande link kunnen werken (zoals __init__ in een adres, of een link in een link).
     function apart(html, bron) { stukken.push(html); stukBron.push(bron); return '\u0001' + (stukken.length - 1) + '\u0001'; }
@@ -7812,8 +7986,9 @@ WIB.kern.document = (function () {
     function bronVan(x) { return x.replace(/\u0001(\d+)\u0001/g, function (_, i) { return stukBron[i]; }).replace(/\u0000(\d+)\u0000/g, function (_, i) { return codeBron[i]; }); }
 
     // code spans eerst apart zetten zodat er niets in wordt geïnterpreteerd
+    // (data-md: de code zoals hij in het bestand staat, met zijn backticks en spaties; v330, zie inlineMd)
     s = s.replace(/(`+)([\s\S]*?[^`])\1(?!`)/g, function (_, ticks, inhoud) {
-      codes.push('<code>' + inhoud.trim() + '</code>'); codeBron.push(_);
+      codes.push('<code data-md="' + _ + '">' + inhoud.trim() + '</code>'); codeBron.push(_);
       return '\u0000' + (codes.length - 1) + '\u0000';
     });
 
@@ -7923,6 +8098,29 @@ WIB.kern.document = (function () {
       const r = uit[weg[j]].replace(reUrgentEind, '');
       if (/^(?:\s*>)*\s*$/.test(r)) uit.splice(weg[j], 1); else uit[weg[j]] = r;
     }
+    return uit;
+  }
+  /* De knop Urgent in Bewerken (v336): het blok bij de cursor, zoals Document het leest. regels is de hele tekst, nr de regel van
+     de cursor. Het blok is het punt, de alinea of de kop waar die regel bij hoort (ook een vervolgregel of een regel met alleen
+     <!-- urgent -->): het blok met het hoogste beginregelnummer waarvan het bereik (data-regel tot data-tot in de weergave) de
+     regel bevat; een losse alinea in een punt telt als dat punt, zoals in Document. Daarop werkt wisselUrgentBlok. Hoort de regel
+     bij geen punt, alinea of kop (een lege regel, een tabel, een codeblok), dan werkt de knop op de regel zelf, zoals voorheen.
+     Voorheen werkte de knop in Bewerken altijd op de regel van de cursor en zette hij bij een code op een eigen regel een tweede bij. */
+  function urgentBlokBij(regels, nr) {
+    const html = markdownNaarHtml(regels.join('\n')), re = /<(li|p|h[1-6])\b[^>]*?\bdata-regel="(\d+)"[^>]*>/g;
+    let m, beste = null;
+    while ((m = re.exec(html))) {
+      const van = +m[2], t = /\bdata-tot="(\d+)"/.exec(m[0]), tot = t ? +t[1] : van;
+      if (van > nr || tot < nr) continue;
+      if (!beste || van > beste.nr || (van === beste.nr && m[1] === 'li')) beste = { nr: van, tot: tot };
+    }
+    return beste;
+  }
+  function wisselUrgentBijRegel(regels, nr) {
+    const b = urgentBlokBij(regels, nr);
+    if (b) return wisselUrgentBlok(regels, b.nr, b.tot);
+    const uit = regels.slice();
+    uit[nr] = wisselUrgent(uit[nr]);
     return uit;
   }
   function haalUrgent(regels) {
@@ -8199,15 +8397,34 @@ WIB.kern.document = (function () {
     return v !== null && t !== null && v !== '' && t !== '' ? { van: +v, tot: +t } : null;
   }
 
-  // nadrukteken om tekst, met de spaties erbuiten (** x ** zou geen nadruk geven)
-  function omhul(teken, t) {
+  // nadrukteken om tekst, met de spaties erbuiten (** x ** zou elders geen nadruk geven, zoals in de namen in Taken).
+  // v331: stond de witruimte in het bestand binnen de tekens (data-rand, zie nadruk), dan blijft ze daar: Document leest
+  // dat ook als nadruk, en zo blijft wat je niet aanraakt teken voor teken gelijk (over meer regels: zoals altijd per regel).
+  function omhul(teken, t, n) {
+    if (n && kenmerk(n, 'data-rand') !== null && t.trim() && t.indexOf('\n') < 0) return teken + t + teken;
     // over meer regels: per regel (v195; *schuin* over een regelovergang herkent de weergave niet), een harde breuk (\)
     // blijft aan het eind van de regel staan
     if (t.indexOf('\n') >= 0) return t.split('\n').map(function (r) { const h = /^([\s\S]*?)(\\?)$/.exec(r); return omhul(teken, h[1]) + h[2]; }).join('\n');
     const m = /^(\s*)([\s\S]*?)(\s*)$/.exec(t);
     return m[2] ? m[1] + teken + m[2] + teken + m[3] : t;
   }
-  function codeSpan(t) { return t.indexOf('`') < 0 ? '`' + t + '`' : '`` ' + t + ' ``'; }
+  // v330: code schrijven zodat hij als dezelfde code terugleest (zoals inline hem leest): zoveel backticks als nergens in de
+  // code precies zo vaak achter elkaar staan, en spaties ertussen als er een backtick in de code staat (zoals tot nu toe).
+  // Witruimte aan de randen haalt de lezer weg; die komt buiten de code. Lege code (of alleen witruimte) is geen code meer.
+  function codeSpan(t) {
+    const m = /^(\s*)([\s\S]*?)(\s*)$/.exec(t);
+    if (!m[2]) return t;
+    const rijen = (m[2].match(/`+/g) || []).map(function (r) { return r.length; });
+    let n = 1;
+    while (rijen.indexOf(n) >= 0) n++;
+    const rand = m[2].indexOf('`') >= 0 ? ' ' : '', ticks = '`'.repeat(n);
+    return m[1] + ticks + rand + m[2] + rand + ticks + m[3];
+  }
+  // de tekst van code zoals inline hem uit de markdown leest, of null als het geen code is
+  function codeUit(md) {
+    const m = /^(`+)([\s\S]*?[^`])\1(?!`)/.exec(md);
+    return m && m[0].length === md.length ? m[2].trim() : null;
+  }
   // v316: het nadrukteken uit het bestand (_ of __, in data-md) blijft staan; anders, of als er nu een _ in de tekst staat
   // (dan zou _ geen nadruk meer geven), * of **. Code, links en afbeeldingen tellen niet mee: die worden eerst apart gelezen.
   function nadrukLos(x) {
@@ -8252,15 +8469,109 @@ WIB.kern.document = (function () {
     return { teken: teken, schuin: new Map(botst.map(function (s) { return [s.n, ander(s.teken)]; })) };
   }
 
-  // inline-opmaak terug naar markdown
+  // v332: de tekst en de opmaak (vet b, schuin i) per teken, zoals inlineMd ze schrijft (opmaakDom) en zoals inline ze uit de
+  // markdown leest (opmaakHtml). Witruimte telt als één spatie zonder opmaak; aan het begin en eind telt ze niet. opmaakDom
+  // geeft per teken ook het vette en schuine deel eromheen dat inlineMd zelf schrijft (de binnenste eerst; niet in een link).
+  function opmaakRij(uit) {
+    const r = [];
+    uit.forEach(function (x) {
+      if (/\s/.test(x.c)) { if (r.length && r[r.length - 1].c !== ' ') r.push({ c: ' ', v: '', els: [] }); return; }
+      r.push({ c: x.c, v: [...new Set(x.v)].sort().join(''), els: x.els });
+    });
+    if (r.length && r[r.length - 1].c === ' ') r.pop();
+    return r;
+  }
+  function opmaakDom(nodes) {
+    const uit = [];
+    (function loop(lijst, v, els, vast) {
+      lijst.forEach(function (n) {
+        if (n.nodeType === 3) { for (const c of String(n.nodeValue)) uit.push({ c: c, v: v, els: els }); return; }
+        if (n.nodeType !== 1 || isExtra(n)) return;
+        const t = tagVan(n);
+        if (t === 'button') { if (kenmerk(n, 'data-nr') !== null) for (const c of tekstVan(n) + ' ') uit.push({ c: c, v: '', els: [] }); return; }
+        if (t === 'br') { uit.push({ c: '\n', v: '', els: [] }); return; }
+        if (t === 'img') return;
+        if (t === 'code') { for (const c of tekstVan(n)) uit.push({ c: c, v: v, els: els }); return; }
+        const soort = t === 'strong' || t === 'b' ? 'b' : t === 'em' || t === 'i' ? 'i' : '';
+        loop(knopen(n), v + soort, soort && !vast ? [n].concat(els) : els, vast || (kenmerk(n, 'data-md') !== null && !soort));
+      });
+    })(nodes, '', [], false);
+    return opmaakRij(uit);
+  }
+  function opmaakHtml(html) {
+    const uit = [], stapel = [];
+    html.replace(/<(\/?)([a-z0-9]+)[^>]*>|([^<]+)/gi, function (_, sluit, tag, tekst) {
+      if (tekst !== undefined) { const v = stapel.join(''); for (const c of ontEsc(tekst)) uit.push({ c: c, v: v, els: [] }); return ''; }
+      tag = tag.toLowerCase();
+      if (tag === 'br') uit.push({ c: '\n', v: '', els: [] });
+      else if (sluit) stapel.pop();
+      else if (!/^(img|input)$/.test(tag)) stapel.push(/^(strong|b)$/.test(tag) ? 'b' : /^(em|i)$/.test(tag) ? 'i' : '');
+      return '';
+    });
+    return opmaakRij(uit);
+  }
+  // de eerste plek waar twee rijen verschillen in tekst (alleen = true) of in tekst of opmaak; Infinity als ze gelijk zijn
+  function opmaakVerschil(a, b, alleen) {
+    for (let i = 0; i < Math.max(a.length, b.length); i++) if (!a[i] || !b[i] || a[i].c !== b[i].c || (!alleen && a[i].v !== b[i].v)) return i;
+    return Infinity;
+  }
+
+  /* inline-opmaak terug naar markdown. v332: wat inlineMd schrijft, moet terug te lezen zijn als dezelfde tekst met dezelfde
+     opmaak. Leest het anders terug (schuin direct tegen een letter of cijfer, *x*y; vet met ** en een los * erin, **2*3**;
+     schuin of vet direct naast hetzelfde teken), dan krijgt een schuin of vet deel het andere teken (* of _, ** of __), en
+     lukt dat niet, dan wordt het zonder die opmaak geschreven: de tekst gaat voor, er komen geen losse tekens in het bestand.
+     Een stap telt alleen als de eerste afwijking in de tekst, of anders die in de opmaak, verder naar achteren schuift; eerst
+     wordt bij elk deel het andere teken geprobeerd, pas daarna zonder opmaak. Wat al goed terugleest, blijft zoals het was. */
   function inlineMd(nodes, al) {
-    al = al || {};   // v195: opmaak die al geldt (vet in vet zou anders **** worden)
+    if (al) return inlineMdDeel(nodes, al);
+    const stand = new Map();   // vet of schuin deel -> 'wissel' (het andere teken) of 'plat' (zonder opmaak)
+    const schrijf = function () { return inlineMdDeel(nodes, { stand: stand }); };
+    const doel = opmaakDom(nodes);
+    const score = function (md) { const terug = opmaakHtml(inline(md)); return [opmaakVerschil(doel, terug, true), opmaakVerschil(doel, terug)]; };
+    let md = schrijf(), sc = score(md);
+    while (sc[1] < Infinity) {
+      // eerst de delen om de afwijking heen (de binnenste eerst), dan die vlak ervoor en erna
+      const delen = (doel[sc[1]] ? doel[sc[1]].els : []).slice();
+      for (let i = sc[1] - 2; i <= sc[1] + 2; i++) if (doel[i]) doel[i].els.forEach(function (e) { if (delen.indexOf(e) < 0) delen.push(e); });
+      // de stappen: één deel het andere teken; alle delen om de afwijking heen het andere teken (___x___2 wordt ***x***2);
+      // één deel zonder opmaak
+      const om = doel[sc[1]] ? doel[sc[1]].els.filter(function (e) { return !stand.get(e); }) : [];
+      const stappen = delen.map(function (e) { return [[e, 'wissel']]; })
+        .concat(om.length > 1 ? [om.map(function (e) { return [e, 'wissel']; })] : [])
+        .concat(delen.map(function (e) { return [[e, 'plat']]; }));
+      let beter = false;
+      for (const stap of stappen) {
+        if (stap.some(function (x) { const oud = stand.get(x[0]); return oud === 'plat' || oud === x[1]; })) continue;
+        const oud = stap.map(function (x) { return stand.get(x[0]); });
+        stap.forEach(function (x) { stand.set(x[0], x[1]); });
+        const md2 = schrijf(), sc2 = score(md2);
+        if (sc2[0] > sc[0] || (sc2[0] === sc[0] && sc2[1] > sc[1])) { md = md2; sc = sc2; beter = true; break; }
+        stap.forEach(function (x, i) { if (oud[i] === undefined) stand.delete(x[0]); else stand.set(x[0], oud[i]); });
+      }
+      if (!beter) break;
+    }
+    // klopt de tekst nog niet (zoals bij twee schuine delen direct na elkaar, *x**y*), dan zonder de opmaak om de afwijking heen,
+    // ook als dat pas na meer stappen helpt; geeft ook dat niet de tekst, dan blijft de beste uitvoer van hierboven
+    let md3 = md, sc3 = sc;
+    while (sc3[0] < Infinity) {
+      const om = [];
+      for (let i = sc3[0] - 1; i <= sc3[0] + 1; i++) if (doel[i]) doel[i].els.forEach(function (e) { if (stand.get(e) !== 'plat' && om.indexOf(e) < 0) om.push(e); });
+      if (!om.length) break;
+      om.forEach(function (e) { stand.set(e, 'plat'); });
+      md3 = schrijf(); sc3 = score(md3);
+    }
+    return sc3[0] === Infinity ? md3 : md;
+  }
+  function inlineMdDeel(nodes, al) {
     let s = '';
     nodes.forEach(function (n) {
       if (n.nodeType === 3) { s += String(n.nodeValue).replace(/ /g, ' '); return; }
       if (n.nodeType !== 1 || isExtra(n)) return;
       const t = tagVan(n);
       const soort = t === 'strong' || t === 'b' ? 'b' : t === 'em' || t === 'i' ? 'i' : t === 'del' || t === 's' || t === 'strike' ? 's' : '';
+      // v330: code die je niet hebt gewijzigd, blijft staan zoals in het bestand (data-md, met zijn backticks en spaties);
+      // is de tekst anders (getypt, half geknipt), dan opnieuw geschreven
+      if (t === 'code') { const md = kenmerk(n, 'data-md'), tk = tekstVan(n); s += md !== null && codeUit(md) === tk ? md : codeSpan(tk); return; }
       // data-md: de markdown zoals hij in het bestand staat; bij vet en schuin alleen het teken (v316, zie nadrukTeken)
       if (kenmerk(n, 'data-md') !== null && !soort) { s += kenmerk(n, 'data-md'); return; }
       if (t === 'button') {
@@ -8275,15 +8586,18 @@ WIB.kern.document = (function () {
         if (na &&(na.nodeType === 3 ? /^[^\s ]/.test(String(na.nodeValue)) : na.nodeType === 1 && !isExtra(na) && !isBlok(na) && tagVan(na) !== 'br')) s += ' ';
         return;
       }
-      if (t === 'code') { s += codeSpan(tekstVan(n)); return; }
       if (t === 'br') { s += '\\\n'; return; }
       if (t === 'img') { s += '![' + (kenmerk(n, 'alt') || '') + '](' + (kenmerk(n, 'src') || '') + ')'; return; }
-      const vet = soort === 'b' && !al.b ? vetTekens(n, nadrukTeken(n, '__', '**'), al.i) : null;
-      const binnen = inlineMd(knopen(n), soort ? Object.assign({}, al, { [soort]: true }, vet && vet.schuin ? { schuin: vet.schuin } : {}) : al);
+      // v332: zie inlineMd: een vet of schuin deel met het andere teken, of zonder opmaak
+      const stand = (soort === 'b' || soort === 'i') && !al[soort] && al.stand ? al.stand.get(n) : undefined;
+      const wissel = function (tk) { return stand === 'wissel' ? (tk.charAt(0) === '_' ? tk.replace(/_/g, '*') : tk.replace(/\*/g, '_')) : tk; };
+      if (stand === 'plat') { s += inlineMdDeel(knopen(n), al); return; }
+      const vet = soort === 'b' && !al.b ? vetTekens(n, wissel(nadrukTeken(n, '__', '**')), al.i) : null;
+      const binnen = inlineMdDeel(knopen(n), soort ? Object.assign({}, al, { [soort]: true }, vet && vet.schuin ? { schuin: vet.schuin } : {}) : al);
       if (soort && al[soort]) s += binnen;
-      else if (soort === 'b') s += omhul(vet.teken, binnen);
-      else if (soort === 'i') s += omhul((al.schuin && al.schuin.get(n)) || nadrukTeken(n, '_', '*'), binnen);
-      else if (soort === 's') s += omhul('~~', binnen);
+      else if (soort === 'b') s += omhul(vet.teken, binnen, n);
+      else if (soort === 'i') s += omhul(wissel((al.schuin && al.schuin.get(n)) || nadrukTeken(n, '_', '*')), binnen, n);
+      else if (soort === 's') s += omhul('~~', binnen, n);
       else if (t === 'span' && heeftKlasse(n, 'kop-urgent')) s += binnen;   // v182: komt uit <!-- urgent --> in data-staart, geen !!
       else if (t === 'span' && heeftKlasse(n, 'urgent')) s += omhul('!!', binnen);
       else if (t === 'a') {
@@ -9659,7 +9973,7 @@ WIB.kern.document = (function () {
     key = String(key || '');
     return /^[A-Za-z]$/.test(key) && key !== 'n' && key !== 'N' ? key.toLowerCase() : key;
   }
-  return { lint, linkMd, linkUitMd, inlineMd, sneltoetsLetter, mmStanden, mmAfwijkingen, inline, reKenmerk, wisselUrgent, wisselUrgentBlok, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, historieOpbouw, historieSamen, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, daginvoerOpslaan, daginvoerToevoegen, daginvoerArchiveren, daginvoerVervangen, historieBijschrijven, historieHerschrijven, historieVervangen, historieLeegmaken, archiefBijschrijven, jaarovergangOpslaan, samenMetVorige, laatsteTaakAantal, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, regelsBoven, linkInvoeging, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, takDikte };
+  return { lint, linkMd, linkUitMd, inlineMd, sneltoetsLetter, mmStanden, mmAfwijkingen, inline, reKenmerk, wisselUrgent, wisselUrgentBlok, wisselUrgentBijRegel, blokken, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, historieOpbouw, historieSamen, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, daginvoerOpslaan, daginvoerToevoegen, daginvoerArchiveren, daginvoerVervangen, historieBijschrijven, historieHerschrijven, historieVervangen, historieLeegmaken, archiefBijschrijven, jaarovergangOpslaan, samenMetVorige, laatsteTaakAantal, vinkAf, voegDaginvoerSamen, zonderVermelding, platFilter, totaalIndeling, stelSamen, losMarkdown, regelsOnder, regelsBoven, linkInvoeging, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, takDikte };
 })();
 </script>
 <script data-deel="document">
@@ -9675,7 +9989,7 @@ WIB.kern.document = (function () {
 
   const escapeHtml = WIB.hulp.esc;
   // de DOM-vrije logica (markdown, regels, historie, daginvoer) staat sinds v108 in WIB.kern.document
-  const { lint, linkMd, linkUitMd, inlineMd, inline, reKenmerk, wisselUrgent, wisselUrgentBlok, losMarkdown, regelsOnder, regelsBoven, linkInvoeging, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, daginvoerOpslaan, daginvoerToevoegen, daginvoerArchiveren, daginvoerVervangen, historieBijschrijven, historieHerschrijven, historieVervangen, historieLeegmaken, archiefBijschrijven, jaarovergangOpslaan, samenMetVorige, laatsteTaakAantal, vinkAf, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte, mmStanden, mmAfwijkingen, sneltoetsLetter } = WIB.kern.document;
+  const { lint, linkMd, linkUitMd, inlineMd, inline, reKenmerk, wisselUrgentBlok, wisselUrgentBijRegel, losMarkdown, regelsOnder, regelsBoven, linkInvoeging, lijstUitTekst, klembordHtml, vormVan, wisselTaak, tekstsoortRegels, markdownNaarHtml, scanRegels, regelDiff, maakVermelding, serialiseerHistorie, parseHistorie, bomVan, parseDaginvoer, daginvoerVoorloop, serialiseerDaginvoer, daginvoerOpslaan, daginvoerToevoegen, daginvoerArchiveren, daginvoerVervangen, historieBijschrijven, historieHerschrijven, historieVervangen, historieLeegmaken, archiefBijschrijven, jaarovergangOpslaan, samenMetVorige, laatsteTaakAantal, vinkAf, zonderVermelding, platFilter, totaalIndeling, stelSamen, takDikte, mmStanden, mmAfwijkingen, sneltoetsLetter } = WIB.kern.document;
 
   /* ---------- Interface ---------- */
 
@@ -10917,9 +11231,22 @@ WIB.kern.document = (function () {
     bwTekst.dispatchEvent(new Event('input'));
     bwTekst.focus();
   }
+  /* Urgent (v336): werkt op het blok bij de cursor, zoals in Document (wisselUrgentBijRegel): een code op een eigen regel of aan het
+     eind van een vervolgregel gaat weg waar hij staat. Alleen het stuk dat verandert, wordt vervangen, met insertText, zodat
+     Ctrl+Z in het tekstvak het ongedaan maakt; de cursor blijft op zijn plek in de tekst. */
   document.getElementById('bw-urgent').addEventListener('click', function () {
-    const r = bwHuidigeRegel();
-    bwVervangRegel(wisselUrgent(r.tekst));
+    const v = bwTekst.value, a = bwTekst.selectionStart;
+    const nieuw = wisselUrgentBijRegel(v.split('\n'), v.slice(0, a).split('\n').length - 1).join('\n');
+    bwTekst.focus();
+    if (nieuw === v) return;
+    let p = 0, s = 0;
+    while (p < v.length && p < nieuw.length && v[p] === nieuw[p]) p++;
+    while (s < v.length - p && s < nieuw.length - p && v[v.length - 1 - s] === nieuw[nieuw.length - 1 - s]) s++;
+    const stuk = nieuw.slice(p, nieuw.length - s), eind = v.length - s;
+    bwTekst.setSelectionRange(p, eind);
+    if (!document.execCommand(stuk ? 'insertText' : 'delete', false, stuk)) { bwTekst.setRangeText(stuk, p, eind, 'end'); bwTekst.dispatchEvent(new Event('input', { bubbles: true })); }
+    const naar = a <= p ? a : a >= eind ? a + nieuw.length - v.length : p + stuk.length;
+    bwTekst.setSelectionRange(naar, naar);
   });
   document.getElementById('bw-taak').addEventListener('click', function () {
     const r = bwHuidigeRegel();
@@ -11454,7 +11781,7 @@ WIB.kern.document = (function () {
           WIB.laden.klaar(laad);
           meld(aangemaakt.length ? 'Map «' + dir.name + '» gekozen. Aangemaakt: ' + aangemaakt.join(' en ') + '.' : 'Map «' + dir.name + '» ingeladen.', true);
           tabMapGewijzigd();   // v245: staat deze map ook in een ander tabblad open?
-          controleerBestanden(opslag, true);   // v298: daarna, stil; het openen wacht er niet op
+          controleerBestanden({ opslag: opslag }, true);   // v298: daarna, stil; het openen wacht er niet op
         });
       })
       .catch(function (e) {
@@ -11473,30 +11800,39 @@ WIB.kern.document = (function () {
      een versiebestand is niet te lezen) geeft één melding, en blijft daarna zichtbaar onder Bron in de zijbalk en bovenaan
      Tekstcontrole; alle bevindingen staan in Tekstcontrole (soort Bestand). Een onleesbare notitie en dubbele namen meldt
      scanGevuld al (v129, v143), een onleesbaar vast bestand houdt het openen al tegen (v133, v203): die komen er niet bij.
-     Is intussen een andere map gekozen (of de map losgelaten), dan vervalt de uitkomst. */
-  let mapControle = null, mapControleNr = 0, mapControleLoopt = 0;
+     Is intussen een andere map gekozen (of de map losgelaten), dan vervalt de uitkomst.
+     v334: ook in een map die alleen gelezen kan worden (de gekozen bestanden, met maakLijstOpslag) en bij een los bestand
+     (alleen dat bestand, als werkdruk.md). waar: { opslag: de opslag waarbij de uitkomst hoort (de actieve), lees: waar de
+     controle leest (standaard opslag), paden, mappen, bron: bij een los bestand en een map die alleen gelezen kan worden de
+     bron, want de uitkomst geldt dan alleen zolang die open is (een ander bestand of het voorbeeld laat de map niet los) }. Tot v333 liep de controle alleen in een map waarin de pagina kan schrijven. */
+  let mapControle = null, mapControleNr = 0, mapControleLoopt = 0, mapControleWaar = null;
   const MAP_CONTROLE_KORT = { verlies: 'zou bij je eerste wijziging in de pagina tekst kwijtraken', afgebroken: 'lijkt halverwege afgebroken', onleesbaar: 'kon niet worden gelezen' };
-  function controleerBestanden(opslag, metMelding) {
+  // hoort deze controle (of haar uitkomst) bij wat nu open is?
+  function mapControleGeldt(w) { return !!w && w.opslag === WIB.gegevens.actieveOpslag() && (!w.bron || w.bron === bron); }
+  function controleerBestanden(waar, metMelding) {
     const nr = ++mapControleNr, sleutel = window.WIB.codes ? WIB.codes.sleutel : undefined;
+    mapControleWaar = waar;
     mapControleLoopt++;
     return WIB.gegevens.controleerMap({
-      opslag: opslag, paden: MAP_BESTANDEN, mappen: ['notities'],
+      opslag: waar.lees || waar.opslag, paden: waar.paden || MAP_BESTANDEN, mappen: waar.mappen || ['notities'],
       onleesbaar: function (pad) { return /_versies\.md$/i.test(pad); },
       extra: function (namen) {
         const N = window.WIB.kern && WIB.kern.notities;
         return N ? N.versiesZonderNotitie(namen.notities || [], sleutel).map(function (n) { return { pad: 'notities/' + n, code: 'zonder-notitie' }; }) : [];
       }
     }).then(function (u) {
-      if (nr !== mapControleNr || WIB.gegevens.actieveOpslag() !== opslag) return;
-      mapControle = { opslag: opslag, bevindingen: u.bevindingen, teksten: u.teksten };
+      if (nr !== mapControleNr || !mapControleGeldt(waar)) return;
+      mapControle = { opslag: waar.opslag, bron: waar.bron || null, bevindingen: u.bevindingen, teksten: u.teksten };
       toonMapControle(metMelding);
       planTekstcontrole();
     }, function (e) { WIB.hulp.waarschuw('map controleren', e); }).then(function () { mapControleLoopt--; });
   }
-  function mapControleWeg() { mapControleNr++; mapControle = null; toonMapControle(false); }
+  function mapControleWeg() { mapControleNr++; mapControle = null; mapControleWaar = null; toonMapControle(false); }
+  // opnieuw (Opnieuw inladen, Opnieuw controleren), als de laatste controle nog bij wat open is hoort
+  function controleerOpnieuw(metMelding) { if (mapControleGeldt(mapControleWaar)) controleerBestanden(mapControleWaar, metMelding); }
   // de ernstige bevindingen van de map die nu open is, en de bestanden waar ze in staan
   function mapControleErnstig() {
-    const b = mapControle && mapControle.opslag === WIB.gegevens.actieveOpslag() ? mapControle.bevindingen.filter(function (x) { return x.ernstig; }) : [];
+    const b = mapControleGeldt(mapControle) ? mapControle.bevindingen.filter(function (x) { return x.ernstig; }) : [];
     return { bevindingen: b, paden: b.map(function (x) { return x.pad; }).filter(function (p, i, l) { return l.indexOf(p) === i; }) };
   }
   function mapControleTekst(e) {
@@ -11564,6 +11900,8 @@ WIB.kern.document = (function () {
         toon('werkdruk.md', t);
         WIB.laden.klaar(laad);
         meld('Map «' + mapNaam + '» ingeladen' + (r[0] === null ? ': er stond nog geen werkdruk.md in' : '') + '. Deze browser kan alleen lezen; opslaan gaat via downloaden.');
+        // v334: daarna, stil, dezelfde controle als in een map waarin de pagina kan schrijven, op de gekozen bestanden
+        controleerBestanden({ opslag: u.opslag, lees: WIB.gegevens.maakLijstOpslag(files.map(function (f) { const p = top(f); return [p.length > 1 ? p.slice(1).join('/') : p[0], f]; })), bron: bron }, true);
         // daarna pas: staat wat je downloadde er nog niet in, dan zegt de pagina dat (v141)
         return controle.then(function (nog) {
           if (nog.length) meld('In de gekozen map staat nog niet wat je het laatst downloadde: ' + nog.join(', ') + '. Zet de gedownloade bestanden in de map en kies de map daarna opnieuw.');
@@ -11604,7 +11942,7 @@ WIB.kern.document = (function () {
       toon(b.naam, u.tekst, true); bijwerkOpslagstatus(); bwToon(true);
     }).then(function () {
       if (window.WIB.werkdruk) WIB.werkdruk.herlaadInstellingen(); meld(b.naam + ' opnieuw ingeladen.');
-      if (hist.map) controleerBestanden(WIB.gegevens.actieveOpslag(), true);   // v298: zoals bij het openen van de map
+      controleerOpnieuw(true);   // v298: zoals bij het openen van de map (v334: ook bij een los bestand)
     })
       .catch(function (e) { meld(e && e.name === 'CoderingFout' ? e.message + '.' : 'Het bestand kon niet opnieuw worden gelezen. Kies de map opnieuw.'); });
   }
@@ -14491,13 +14829,16 @@ WIB.kern.document = (function () {
     if (nr >= regels.length) { WIB.werkdruk.opzetBij(null); return; }
     const reVoor = b.tagName === 'LI' ? /^(\s*(?:>\s?)*\s*(?:[-*+]|\d{1,9}[.)])\s+(?:\[[ xX]\]\s+)?)/ : /^H[1-6]$/.test(b.tagName) ? /^(\s{0,3}#{1,6}\s+)/ : /^(\s*(?:>\s?)*)/;
     const voor = (reVoor.exec(regels[nr]) || ['', ''])[1];
-    const getoond = docEd.tekstIn(b).map(function (t) { return t.nodeValue; }).join('');
+    const tekst = docEd.tekstIn(b), getoond = tekst.map(function (t) { return t.nodeValue; }).join('');
     const begin = getoond.length - getoond.replace(/^\s+/, '').length;
     const eigen = getoond.replace(/^\s+/, '').split('\n')[0];
+    // v337: dezelfde regel met de getoonde tekst van een link, een geblokkeerde link of een afbeelding die niet laadt afgedekt
+    // (evenveel tekens, zoals linksAfgedekt in Bewerken): een ' - ' daarin scheidt geen velden, net als bij het lezen van de taak
+    const afgedekt = tekst.map(function (t) { return t.parentNode.closest('a, .link-geblokkeerd, .afbeelding-placeholder') ? '\uE000'.repeat(t.nodeValue.length) : t.nodeValue; }).join('').slice(begin, begin + eigen.length);
     regels[nr] = voor + eigen;
     let pos = 0;
     for (let i = 0; i < nr; i++) pos += regels[i].length + 1;
-    WIB.werkdruk.opzetBij(regels.join('\n'), pos + voor.length + Math.max(0, Math.min(eigen.length, c.teken - begin)));
+    WIB.werkdruk.opzetBij(regels.join('\n'), pos + voor.length + Math.max(0, Math.min(eigen.length, c.teken - begin)), { regel: nr + 1, tekst: voor + afgedekt });
   }
   docKop.addEventListener('change', function () { if (docKop.value) docEd.tekstsoort(docKop.value); });
   document.getElementById('doc-weg').addEventListener('click', function () { gooiConceptWeg(); });
@@ -14586,6 +14927,7 @@ WIB.kern.document = (function () {
   }
 
   function zetBron(b) {
+    if (mapControle && mapControle.bron && mapControle.bron !== b) mapControleWeg();   // v334: die van een los bestand (of een map die alleen gelezen kan worden) vervalt
     bron = b;
     werkHerlaadBij();
     const live = b.soort !== 'vast';
@@ -14694,14 +15036,16 @@ WIB.kern.document = (function () {
 
   let kanPicker = typeof window.showOpenFilePicker === 'function';
 
-  // Hoort dit bestand niet in de gekozen map, dan wordt de map losgelaten: historie en daginvoer
+  // Hoort dit bestand niet in de gekozen map, dan moet de map worden losgelaten: historie en daginvoer
   // blijven in het geheugen, zodat ze niet in de verkeerde map worden geschreven.
+  // v333: geeft alleen true (loslaten) of false; het loslaten zelf gebeurt pas als het bestand goed is gelezen (openHandle).
+  // Tot v332 liet deze functie de map al los vóór het lezen: mislukte dat, dan was de map toch los.
   function controleerMap(handle) {
-    if (!hist.map) return Promise.resolve();
-    if (!handle || typeof hist.map.resolve !== 'function') return Promise.resolve(); // niet te bepalen: map behouden
+    if (!hist.map) return Promise.resolve(false);
+    if (!handle || typeof hist.map.resolve !== 'function') return Promise.resolve(false); // niet te bepalen: map behouden
     const p = hist.map.resolve(handle);
     // kan niet worden bepaald of het bestand in de map hoort: de map loslaten (veilig: er wordt dan niets in de map geschreven)
-    return Promise.resolve(p).catch(function () { return null; }).then(function (pad) { if (!pad) ontkoppelMap(); });
+    return Promise.resolve(p).catch(function () { return null; }).then(function (pad) { return !pad; });
   }
   function ontkoppelMap() {
     const naam = hist.map.name;
@@ -14726,14 +15070,20 @@ WIB.kern.document = (function () {
     return (alBevestigd ? Promise.resolve(true) : bevestigVervangen()).then(function (ok) {
       if (!ok) return;
       // v295: uit de map hoort het bestand per definitie bij de map (geen handvat meer om dat na te gaan)
-      return (uitMap ? Promise.resolve() : controleerMap(handle)).then(function () {
+      // v333: eerst lezen; de map wordt pas losgelaten als het bestand goed is gelezen. Mislukt het lezen, dan blijft alles
+      // zoals het was (document, map, bewaking en niet-opgeslagen tekst)
+      return (uitMap ? Promise.resolve(false) : controleerMap(handle)).then(function (los) {
         const opslag = uitMap ? WIB.gegevens.actieveOpslag() : losseOpslag(handle);
         return leesWerkdruk(opslag, handle.name).then(function (u) {
+          if (los && hist.map) ontkoppelMap();
           fout.textContent = '';
           laatsteWijziging = u.kenmerk;
           zetBron({ soort: 'handle', handle: handle, naam: handle.name, via: via || (hist.map ? 'map-fs' : 'bestand'), opslag: opslag });
           zetOpslag(u.gewijzigdOp, false);
           toon(handle.name, u.tekst);
+          // v334: een los bestand (zonder map) krijgt dezelfde controle als een map, voor dat ene bestand. Blijft de map open
+          // (het bestand staat erin), dan geldt de controle van de map
+          if (!uitMap && !hist.map) losBestandControleren(opslag);
         }, function (e) {
           // v203: niet als UTF-8 opgeslagen: niet tonen (en dus ook niet opslaan); de huidige tekst blijft staan
           if (e && e.name === 'CoderingFout') { fout.textContent = e.message + '.'; meld(fout.textContent); return; }
@@ -14742,6 +15092,9 @@ WIB.kern.document = (function () {
       });
     });
   }
+
+  // v334: de controle bij het openen voor een los bestand: alleen dat bestand (als werkdruk.md), zolang het de bron is
+  function losBestandControleren(lees) { controleerBestanden({ opslag: WIB.gegevens.actieveOpslag(), lees: lees, paden: [WERK_PAD], mappen: [], bron: bron }, true); }
 
   function kiesMetPicker() {
     window.showOpenFilePicker({
@@ -14772,9 +15125,10 @@ WIB.kern.document = (function () {
     if (bestand.size > 20 * 1024 * 1024) { fout.textContent = 'Dit bestand is groter dan 20 MB. Kies een kleiner bestand.'; return; }
     bevestigVervangen().then(function (ok) {
       if (!ok) return;
-      if (hist.map) ontkoppelMap(); // een los gekozen bestand hoort niet bij de map
-      WIB.hulp.tekstVan(bestand).then(function (t) { zetBron({ soort: 'vast', naam: bestand.name }); zetOpslag(bestand.lastModified || null, false); toon(bestand.name, t); },
-        function (e) { fout.textContent = e && e.name === 'CoderingFout' ? e.message + '.' : 'Het bestand kon niet worden gelezen. Controleer of het een tekstbestand is.'; });
+      // v333: een los gekozen bestand hoort niet bij de map; de map wordt pas losgelaten als het bestand goed is gelezen.
+      // Mislukt het lezen, dan blijft alles zoals het was, en zegt de melding wat er mis is (ook als er al een document open is)
+      WIB.hulp.tekstVan(bestand).then(function (t) { if (hist.map) ontkoppelMap(); zetBron({ soort: 'vast', naam: bestand.name }); zetOpslag(bestand.lastModified || null, false); toon(bestand.name, t); losBestandControleren(WIB.gegevens.maakLijstOpslag([[WERK_PAD, bestand]])); },
+        function (e) { fout.textContent = e && e.name === 'CoderingFout' ? e.message + '.' : 'Het bestand kon niet worden gelezen. Controleer of het een tekstbestand is.'; meld(fout.textContent); });
     });
   }
 
@@ -14821,8 +15175,20 @@ WIB.kern.document = (function () {
   function bijlageTab() { return tabActief === 'document' || tabActief === 'bewerken'; }
   // tijdens het slepen: wat er gaat gebeuren, over het tabblad (net als het notitievenster)
   function sleepTekstBij(e) {
-    if (sleeptBestanden(e) && !WIB.sleep.binnen() && bijlageMapOpen() && bijlageTab() && !vensterOpen()) hoofdVlak.setAttribute('data-sleep', 'Laat los om het bestand in hoofdmap/ te bewaren en een link in het document te zetten');
+    if (sleeptBestanden(e) && !WIB.sleep.binnen() && bijlageMapOpen() && bijlageTab() && !vensterOpen()) { sleepBoven(); hoofdVlak.setAttribute('data-sleep', 'Laat los om het bestand in hoofdmap/ te bewaren en een link in het document te zetten'); }
     else hoofdVlak.removeAttribute('data-sleep');
+  }
+  /* v338: het vlak begint onder de balk en de werkbalk van het tabblad (Document of Bewerken), zoals die op deze breedte staan:
+     op een telefoon loopt de balk over meer regels en schuift hij mee met de pagina, en daar viel het vlak over de werkbalk;
+     breder lag het over de werkbalk heen. De opzetregel onder de werkbalk mag eronder vallen (op een telefoon is hij hoog).
+     Gemeten bij het begin van het slepen en bij elke dragover (de pagina kan intussen scrollen); de 12 px ruimte blijft. */
+  function sleepBoven() {
+    let onder = 0;
+    document.querySelectorAll(tabActief === 'bewerken' ? '.balk, #bewerken > .bw-werkbalk' : '.balk, #doc-werkbalk').forEach(function (x) {
+      if (x.getClientRects().length) onder = Math.max(onder, x.getBoundingClientRect().bottom);
+    });
+    const waarde = Math.round(onder + 12) + 'px';
+    if (hoofdVlak.style.getPropertyValue('--sleep-boven') !== waarde) hoofdVlak.style.setProperty('--sleep-boven', waarde);
   }
   let hoofdBezig = false, hoofdOvergeslagen = [];
   function bijlagenNaarHoofdmap(bestanden, mappen, plek) {
@@ -14899,7 +15265,7 @@ WIB.kern.document = (function () {
   let teller = 0;
   document.addEventListener('dragenter', function (e) { e.preventDefault(); teller++; neerzetvlak.classList.add('actief'); sleepTekstBij(e); });
   document.addEventListener('dragleave', function () { if (--teller <= 0) { teller = 0; neerzetvlak.classList.remove('actief'); hoofdVlak.removeAttribute('data-sleep'); } });
-  document.addEventListener('dragover', function (e) { e.preventDefault(); if (hoofdVlak.hasAttribute('data-sleep') && e.dataTransfer) e.dataTransfer.dropEffect = 'copy'; });
+  document.addEventListener('dragover', function (e) { e.preventDefault(); if (hoofdVlak.hasAttribute('data-sleep')) { sleepBoven(); if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy'; } });
   document.addEventListener('drop', function (e) {
     e.preventDefault(); teller = 0; neerzetvlak.classList.remove('actief'); hoofdVlak.removeAttribute('data-sleep');
     if (bijlageMapOpen() && naarHoofdmap(e)) return;   // v325
@@ -15127,7 +15493,7 @@ WIB.kern.document = (function () {
   // staat (wat de lint al meldt, zoals regeleinden en eindregel, niet nog eens), anders als eigen bestand. Ernstig is een fout,
   // de rest een tip.
   function tcMetMapControle(bestanden) {
-    const mc = mapControle && mapControle.opslag === WIB.gegevens.actieveOpslag() ? mapControle : null;
+    const mc = mapControleGeldt(mapControle) ? mapControle : null;
     if (!mc) return;
     mc.bevindingen.forEach(function (x) {
       let b = bestanden.find(function (y) { return y.naam.toLowerCase() === x.pad.toLowerCase(); });
@@ -15193,7 +15559,7 @@ WIB.kern.document = (function () {
   tcGroep.addEventListener('change', tcTeken);
   tcErnstKnoppen.addEventListener('click', function (e) { const k = e.target.closest('button[data-tc-ernst]'); if (k) { tcErnst = k.getAttribute('data-tc-ernst'); tcTeken(); } });
   // v298: Opnieuw controleren kijkt ook de bestanden van de map opnieuw na (zonder melding; de zijbalk en het blok bovenaan volgen)
-  document.getElementById('tc-opnieuw').addEventListener('click', function () { if (hist.map) controleerBestanden(WIB.gegevens.actieveOpslag(), false); tcControleer(); });
+  document.getElementById('tc-opnieuw').addEventListener('click', function () { controleerOpnieuw(false); tcControleer(); });
   tcLijst.addEventListener('click', function (e) {
     const k = e.target.closest('.tc-naar'); if (!k) return;
     const b = tcBestanden[+k.getAttribute('data-tc-bestand')]; if (!b) return;
@@ -17929,13 +18295,18 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
   const FIELD_NAMES = ['taak', 'frequentie', 'uur per keer', 'wanneer', 'locatie', 'opmerkingen'];
   const KIND_FIELD = { name: 0, freq: 1, hours: 2, when: 3, per: 3, loc: 4, note: 5 };
   const SEP_RE = /(?:^|\s)[-—–](?=\s|$)/g;
+  /* v337: de regel (nr telt vanaf 1) met links, afbeeldingen en losse webadressen afgedekt (linksAfgedekt, rekenkern), zodat de
+     markering hetzelfde veld aanwijst als de berekening leest. Document geeft de regel bij de cursor al afgedekt mee (opzetAfgedekt),
+     want daar staat de getoonde tekst van een link in de regel en niet de markdown. */
+  let opzetAfgedekt = null;
+  function regelAfgedekt(nr, regel) { return opzetAfgedekt && opzetAfgedekt.regel === nr ? linksAfgedekt(opzetAfgedekt.tekst) : linksAfgedekt(regel); }
   // In welk deel van de opzet staat de cursor? -1 = niet van toepassing
   function caretField(ta) {
     if (!caretTaskLine) return -1;
     const pos = ta.selectionStart;
     const start = ta.value.lastIndexOf('\n', pos - 1) + 1;
     const endIdx = ta.value.indexOf('\n', start);
-    const text = ta.value.slice(start, endIdx < 0 ? ta.value.length : endIdx);
+    const text = regelAfgedekt(caretLine, ta.value.slice(start, endIdx < 0 ? ta.value.length : endIdx));   // v337: een ' - ' in een link scheidt niets
     const col = pos - start;
     const lm = /^(\s*(?:[-*+]|\d+[.)])\s+(?:\[[ xX]\]\s+)?)(.*)$/.exec(text);
     if (caretTaskLine !== caretLine) {
@@ -17974,7 +18345,7 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
   function missingFields(ta) {
     const out = new Set();
     if (!caretTaskLine) return out;
-    const text = ta.value.split('\n')[caretTaskLine - 1] || '';
+    const text = regelAfgedekt(caretTaskLine, ta.value.split('\n')[caretTaskLine - 1] || '');   // v337: zoals caretField
     const lm = LIST_PREFIX.exec(text);
     if (lm && !/^\s{0,3}#{1,6}\s/.test(text)) {
       const clean = cleanInline(lm[2]);
@@ -18027,7 +18398,7 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
   // De opzetregel in Document (v178): dezelfde berekening als in Bewerken, op de tekst van Document en de plek van de
   // cursor daarin. De gegevens van Bewerken (welke regels taken zijn, de cursorregel) worden even vervangen en daarna teruggezet.
   let opzetTekst = null, opzetRegels = new Set(), opzetTaken = new Map();
-  function opzetBij(tekst, pos) {
+  function opzetBij(tekst, pos, afgedekt) {
     const box = $('#docLayoutLine');
     if (!box) return;
     if (tekst === null) { highlightField(-1, box); highlightMissing(new Set(), box); return; }
@@ -18036,12 +18407,12 @@ const SAMPLE_MD = "# Mijn werktaken\n\nOpzet per regel: taak - frequentie - uur 
       opzetTekst = tekst; opzetRegels = new Set(r.tasks.slice(0, 400).map(t => t.line)); opzetTaken = new Map(r.tasks.slice(0, 400).map(t => [t.line, t]));
     }
     const bewaard = [PREV_LINES, PREV_TASKS, caretLine, caretTaskLine];
-    PREV_LINES = opzetRegels; PREV_TASKS = opzetTaken;
+    PREV_LINES = opzetRegels; PREV_TASKS = opzetTaken; opzetAfgedekt = afgedekt || null;
     try {
       const ta = { value: tekst, selectionStart: pos };
       caretLine = lineOfCaret(ta); caretTaskLine = taskLineFor(ta, caretLine);
       highlightField(caretField(ta), box); highlightMissing(missingFields(ta), box);
-    } finally { [PREV_LINES, PREV_TASKS, caretLine, caretTaskLine] = bewaard; }
+    } finally { [PREV_LINES, PREV_TASKS, caretLine, caretTaskLine] = bewaard; opzetAfgedekt = null; }
   }
   function positionLineHL() {
     const ta = $('#mdInput'), hl = $('#lineHL');
@@ -19751,9 +20122,9 @@ WIB.kern.notities = (function () {
      terug en vergelijkt. samen houdt de notitiebestanden van het plan vast (paden); de stappen geven die beurt door (binnen).
      Wat een stap niet lukt, wordt een fout met de tekst van het rapport (zoals tot v291); herstel zet elk bestand terug zoals
      de controle het zag, en probeert ook de andere bestanden als er één niet lukt. */
-  // de teksten van bestanden (null: bestaat niet; een leesfout gaat door)
-  function leesTeksten(paden) {
-    return Promise.all(paden.map(function (p) { return WIB.gegevens.lees(p).then(function (r) { if (!r.ok) throw r.fout; return r.bestaat ? r.tekst : null; }); }));
+  // de teksten van bestanden (null: bestaat niet; een leesfout gaat door); v339: opslag (standaard de actieve)
+  function leesTeksten(paden, opslag) {
+    return Promise.all(paden.map(function (p) { return WIB.gegevens.lees(p, { opslag: opslag }).then(function (r) { if (!r.ok) throw r.fout; return r.bestaat ? r.tekst : null; }); }));
   }
   // een uitkomst die niet ok is als fout; conflict en teruggezet krijgen de tekst van het rapport
   function omzetFout(u, conflict, teruggezet) {
@@ -19762,11 +20133,13 @@ WIB.kern.notities = (function () {
     return u.fout || new Error(WIB.gegevens.uitleg(u));
   }
   function moet(u) { if (!u.ok) throw omzetFout(u); return u; }
-  const STAP = { onthoud: false };   // een stap van samen zet zelf terug: een fout wacht niet op een nieuwe poging
+  // een stap van samen zet zelf terug: een fout wacht niet op een nieuwe poging. v339: met de opslag van de stappen
+  // (opslag: standaard de actieve; zonder map de geheugenopslag van de notities)
+  function stap(opslag) { return { onthoud: false, opslag: opslag }; }
   // tekst (null: weg) op pad, wat er ook staat (terugzetten)
-  async function zetTerug(pad, tekst, b) {
-    if (tekst === null) return moet(await WIB.gegevens.verwijder(pad, Object.assign({ alsBestaat: true, binnen: b }, STAP)));
-    return moet(await WIB.gegevens.bewerk(pad, 'vrij', function () { return { tekst: tekst }; }, Object.assign({ basis: null, maak: true, leegrem: 'bevestigd', binnen: b }, STAP)));
+  async function zetTerug(pad, tekst, b, opslag) {
+    if (tekst === null) return moet(await WIB.gegevens.verwijder(pad, Object.assign({ alsBestaat: true, binnen: b }, stap(opslag))));
+    return moet(await WIB.gegevens.bewerk(pad, 'vrij', function () { return { tekst: tekst }; }, Object.assign({ basis: null, maak: true, leegrem: 'bevestigd', binnen: b }, stap(opslag))));
   }
   // alles proberen; de eerste fout gaat door
   async function allemaal(taken) {
@@ -19776,21 +20149,22 @@ WIB.kern.notities = (function () {
   }
   // tekst op pad, als daar nog staat wat de controle zag (basis; null: bestond niet); v297: vormVan: een nieuw bestand krijgt
   // de regeleinden en de BOM van dat bestand
-  function schrijfNaPlan(pad, tekst, basis, b, vormVan) {
+  function schrijfNaPlan(pad, tekst, basis, b, vormVan, opslag) {
     return WIB.gegevens.bewerk(pad, 'vrij', function () { return { tekst: tekst }; },
-      Object.assign({ basis: { tekst: basis === null ? '' : basis }, bijAnders: 'weiger', maak: true, leegrem: 'bevestigd', binnen: b, vormVan: vormVan }, STAP));
+      Object.assign({ basis: { tekst: basis === null ? '' : basis }, bijAnders: 'weiger', maak: true, leegrem: 'bevestigd', binnen: b, vormVan: vormVan }, stap(opslag)));
   }
   // o: { pad(code, versies) -> pad vanaf de map (met de naam zoals op schijf), nu() -> Date (stempel van een versie), gedaan:
-  // { anderen: [] } (vult de stap van een ander project) }. Geeft { stappen, opruimen, paden }.
+  // { anderen: [] } (vult de stap van een ander project), opslag (v339: zonder map de geheugenopslag van de notities;
+  // standaard de actieve) }. Geeft { stappen, opruimen, paden }.
   function omzetStappen(plan, inhoud, o) {
-    const oud = plan.oud, nieuw = plan.nieuw, pad = o.pad, stappen = [], opruimen = [];
+    const oud = plan.oud, nieuw = plan.nieuw, pad = o.pad, stappen = [], opruimen = [], op = o.opslag, STAP = stap(op);
     const naam = function (code, versies) { return pad(code, versies).replace(/^notities\//, ''); };
     const paden = [pad(oud), pad(nieuw)];
     if (plan.notesMee) {
       stappen.push({
         naam: 'de notitiebestanden controleren',
         doe: async function () {
-          const f = await leesTeksten([pad(oud), pad(oud, true), pad(nieuw), pad(nieuw, true)]);
+          const f = await leesTeksten([pad(oud), pad(oud, true), pad(nieuw), pad(nieuw, true)], op);
           if (f[0] !== plan.oudNotes || f[1] !== plan.oudVersies || f[2] !== plan.doelNotes || f[3] !== plan.doelVersies) throw new Error('de notitiebestanden zijn sinds de controle gewijzigd');
         }
       }, {
@@ -19798,13 +20172,13 @@ WIB.kern.notities = (function () {
         doe: async function (b) {
           const gewijzigd = 'de notitiebestanden zijn sinds de controle gewijzigd', terug = 'de nieuwe notitiebestanden konden niet goed worden teruggelezen';
           // v297: een nieuw bestand krijgt de regeleinden en de BOM van het oude (keuze 1)
-          let u = await schrijfNaPlan(pad(nieuw), inhoud.samen, plan.doelNotes, b, pad(oud));
+          let u = await schrijfNaPlan(pad(nieuw), inhoud.samen, plan.doelNotes, b, pad(oud), op);
           if (!u.ok) throw omzetFout(u, gewijzigd, terug);
-          u = await schrijfNaPlan(pad(nieuw, true), inhoud.versiesNieuw, plan.doelVersies, b, pad(oud, true));
+          u = await schrijfNaPlan(pad(nieuw, true), inhoud.versiesNieuw, plan.doelVersies, b, pad(oud, true), op);
           if (!u.ok) throw omzetFout(u, gewijzigd, terug);
         },
         herstel: function (b) {
-          return allemaal([function () { return zetTerug(pad(nieuw), plan.doelNotes, b); }, function () { return zetTerug(pad(nieuw, true), plan.doelVersies, b); }]);
+          return allemaal([function () { return zetTerug(pad(nieuw), plan.doelNotes, b, op); }, function () { return zetTerug(pad(nieuw, true), plan.doelVersies, b, op); }]);
         }
       });
       if (plan.oudNotes !== null) opruimen.push({ naam: 'notities/' + naam(oud), doe: async function (b) { moet(await WIB.gegevens.verwijder(pad(oud), Object.assign({ binnen: b }, STAP))); } });
@@ -19861,7 +20235,7 @@ WIB.kern.notities = (function () {
         naam: 'notities/' + naam(a.code) + ' aanpassen',
         doe: async function (b) {
           const gewijzigd = 'de notities van ' + a.code + ' zijn sinds de controle gewijzigd';
-          const v = (await leesTeksten([pad(a.code, true)]))[0];
+          const v = (await leesTeksten([pad(a.code, true)], op))[0];
           vorige = { oudVersies: v };
           const u = await WIB.gegevens.bewerk(pad(a.code), 'vrij', function () { return { tekst: nieuwTekst }; }, Object.assign({ basis: { tekst: a.tekst }, bijAnders: 'weiger', leegrem: 'bevestigd', binnen: b }, STAP));
           if (u.soort === 'conflict' || u.soort === 'geweigerd' || u.soort === 'leesfout') vorige = null;   // er is niets geschreven
@@ -19871,7 +20245,7 @@ WIB.kern.notities = (function () {
         },
         herstel: function (b) {
           if (!vorige) return;
-          return allemaal([function () { return zetTerug(pad(a.code), a.tekst, b); }, function () { return zetTerug(pad(a.code, true), vorige.oudVersies, b); }]);
+          return allemaal([function () { return zetTerug(pad(a.code), a.tekst, b, op); }, function () { return zetTerug(pad(a.code, true), vorige.oudVersies, b, op); }]);
         }
       });
     });
@@ -20500,12 +20874,12 @@ WIB.kern.notities = (function () {
   }
   // De reddingsversie (v206): vóór "Toch opslaan" komt de versie van buitenaf bij de versies, met de wijzigingstijd van het
   // bestand als stempel, tenzij die tekst daar al staat. Lukt dat niet, dan een fout (en wordt de notitie niet overschreven).
-  async function reddingsversie(versiePad, schijf) {
-    const r = await WIB.gegevens.lees(versiePad);
+  async function reddingsversie(versiePad, schijf, opslag) {
+    const r = await WIB.gegevens.lees(versiePad, { opslag: opslag });
     if (!r.ok) throw r.fout;
     if (r.model.some(function (x) { return x.tekst === schijf.tekst; })) return;
     const u = await WIB.gegevens.voegToe(versiePad, versiesNaarTekst([{ stempel: WIB.hulp.stempel(new Date(schijf.gewijzigdOp)), tekst: schijf.tekst }]),
-      { voorvoegsel: '\n', controle: 'grootte', onthoud: false });
+      { voorvoegsel: '\n', controle: 'grootte', onthoud: false, opslag: opslag });
     if (!u.ok) throw u.fout || new Error(WIB.gegevens.uitleg(u));
   }
   // Een notitie opslaan (het notitievenster). o.stand(), in de beurt: null als deze tekst er al staat (twee keer Ctrl+S: niets
@@ -20513,6 +20887,8 @@ WIB.kern.notities = (function () {
   // wijzigingstijd én de tekst anders zijn (een bestand dat alleen is aangeraakt of niet meer bestaat, niet); dan o.vraag(schijf)
   // (de vraag Toch opslaan?, in de beurt: wie daarna komt, wacht). Ja: eerst de reddingsversie. Nee: uitkomst conflict.
   // Een notitie mag leeg worden opgeslagen (leegrem bevestigd), zoals altijd. o.na(uitkomst): het schermdeel, in de beurt.
+  // v339: o.opslag: de opslag van de notitie, de versie en de reddingsversie (standaard de actieve; zonder map de
+  // geheugenopslag van het notitiedeel, waarin de laag de versie ook bijschrijft)
   function notitieOpslaan(pad, versiePad, tekst, o) {
     let stand = null;
     return WIB.gegevens.bewerk(pad, 'vrij', function () { return stand ? { tekst: tekst } : null; }, {
@@ -20520,19 +20896,20 @@ WIB.kern.notities = (function () {
       bijAnders: async function (schijf) {
         if (!schijf.kenmerk || schijf.kenmerk === stand.lm) return 'door';
         if (!(await o.vraag(schijf))) return 'stop';
-        await reddingsversie(versiePad, schijf);
+        await reddingsversie(versiePad, schijf, o.opslag);
         return 'door';
       },
-      maak: true, leegrem: 'bevestigd', volg: notitieVolg(versiePad, tekst, o, function () { return stand.basis; }), na: notitieNa(o)
+      maak: true, leegrem: 'bevestigd', volg: notitieVolg(versiePad, tekst, o, function () { return stand.basis; }), na: notitieNa(o), opslag: o.opslag
     });
   }
   // Een taak afvinken in een notitie (Totaaloverzicht): precies één regel verandert. Staat er op schijf iets anders dan oud,
   // dan weigert de laag (conflict; bestaat het bestand niet meer: geweigerd met bestaat-niet). o.controle(), in de beurt, mag
   // een fout gooien (het notitievenster van deze code staat open met wijzigingen); dan wijst de bewerking die af.
+  // v339: o.opslag zoals bij notitieOpslaan
   function notitieAfvinken(pad, versiePad, oud, nieuw, o) {
     return WIB.gegevens.bewerk(pad, 'een', function () { return { tekst: nieuw }; }, {
       basis: function () { if (o.controle) o.controle(); return { tekst: oud }; }, bijAnders: 'weiger',
-      volg: notitieVolg(versiePad, nieuw, o, function () { return oud; }), na: notitieNa(o)
+      volg: notitieVolg(versiePad, nieuw, o, function () { return oud; }), na: notitieNa(o), opslag: o.opslag
     });
   }
   return { notitieOpslaan, notitieAfvinken, zoekAlles, zoalsInVak, versiesNaarTekst, versiesUitTekst, telIn, analyseer, codesIn, kopDatum, dossierVan, dossierLogboek, voorheenRegel, zonderTitel, vervangGekozen, LIC_DAGEN, leesNlDatum, licStaat, sorteerLicenties, licSorteerStap, licUitTekst, licMetRuw, licNaarTekst, licVerplaats, licVerborgen, licGeen, licLinkHref, licControle, koppelingUitTekst, overgangen, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, vervangCode, bijlagePad, bijlageRegel, systeemBestand, gelijkeNaam, vrijeBijlageNaam, gelijkeBytes, grootteTekst, bijlageInvoeging, bijlagenLijst, bijlagenToevoegen, leesTeksten, omzetStappen, versiesZonderNotitie, sleepZonderBestand, HOOFDMAP, bijlagePadIn, bijlageLinkIn, geenBestandMelding, bezigMelding, bijlageMelding };
@@ -20546,13 +20923,14 @@ WIB.kern.notities = (function () {
    - De notities staan in notities/<nummer>.md in de gekozen map.
    - Elke opslag bewaart een volledige versie in notities/<nummer>_versies.md (terug te zetten)
      en een verschil in notities_historie.md (tabblad Historie).
-   - Zonder map, of in een browser die alleen kan lezen: in het geheugen, met Downloaden.
+   - Zonder map, of in een browser die alleen kan lezen: in het geheugen, met Downloaden (v339: een geheugenopslag van de
+     gegevenslaag, met dezelfde paden en dezelfde bewerkingen als in een map).
    Naar buiten: WIB.notities.
    ====================================================================== */
 (function () {
   'use strict';
   // de DOM-vrije logica (versies, vermeldingen, licenties) staat sinds v108 in WIB.kern.notities
-  const { notitieOpslaan, notitieAfvinken, zoalsInVak, versiesNaarTekst, versiesUitTekst, telIn, analyseer, LIC_DAGEN, leesNlDatum, licStaat, sorteerLicenties, licSorteerStap, licUitTekst, licMetRuw, licNaarTekst, licVerplaats, licVerborgen, licGeen, licLinkHref, licControle, overgangen, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, codesIn, dossierVan, dossierLogboek, zoekAlles, vervangCode, bijlagePad, bijlageRegel, gelijkeNaam, grootteTekst, bijlageInvoeging, bijlagenLijst, bijlagenToevoegen, leesTeksten, omzetStappen, sleepZonderBestand, geenBestandMelding, bezigMelding, bijlageMelding } = WIB.kern.notities;
+  const { notitieOpslaan, notitieAfvinken, zoalsInVak, versiesNaarTekst, versiesUitTekst, telIn, analyseer, LIC_DAGEN, leesNlDatum, licStaat, sorteerLicenties, licSorteerStap, licUitTekst, licMetRuw, licNaarTekst, licVerplaats, licVerborgen, licGeen, licLinkHref, licControle, overgangen, ontleedNotitieNaam, dubbeleNotitieNamen, omzetInhoud, codesIn, dossierVan, dossierLogboek, zoekAlles, bijlagePad, bijlageRegel, gelijkeNaam, grootteTekst, bijlageInvoeging, bijlagenLijst, bijlagenToevoegen, leesTeksten, omzetStappen, sleepZonderBestand, geenBestandMelding, bezigMelding, bijlageMelding } = WIB.kern.notities;
   const vlak = document.getElementById('notitievenster');
   const bijlageKnop = document.getElementById('nt-bijlage');
   const titelEl = document.getElementById('nt-titel');
@@ -20565,7 +20943,12 @@ WIB.kern.notities = (function () {
   const downloadKnop = document.getElementById('nt-download');
 
   let map = null;          // de gekozen map (mag schrijven), of null
-  let geheugen = {};       // nummer -> { tekst, versies: [{ stempel, tekst }] } als er geen map is
+  /* v339 (B13): zonder map (geen map gekozen, het voorbeeld, een map die alleen gelezen kan worden) staan de notities en hun
+     versies in een geheugenopslag van de gegevenslaag, met de paden van een map (notities/<code>.md en
+     notities/<code>_versies.md, met de code zoals de pagina hem vergelijkt), en lopen ze via dezelfde bewerkingen als met een
+     map. Tot v338 stonden ze in een eigen object naast de laag. Met een map is deze opslag leeg; een map kiezen, het voorbeeld
+     en een ander bestand geven een nieuwe. Hij bewaart een tekst zoals hij werd gegeven (zoalsGegeven), zoals tot v338. */
+  let zonderMap = maakZonderMap();
   let gevuld = {};         // nummer -> true als er notities zijn
   let bestandsnamen = {};  // 'CODE' of 'CODE_versies' -> bestandsnaam zoals die op schijf staat (hoofdletters kunnen afwijken)
   let huidig = null;       // { nr, titel, basis, sjabloon, lm }; v290 ook buiten en leesFout (zie de bewaking, bij controleer)
@@ -20654,7 +21037,7 @@ WIB.kern.notities = (function () {
     if (editor) editor.bewerkbaar(w && !versies);
   }
 
-  const pad2 = WIB.hulp.pad2, stempel = WIB.hulp.stempel, nlStempel = WIB.hulp.nlVanIso, esc = WIB.hulp.esc, nlTekst = WIB.hulp.nlDatum, escRe = WIB.hulp.escRe;
+  const pad2 = WIB.hulp.pad2, nlStempel = WIB.hulp.nlVanIso, esc = WIB.hulp.esc, nlTekst = WIB.hulp.nlDatum, escRe = WIB.hulp.escRe;
   function vandaag() { return WIB.hulp.nlDatum(new Date()); }
   function meld(t) { if (window.WIB.werkdruk) WIB.werkdruk.melding(t); }
   function sleutel(c) { return window.WIB.codes ? WIB.codes.sleutel(c) : String(c).toUpperCase(); }
@@ -20668,52 +21051,69 @@ WIB.kern.notities = (function () {
   }
   // het pad van een notitie (of, met versies, van haar versiebestand) vanaf de map, met de naam zoals die op schijf staat
   function notitiePad(nr, versies) { return 'notities/' + naamVoor(nr, versies); }
+  // v339: de opslag voor de bewerkingen van de laag: met een map undefined (de laag neemt dan bij elke bewerking de actieve),
+  // zonder map de geheugenopslag zonderMap
+  function maakZonderMap(bestanden) { return WIB.gegevens.maakGeheugenOpslag({ zoalsGegeven: true, bestanden: bestanden }); }
+  function notOpslag() { return map ? undefined : zonderMap; }
+  // het pad zonder map: met de code zoals de pagina hem vergelijkt (zo noemde het eigen geheugen tot v338 elke notitie)
+  function padZonderMap(code, versies) { return 'notities/' + code + (versies ? '_versies' : '') + '.md'; }
+  // v339: de codes die zonder map notities of versies hebben, in de volgorde van het eigen geheugen tot v338 (die van
+  // Object.keys: eerst de codes die een getal zijn, oplopend; dan de andere in de volgorde waarin ze erbij kwamen)
+  function codesZonderMap() {
+    const uit = [];
+    zonderMap.paden().forEach(function (p) {
+      const m = /^notities\/([^/]+)$/.exec(p), o = m ? ontleedNotitieNaam(m[1]) : null;
+      if (o && uit.indexOf(sleutel(o.code)) < 0) uit.push(sleutel(o.code));
+    });
+    const getal = function (k) { return /^(0|[1-9]\d*)$/.test(k) && +k < 4294967295; };
+    return uit.filter(getal).sort(function (a, b) { return a - b; }).concat(uit.filter(function (k) { return !getal(k); }));
+  }
   /* v290: alle notitiebestanden in de map notities in één doorloop, via de gegevenslaag (WIB.gegevens.leesAlle; tot v289
      doorloopNotities, op zes plekken). Eén plek, zodat hoofdletters overal hetzelfde gaan (v143). kies({ naam, code, versies })
      (code is al een sleutel): lezen of niet. Geeft { namen: de namen van alle notitiebestanden, bestanden: [{ naam, code,
      versies, tekst }] }. Een leesfout gaat door; met fouten staat een bestand dat niet te lezen is erin met fout (in plaats
      van tekst) en worden de andere wel gelezen. Een map notities die er niet is, geeft niets; een die niet te lezen is, een fout. */
+  // v339: ook zonder map (de geheugenopslag), dan in de volgorde van codesZonderMap
   function leesNotities(kies, fouten) {
     const wat = function (naam) { const o = ontleedNotitieNaam(naam); return o ? { naam: naam, code: sleutel(o.code), versies: o.versies } : null; };
-    return WIB.gegevens.leesAlle('notities', function (naam) { const o = wat(naam); return !!o && (!kies || kies(o)); }, { metFouten: !!fouten }).then(function (l) {
+    const zm = !map;
+    return WIB.gegevens.leesAlle('notities', function (naam) { const o = wat(naam); return !!o && (!kies || kies(o)); }, { metFouten: !!fouten, opslag: notOpslag() }).then(function (l) {
       if (!l.ok) throw l.fout;
-      return {
+      const uit = {
         namen: l.lijst.filter(function (x) { return x.soort === 'bestand' && wat(x.naam); }).map(function (x) { return x.naam; }),
         bestanden: l.bestanden.map(function (b) { return Object.assign(wat(b.naam), b.fout ? { fout: b.fout } : { tekst: b.tekst }); })
       };
+      if (zm) { const v = codesZonderMap(); uit.bestanden.sort(function (a, b) { return v.indexOf(a.code) - v.indexOf(b.code) || a.versies - b.versies; }); }
+      return uit;
     });
   }
-  // v290: met een map via de gegevenslaag
+  // v290: via de gegevenslaag (v339: zonder map uit de geheugenopslag)
   function lees(nr) {
-    if (!map) { const g = geheugen[nr]; return Promise.resolve({ tekst: g ? g.tekst : '', lm: 0 }); }
     // bestaat het bestand niet, dan is het leeg; kan het niet worden gelezen, dan gaat de fout door (v110)
-    return WIB.gegevens.lees(notitiePad(nr)).then(function (r) { if (!r.ok) throw r.fout; return { tekst: r.tekst, lm: r.bestaat ? r.kenmerk : 0 }; });
+    return WIB.gegevens.lees(notitiePad(nr), { opslag: notOpslag() }).then(function (r) { if (!r.ok) throw r.fout; return { tekst: r.tekst, lm: r.bestaat ? r.kenmerk : 0 }; });
   }
   function leesVersies(nr) {
-    if (!map) return Promise.resolve((geheugen[nr] && geheugen[nr].versies) || []);
-    return WIB.gegevens.lees(notitiePad(nr, true)).then(function (r) { if (!r.ok) throw r.fout; return r.model; });
+    return WIB.gegevens.lees(notitiePad(nr, true), { opslag: notOpslag() }).then(function (r) { if (!r.ok) throw r.fout; return r.model; });
   }
   /* v282: opslagacties op hetzelfde notitiebestand gaan om de beurt: opslaan in het notitievenster, afvinken in het
      Totaaloverzicht en Code omzetten. Elke actie leest de notitie binnen haar beurt opnieuw van schijf. Zonder beurt lazen twee
      acties kort na elkaar allebei de oude tekst en schreef de tweede over de eerste heen; de historie noemde dan beide
      wijzigingen en het bestand had er één. v290: de wachtrij van de gegevenslaag, per pad (tot v289 een eigen wachtrij per
-     code): opslaan en afvinken via WIB.gegevens.bewerk, de notities zonder map via WIB.gegevens.beurt, en (v292) Code
-     omzetten via WIB.gegevens.samen, dat de notitiebestanden van het plan vasthoudt. */
+     code): opslaan en afvinken via WIB.gegevens.bewerk (v339: ook zonder map; tot v338 daar via WIB.gegevens.beurt), en (v292)
+     Code omzetten via WIB.gegevens.samen, dat de notitiebestanden van het plan vasthoudt. */
   // v283: loopt of wacht er nog een opslagactie op een notitie, dan waarschuwt de pagina bij sluiten (v290: uit de laag)
   // v291: alleen de bestanden in de map notities zelf; een bijlage die wordt gekopieerd (notities/<code>/…) telt niet mee (zoals tot v290)
-  function notitieBezig() { return WIB.gegevens.openstaand().some(function (x) { return x.wacht && /^notities\/[^/]+$/.test(x.pad); }); }
-  // zonder map: de notitie en een versie in het geheugen, en de vermelding in de historie van de pagina
-  function bewaarInGeheugen(nr, tekst, oud) {
-    const g = geheugen[nr] || (geheugen[nr] = { tekst: '', versies: [] });
-    g.tekst = tekst; g.versies.push({ stempel: stempel(new Date()), tekst: tekst });
-    WIB.gegevens.nogNaarMap('notities/' + naamVoor(nr), tekst);   // v141 (v296: de gegevenslaag houdt het bij)
-    if (window.WIB.document) WIB.document.legNotitieVast(oud, tekst, nr);
+  // v339: ook in de geheugenopslag zonder map
+  function notitieBezig() {
+    const bezig = function (x) { return x.wacht && /^notities\/[^/]+$/.test(x.pad); };
+    return WIB.gegevens.openstaand().some(bezig) || WIB.gegevens.openstaand({ opslag: zonderMap }).some(bezig);
   }
+  // zonder map: een gewijzigde notitie moet nog naar de map (v141; v296: de gegevenslaag houdt het bij; v339: na de bewerking)
+  function nogNaarMap(nr, tekst) { WIB.gegevens.nogNaarMap('notities/' + naamVoor(nr), tekst); }
   // wat de dunne bewerkingen van de kern nodig hebben: de tijd voor de versie en de vermelding in de historie
   function nu() { return new Date(); }
   function scanGevuld() {
     gevuld = {}; licStatus = {}; licLijsten = {}; bestandsnamen = {};
-    if (!map) { Object.keys(geheugen).forEach(function (nr) { if (geheugen[nr].tekst.trim()) gevuld[nr] = true; licStatusZet(nr, geheugen[nr].tekst); }); werkLabelsBij(); return Promise.resolve(); }
     return leesNotities(function (o) { return !o.versies; }, true).then(function (l) {
       l.namen.forEach(onthoudNaam);
       let fout = null;
@@ -20780,6 +21180,7 @@ WIB.kern.notities = (function () {
     return (isOpen() && vuil() && huidig.nr !== nr ? WIB.vraag({ tekst: 'De notities bij ' + huidig.nr + ' zijn nog niet opgeslagen. Weggooien en ' + nr + ' openen?', titel: 'Niet-opgeslagen notities', ja: 'Weggooien en openen', gevaarlijk: true }) : Promise.resolve(true)).then(function (ok) {
       if (!ok) return false;
       return lees(nr).then(function (r) {
+        omzetWacht(false);   // v335: het venster is weer te bedienen (vóór het focussen)
         const sjabloon = '# ' + nr + (titel ? ' · ' + titel : '') + '\n\n## ' + vandaag() + '\n';
         huidig = { nr: nr, titel: titel || '', basis: r.tekst, sjabloon: sjabloon, lm: r.lm };
         ta.value = r.tekst || sjabloon;
@@ -20797,6 +21198,7 @@ WIB.kern.notities = (function () {
         if (wysiwyg()) editor.naarEind();
         else { const eind = ta.value.length; ta.setSelectionRange(eind, eind); ta.scrollTop = ta.scrollHeight; }
       }).catch(function (e) {
+        omzetWacht(false);   // v335
         if (bijFout) return bijFout(e);
         // niet openen: met een leeg venster zou je bij opslaan het bestaande, onleesbare bestand overschrijven (v110)
         meld('De notities bij ' + nr + ' konden niet worden gelezen (' + (e && e.message ? e.message : e) + '). Er is niets geopend, zodat er ook niets kan worden overschreven. Controleer de toestemming voor de map en probeer het opnieuw.');
@@ -20809,6 +21211,16 @@ WIB.kern.notities = (function () {
      buitenaf, dan blijft het venster open. Heb je na het opslaan nog getypt, dan komt daarna de gewone vraag. */
   let opslaanLoopt = null;   // de belofte van het opslaan dat nu loopt: 'opgeslagen', 'niets', 'mislukt' of 'vraag'
   let wachtend = null;       // de belofte van het wachten: true = ga door met sluiten, false = het venster blijft open
+  /* v335: na Code omzetten, tot de notitie onder de nieuwe code is geopend: het venster (editor en tekstvak) is niet te
+     bedienen en staat op bezig; de status zegt wat er gebeurt. aan false heft het op. */
+  let omzetWachtAan = false;
+  function omzetWacht(aan, code) {
+    if (!aan && !omzetWachtAan) return;
+    omzetWachtAan = aan;
+    const kader = vlak.querySelector('.hulp-vlak');
+    kader.inert = aan || !!wachtend; vlak.classList.toggle('nt-wacht', aan || !!wachtend);
+    if (aan) { kader.setAttribute('aria-busy', 'true'); zetStatus('Notities openen onder ' + code + '…'); } else kader.removeAttribute('aria-busy');
+  }
   function wachtOpOpslaan() {
     if (!opslaanLoopt) return Promise.resolve(true);
     if (!wachtend) {
@@ -20886,14 +21298,16 @@ WIB.kern.notities = (function () {
       if (weergave === 'versies') toonVersies();
       if (editor && wysiwyg()) editor.toonVorm();   // v191: na opslaan de echte vorm (zie Document, v187)
     };
-    const klaar = (map ? notitieOpslaan(notitiePad(nr), notitiePad(nr, true), tekst, { stand: stand, vraag: vraag, nu: nu, historie: WIB.document.notitieHistorie(nr),
+    // v339: zonder map dezelfde bewerking, in de geheugenopslag (de versie erbij, de vermelding alleen in de pagina)
+    const zm = !map;
+    const klaar = notitieOpslaan(notitiePad(nr), notitiePad(nr, true), tekst, { stand: stand, vraag: vraag, nu: nu, historie: WIB.document.notitieHistorie(nr), opslag: notOpslag(),
       na: function (u) {
         if (u.niets) return;
         if (u.soort === 'conflict') { if (hier()) statusBijwerken(); return; }   // Nee bij de vraag: er is niets geschreven
         if (!u.ok) throw u.fout || new Error(WIB.gegevens.uitleg(u));
+        if (zm) nogNaarMap(nr, tekst);
         gelukt(u.kenmerk, u.versieFout);
       } })
-      : WIB.gegevens.beurt(notitiePad(nr), function () { const s = stand(); if (s) { bewaarInGeheugen(nr, tekst, s.basis); gelukt(0, null); } }))
       .catch(function (e) { uitkomst = 'mislukt'; if (hier()) zetStatus('Opslaan mislukt: ' + (e && e.message ? e.message : e), true); else meld('De notities bij ' + nr + ' konden niet worden opgeslagen: ' + (e && e.message ? e.message : e)); })
       .then(function () { if (opslaanLoopt === klaar) opslaanLoopt = null; return gevraagd ? 'vraag' : uitkomst; });
     opslaanLoopt = klaar;
@@ -21132,10 +21546,6 @@ WIB.kern.notities = (function () {
   }
   // andere projecten waarin de code staat: [{ code, tekst, aantal, versies }]
   function andereNotities(oud, nieuw) {
-    if (!map) {
-      return Promise.resolve(Object.keys(geheugen).filter(function (k) { return k !== oud && k !== nieuw && telIn(geheugen[k].tekst, oud); })
-        .map(function (k) { return { code: k, tekst: geheugen[k].tekst, aantal: telIn(geheugen[k].tekst, oud), versies: null }; }));
-    }
     return leesNotities(function (o) { return !o.versies && o.code !== oud && o.code !== nieuw; }).then(function (l) {
       return l.bestanden.filter(function (b) { return telIn(b.tekst, oud); }).map(function (b) { return { code: b.code, tekst: b.tekst, aantal: telIn(b.tekst, oud), versies: null }; });
     }); // een map die niet kan worden gelezen, geeft een fout in de controle (niet stil overslaan; v110)
@@ -21156,10 +21566,8 @@ WIB.kern.notities = (function () {
       const doelInMd = analyseer(plan.md, nieuw);
       if (doelInMd.length) plan.bevestig.push(code + ' komt al ' + doelInMd.length + '× voor in werkdruk.md (regel ' + doelInMd.slice(0, 5).map(function (t) { return t.regel; }).join(', ') + (doelInMd.length > 5 ? ', …' : '') + '). Na het omzetten delen die punten en de punten van ' + oud + ' dezelfde notities.');
     }
-    // v292: via de gegevenslaag (null: het bestand bestaat niet; een leesfout gaat door)
-    const lezen = map ? leesTeksten([notitiePad(oud), notitiePad(oud, true), notitiePad(nieuw), notitiePad(nieuw, true)]) : Promise.resolve([
-      geheugen[oud] ? geheugen[oud].tekst : null, geheugen[oud] && geheugen[oud].versies.length ? versiesNaarTekst(geheugen[oud].versies) : null,
-      geheugen[nieuw] ? geheugen[nieuw].tekst : null, geheugen[nieuw] && geheugen[nieuw].versies.length ? versiesNaarTekst(geheugen[nieuw].versies) : null]);
+    // v292: via de gegevenslaag (null: het bestand bestaat niet; een leesfout gaat door); v339: zonder map uit de geheugenopslag
+    const lezen = leesTeksten([notitiePad(oud), notitiePad(oud, true), notitiePad(nieuw), notitiePad(nieuw, true)], notOpslag());
     // v236: de bijlagen in notities/<oud>/ verhuizen mee (alleen met een map, en niet als alleen de hoofdletters wijzigen)
     const bijlagen = map && !plan.alleenHoofdletters ? Promise.all([bijlagenLijst('notities/' + oud), bijlagenLijst('notities/' + nieuw)]) : Promise.resolve(null);
     // v272: wijzigen alleen de hoofdletters, dan gaan de notities van andere projecten niet mee (zoals de daginvoer, de eigen
@@ -21302,32 +21710,11 @@ WIB.kern.notities = (function () {
      Volgorde (v109): eerst alles nieuw schrijven en controleren, dan werkdruk.md opslaan (het punt zonder terugweg),
      en pas daarna de oude bestanden opruimen. Gaat er vóór het opslaan van werkdruk.md iets mis, dan wordt alles
      teruggedraaid; mislukt daarna het opruimen, dan blijft de omzetting staan en meldt de pagina welke oude bestanden er nog zijn.
-     Elke stap: { naam, doe, herstel }; WIB.gegevens.samen voert ze uit. v292: met een map komen de stappen voor de notities,
-     de bijlagen en de andere projecten uit notities-kern (omzetStappen, via de gegevenslaag); hier blijven de daginvoer, het
-     vastleggen (werkdruk.md) en de notities van andere projecten zonder map (in het geheugen van dit deel). */
+     Elke stap: { naam, doe, herstel }; WIB.gegevens.samen voert ze uit. v292: de stappen voor de notities, de bijlagen en de
+     andere projecten komen uit notities-kern (omzetStappen, via de gegevenslaag; v339: zonder map ook, in de geheugenopslag;
+     tot v338 had dit deel daarvoor eigen stappen in zijn eigen geheugen); hier blijven de daginvoer en het vastleggen
+     (werkdruk.md). v272: de vermeldingen in notities_historie.md komen pas na een geslaagde omzetting (rondOmzetAf). */
 
-  // Zonder map: de notities van een ander project in het geheugen (met een map: omzetStappen in de kern).
-  // v272: de vermelding in notities_historie.md komt pas na een geslaagde omzetting (rondOmzetAf). Tot v271 stond ze er al
-  // tijdens de stap, en bleef ze staan als de omzetting daarna werd teruggedraaid.
-  function anderProjectStap(plan, a, gedaan) {
-    const oud = plan.oud;
-    const nieuwTekst = vervangCode(a.tekst, oud, plan.code, plan.nieuw);   // v236: een link naar een bijlage wijst naar de nieuwe map
-    const reden = 'notities/' + a.code + '.md (code omzetten ' + oud + ' → ' + plan.code + ')';
-    let vorige = null; // { oudTekst } zodra er iets is gewijzigd
-    return {
-      naam: 'notities/' + naamVoor(a.code) + ' aanpassen',
-      doe: function () {
-        const g = geheugen[a.code]; if (!g || g.tekst !== a.tekst) throw new Error('de notities van ' + a.code + ' zijn sinds de controle gewijzigd');
-        vorige = { oudTekst: a.tekst };
-        g.tekst = nieuwTekst; g.versies.push({ stempel: stempel(new Date()), tekst: nieuwTekst });
-        gedaan.anderen.push({ code: a.code, oud: a.tekst, nieuw: nieuwTekst, reden: reden });
-      },
-      herstel: function () {
-        if (!vorige) return;
-        const g = geheugen[a.code]; if (g && g.tekst === nieuwTekst) { g.tekst = vorige.oudTekst; g.versies.pop(); }
-      }
-    };
-  }
   // daginvoer.md: de gekozen vermeldingen vervangen
   function daginvoerStap(plan, dagNieuw, gedaan) {
     return {
@@ -21356,15 +21743,9 @@ WIB.kern.notities = (function () {
     rapport.innerHTML = '<div class="om-blok om-fout"><h3>Niet omgezet</h3><p>' + esc(foutTekst(r.fout)) + '.</p>' + terug + '</div>';
     omzet.plan = null;
   }
-  // Gelukt: notities in het geheugen verplaatsen (zonder map), historie, labels, venster sluiten en melden
+  // Gelukt: historie, labels, venster sluiten en melden (v339: de notities zijn ook zonder map al verplaatst, door de stappen)
   function rondOmzetAf(plan, inhoud, r, gedaan) {
     const oud = plan.oud, nieuw = plan.nieuw, samen = inhoud.samen;
-    // zonder map staan de notities in het geheugen: nu pas verplaatsen
-    if (plan.notesMee && !map) {
-      const go = geheugen[oud] || { tekst: '', versies: [] }, gn = plan.samenvoegen && geheugen[nieuw] ? geheugen[nieuw] : { tekst: '', versies: [] };
-      geheugen[nieuw] = { tekst: samen, versies: gn.versies.concat(go.versies, versiesUitTekst(inhoud.snapshot)) };
-      delete geheugen[oud];
-    }
     // v272: de historie van de andere projecten en de daginvoer pas hier, nu de omzetting vaststaat (zelfde volgorde als voorheen)
     gedaan.anderen.forEach(function (a) { WIB.document.legNotitieVast(a.oud, a.nieuw, a.code, a.reden); });
     if (gedaan.dag) WIB.document.legNotitieVast(plan.dagTekst, inhoud.dagNieuw, null, 'daginvoer.md (code omzetten ' + oud + ' → ' + plan.code + ')');
@@ -21384,17 +21765,21 @@ WIB.kern.notities = (function () {
     }, function () { /* het inlezen van de notities mislukte: de melding daarover komt van het inlezen zelf */ });
     const gelukt = oud + ' is omgezet naar ' + plan.code + (gekozen ? ' (' + gekozen + '× in werkdruk.md)' : '') + (plan.notesMee ? (plan.samenvoegen ? '; notities samengevoegd' : '; notities hernoemd') : '') + (plan.bijlagenMee ? '; ' + (plan.bijlagen.length === 1 ? '1 bijlage verplaatst' : plan.bijlagen.length + ' bijlagen verplaatst') : '') + (gedaan.dag ? '; daginvoer aangepast' : '') + (gedaan.anderen.length ? '; ' + gedaan.anderen.length + (gedaan.anderen.length === 1 ? ' ander project aangepast' : ' andere projecten aangepast') : '') + '.' +
       (r.opruimFouten.length ? ' Let op: ' + r.opruimFouten.map(function (o) { return o.naam; }).join(' en ') + ' kon niet worden verwijderd; je nieuwe notities' + (plan.bijlagenMee ? ' en bijlagen' : '') + ' zijn compleet, verwijder het oude bestand zelf.' : '');
+    /* v335: tot de notitie onder de nieuwe code is geopend (of het venster na een mislukt lezen sluit), kan er niet in het
+       venster worden getypt: huidig is leeg en het venster toont nog de oude tekst, dus wat je typte, ging verloren. Het
+       venster staat zolang op bezig (zoals bij het wachten op het opslaan, v283); zodra open klaar is, is dat opgeheven. */
+    const naar = plan.notesMee || plan.alleenHoofdletters ? nieuw : oud;
+    omzetWacht(true, naar);
     if (omzet) { omzet.bezig = false; sluitOmzet(); }
     huidig = null;
     /* v307: kan de notitie na het omzetten niet worden gelezen, dan sluit het venster: er hangt geen notitie meer aan, en wat
        je erin zou typen, kon nergens heen (opslaan deed niets, sluiten vroeg niets). De omzetting zelf is gelukt en blijft staan;
        de melding zegt dat allebei. */
-    const naar = plan.notesMee || plan.alleenHoofdletters ? nieuw : oud;
-    open(naar, titel, function (e) {
+    Promise.resolve(open(naar, titel, function (e) {
       if (isOpen() && !huidig) { vlak.hidden = true; WIB.venster.sluit(vlak); }
       meld(gelukt + ' De notities bij ' + naar + ' konden daarna niet worden geopend (' + (e && e.message ? e.message : e) + '); het venster is gesloten. Open ze opnieuw via het label bij ' + naar + '.');
       return false;
-    });
+    })).then(function () { omzetWacht(false); }, function () { omzetWacht(false); });   // v335: ook als open zonder lezen terugkomt
     meld(gelukt);
   }
   function voerUit(plan) {
@@ -21407,10 +21792,8 @@ WIB.kern.notities = (function () {
     omzet.bezig = true;
     el.querySelectorAll('button, input').forEach(function (b) { b.disabled = true; });
     const inhoud = omzetInhoud(plan, new Date()), gedaan = { anderen: [], dag: false };
-    // v292: met een map de stappen van de kern (via de gegevenslaag); zonder map alleen de andere projecten in het geheugen
-    // (de eigen notities verhuizen dan pas in rondOmzetAf)
-    const s = map ? omzetStappen(plan, inhoud, { pad: notitiePad, nu: nu, gedaan: gedaan }) : { stappen: [], opruimen: [], paden: [notitiePad(plan.oud), notitiePad(plan.nieuw)] };
-    if (!map) (plan.anderen || []).filter(function (a) { return a.kies; }).forEach(function (a) { s.stappen.push(anderProjectStap(plan, a, gedaan)); });
+    // v292: de stappen van de kern (via de gegevenslaag); v339: zonder map ook, in de geheugenopslag
+    const s = omzetStappen(plan, inhoud, { pad: notitiePad, nu: nu, gedaan: gedaan, opslag: notOpslag() });
     if (inhoud.dagNieuw !== null) s.stappen.push(daginvoerStap(plan, inhoud.dagNieuw, gedaan));
     // v295 (stap 8b): werkdruk.md hoort bij de bestanden die samen vasthoudt (de bewaking slaat het dan over, en er komt geen
     // andere opslag tussen). Het vastleggen schrijft binnen die beurt, op de tekst waarop het plan is gemaakt; is werkdruk.md
@@ -21634,11 +22017,6 @@ WIB.kern.notities = (function () {
       titel = titel.replace(new RegExp('^' + escRe(code) + '\\s*[·:\\-–]?\\s*', 'i'), '');
       return licUitTekst(tekst).map(function (l) { const s = licStaat(l.datum); return { code: code, titel: titel, naam: l.naam, datum: l.datum, staat: s.staat, dagen: s.dagen, tekst: s.tekst }; });
     }
-    if (!map) {
-      let r = [];
-      Object.keys(geheugen).forEach(function (k) { r = r.concat(uit(k, geheugen[k].tekst)); });
-      return Promise.resolve(r);
-    }
     return leesNotities(function (o) { return !o.versies; }).then(function (l) {
       let alles = [];
       l.bestanden.forEach(function (b) { alles = alles.concat(uit(b.code, b.tekst)); });
@@ -21718,7 +22096,6 @@ WIB.kern.notities = (function () {
   ];
   const OV_LEEG = { open: ['', 'nog niet vastgelegd'], geen: ['', 'geen dienstverlening'], los: ['geen project vastgelegd', ''] };
   function alleNotities() {
-    if (!map) return Promise.resolve(Object.keys(geheugen).map(function (k) { return { code: k, tekst: geheugen[k].tekst }; }));
     return leesNotities(function (o) { return !o.versies; }).then(function (l) {
       return l.bestanden.map(function (b) { return { code: b.code, tekst: b.tekst }; });
     });
@@ -21790,7 +22167,7 @@ WIB.kern.notities = (function () {
   function codeVolgorde(a, b) { return a.localeCompare(b, 'nl', { sensitivity: 'base' }); }
   function dossierCodes() {
     const re = WIB.codes.start(), uit = re ? codesIn(WIB.document.tekst(), re, sleutel) : [];
-    Object.keys(gevuld).filter(function (k) { return gevuld[k]; }).concat(Object.keys(geheugen)).forEach(function (k) { if (uit.indexOf(k) < 0) uit.push(k); });
+    Object.keys(gevuld).filter(function (k) { return gevuld[k]; }).concat(codesZonderMap()).forEach(function (k) { if (uit.indexOf(k) < 0) uit.push(k); });
     return uit.sort(codeVolgorde);
   }
   const urenFmt = new Intl.NumberFormat('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -21929,7 +22306,7 @@ WIB.kern.notities = (function () {
     el.querySelector('#lic-sluit').addEventListener('click', function () { el.remove(); });
   }
 
-  /* ---------- Voorbeeldnotities (v98): alleen in het geheugen, datums ten opzichte van vandaag ---------- */
+  /* ---------- Voorbeeldnotities (v98): alleen in het geheugen, datums ten opzichte van vandaag (v339: in een geheugenopslag) ---------- */
   let voorbeeldActief = false;
   function maakVoorbeeldNotities() {
     function dag(n) { const d = new Date(); d.setDate(d.getDate() + n); return d; }
@@ -21947,22 +22324,27 @@ WIB.kern.notities = (function () {
     };
   }
   function laadVoorbeeld() {
-    map = null; geheugen = maakVoorbeeldNotities(); voorbeeldActief = true;
+    const v = maakVoorbeeldNotities(), b = {};
+    Object.keys(v).forEach(function (k) { b[padZonderMap(k)] = v[k].tekst; b[padZonderMap(k, true)] = versiesNaarTekst(v[k].versies); });
+    map = null; zonderMap = maakZonderMap(b); voorbeeldActief = true;
     return scanGevuld().then(meldLicenties);
   }
   function bronGewijzigd(via) {
     if (!voorbeeldActief || via === 'voorbeeld') return;
     voorbeeldActief = false;
-    if (!map) { geheugen = {}; scanGevuld(); }
+    if (!map) { zonderMap = maakZonderMap(); scanGevuld(); }
     const m = document.getElementById('lic-melding'); if (m) m.remove();
   }
 
   // alle teksten van notities, versies en de historie van notities: waar ooit een nummer in stond, telt mee
+  // v339: zonder map per code de notitie (leeg als er alleen versies zijn) en dan elke versie, zoals tot v338
   function alleTeksten() {
-    const uit = [];
     if (!map) {
-      Object.keys(geheugen).forEach(function (k) { uit.push(geheugen[k].tekst); geheugen[k].versies.forEach(function (v) { uit.push(v.tekst); }); });
-      return Promise.resolve(uit);
+      return Promise.all(codesZonderMap().map(function (k) { return Promise.all([lees(k), leesVersies(k)]); })).then(function (l) {
+        const uit = [];
+        l.forEach(function (x) { uit.push(x[0].tekst); x[1].forEach(function (v) { uit.push(v.tekst); }); });
+        return uit;
+      });
     }
     return leesNotities().then(function (l) { return l.bestanden.map(function (b) { return b.tekst; }); });   // een leesfout gaat door: anders kan een volgnummer dubbel worden uitgegeven (v133)
   }
@@ -21972,11 +22354,14 @@ WIB.kern.notities = (function () {
   downloadKnop.addEventListener('click', function () {
     if (!huidig) return;
     editorBij();
-    // v296: via de gegevenslaag (de versies 400 ms later)
-    const g = geheugen[huidig.nr], l = [{ pad: notitiePad(huidig.nr), naam: huidig.nr + '.md', tekst: ta.value }];
-    if (g && g.versies.length) l.push({ pad: notitiePad(huidig.nr, true), naam: huidig.nr + '_versies.md', tekst: versiesNaarTekst(g.versies) });
-    WIB.gegevens.download(l);
-    zetStatus('Gedownload: zet de bestanden in de map notities');
+    // v296: via de gegevenslaag (de versies 400 ms later). v339: de versies uit de geheugenopslag, opnieuw opgebouwd zoals tot v338
+    // (een versiebestand uit een map die alleen gelezen kan worden, krijgt zo gewone regeleinden en geen BOM)
+    const nr = huidig.nr, l = [{ pad: notitiePad(nr), naam: nr + '.md', tekst: ta.value }];
+    WIB.gegevens.lees(notitiePad(nr, true), { opslag: zonderMap }).then(function (r) {
+      if (r.ok && r.model.length) l.push({ pad: notitiePad(nr, true), naam: nr + '_versies.md', tekst: versiesNaarTekst(r.model) });
+      WIB.gegevens.download(l);
+      zetStatus('Gedownload: zet de bestanden in de map notities');
+    });
   });
 
   /* ---------- gebeurtenissen ---------- */
@@ -22042,15 +22427,16 @@ WIB.kern.notities = (function () {
   let zaKeuzes = [], zaActief = -1, zaNotities = null, zaTimer = null, zaBeurt = 0;
   function zaOpen() { return !zaVlak.hidden; }
   // de notities van alle codes, één keer per keer dat het venster opengaat. Met een map: elk notitiebestand in de map, ook een
-  // dat niet te lezen is (een leesfout is geen lege notitie en wordt gemeld); zonder map: de notities in het geheugen.
+  // dat niet te lezen is (een leesfout is geen lege notitie en wordt gemeld); zonder map: de notities in het geheugen
+  // (v339: de geheugenopslag; op code in de volgorde van de tekens, zoals tot v338).
   function zaLeesNotities() {
     const eigen = function (c) { if (huidig && huidig.nr === c && isOpen()) { editorBij(); return ta.value; } return null; };   // wat in het venster staat, ook niet-opgeslagen
-    if (!map) return Promise.resolve(Object.keys(geheugen).sort().map(function (c) { const t = eigen(c); return { code: c, tekst: t !== null ? t : geheugen[c].tekst || '' }; }));
+    const zm = !map;
     return leesNotities(function (o) { return !o.versies; }, true).then(function (l) {
       return l.bestanden.map(function (b) {
         const t = eigen(b.code);
         return t !== null ? { code: b.code, tekst: t } : b.fout ? { code: b.code, fout: b.fout } : { code: b.code, tekst: b.tekst };
-      }).sort(function (x, y) { return x.code.localeCompare(y.code); });
+      }).sort(function (x, y) { return zm ? (x.code < y.code ? -1 : x.code > y.code ? 1 : 0) : x.code.localeCompare(y.code); });
     }, function (e) { return [{ code: '(map notities)', fout: e }]; });
   }
   function zaTabZichtbaar(t) { const b = document.getElementById('tab-' + t); return !!b && !b.hidden && !b.disabled; }
@@ -22176,13 +22562,13 @@ WIB.kern.notities = (function () {
 
   window.WIB.notities = {
     open: open,
-    // de tekst van de notities bij een code: { tekst, lm }; met een map van schijf, anders uit het geheugen (v161)
+    // de tekst van de notities bij een code: { tekst, lm }; met een map van schijf, anders uit het geheugen (v161; v339: de geheugenopslag)
     lees: function (nr) { return lees(sleutel(nr)); },
     // Een taak afvinken vanuit het Totaaloverzicht (v162): oud = de tekst waarop het overzicht is gebouwd, nieuw = met de
     // taak (af)gevinkt. Weigert als het bestand intussen anders is, of als het notitievenster van die code open staat met
     // wijzigingen die nog niet zijn opgeslagen. Slaat op zoals het notitievenster: notities, versie en historie.
     // v290: met een map via de gegevenslaag (notitieAfvinken in de kern: precies één regel, en weigeren als het bestand
-    // anders is); zonder map in het geheugen. Beide op de beurt van dit notitiebestand (v282), met de controles in de beurt.
+    // anders is); v339: zonder map ook, in de geheugenopslag. Op de beurt van dit notitiebestand (v282), met de controles in de beurt.
     vinkAf: function (nr, oud, nieuw) {
       nr = sleutel(nr);
       const hier = function () { return huidig && huidig.nr === nr && isOpen(); };
@@ -22200,17 +22586,13 @@ WIB.kern.notities = (function () {
         }
         return { versieFout: versieFout };
       };
-      if (!map) {
-        return WIB.gegevens.beurt(notitiePad(nr), function () {
-          controle();
-          return lees(nr).then(function (r) { if (r.tekst !== oud) throw gewijzigd(); bewaarInGeheugen(nr, nieuw, oud); return gelukt(0, null); });
-        });
-      }
       let terug = null;
-      return notitieAfvinken(notitiePad(nr), notitiePad(nr, true), oud, nieuw, { controle: controle, nu: nu, historie: WIB.document.notitieHistorie(nr),
+      const zm = !map;
+      return notitieAfvinken(notitiePad(nr), notitiePad(nr, true), oud, nieuw, { controle: controle, nu: nu, historie: WIB.document.notitieHistorie(nr), opslag: notOpslag(),
         na: function (u) {
           if (u.soort === 'conflict' || (u.soort === 'geweigerd' && u.reden === 'bestaat-niet')) throw gewijzigd();
           if (!u.ok) throw u.fout || new Error(WIB.gegevens.uitleg(u));
+          if (zm) nogNaarMap(nr, nieuw);
           terug = gelukt(u.kenmerk, u.versieFout);
         } }).then(function () { return terug; });
     },
@@ -22224,28 +22606,31 @@ WIB.kern.notities = (function () {
       focusVeld().focus();
     },
     heeft: function (nr) { return !!gevuld[nr]; },
-    bekend: function () { return Object.keys(gevuld).concat(Object.keys(geheugen)); },
+    bekend: function () { return Object.keys(gevuld).concat(codesZonderMap()); },
     alleTeksten: alleTeksten,
     voorbeeld: laadVoorbeeld,
     bronGewijzigd: bronGewijzigd,
-    zetMap: function (dir) { map = dir || null; geheugen = {}; voorbeeldActief = false; const m = document.getElementById('lic-melding'); if (m) m.remove(); return scanGevuld().then(function () { if (dir) meldLicenties(); }); },
+    zetMap: function (dir) { map = dir || null; zonderMap = maakZonderMap(); voorbeeldActief = false; const m = document.getElementById('lic-melding'); if (m) m.remove(); return scanGevuld().then(function () { if (dir) meldLicenties(); }); },
     licStatus: function (nr) { return licStatus[nr] || null; },
     toonLicenties: toonLicenties,
     toonDossier: toonDossier,
     toonOvergang: toonOvergang,
     openDossier: openDossier,
-    // Firefox/Safari: map alleen lezen; notities uit notities/ in het geheugen zetten
+    // Firefox/Safari: map alleen lezen; notities uit notities/ in het geheugen zetten (v339: via de gegevenslaag in een nieuwe
+    // geheugenopslag, zoals ze zijn ingelezen, onder de code zoals de pagina hem vergelijkt; bij twee bestanden voor dezelfde
+    // code geldt het laatst ingelezen, zoals tot v338)
     zetBestanden: function (files) {
-      map = null; geheugen = {}; voorbeeldActief = false;
+      map = null; voorbeeldActief = false; bestandsnamen = {};
+      const zm = zonderMap = maakZonderMap();
       const taken = files.map(function (f) {
         const p = (f.webkitRelativePath || f.name).split('/');
         if (p.length !== 3 || p[1].toLowerCase() !== 'notities') return null;
         const o = ontleedNotitieNaam(p[2]);   // dezelfde regel als bij een map met schrijfrechten (v143)
         if (!o) return null;
-        const k = sleutel(o.code);
+        const pad = padZonderMap(sleutel(o.code), o.versies);
         return WIB.hulp.tekstVan(f).then(function (t) {
-          const g = geheugen[k] || (geheugen[k] = { tekst: '', versies: [] });
-          if (o.versies) g.versies = versiesUitTekst(t); else g.tekst = t;
+          return WIB.gegevens.bewerk(pad, 'vrij', function () { return { tekst: t }; }, { opslag: zm, basis: null, maak: true, leegrem: 'bevestigd', onthoud: false })
+            .then(function (u) { if (!u.ok) throw u.fout || new Error(WIB.gegevens.uitleg(u)); });
         });
       }).filter(Boolean);
       return Promise.all(taken).then(scanGevuld).then(meldLicenties, function (e) { meld('De notities konden niet allemaal worden gelezen (' + (e && e.message ? e.message : e) + ').'); });
